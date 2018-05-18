@@ -23,7 +23,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button *ngIf="messageSetup.type === 'first'" type="button" class="btn btn-primary" (click)="sendFirstMessage()">
+                <span *ngIf="!isFriend">Yabanci birine mesaj atmak 10 kredidir.</span>
+                <button *ngIf="messageSetup.type === 'first'" [disabled]="global.credit < 10" type="button" class="btn btn-primary" (click)="sendFirstMessage()">
                     <i class="fa fa-envelope" aria-hidden="true"></i> Gonder</button>
                 <button *ngIf="messageSetup.type === 'chat'" type="submit" class="btn btn-primary" (click)="sendChatMessage($event)" [disabled]="disableSending">
                     <i class="fa fa-comment" aria-hidden="true"></i> Cevapla</button>

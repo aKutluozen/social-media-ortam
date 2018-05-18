@@ -126,7 +126,7 @@ export class PostviewmodalComponent implements OnInit {
     likeThis() {
         var user = this.auth.getCookie('user');
 
-        if (!this.post.dislikes.includes(user)) {
+        if (!this.post.dislikes.includes(user) && this.post.nickName != this.global.name) {
             this.postService.likePost(this.post).subscribe(data => {
             },
                 error => {
@@ -139,7 +139,7 @@ export class PostviewmodalComponent implements OnInit {
     dislikeThis() {
         var user = this.auth.getCookie('user');
 
-        if (!this.post.likes.includes(user)) {
+        if (!this.post.likes.includes(user) && this.post.nickName != this.global.name) {
             this.postService.dislikePost(this.post).subscribe(data => {
             },
                 error => {

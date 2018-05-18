@@ -15,7 +15,7 @@ export class GlobalService {
 
     public profilePicture: string = '';
     public name: string = '';
-    public credit: number = 100;
+    public credit: number = 5;
     public banned: boolean = false;
 
     dataURLtoFile(dataurl, filename) {

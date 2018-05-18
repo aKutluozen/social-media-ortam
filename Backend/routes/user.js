@@ -457,6 +457,7 @@ USER_ROUTER.post('/signin', function (req, res) {
                 token: token,
                 userId: user._id,
                 name: user.nickName,
+                credit: user.credit,
                 picture: user.profilePicture
             });
         });
@@ -1104,7 +1105,7 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
 USER_ROUTER.get('/inbox/numbers', function (req, res) {
     var decoded = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, { inbox: 1, following: 1 }, function (err, user) {
+    User.findById(decoded.id, { inbox: 1, following: 1, credit: 1 }, function (err, user) {
         misc.checkUserErrors(res, err, user, decoded, () => {
             var requests = [];
             for (let i = 0; i < user.following.length; i++) {
@@ -1124,7 +1125,8 @@ USER_ROUTER.get('/inbox/numbers', function (req, res) {
                 var numbers = {
                     requests: requests.length,
                     notifications: user.inbox.length,
-                    messages: messages.length
+                    messages: messages.length,
+                    credit: user.credit
                 }
 
                 return res.status(200).json(numbers);

@@ -38,25 +38,24 @@ export class InputmodalComponent implements OnInit {
 		this.inputService.inputActivated.subscribe((messageSetup: any) => {
 			this.messageSetup = messageSetup;
 			this.display = 'block';
+			// Check if friends?
+			this.user.isFriend(this.messageSetup.receiver).subscribe(
+				isFriend => {
+					if (isFriend === 'true') {
+						this.isFriend = true;
+					} else {
+						this.isFriend = false;
+					}
+					console.log('Is friend??? ', this.isFriend);
+				},
+				err => console.log('ERRRORRR', err)
+			)
+			
 			if (this.messageSetup['type'] === 'chat') {
 				this.loadMessages(this.messageSetup['messageId']);
 				this.isFirstMessage = false;
 			} else {
 				this.isFirstMessage = true;
-				// Check if friends?
-				this.user.isFriend(this.messageSetup.receiver).subscribe(
-					isFriend => {
-						if (isFriend === 'true') {
-							console.log('a friend');
-							this.isFriend = true;
-						} else {
-							console.log('not a friend');
-							this.isFriend = false;
-						}
-					},
-					err => console.log('ERRRORRR', err)
-				)
-				console.log(this.messageSetup);
 			}
 		});
 	}
@@ -108,10 +107,10 @@ export class InputmodalComponent implements OnInit {
 		this.messageService.sendMessage(this.message, this.messageSetup['receiver'], type).subscribe(
 			data => {
 				if (type !== 'chat') {
+					this.modal.handleWarning('Mesaj basariyla gonderildi!');
 					if (!this.isFriend) {
 						this.user.adjustCredit(this.global.name, 10, false).subscribe(data => {}, err => console.log(err));
 					}
-					this.modal.handleWarning('Mesaj basariyla gonderildi!');
 				}
 				this.close(true);
 			},
@@ -137,6 +136,9 @@ export class InputmodalComponent implements OnInit {
 	sendChatMessage() {
 		if (this.message != '') {
 			this.messageService.sendMessage(this.message, this.messageSetup['receiver'], 'chat').subscribe(data => {
+				if (!this.isFriend) {
+					this.user.adjustCredit(this.global.name, 10, false).subscribe(data => {}, err => console.log(err));
+				}
 				this.disableSending = true;
 				this.message = '';
 			});

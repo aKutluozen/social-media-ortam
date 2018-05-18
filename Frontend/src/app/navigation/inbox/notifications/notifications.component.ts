@@ -54,9 +54,7 @@ export class NotificationsComponent {
             .subscribe(
                 data => {
                     for (let i = 0; i < this.notifications.length; i++) {
-                        //console.log(this.notifications[i]["_id"], notification._id)
                         if (this.notifications[i]["_id"] == notification._id) {
-                            console.log('found it', i);
                             this.notifications.splice(i, 1);
                         }
                     }
@@ -125,13 +123,10 @@ export class NotificationsComponent {
                         .subscribe(
                             data => {
                                 for (let i = 0; i < this.notifications.length; i++) {
-                                    console.log(this.notifications[i]["_id"], notificationId);
                                     if (this.notifications[i]["_id"] == notificationId) {
-                                        console.log('found it!', i );
                                         this.notifications.splice(i, 1);
                                     }
                                 }
-                                console.log(this.notifications);
                             },
                             error => { this.modal.handleError('Silemedik!', error);}
                         );
