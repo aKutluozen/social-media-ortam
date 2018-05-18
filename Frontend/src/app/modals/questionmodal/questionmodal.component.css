@@ -1,0 +1,19 @@
+.scrollable {
+    max-height: 400px;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+    background: #ddd;
+}
+
+.speech-bubble {
+    border-radius: 0px;
+}
+
+.modal {
+    z-index: 2000;
+}
+
+.backdrop {
+    z-index: 1990;
+}

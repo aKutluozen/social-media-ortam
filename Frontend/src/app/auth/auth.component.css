@@ -1,0 +1,8 @@
+.centered-box {
+    position: absolute;
+    top: 46%;
+    transform: translateY(-50%);
+    left: 0px;
+    width: 100%;
+    margin: 0px;
+}

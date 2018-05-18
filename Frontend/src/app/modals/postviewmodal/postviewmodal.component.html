@@ -1,0 +1,212 @@
+<div class="backdrop" [ngStyle]="{'display': display}" (click)="close()"></div>
+<div class="modal animated fadeIn" tabindex="-1" role="dialog" [ngStyle]="{'display': display, 'overflow-y: scroll !important': display != ''}">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <!-- <div class="modal-header bg-primary">
+                    <h4 class="modal-title"><i class="fa fa-comment" aria-hidden="true"></i> PAYLASIM</h4>
+                
+            </div> -->
+            <div class="modal-body">
+                <button type="button" class="close" (click)="close()">&times;</button>
+                <div class="row">
+                    <div class="col">
+                        <div *ngIf="post?.isShared" class="row justify-content-md-center border border-secondary border-top-0 border-left-0 border-right-0 pb-2 mb-3">
+                            <div class="col-3 col-md-2">
+                                <img class="profile-picture-xs full-rounded" src="{{ global.URL_S3_USERS + post?.shares[post?.shares.length - 1].user.profilePicture }}"
+                                    onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                            </div>
+                            <div class="col-10 pt-1">{{ post?.shares[post?.shares.length - 1].user.nickName }}, {{ post?.shares[post?.shares.length
+                                - 1].date | date:'short' }} tarihinde paylasti.</div>
+                            <div class="col-12 pt-1">
+                                <p class="lead text-muted">
+                                    <i class="fas fa-comment pr-2" aria-hidden="true"></i>{{ post?.shares[post?.shares.length - 1].comment }}</p>
+                            </div>
+                        </div>
+                        <div class="row py-2">
+                            <div class="col-3 col-md-2">
+                                <img onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'" src="{{ global.URL_S3_USERS + post?.profilePicture || global.URL_S3_USERS + post['user']['profilePicture'] }}"
+                                    class="full-rounded profile-picture-sm" alt="profil" (click)="viewProfile(post?.nickName)">
+                            </div>
+                            <div class="col-9 col-md-10">
+                                <div class="row">
+                                    <div class="col-12 align-items-start">
+                                        <small class="text-primary">
+                                            <i class="fa fa-hashtag" aria-hidden="true"></i>{{ post?.subject[0].length >= 16 ? post?.subject[0].substring(0, 16) + '
+                                            ...' : post?.subject[0] }}</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <small>{{ post?.nickName }} - {{ post?.created | date:'short' }}</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="onSharing" class="my-2 extra-box-share rounded">
+                            <div class="row mb-2 border-bottom">
+                                <div class="col">
+                                    <h4>Paylasim Yorumu</h4>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-sm btn-default float-right" (click)="onShare()">x</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="form-group mb-0">
+                                        <textarea #messageText type="text" rows="1" maxlength="256" id="content" class="form-control" [(ngModel)]="shareComment"
+                                            placeholder="Yorumunuz ..." required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button [disabled]="!shareComment" class="btn btn-primary btn-block" (click)="shareThis()">
+                                        <i class="fa fa-comment" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row my-0">
+                                <p class="col-10 my-0 text-right small text-muted">
+                                    {{ 256 - messageText.value.length }} karakter kaldi.
+                                </p>
+                            </div>
+                        </div>
+                        <div *ngIf="onComment" class="my-2 extra-box rounded">
+                            <div class="row mb-2 border-bottom">
+                                <div class="col">
+                                    <h4>Yorumlar</h4>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-sm btn-default float-right" (click)="commentThis()">x</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="form-group">
+                                        <textarea #commentText type="text" rows="1" maxlength="256" id="content" class="form-control" [(ngModel)]="answer" (keypress)="answerWithEnter($event)"
+                                            placeholder="Yorumunuz ..." required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button [disabled]="!answer" class="btn btn-primary btn-block" (click)="sendAnswer()">
+                                        <i class="fa fa-comment" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row my-0">
+                                <p class="col-10 my-0 text-right small text-muted">
+                                    {{ 256 - commentText.value.length }} karakter kaldi.
+                                </p>
+                            </div>
+                            <div class="row p-2 mx-0 scrollable">
+                                <div class="col p-2">
+                                    <div class="row p-2 comment-row" *ngIf="post?.comments.length == 0">
+                                        <p class="text-muted">Henuz bu paylasim ile ilgili hic bir yorum yapilmamis.</p>
+                                    </div>
+                                    <div class="row p-2 comment-row" *ngFor="let comment of post?.comments">
+                                        <div class="col-2">
+                                            <img class="img-thumnail profile-picture" src="{{ global.URL_S3_USERS + comment.user.profilePicture }}" onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                                        </div>
+                                        <div class="pl-0" [ngClass]="{
+                                            'col-8': answerBelongsToUser(comment.user.nickName), 
+                                            'col-10': !answerBelongsToUser(comment.user.nickName)
+                                        }">
+                                            <span class="comment-info">{{ comment.user.nickName }} @ {{ comment.date | date:'short' }}</span>
+                                            <span class="breakable-word">{{ comment.answer }}
+                                            </span>
+                                        </div>
+                                        <div class="col-2" *ngIf="answerBelongsToUser(comment.user.nickName)">
+                                            <button class="btn btn-danger btn-sm" (click)="deleteAnswer(comment.id)">
+                                                <i class="fa fa-small fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!onComment">
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <p class="lead text-muted">
+                                        <i class="fa fa-comment pr-2" aria-hidden="true"></i>{{ post?.content }}</p>
+                                </div>
+                            </div>
+                            <div class="row my-4" *ngIf="post?.image">
+                                <div class="col align-self-center">
+                                    <img src="{{ global.URL_S3_POSTS + post?.image }}" onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'"
+                                        class="gallery img-thumbnail">
+                                </div>
+                            </div>
+                            <div *ngIf="post?.linkContent" class="row m-1">
+                                <div class="card link-content border border-info">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <img class="img-thumbnail link-image" src="{{ post?.linkContent.image }}" alt="Resim yok" onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                                            </div>
+                                            <div class="col-9">
+                                                <h4>{{ post?.linkContent.title }}</h4>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>
+                                                    <small>{{ post?.linkContent.description }}</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-info float-right" href="{{ post?.linkContent.url }}" target="_blank">
+                                            <i class="fa fa-link" aria-hidden="true"></i> Linke git</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-6 mx-auto" *ngIf="isLoggedIn()">
+                        <div class="btn-group btn-group-justified  btn-group-sm" role="group">
+                            <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn btn-smiley btn-info" (click)="onShare()">
+                                <i class="fa fa-share-alt smiley" aria-hidden="true"></i>
+                                <span class="badge">{{ post?.shares.length }}</span>
+                            </button>
+                            <button class="btn btn-smiley btn-primary" (click)="commentThis()">
+                                <i class="fa fa-comment smiley" aria-hidden="true"></i>
+                                <span class="badge">{{ post?.comments.length }}</span>
+                            </button>
+                            <button class="btn btn-smiley btn-success" (click)="likeThis()">
+                                <i class="fa fa-smile smiley" aria-hidden="true"></i>
+                                <span class="badge">{{ post?.likes.length }}</span>
+                            </button>
+                            <button class="btn btn-smiley btn-danger" (click)="dislikeThis()">
+                                <i class="fa fa-frown smiley" aria-hidden="true"></i>
+                                <span class="badge">{{ post?.dislikes.length }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row pt-2" *ngIf="!post?.inView">
+                    <div class="col-md-3 ml-md-auto">
+                        <div class="btn-group btn-group-justified btn-group-sm" role="group">
+                            <button *ngIf="belongsToUser()" class="btn btn-config btn-primary btn-sm" (click)="onEdit()">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </button>
+                            <button *ngIf="belongsToUser()" class="btn btn-config btn-danger btn-sm" (click)="onDelete()">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                            <button *ngIf="shareBelongsToUser()" [ngClass]="{'bottom-right': !belongsToUser()}" class="btn btn-config btn-warning btn-sm"
+                                (click)="onDeleteShare()">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

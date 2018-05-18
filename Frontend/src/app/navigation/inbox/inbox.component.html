@@ -1,0 +1,37 @@
+<ul class="px-2 list-inline">
+    <li class="list-inline-item btn-group">
+        <span class="nav-link" (click)="loadNotifications()" id="notificationsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-exclamation" aria-hidden="true"></i>
+            <span class="badge badge-warning text-right"> {{ numbers['notifications'] }}</span>
+        </span>
+        <div #notificationsComponentElement class="scrollable dropdown-menu dropdown-menu-right">
+            <app-notifications #notificationsComponent aria-labelledby="notificationsMenu"></app-notifications>
+        </div>
+    </li>
+    <li class="list-inline-item btn-group">
+        <span class="nav-link" (click)="loadMessages()" id="messagesMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <span class="badge badge-primary text-right"> {{ numbers['messages'] }}</span>
+        </span>
+        <div #messagesComponentElement class="scrollable dropdown-menu dropdown-menu-right">
+            <app-messages #messagesComponent aria-labelledby="messagesMenu"></app-messages>
+        </div>
+
+    </li>
+    <li class="list-inline-item btn-group">
+        <span class="nav-link" (click)="loadRequests()" id="requestsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+            <span class="badge badge-success text-right"> {{ numbers['requests'] }}</span>
+        </span>
+        <div #requestsComponentElement class="scrollable dropdown-menu dropdown-menu-right">
+            <app-requests #requestsComponent aria-labelledby="requestsMenu"></app-requests>
+        </div>
+    </li>
+    <li class="list-inline-item btn-group">
+        <span class="nav-link" id="requestsMenu" (click)="toggleChat()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-comments" aria-hidden="true"></i>
+            <span class="badge badge-danger text-right"> 25 </span>
+        </span>
+        <app-chat #chatComponentElement [style.display]="isChatShowing == true ? 'block' : 'none'" class="py-0 dropdown-menu dropdown-menu-right chat" aria-labelledby="requestsMenu"></app-chat>
+    </li>
+</ul>

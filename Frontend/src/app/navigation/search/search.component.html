@@ -1,0 +1,40 @@
+<ul class="row list-inline my-0 py-0">
+    <li class="list-inline-item col-10 pr-0 mr-0">
+        <input class="form-control search" type="text" [(ngModel)]="searchTerm" (keypress)="searchWithEnter($event)" [ngModelOptions]="{standalone: true}"
+            placeholder="Ara">
+    </li>
+    <li class="list-inline-item btn-group col-1 pl-0 ml-0">
+        <button class="px-4 btn btn-block search-button nav-link" #searchButton type="button" (click)="search()" [disabled]="!searchTerm"
+            id="searchMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-search fa-lg" aria-hidden="true"></i>
+        </button>
+
+        <div class="box p-2 scrollable dropdown-menu dropdown-menu-right" aria-labelledby="searchMenu">
+            <div class="col-12 text-center mb-2">
+                Aranan: {{ searchTerm }} - {{ usersFound.length }} sonuc bulundu.</div>
+            <div class="col-12 bg-white mb-2" *ngFor="let user of usersFound">
+                <div class="row my-auto py-2">
+                    <div class="col-md-2 my-auto col-4">
+                        <img class="full-rounded profile-picture-xs" src="{{ global.URL_S3_USERS + user.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                    </div>
+                    <div class="col-md-7 my-auto col-8 pr-0">
+                        <p class="mb-0" *ngIf="user.firstName && user.lastName">
+                            <b>{{ user?.firstName + ' ' + user?.lastName }}</b>
+                        </p>
+                        <p class="mb-0" *ngIf="!user.firstName || !user.lastName">
+                            <b>isim yok.</b>
+                        </p>
+                    </div>
+                    <div class="col-md-3 text-right align-self-center pl-0">
+                        <span (click)="follow(user._id)" *ngIf="!isFriends(user.nickName) || isRequestSent(user)">
+                            <i class="fa fa-plus text-primary" aria-hidden="true"></i>
+                        </span>
+                        <span (click)="sendMessage(user.nickName)">
+                            <i class="fa fa-envelope text-success" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>

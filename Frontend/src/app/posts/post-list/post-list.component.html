@@ -1,0 +1,18 @@
+<div class="card-columns">
+    <div class="col-12 text-center" *ngIf="postService.posts.length == 0">Hic bir paylasim bulunamadi!</div>
+    <div class="card bordered action-icon mb-4" (click)="openPostWindow()">
+        <div class="card-body">
+            <div class="row py-4">
+                <div class="col-12">
+                    <h4 class="text-primary text-center">Ortamda paylas >_</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-post [post]="post" *ngFor="let post of postService.posts">
+    </app-post>
+
+    <div class="col-12 my-2 text-center" (click)="loadMore()">
+        <i class="fa fa-ellipsis-h fa-3x text-primary" aria-hidden="true"></i>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="row">
+    <form class="col-md-6" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <input type="email" id="email" class="form-control" placeholder="E-posta" formControlName="email">
+        </div>
+        <div class="form-group">
+            <input type="password" id="password" class="form-control" placeholder="Sifre" formControlName="password">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit" [disabled]="!signinForm.valid"><i class="fa fa-sign-in-alt" aria-hidden="true"></i> Giris yap</button>
+        </div>
+    </form>
+    <div class="col-md-6 text-center my-auto">
+        <i class="fa fa-sign-in-alt fa-9x" aria-hidden="true"></i>
+    </div>
+</div>

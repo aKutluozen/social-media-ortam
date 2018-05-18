@@ -1,0 +1,19 @@
+<div class="row">
+    <form class="col-md-6" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <input type="text" id="nickName" class="form-control" placeholder="Rumuz" formControlName="nickName">
+        </div>
+        <div class="form-group">
+            <input type="email" id="email" class="form-control" placeholder="E-posta" formControlName="email">
+        </div>
+        <div class="form-group">
+            <input type="password" id="password" class="form-control" placeholder="Sifre" formControlName="password">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit" [disabled]="!signupForm.valid"><i class="fa fa-file" aria-hidden="true"></i> Kayit ol</button>
+        </div>
+    </form>
+    <div class="col-md-6 text-center my-auto">
+        <i class="fa fa-user-plus fa-9x" aria-hidden="true"></i>
+    </div>
+</div>

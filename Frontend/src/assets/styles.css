@@ -1,0 +1,213 @@
+body {
+    padding-top: 80px;
+    margin-bottom: 60px;
+    background: rgb(235, 235, 235);
+    /* background-color: rgb(247, 238, 212); */
+    background-image: url('assets/images/istanbul.png');
+    background-attachment: fixed;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    /* animation: moveLeftBG 4s infinite; */
+    font-size: 90%;
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    line-height: 60px;
+    margin-top: 50px;
+    background-color: #f5f5f5;
+}
+
+.close {
+    position: absolute;
+    right:6px;
+    top: 2px;
+}
+
+.card .text-muted {
+    line-height: 1;
+}
+
+.text-muted {
+    word-wrap: break-word !important;
+}
+
+.badge {
+    border-radius: 4px;
+}
+
+.card {
+    border: none;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-right {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+}
+
+.border-secondary {
+    border-color: rgb(211, 211, 211) !important;
+}
+
+.form-control {
+    font-size: 90%;
+    box-shadow: none !important;
+}
+
+input,
+textarea {
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(184, 184, 184, 0.5) !important;
+}
+
+input:disabled,
+textarea:disabled {
+    border: none !important;
+    border-left: 1px solid rgb(219, 219, 219) !important;
+}
+
+input:enabled,
+textarea:enabled {
+    border-bottom: 1px solid rgb(219, 219, 219) !important;
+}
+
+.rounded {
+    border-radius: 4px !important;
+}
+
+.full-rounded {
+    border-radius: 100% !important;
+}
+
+/* MODALS */
+
+.modal {
+    z-index: 1060;
+    pointer-events: none;
+    transition: 1s all;
+}
+
+.backdrop {
+    /* background-color: rgba(0, 0, 0, 0.6); */
+    /* background: radial-gradient(rgba(0, 0, 0, 0.25) 10%, rgba(255, 255, 255, 0) 90%); */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1050;
+}
+
+.modal-title {
+    color: white;
+}
+
+.modal-header {
+    border-radius: 4px 4px 0 0;
+}
+
+.modal-content {
+    box-shadow: 10px 10px 100px rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 4px;
+}
+
+/* .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row>[class*='col-'] {
+    display: flex;
+    flex-direction: column;
+} */
+
+
+/* PROFILE PICTURES */
+
+.profile-picture-xs {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    object-fit: cover !important;
+    display: block;
+}
+
+.profile-picture-sm {
+    max-width: 64px !important;
+    max-height: 64px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    object-fit: cover !important;
+    display: block;
+}
+
+.profile-picture-md {
+    width: 120px !important;
+    height: 120px !important;
+    min-width: 100px !important;
+    min-height: 100px !important;
+    object-fit: cover !important;
+    margin: auto;
+    display: block;
+    float: left;
+}
+
+.profile-picture-lg {
+    width: 256px !important;
+    height: 256px !important;
+    object-fit: cover !important;
+    margin: auto;
+    display: block;
+}
+
+
+/* COLOR */
+
+.light-green {
+    background: rgb(193, 228, 161);
+}
+
+.light-orange {
+    background: rgb(236, 205, 157);
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 10px;
+    display: none;
+}
+
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background: none;
+}
+
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
+}

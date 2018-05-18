@@ -1,0 +1,34 @@
+@media (min-width: 768px) {
+    .modal-xl {
+      width: 90%;
+     max-width:1200px;
+    }
+  }
+
+img {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+.small-image {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.cover-image {
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    background: white;
+}
+
+.mb-n-80 {
+    margin-bottom: -60px;
+}
+
+.img-thumbnail {
+    padding: 2px;
+}
+

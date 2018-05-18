@@ -1,0 +1,27 @@
+<div class="backdrop" [ngStyle]="{'display': display}" (click)="close()"></div>
+<div class="modal animated fadeIn" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h4 class="modal-title"><i class="fa fa-exclamation" aria-hidden="true"></i> SIKAYET</h4>
+            </div>
+            <div class="modal-body" *ngIf="complaint">
+                <p>Mesaj: {{ complaint['message'] }}</p>
+                <p>Sahibi: {{ complaint['name'] }}</p>
+                <p>Paylasilma tarihi: {{ complaint['date'] | date: 'long' }} </p>
+                <p>Sikayet eden: {{ complaint['complainer'] }} </p>
+                <hr>
+                <h3>Islem:</h3>
+                <p>Sikayet edilen kisiyi dilediginiz gun sayisi kadar sohbetlerden uzaklastirabilirsiniz.</p>
+                <div class="row">
+                    <div class="col-9"><input class="form-control" min="1" max="30" type="number" placeholder="Gun sayisi" [(ngModel)]="days"></div>
+                    <div class="col-3"><button class="btn btn-danger btn-block" (click)="blockFromChat(complaint['name'])"><i class="fa fa-ban"></i> Yasakla</button></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="close()">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,161 @@
+#image-upload-button {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: 0.5s all;
+    z-index: 2;
+    visibility: hidden;
+}
+
+/* Profile picture control */
+.profile-image-upload-button:hover {
+    cursor: pointer;
+}
+
+#profilePicture:hover #image-upload-button {
+    opacity: 1;
+    transition: 0.5s all;
+    visibility: visible;
+}
+
+#profilePicture:hover #image-upload-button {
+    opacity: 1;
+    transition: 0.5s all;
+    visibility: visible;
+}
+
+/* Gallery delete control */
+.gallery-thumbnails:hover .image-delete-button {
+    opacity: 1;
+    transition: 0.5s all;
+    visibility: visible;
+}
+
+.image-delete-button {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    border: none;
+    color: white;
+    opacity: 0;
+    cursor: pointer;
+    visibility: hidden;
+    transition: 0.5s all;
+}
+
+/* Gallery add images */
+.add-images {
+    opacity: 0;
+    transition: 0.5s all;
+    visibility: hidden;
+}
+
+.gallery-images-button-control:hover .add-images {
+    opacity: 1;
+    transition: 0.5s all;
+    visibility: visible;
+}
+
+/* Cover image */
+.cover-image-control:hover .cover-image-upload-button {
+    opacity: 1;
+    transition: 0.5s all;
+    visibility: visible;
+}
+
+.cover-image-upload-button {
+    opacity: 0;
+    transition: 0.5s all;
+    visibility: hidden;
+}
+
+/* Info update buttons */
+#info-update-control {
+    opacity: 0;
+    transition: 0.5s all;
+    visibility: hidden;
+}
+
+.info-update-hover:hover #info-update-control {
+    opacity: 1;
+    transition: 0.5s all;
+    visibility: visible;
+}
+
+/* Share on private wall control */
+#share-control {
+    opacity: 0;
+    transition: 0.5s all;
+    visibility: hidden;
+}
+
+.share-hover:hover #share-control {
+    opacity: 1;
+    transition: 0.5s all;
+    visibility: visible;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+.top-right-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.bottom-right-button {
+    position: absolute;
+    bottom: 0px;
+    right: -20px;
+    z-index: 10;
+}
+
+.small-image {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.cover-image {
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    background: white;
+}
+
+.mb-n-80 {
+    margin-bottom: -60px;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.friend-image {
+    width: 48px;
+    height: 48px;
+    float: left;
+    font-size: 10px;
+    margin-bottom: 16px !important;
+    position: relative;
+    transition: 0.5s all;
+}
+
+.friend-image img {
+    object-fit: cover;
+}
+
+.img-thumbnail {
+    padding: 2px;
+}
+
+.col-form-label {
+    font-weight: bold;
+}

@@ -1,0 +1,52 @@
+<div class="p-2" (click)="$event.stopPropagation()">
+    <div class="row mb-2">
+        <div class="col-12">
+            <select (change)="selectRoom(room)" (click)="$event.stopPropagation()" [(ngModel)]="room" class="form-control">
+                <option *ngFor="let room of rooms" value="{{ room.name }}">{{ room.name }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="scrollable mb-4" id="scrollThis">
+        <div class="row my-4" *ngIf="messages.length == 0">
+            <div class="col text-center">
+                Hic bir mesaj bulunamadi!
+            </div>
+        </div>
+        <div *ngFor="let message of messages" class="row mx-auto message mb-1" [ngStyle]="{ 'color': message.text.color }">
+            <div class="col-12 pl-0 message">
+                <b>
+                    <i>{{ message.text.name }}:</i>
+                </b> {{message.text.message}}
+                <div class="complaint-button bordered p-2 ml-2">
+                    <p class="text-center my-auto text-success" *ngIf="message.complaintStatus">{{ message.complaintStatus }}</p>
+                    <div class="row" *ngIf="!message.complaintStatus">
+                        <div class="col-4">
+                            <button [disabled]="!reason" class="btn btn-primary btn-sm btn-block py-0" (click)="complain(message)">Sikayet et</button>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control" [(ngModel)]="reason" placeholder="Sebep (max. 100 karakter)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-10">
+            <textarea #chatText class="form-control" [(ngModel)]="message" (keypress)="sendWithEnter($event)" rows="2" maxlength="256"></textarea>
+        </div>
+        <div class="col-lg-2 pl-0">
+            <input class="color-box" type="color" [(ngModel)]="color">
+            <button class="color-box btn btn-primary btn-block p-0" (click)="sendMessage(); $event.stopPropagation()">
+                <i class="fa fa-share-square" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row my-0">
+        <p class="col-10 my-0 text-right small text-muted">
+            {{ 256 - chatText.value.length }} karakter kaldi.
+        </p>
+    </div>
+</div>

@@ -1,0 +1,256 @@
+<div class="row animated fadeIn">
+    <div class="col-xl-3 px-2 col-lg-6">
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-4 col-6 my-auto" id="profilePicture">
+                                <div id="image-upload-button">
+                                    <label class="profile-image-upload-button btn btn-primary text-center px-1 py-0" *ngIf="!profilePicture" for="profilePictureFile">
+                                        <i class="fa fa-upload" aria-hidden="true"></i>
+                                    </label>
+                                    <label class="profile-image-upload-button btn btn-danger text-center  px-1 py-0" *ngIf="profilePicture" (click)="deleteProfilePicture()">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </label>
+                                </div>
+                                <img src="{{ global.URL_S3_USERS + profilePicture }}" class="full-rounded" alt="profil" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'"
+                                    (click)="showThisImage(profilePicture)">
+                            </div>
+                            <div class="col-lg-8 col-6 align-self-center">
+                                <span>
+                                    <h5 class="my-0 py-0 text-primary">
+                                        <b>
+                                            <i>{{ profile?.nickName }}</i>
+                                        </b>
+                                    </h5>
+                                </span>
+                                <hr class="my-2">
+                                <span class="text-muted small">
+                                    <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ profile['following']['length'] }}</span>
+                                <br>
+                                <span class="text-muted small">
+                                    <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ profile['posts']['length'] }}</span>
+                                <br>
+
+                                <span class="text-muted small">
+                                    <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi: 100</span>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <hr *ngIf="croppedProfilePicture">
+                                <input hidden id="profilePictureFile" type="file" (change)="profilePictureFileChangeEvent($event)" />
+
+                                <image-cropper *ngIf="profilePictureChangedEvent" [imageChangedEvent]="profilePictureChangedEvent" [maintainAspectRatio]="true"
+                                    [aspectRatio]="1/1" [resizeToWidth]="200" format="jpeg" (imageCropped)="profilePictureCropped($event)"
+                                    (imageLoaded)="profileImageLoaded()" (loadImageFailed)="profileImageLoadImageFailed()"></image-cropper>
+                                <button class="btn btn-success text-center" *ngIf="croppedProfilePicture" type="button" (click)="addProfileImage()">
+                                    <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
+                                <button class="btn btn-danger text-center" *ngIf="croppedProfilePicture" type="button" (click)="emptyProfilePicture()">
+                                    <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
+                                <img hidden [src]="croppedProfilePicture" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col">
+                <form class="form-horizontal" [formGroup]="profileForm" (ngSubmit)="saveProfile()" id="ngForm">
+                    <div class="card info-update-hover">
+                        <div class="card-body">
+                            <div class="top-right-button">
+                                <span id="info-update-control">
+                                    <label *ngIf="profileForm.disabled" class="btn btn-primary text-center py-0 px-1" (click)="enableInfoUpdate()">
+                                        <i class="fa fa-edit" aria-hidden="true"></i>
+                                    </label>
+                                    <label *ngIf="!profileForm.disabled" class="btn btn-success text-center py-0 px-1" (click)="saveProfile()">
+                                        <i class="fa fa-save" aria-hidden="true"></i>
+                                    </label>
+                                    <label *ngIf="!profileForm.disabled" class="btn btn-danger text-center py-0 px-1" (click)="disableInfoUpdate()">
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="email">Email:</label>
+                                <input readonly type="text" class="form-control" id="email" formControlName="email">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="nickName">Rumuz:</label>
+                                <input readonly type="text" class="form-control" id="nickName" formControlName="nickName">
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="firstName">Isim:</label>
+                                        <input type="text" class="form-control" id="firstName" formControlName="firstName">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="lastName">Soyisim:</label>
+                                        <input type="text" class="form-control" id="lastName" formControlName="lastName">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="birthday">Dogum tarihi:</label>
+                                <input type="date" class="form-control" id="birthday" formControlName="birthday">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="bio">Oz gecmis:</label>
+                                <textarea #bioText rows="4" type="text" class="form-control" id="bio" formControlName="bio" maxlength="256"></textarea>
+                                <span *ngIf="!profileForm.disabled" class="text-muted small text-right">{{ 256 - bioText.value.length }} karakter kaldi.</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="jobStatus">Is durumu:</label>
+                                <input type="text" class="form-control" id="jobStatus" formControlName="jobStatus">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="education">Egitim durumu:</label>
+                                <input type="text" class="form-control" id="education" formControlName="education">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="mb-4 sm text-center">
+                                    <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar ({{ friends.length }})
+                                </h5>
+                            </div>
+                        </div>
+                        <!-- show groups -->
+
+                        <div class="row">
+                            <div class="col-12 text-center" *ngIf="friends.length == 0">Hic bir arkadas bulunamadi!</div>
+                            <div class="col">
+                                <div *ngFor="let friend of friends" (friendDeleteEvent)="test()">
+                                    <div class="friend-image text-center m-1">
+                                        <img (click)="showFriend(friend.nickName)" class="img-thumbnail" src="{{ global.URL_S3_USERS + friend.friend.profilePicture }}"
+                                            onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">{{ friend.nickName }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-9 px-2 col-lg-6 mb-3">
+        <div class="card mb-3">
+            <div class="card-body pt-0 px-0 ">
+
+                <div class="row">
+
+                    <div class="col-md-12 cover-image-control" [ngClass]="{'mb-n-80': !coverPictureChangedEvent}">
+                        <!-- Cover image -->
+                        <div class="col-6 mx-auto">
+                            <input hidden id="coverPictureFile" type="file" (change)="coverPictureFileChangeEvent($event)" />
+                            <image-cropper *ngIf="coverPictureChangedEvent" [imageChangedEvent]="coverPictureChangedEvent" [maintainAspectRatio]="true"
+                                [aspectRatio]="8/3" [resizeToWidth]="800" format="jpeg" (imageCropped)="coverPictureCropped($event)"
+                                (imageLoaded)="coverImageLoaded()" (loadImageFailed)="profileImageLoadImageFailed()"></image-cropper>
+                            <button class="btn btn-success text-center" *ngIf="croppedCoverPicture" type="button" (click)="addCoverImage()">
+                                <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
+                            <button class="btn btn-danger text-center" *ngIf="croppedCoverPicture" type="button" (click)="emptyCoverPicture()">
+                                <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
+                            <img hidden [src]="croppedCoverPicture" />
+                        </div>
+
+                        <div class="top-right-button mr-4">
+                            <div id="cover-upload-button">
+                                <label class="cover-image-upload-button btn btn-primary text-center px-1 py-0" *ngIf="!coverPicture" for="coverPictureFile">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                </label>
+                                <label class="cover-image-upload-button btn btn-danger text-center px-1 py-0" *ngIf="coverPicture" (click)="deleteCoverImage()">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <hr *ngIf="croppedCoverPicture">
+                        <img *ngIf="!coverPictureChangedEvent" src="{{ global.URL_S3_USERS + coverPicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'"
+                            class="cover-image mb-4" (click)="showThisImage(coverPicture)">
+
+                    </div>
+                    <!-- Image Gallery -->
+                    <div class="row justify-content-center gallery-images-button-control">
+                        <div class="col-10">
+                            <div class="bottom-right-button" *ngIf="images.includes('')">
+                                <label class="btn btn-primary text-center add-images px-1 py-0" for="pictureFiles">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                </label>
+                                <input hidden id="pictureFiles" type="file" (change)="addGalleryImages()" accept=".jpg, .jpeg, .png" maxlength="256" multiple>
+                            </div>
+                            <div class="row">
+                                <div class="px-2 col-lg-2 col-4 align-self-center" *ngFor="let image of images">
+                                    <div class="gallery-thumbnails">
+                                        <img src="{{ global.URL_S3_USERS + image }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'"
+                                            class="small-image img-thumbnail mb-4" (click)="showThisImage(image)">
+                                        <button type="button" (click)="deleteThisImage(image)" class="image-delete-button btn btn-danger px-1 py-0">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Posts and activities -->
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card share-hover">
+                    <div class="card-body">
+                        <div class="top-right-button" *ngIf="postService.posts.length < 12">
+                            <span id="share-control">
+                                <label class="btn btn-primary text-center py-0 px-1" (click)="openPostWindow()">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                                </label>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="mb-4 sm text-center">
+                                    <i class="fa fa-map-pin" aria-hidden="true"></i> Panom ({{postService.posts.length}}/12)
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="card-columns">
+                            <p class="col-12 text-center" *ngIf="postService.posts.length == 0">Hic bir paylasim bulunamadi!</p>
+                            <app-post class="mb-4" [mylocation]="'profile'" [post]="post" *ngFor="let post of postService.posts">
+                            </app-post>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="backdrop" [ngStyle]="{'display': showImage}"></div>
+<div class="modal" id="imagebox" tabindex="-1" role="dialog" [ngStyle]="{'display': showImage}">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="showImage='none'">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

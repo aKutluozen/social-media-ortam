@@ -1,0 +1,35 @@
+import { Component, OnInit } from '@angular/core';
+import { ModalService } from '../modal.service';
+import { GlobalService } from 'app/globals.service';
+
+@Component({
+	selector: 'app-imagemodal',
+	templateUrl: './imagemodal.component.html',
+	styleUrls: ['./imagemodal.component.css']
+})
+export class ImagemodalComponent implements OnInit {
+
+	constructor(
+		private modal: ModalService, 
+		public global: GlobalService
+	) { }
+
+	public display: string = 'none';
+	public imageText: string = '';
+	public imageUrl: string = '';
+
+	// Close the modal
+	close() {
+		this.display = 'none';
+		this.imageText = '';
+		this.imageUrl = '';
+	}
+
+	// Initialize the modal
+	ngOnInit() {
+		this.modal.imageShowed.subscribe((imageUrl: string) => {
+			this.imageUrl = imageUrl;
+			this.display = 'block';
+		});
+	}
+}
