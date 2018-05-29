@@ -70,7 +70,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 						color: this.color,
 						name: this.name,
 						picture: this.global.profilePicture,
-						date: Date.now()
+						date: Date.now(),
+						room: this.selectedRoom
 					});
 					this.scrollDown();
 					this.message = '';
@@ -113,7 +114,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.connection = this.chatService.getMessages().subscribe(message => {
-			this.messages.push(message);
+			//console.log(message['text'].room.name, this.selectedRoom.name);
+			if (message['text']['room'].name === this.selectedRoom['name']) {
+				this.messages.push(message);
+			}
 			this.scrollDown();
 		});
 		this.chatService.selectRoom(this.room).subscribe(

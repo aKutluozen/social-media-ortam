@@ -19,16 +19,17 @@ export class ChatService {
 
     private socket;
     private room;
+    private oldRoom;
 
     sendMessage(message) {
         this.socket.emit('add-message', message);
     }
 
     selectRoom(room) {
+        this.oldRoom = this.room;
         this.room = room;
         this.socket.emit('room', this.room);
-        console.log(this.room);
-        return this.http.post(this.global.URL + 'chat/room' + this.auth.getToken(), JSON.stringify({ room: this.room }), this.auth.getHeaders())
+        return this.http.post(this.global.URL + 'chat/room' + this.auth.getToken(), JSON.stringify({ room: this.room, oldRoom: this.oldRoom }), this.auth.getHeaders())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }
