@@ -9,6 +9,6 @@ var schema = new Schema({
     initiatedRead: { type: Boolean, default: false },
     initiator: { type: Schema.Types.ObjectId, ref: 'User' },
     initiated: { type: Schema.Types.ObjectId, ref: 'User' }
-});
+}, { usePushEach: true} );
 
 module.exports = mongoose.model('Message', schema);

@@ -11,6 +11,13 @@ export class User {
         public profilePicture?: string,
         public images?: string[],
         public coverImage?: string,
-        public credit?: number
+        public credit?: number,
+
+        public twitterLink?: string,
+        public youtubeLink?: string,
+        public linkedinLink?: string,
+        public googleplusLink?: string,
+        public snapchatLink?: string,
+        public instagramLink?: string,
     ) { }
 }

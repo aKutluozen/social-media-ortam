@@ -15,7 +15,7 @@ var schema = new Schema({
     education: { type: String },
     password: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }], // An array of message IDs
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Post'}], // An array of message IDs
     following: [{
         friend: { type: Schema.Types.ObjectId, ref: 'User' },
         nickName: String,
@@ -42,8 +42,14 @@ var schema = new Schema({
         complaint: { type: Object }
     }],
     credit: { type: Number },
-    status: { type: String } // admin, etc.
-});
+    status: { type: String }, // admin, etc.
+    twitterLink: { type: String },
+    youtubeLink: { type: String },
+    linkedinLink: { type: String },
+    googleplusLink: { type: String },
+    snapchatLink: { type: String },
+    instagramLink: { type: String }
+}, { usePushEach: true} );
 
 schema.plugin(mongooseUniqueValidator); // makes sure unique is unique
 module.exports = mongoose.model('User', schema);

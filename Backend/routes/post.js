@@ -382,6 +382,7 @@ POST_ROUTER.post('/', function (req, res, next) {
             user.posts.push(postResult.toObject());
             user.save(function (err, result) {
                 if (err) {
+                    console.log('ERROR', err);
                     return res.status(500).json({
                         title: 'An error occured saving message to user',
                         error: err

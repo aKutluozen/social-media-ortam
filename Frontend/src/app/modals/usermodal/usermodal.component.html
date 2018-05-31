@@ -1,6 +1,6 @@
 <div class="backdrop" [ngStyle]="{'display': display}" (click)="close()"></div>
 
-<div class="modal animated fadeIn" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-body">
@@ -44,6 +44,41 @@
                                     <div class="card-body">
                                         <p>
                                             <b>Email:</b> {{ user?.email }}</p>
+                                        <p>
+                                            <b>Sosyal Medya:</b>
+                                        </p>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item" *ngIf="user?.twitterLink">
+                                                <a href="{{ user?.twitterLink }}" target="_blank">
+                                                    <i class="fab fa-twitter fa-2x"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item" *ngIf="user?.instagramLink">
+                                                <a href="{{ user?.instagramLink }}" target="_blank">
+                                                    <i class="fab fa-instagram fa-2x"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item" *ngIf="user?.snapchatLink">
+                                                <a href="{{ user?.snapchatLink }}" target="_blank">
+                                                    <i class="fab fa-snapchat fa-2x"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item" *ngIf="user?.youtubeLink">
+                                                <a href="{{ user?.youtubeLink }}" target="_blank">
+                                                    <i class="fab fa-youtube fa-2x"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item" *ngIf="user?.linkedinLink">
+                                                <a href="{{ user?.linkedinLink }}" target="_blank">
+                                                    <i class="fab fa-linkedin fa-2x"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item" *ngIf="user?.googleplusLink">
+                                                <a href="{{ user?.googleplusLink }}" target="_blank">
+                                                    <i class="fab fa-google-plus fa-2x"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
                                         <p>
                                             <b>Dogum tarihi:</b> {{ user?.birthday | date:'short' }}</p>
                                         <p>
@@ -112,7 +147,7 @@
         </div>
     </div>
 
-    <div class="backdrop" [ngStyle]="{'display': showImage}"></div>
+    <!-- <div class="backdrop" [ngStyle]="{'display': showImage}"></div>
     <div class="modal" id="imagebox" tabindex="-1" role="dialog" [ngStyle]="{'display': showImage}">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
@@ -123,5 +158,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

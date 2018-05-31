@@ -6,6 +6,6 @@ var schema = new Schema({
     rules: { type: String },
     mods: [{ type: String }],
     online: { type: Number }
-});
+}, { usePushEach: true} );
 
 module.exports = mongoose.model('Room', schema);

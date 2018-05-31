@@ -45,6 +45,7 @@ export class UsermodalComponent implements OnInit {
 
 			this.user = user;
 			this.display = 'block';
+			
 			if (this.user['viewType'] == 'just-view') {
 				this.justView = true;
 			} else {

@@ -27,7 +27,7 @@ export class InputmodalComponent implements OnInit {
 	public messageSetup: any = {};
 	public disableSending: boolean = false;
 	public isFirstMessage: boolean = false;
-	
+
 	private isFriend: boolean = false;
 	private timedCheck: any = 0;
 	private latestMessageTime: number = 0;
@@ -50,7 +50,7 @@ export class InputmodalComponent implements OnInit {
 				},
 				err => console.log('ERRRORRR', err)
 			)
-			
+
 			if (this.messageSetup['type'] === 'chat') {
 				this.loadMessages(this.messageSetup['messageId']);
 				this.isFirstMessage = false;
@@ -103,25 +103,27 @@ export class InputmodalComponent implements OnInit {
 
 	// Sending a single message the first time
 	sendFirstMessage() {
-		let type = 'first';
-		this.messageService.sendMessage(this.message, this.messageSetup['receiver'], type).subscribe(
-			data => {
-				if (type !== 'chat') {
-					this.modal.handleWarning('Mesaj basariyla gonderildi!');
-					if (!this.isFriend) {
-						this.user.adjustCredit(this.global.name, 10, false).subscribe(data => {}, err => console.log(err));
+		if (this.message.length > 1) {
+			let type = 'first';
+			this.messageService.sendMessage(this.message, this.messageSetup['receiver'], type).subscribe(
+				data => {
+					if (type !== 'chat') {
+						this.modal.handleWarning('Mesaj basariyla gonderildi!');
+						if (!this.isFriend) {
+							this.user.adjustCredit(this.global.name, 10, false).subscribe(data => { }, err => console.log(err));
+						}
 					}
-				}
-				this.close(true);
-			},
-			error => {
-				this.modal.handleError('Mesaj gonderilemedi.', error);
-			});
+					this.close(true);
+				},
+				error => {
+					this.modal.handleError('Mesaj gonderilemedi.', error);
+				});
+		}
 	}
 
 	// Listen for enter button
 	sendWithEnter(event) {
-		if (this.message != '' && !this.disableSending) {
+		if (this.message.length > 1 && !this.disableSending) {
 			if (event.keyCode === 13) {
 				if (!this.isFirstMessage) {
 					this.sendChatMessage();
@@ -134,10 +136,10 @@ export class InputmodalComponent implements OnInit {
 
 	// Send a single chat message, then clean the input
 	sendChatMessage() {
-		if (this.message != '') {
+		if (this.message.length > 1) {
 			this.messageService.sendMessage(this.message, this.messageSetup['receiver'], 'chat').subscribe(data => {
 				if (!this.isFriend) {
-					this.user.adjustCredit(this.global.name, 10, false).subscribe(data => {}, err => console.log(err));
+					this.user.adjustCredit(this.global.name, 10, false).subscribe(data => { }, err => console.log(err));
 				}
 				this.disableSending = true;
 				this.message = '';

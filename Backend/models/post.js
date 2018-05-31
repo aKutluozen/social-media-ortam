@@ -48,6 +48,6 @@ var schema = new Schema({
     image: { type: String },
     linkContent: { type: String },
     group: { type: String }
-});
+}, { usePushEach: true} );
 
 module.exports = mongoose.model('Post', schema);

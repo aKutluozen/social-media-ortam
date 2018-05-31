@@ -95,6 +95,7 @@ textarea:enabled {
     z-index: 1060;
     pointer-events: none;
     transition: 1s all;
+    overflow-y: auto;
 }
 
 .backdrop {
@@ -120,7 +121,13 @@ textarea:enabled {
     box-shadow: 10px 10px 100px rgba(0, 0, 0, 0.5);
     border: none;
     border-radius: 4px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
 }
+
+.modal.fade .modal-dialog{
+    -webkit-transform: inherit;
+ }
 
 /* .row {
     display: flex;

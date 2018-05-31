@@ -7,7 +7,7 @@ import { Router } from "@angular/router";
 import { NgForm, FormGroup, FormControl, Validators } from "@angular/forms";
 import { GlobalService } from "app/globals.service";
 import { PostService } from "app/posts/posts.service";
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 import { Post } from '../posts/post.model';
 
 @Component({
@@ -24,7 +24,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		private router: Router,
 		public postService: PostService,
 		public global: GlobalService
-	) { 
+	) {
 	}
 
 	public profile: User;
@@ -291,12 +291,12 @@ export class UserComponent implements OnInit, OnDestroy {
 		}
 	}
 
-    ngOnDestroy() {
+	ngOnDestroy() {
 		if (this.subscription) this.subscription.unsubscribe();
 		if (this.postSubscription) this.postSubscription.unsubscribe();
 		if (this.userSubscription) this.userSubscription.unsubscribe();
 	}
-	
+
 	// Initialize the whole user form
 	ngOnInit() {
 
@@ -315,7 +315,13 @@ export class UserComponent implements OnInit, OnDestroy {
 			jobStatus: new FormControl({ value: '', disabled: true }, Validators.required),
 			education: new FormControl({ value: '', disabled: true }, Validators.required),
 			email: new FormControl({ value: '', disabled: true }),
-			bio: new FormControl({ value: '', disabled: true }, Validators.required)
+			bio: new FormControl({ value: '', disabled: true }, Validators.required),
+			twitterLink: new FormControl({ value: '', disabled: true }),
+			youtubeLink: new FormControl({ value: '', disabled: true }),
+			googleplusLink: new FormControl({ value: '', disabled: true }),
+			linkedinLink: new FormControl({ value: '', disabled: true }),
+			snapchatLink: new FormControl({ value: '', disabled: true }),
+			instagramLink: new FormControl({ value: '', disabled: true }),
 		});
 
 		this.postSubscription = this.postService.getPosts(this.auth.getCookie('userId'), 0, 'private', this.auth.getCookie('userId')).subscribe(
@@ -383,6 +389,12 @@ export class UserComponent implements OnInit, OnDestroy {
 					education: this.profile.education || '',
 					email: this.profile.email || '',
 					bio: this.profile.bio || '',
+					twitterLink: this.profile.twitterLink || '',
+					youtubeLink: this.profile.youtubeLink || '',
+					googleplusLink: this.profile.googleplusLink || '',
+					linkedinLink: this.profile.linkedinLink || '',
+					snapchatLink: this.profile.snapchatLink || '',
+					instagramLink: this.profile.instagramLink || ''
 				});
 			},
 			error => {

@@ -75,7 +75,7 @@ USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
     var decoded = jwt.decode(req.query.token);
     User.findById(decoded.id, function (err, user) {
         if (err || !user) {
-            return res.status(404).json({message: err});
+            return res.status(404).json({ message: err });
         }
 
         let flag = false;
@@ -92,9 +92,9 @@ USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
 
 // isAdding expects true or false
 USER_ROUTER.patch('/user/credit/:nickName/:isAdding/:credit', function (req, res) {
-    User.findOne({nickName: req.params.nickName}, function(err, user) {
+    User.findOne({ nickName: req.params.nickName }, function (err, user) {
         if (err || !user) {
-            return res.status(400).json({message: err});
+            return res.status(400).json({ message: err });
         }
 
         // Create the field if not there
@@ -103,14 +103,14 @@ USER_ROUTER.patch('/user/credit/:nickName/:isAdding/:credit', function (req, res
         }
 
         if (req.params.isAdding === 'true') {
-            user.credit += parseInt(req.params.credit); 
+            user.credit += parseInt(req.params.credit);
         } else {
-            user.credit -= parseInt(req.params.credit); 
+            user.credit -= parseInt(req.params.credit);
         }
 
-        user.save(function(err, result) {
+        user.save(function (err, result) {
             if (!err)
-            console.log('\ncredit adjusted!\n', result);
+                console.log('\ncredit adjusted!\n', result);
         })
     })
 });
@@ -156,58 +156,8 @@ USER_ROUTER.post('/user/complaint', function (req, res) {
                 misc.notifyUsers(User, jwt.decode(req.query.token).id, req.body.complaint, mods[i].nickName, 'complaint', cb);
             }
         });
-
-
-        // User.find({ nickName: { $in: room.mods } }, { nickName: 1, complaintInbox: 1 }, (err, mods) => {
-        //     if (err || !mods) {
-        //         return res.status(404).json({
-        //             message: 'Mods not found'
-        //         });
-        //     }
-
-        //     // Mods found, notify them - loop
-        //     for (let i = 0; i < mods.length; i++) {
-        //         var cb = () => { };
-        //         if (i == mods.length - 1) {
-        //             cb = () => {
-        //                 res.status(200).json({});
-        //             }
-        //         }
-
-
-        //         // !! Put this to a different inbox
-        //         misc.notifyUsers(User, jwt.decode(req.query.token).id, req.body.complaint, mods[i].nickName, 'complaint', cb);
-        //     }
-        // });
     });
 });
-
-// // Add a complaint
-// USER_ROUTER.post('/user/complaint', function (req, res) {
-//     Room.findOne({ name: req.body.complaint.room.name }, (err, room) => {
-//         if (err || !room) {
-//             return res.status(404).json({
-//                 message: 'Room not found'
-//             });
-//         }
-
-//         // Room is found, find mod(s)
-//         User.update({ nickName: { $in: room.mods } }, {
-//             $push: {
-//                 complaintInbox: {
-//                     complaint: req.body.complaint
-//                 },
-
-//             }
-//         }, (err) => {
-//             if (!err) {
-//                 return res.status(200).json({
-//                     message: 'Complaint sent!'
-//                 });
-//             }
-//         });
-//     });
-// });
 
 USER_ROUTER.get('/user/complaints', (req, res) => {
     var decoded = jwt.decode(req.query.token);
@@ -477,6 +427,12 @@ USER_ROUTER.patch('/user', function (req, res, next) {
             user.bio = req.body.bio;
             user.education = req.body.education;
             user.jobStatus = req.body.jobStatus;
+            user.twitterLink = req.body.twitterLink;
+            user.youtubeLink = req.body.youtubeLink;
+            user.linkedinLink = req.body.linkedinLink;
+            user.googleplusLink = req.body.googleplusLink;
+            user.snapchatLink = req.body.snapchatLink;
+            user.instagramLink = req.body.instagramLink;
 
             user.save(function (err, result) {
                 if (err) {

@@ -27,10 +27,10 @@
                                 </span>
                                 <hr class="my-2">
                                 <span class="text-muted small">
-                                    <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ profile['following']['length'] }}</span>
+                                    <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ profile?.following['length'] }}</span>
                                 <br>
                                 <span class="text-muted small">
-                                    <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ profile['posts']['length'] }}</span>
+                                    <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ profile?.posts['length'] }}</span>
                                 <br>
 
                                 <span class="text-muted small">
@@ -114,6 +114,45 @@
                             <div class="form-group">
                                 <label class="col-form-label" for="education">Egitim durumu:</label>
                                 <input type="text" class="form-control" id="education" formControlName="education">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="socialMedia">Sosyal Medya:</label>
+                                <div class="row ml-auto">
+                                    <span class="col-2 pt-1">
+                                        <i class="fab fa-twitter fa-lg"></i>
+                                    </span>
+                                    <input type="text" class="form-control col-10" id="twitterLink" formControlName="twitterLink" placeholder="Twitter">
+                                </div>
+                                <div class="row ml-auto">
+                                    <span class="col-2 pt-1">
+                                        <i class="fab fa-instagram fa-lg"></i>
+                                    </span>
+                                    <input type="text" class="form-control col-10" id="instagramLink" formControlName="instagramLink" placeholder="Instagram">
+                                </div>
+                                <div class="row ml-auto">
+                                    <span class="col-2 pt-1">
+                                        <i class="fab fa-snapchat fa-lg"></i>
+                                    </span>
+                                    <input type="text" class="form-control col-10" id="snapchatLink" formControlName="snapchatLink" placeholder="Snapchat">
+                                </div>
+                                <div class="row ml-auto">
+                                    <span class="col-2 pt-1">
+                                        <i class="fab fa-linkedin fa-lg"></i>
+                                    </span>
+                                    <input type="text" class="form-control col-10" id="linkedinLink" formControlName="linkedinLink" placeholder="LinkedIn">
+                                </div>
+                                <div class="row ml-auto">
+                                    <span class="col-2 pt-1">
+                                        <i class="fab fa-google-plus fa-lg"></i>
+                                    </span>
+                                    <input type="text" class="form-control col-10" id="googleplusLink" formControlName="googleplusLink" placeholder="Google Plus">
+                                </div>
+                                <div class="row ml-auto">
+                                    <span class="col-2 pt-1">
+                                        <i class="fab fa-youtube fa-lg"></i>
+                                    </span>
+                                    <input type="text" class="form-control col-10" id="youtubeLink" formControlName="youtubeLink" placeholder="YouTube">
+                                </div>
                             </div>
                         </div>
                     </div>
