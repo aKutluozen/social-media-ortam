@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { GlobalService } from '../../globals.service';
 
 @Component({
-	selector: 'app-inbox',
+	selector: '[app-inbox]',
 	templateUrl: './inbox.component.html',
 	styleUrls: ['./inbox.component.css']
 })
