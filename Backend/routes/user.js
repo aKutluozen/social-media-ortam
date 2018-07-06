@@ -50,25 +50,27 @@ var upload = multer({
 USER_ROUTER.post('/user/profilePicture', upload.any(), function (req, res) {
     var decoded = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
-            // Then, add the new one
-            user.profilePicture = req.files[0].key;
+    if (decoded) {
+        User.findById(decoded.id, function (err, user) {
+            misc.checkUserErrors(res, err, user, decoded, () => {
+                // Then, add the new one
+                user.profilePicture = req.files[0].key;
 
-            user.save(function (err, result) {
-                if (err) {
-                    return res.status(500).json({
-                        title: 'An error occured',
-                        error: err
+                user.save(function (err, result) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'An error occured',
+                            error: err
+                        });
+                    }
+                    res.status(200).json({
+                        message: 'Profile image updated!',
+                        fileName: req.files[0].key
                     });
-                }
-                res.status(200).json({
-                    message: 'Profile image updated!',
-                    fileName: req.files[0].key
                 });
             });
         });
-    });
+    }
 });
 
 USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
@@ -1061,34 +1063,36 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
 USER_ROUTER.get('/inbox/numbers', function (req, res) {
     var decoded = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, { inbox: 1, following: 1, credit: 1 }, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
-            var requests = [];
-            for (let i = 0; i < user.following.length; i++) {
-                // There is a new, waiting request!
-                if (user.following[i].accepted === false) {
-                    requests.push(user.following[i]);
-                }
-            }
-
-            Message.find({ $or: [{ initiator: decoded.id }, { initiated: decoded.id }] }, function (err, messages) {
-                if (err) {
-                    return res.status(500).json({
-                        title: 'Error with message numbers'
-                    });
+    if (decoded) {
+        User.findById(decoded.id, { inbox: 1, following: 1, credit: 1 }, function (err, user) {
+            misc.checkUserErrors(res, err, user, decoded, () => {
+                var requests = [];
+                for (let i = 0; i < user.following.length; i++) {
+                    // There is a new, waiting request!
+                    if (user.following[i].accepted === false) {
+                        requests.push(user.following[i]);
+                    }
                 }
 
-                var numbers = {
-                    requests: requests.length,
-                    notifications: user.inbox.length,
-                    messages: messages.length,
-                    credit: user.credit
-                }
+                Message.find({ $or: [{ initiator: decoded.id }, { initiated: decoded.id }] }, function (err, messages) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'Error with message numbers'
+                        });
+                    }
 
-                return res.status(200).json(numbers);
+                    var numbers = {
+                        requests: requests.length,
+                        notifications: user.inbox.length,
+                        messages: messages.length,
+                        credit: user.credit
+                    }
+
+                    return res.status(200).json(numbers);
+                });
             });
         });
-    });
+    }
 });
 
 module.exports = USER_ROUTER;
