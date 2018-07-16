@@ -41,6 +41,10 @@ body {
     border-radius: 4px;
 }
 
+.list-inline-item:hover {
+    cursor: pointer;
+}
+
 .card {
     border: none;
     border-radius: 2px;

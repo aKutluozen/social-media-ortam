@@ -49,15 +49,3 @@
 h4 {
     font-size: 1.25em;
 }
-
-.big-icon {
-    font-size: 220px;
-    position: absolute;
-    opacity: 0.25;
-    z-index: -10;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -40%);
-    color: rgb(250, 148, 135);
-    transition: 0.5s all;
-}

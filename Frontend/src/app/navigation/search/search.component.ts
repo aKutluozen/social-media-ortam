@@ -1,5 +1,5 @@
 // Main modules
-import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef  } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 
 // Services
 import { AuthService } from 'app/auth/auth.service';
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 	templateUrl: './search.component.html',
 	styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit, OnDestroy  {
+export class SearchComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private auth: AuthService,
@@ -37,11 +37,13 @@ export class SearchComponent implements OnInit, OnDestroy  {
 
 	// Run the seach, store the results
 	ngOnInit() {
-		this.friendSubscription = this.user.getFriendsList().subscribe(data => {
-			this.friends = data;
-		}, error => {
-			this.modal.handleError('Arkadas listesini getirirken bir sorun olustu!', error);
-		});
+		if (this.global.name !== '') {
+			this.friendSubscription = this.user.getFriendsList().subscribe(data => {
+				this.friends = data;
+			}, error => {
+				this.modal.handleError('Arkadas listesini getirirken bir sorun olustu!', error);
+			});
+		}
 	}
 
 	ngOnDestroy() {

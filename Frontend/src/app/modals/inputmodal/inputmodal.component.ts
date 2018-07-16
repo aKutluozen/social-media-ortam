@@ -126,13 +126,11 @@ export class InputmodalComponent implements OnInit {
 		if (this.message.length > 1 && !this.disableSending) {
 			if (event.keyCode === 13) {
 				if (!this.isFirstMessage) {
-					//if (this.isFriend) {
-						this.sendChatMessage();
-					//}
-				} else {
-					if (this.isFriend && this.global.credit >= 10) {
-						this.sendFirstMessage();
-					}
+
+					this.sendChatMessage();
+
+				} else if (this.isFriend && this.global.credit >= 10) {
+					this.sendFirstMessage();
 				}
 			}
 		}
@@ -142,6 +140,11 @@ export class InputmodalComponent implements OnInit {
 	sendChatMessage() {
 		if (this.message.length > 1) {
 			if (this.isFriend) {
+				this.messageService.sendMessage(this.message, this.messageSetup['receiver'], 'chat').subscribe(data => {
+					this.disableSending = true;
+					this.message = '';
+				});
+			} else if (!this.isFriend && this.global.credit >= 10) {
 				this.messageService.sendMessage(this.message, this.messageSetup['receiver'], 'chat').subscribe(data => {
 					if (!this.isFriend) {
 						this.user.adjustCredit(this.global.name, 10, false).subscribe(data => { }, err => console.log(err));

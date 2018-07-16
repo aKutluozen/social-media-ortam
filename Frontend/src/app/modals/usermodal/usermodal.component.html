@@ -42,9 +42,9 @@
                             <div class="col">
                                 <div class="card bordered">
                                     <div class="card-body">
-                                        <p>
-                                            <b>Email:</b> {{ user?.email }}</p>
-                                        <p>
+                                        <!-- <p *ngIf="user?.email">
+                                            <b>Email:</b> {{ user?.email }}</p> -->
+                                        <p *ngIf="user?.twitterLink || user?.instagramLink || user?.snapchatLink || user?.youtubeLink || user?.linkedinLink || user?.googleplusLink">
                                             <b>Sosyal Medya:</b>
                                         </p>
                                         <ul class="list-inline">
@@ -79,13 +79,13 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                        <p>
+                                        <p *ngIf="user?.birthday">
                                             <b>Dogum tarihi:</b> {{ user?.birthday | date:'short' }}</p>
-                                        <p>
+                                        <p *ngIf="user?.bio">
                                             <b>Oz gecmis:</b> {{ user?.bio }}</p>
-                                        <p>
+                                        <p *ngIf="user?.jobStatus">
                                             <b>Is durumu:</b> {{ user?.jobStatus}}</p>
-                                        <p>
+                                        <p *ngIf="user?.education">
                                             <b>Egitim durumu:</b> {{ user?.education }}</p>
                                     </div>
                                 </div>

@@ -8,10 +8,6 @@
     padding-right: 10px;
 }
 
-.username {
-    margin-top: 4px;
-}
-
 .newMessages {
     /* color: rgb(24, 24, 24); */
     animation: pulse infinite 1s;
@@ -48,71 +44,64 @@ body.navbar-height{
 }
 
 .profile-picture {
-    height: 32px;
-    width: 32px;
+    height: 24px;
+    width: 24px;
     object-fit: cover;
-    margin-top: -4px;
-    margin-bottom: -4px;
     border-radius: 100%;
 }
 
-/* TOOLTIP */
+::ng-deep {
+    @media only screen and (max-width: 992px) {
+        .list-inline-item {
+            display: block;
+            padding: 10px 10px;
+        }
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-    opacity: 1;
-}
+        .item-text {
+            display: inline-block !important;
+            padding-left: 10px;
+        }
 
-h4.sm {
-    font-size: 90% !important;
-    /* color: #666; */
-}
+        .fa {
+            display: block !important;
+            float: left !important;
+        }
 
-.tooltip  .tooltiptext {
-    visibility: hidden;
-    opacity: 0;
-    width: 120px;
-    background: rgba(255, 255, 255, 0.8);
-    text-align: center;
-    border-radius: inherit;
+        .dropdown {
+            display: block !important;
+            padding-right: 10px;
+        }
 
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 3;
-    top: 32px;
-    right: 0;
+        .dropdown-menu {
+            position: fixed !important;
+            overflow-y: scroll !important;
+            max-height: calc(90vh) !important;
+            width: calc(90vw) !important;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+        }
 
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
-}
+        .chat {
+            height: calc(90vh) !important;
+            width: calc(90vw) !important;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+        }
+    }
 
-.tooltiptext:hover {
-    cursor: pointer;
-}
+    .item-text {
+        display: none;
+    }
 
-.tooltip:hover  .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-    transition: 0.5s all;
-}
+    .dropdown-menu {
+        width: 240px;
+        box-shadow: 4px 4px 32px rgba(0, 0, 0, 0.25);
+        border: none;
+    }
 
-.tooltip:hover .toolradio {
-    visibility: visible;
-    transition: 0.5s all;
-    opacity: 1;
-}
-
-.tooltip .toolradio {
-    visibility: hidden;
-    opacity: 0;
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 3;
-    top: 32px;
-    right: 0;
-}
-
-.toolradio-box {
-    border-radius: 6px;
-    box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.25);
+    .list-inline-item:hover {
+        color: #aaa;
+    }
 }

@@ -69,9 +69,9 @@ export class InboxComponent implements OnInit, OnDestroy {
 		}, 2000);
 	}
 
-	toggleChat() {
-		this.isChatShowing = !this.isChatShowing;
-	}
+	// toggleChat() {
+	// 	this.isChatShowing = !this.isChatShowing;
+	// }
 
 	// THERE IS NO DESTROY !!! - Replace with hasClass show not!
 	ngOnDestroy() {

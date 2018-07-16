@@ -1,7 +1,7 @@
 <ul class="row list-inline my-0 py-0">
     <li class="list-inline-item col-10 pr-0 mr-0">
         <input class="form-control search" type="text" [(ngModel)]="searchTerm" (keypress)="searchWithEnter($event)" [ngModelOptions]="{standalone: true}"
-            placeholder="Ortamda ara">
+            placeholder="Ortamda arkadas ara">
     </li>
     <li class="list-inline-item btn-group col-1 pl-0 ml-0">
         <button class="px-4 btn btn-block search-button nav-link" #searchButton type="button" (click)="search()" [disabled]="!searchTerm"
