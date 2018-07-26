@@ -45,7 +45,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.checkInterval = window.setInterval(() => {
 			this.subscription = this.inbox.getNumbers().subscribe(
-					data => { this.numbers = data; this.global.credit = data.credit;}, error => console.log(error));
+				data => { this.numbers = data; this.global.credit = data.credit; }, error => console.log(error));
 
 			// Stop actions if they are not shown
 			if (!this.messagesComponentElement.nativeElement.classList.contains('show')

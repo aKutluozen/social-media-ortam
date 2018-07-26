@@ -45,6 +45,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 				this.selectedRoom['canEnter'] = true;
 				this.chatService.selectRoom(this.selectedRoom).subscribe(
 					data => {
+						// Automatically open the chat again here
+						window['$']('#chatMenu').click();
 						this.messages = [];
 					},
 					error => {

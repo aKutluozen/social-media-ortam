@@ -14,6 +14,7 @@ var schema = new Schema({
     jobStatus: { type: String },
     education: { type: String },
     password: { type: String, required: true },
+    passwordReset: { type: String },
     email: { type: String, required: true, unique: true },
     posts: [{ type: Schema.Types.ObjectId, ref: 'Post'}], // An array of message IDs
     following: [{

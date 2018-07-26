@@ -12,6 +12,7 @@ var postRoutes = require('./routes/post');
 var messageRoutes = require('./routes/message');
 var userRoutes = require('./routes/user');
 var chatRoutes = require('./routes/chat');
+var mailRoutes = require('./routes/mail');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use('/post', postRoutes);
 app.use('/message', messageRoutes);
 app.use('/user', userRoutes);
 app.use('/chat', chatRoutes);
+app.use('/mail', mailRoutes);
 app.use('/', appRoutes);
 
 app.listen(3000);

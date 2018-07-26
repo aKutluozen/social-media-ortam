@@ -87,7 +87,6 @@ MESSAGE_ROUTER.post('/message/:receiver/', function(req, res) {
 
                 // Not found, create it for the first time
                 if (!message) {
-
                     var newMessage = new Message({
                         messages: [msg],
                         created: Date.now(),
@@ -110,6 +109,7 @@ MESSAGE_ROUTER.post('/message/:receiver/', function(req, res) {
                     });
                     // Found, just attach to it
                 } else {
+                    message.messages = message.messages.slice(-100); // Keep last 10 messages !!!
                     message.messages.push(msg);
 
                     // other person hasn't read yet!

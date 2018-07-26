@@ -2,7 +2,8 @@ var express = require('express');
 var POST_ROUTER = express.Router(),
     Post = require('../models/post'),
     jwt = require('jsonwebtoken'),
-    User = require('../models/user');
+    User = require('../models/user'),
+    async = require('async');
 
 var multer = require('multer'),
     multerS3 = require('multer-s3'),
@@ -27,6 +28,73 @@ var upload = multer({
         key: function (req, file, cb) {
             cb(null, Date.now().toString() + file.originalname)
         }
+    })
+});
+
+// Have a function that checks every post date, and call this if it over certain date !!!!
+POST_ROUTER.get('/clean', (req, res) => {
+    Post.find({
+        created: {
+            // $lt: new Date(),
+            $lt: new Date(new Date().setDate(new Date().getDate() - 1))
+        }
+    }, function (err, posts) {
+        if (err) {
+            return res.status(400).json({ msg: err })
+        }
+
+        // Found old posts, now delete them nicely in a loop.
+        async.forEachOf(posts, (value, key, callback) => {
+            Post.findOneAndRemove({ _id: req.params.id }, (err, post) => {
+                if (err || !post) {
+                    callback(err);
+                } else {
+                    // Delete it from everybody
+                    User.find({ posts: { $in: [post._id] } }, { nickName: 1, posts: 1, inbox: 1 }, (err, users) => {
+                        for (let user of users) {
+                            user.posts.pull(post._id);
+                            // Also delete from inbox
+                            for (let i = 0; i < user.inbox.length; i++) {
+                                if (user.inbox[i].post == post._id.toString()) {
+                                    console.log('found one! at ', i);
+                                    user.inbox.splice(i, 1);
+                                    i--;
+                                }
+                            }
+    
+                            user.save();
+                        }
+                    });
+    
+                    // Handle the post picture too
+                    if (post.image != '' && post.image != undefined) {
+                        s3.deleteObject({
+                            Bucket: 'socialmediaimages2017',
+                            Key: 'post_images/' + post.image
+                        }, function (err, data) {
+                            if (err) {
+                                callback(err);
+                            }
+                        });
+                    }
+                    callback();
+                }
+            });
+        }, err => {
+            if (err) console.error(err.message);
+            // configs is now a map of JSON data
+        });
+
+        
+        // request({
+        //     uri: "http://127.0.0.1:3000/post/",
+        //     method: "DELETE",
+        //     timeout: 10000,
+        //     followRedirect: true,
+        //     maxRedirects: 10
+        // }, function (error, response, body) {
+        //     return res.status(200).json(body);
+        // });
     })
 });
 

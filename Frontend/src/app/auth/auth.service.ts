@@ -73,6 +73,18 @@ export class AuthService {
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 
+    sendResetRequest(email) {
+        return this.http.post(this.global.URL + 'mail/reset', JSON.stringify({ email: email }), this.headers)
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()));
+    }
+
+    refreshPassword(email, code, newPassword) {
+        return this.http.post(this.global.URL + 'mail/reset/new', JSON.stringify({ email: email, code: code, newPassword: newPassword }), this.headers)
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()));
+    }
+
     getCookie(cname) {
         var name = cname + "=";
         var ca = document.cookie.split(';');

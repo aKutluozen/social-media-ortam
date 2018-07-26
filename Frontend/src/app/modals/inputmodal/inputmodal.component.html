@@ -5,8 +5,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" (click)="close()">&times;</button>
-                <div class="container scrollable p-4" *ngIf="!isFirstMessage">
-                    <div id="scrollThis" class="row" *ngFor="let message of messageSetup?.messages">
+                <div class="scrollable p-4" id="scrollMessages" *ngIf="!isFirstMessage">
+                    <div class="row" *ngFor="let message of messageSetup?.messages">
                         <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 mt-2 p-2 bg-primary speech-bubble text-white">
                             {{ message.sender }} @ {{ message.date | date: 'short' }} : {{ message.message }}
                         </div>

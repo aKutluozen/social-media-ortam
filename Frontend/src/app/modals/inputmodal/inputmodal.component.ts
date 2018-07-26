@@ -159,7 +159,10 @@ export class InputmodalComponent implements OnInit {
 	scrollDown() {
 		if (!this.isFirstMessage) {
 			window.setTimeout(() => {
-				document.getElementById("scrollThis").scrollBy(0, document.getElementById("scrollThis").scrollHeight + 100);
+				var elem = document.getElementById('scrollMessages');
+				
+				elem.scrollBy(0,elem.scrollHeight + 100);
+				console.log('trying to scroll', elem.scrollHeight, elem.scrollTop, elem.clientHeight);
 			}, 100);
 		}
 	}

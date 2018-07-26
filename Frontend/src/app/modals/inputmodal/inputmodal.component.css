@@ -2,6 +2,7 @@
     max-height: 400px;
     height: 400px;
     width: 100%;
+    display: block;
     overflow-y: scroll;
     overflow-wrap: break-word;
     background: #efefef;
