@@ -36,16 +36,19 @@ POST_ROUTER.get('/clean', (req, res) => {
     Post.find({
         created: {
             // $lt: new Date(),
-            $lt: new Date(new Date().setDate(new Date().getDate() - 1))
-        }
+            $lt: new Date(new Date().setDate(new Date().getDate() - 1
+            ))
+        },
+        group: { $ne: 'private' }
     }, function (err, posts) {
         if (err) {
             return res.status(400).json({ msg: err })
         }
+        // return res.status(200).json({ msg: posts })
 
         // Found old posts, now delete them nicely in a loop.
         async.forEachOf(posts, (value, key, callback) => {
-            Post.findOneAndRemove({ _id: req.params.id }, (err, post) => {
+            Post.findOneAndRemove({ _id: value._id }, (err, post) => {
                 if (err || !post) {
                     callback(err);
                 } else {
@@ -61,11 +64,11 @@ POST_ROUTER.get('/clean', (req, res) => {
                                     i--;
                                 }
                             }
-    
+
                             user.save();
                         }
                     });
-    
+
                     // Handle the post picture too
                     if (post.image != '' && post.image != undefined) {
                         s3.deleteObject({
@@ -81,20 +84,10 @@ POST_ROUTER.get('/clean', (req, res) => {
                 }
             });
         }, err => {
-            if (err) console.error(err.message);
+            if (err) return res.status(200).json({ msg: 'not cleaned' })
             // configs is now a map of JSON data
         });
-
-        
-        // request({
-        //     uri: "http://127.0.0.1:3000/post/",
-        //     method: "DELETE",
-        //     timeout: 10000,
-        //     followRedirect: true,
-        //     maxRedirects: 10
-        // }, function (error, response, body) {
-        //     return res.status(200).json(body);
-        // });
+        return res.status(200).json({ msg: 'cleaned' })
     })
 });
 
@@ -474,57 +467,59 @@ POST_ROUTER.post('/post/:id', function (req, res) {
         Post.findById(req.params.id, function (err, post) {
             misc.checkResultErrors(err, post, 'post', res);
 
-            // Add users name to the post
-            post.shares.push({
-                user: user,
-                comment: req.body.comment
-            });
+            if (post) {
+                // Add users name to the post
+                post.shares.push({
+                    user: user,
+                    comment: req.body.comment
+                });
 
-            // Add the post to user's array like the user shared it
-            user.posts.push(post);
+                // Add the post to user's array like the user shared it
+                user.posts.push(post);
 
-            user.save(function (err, result) {
-                if (err) {
-                    return res.status(500).json({
-                        title: 'An error occured saving message to user',
-                        error: err
-                    });
-                }
-
-                // When saving the message, send the most up to date current user info
-                post.save(function (err, result) {
+                user.save(function (err, result) {
                     if (err) {
                         return res.status(500).json({
-                            title: 'An error occured',
+                            title: 'An error occured saving message to user',
                             error: err
                         });
                     }
 
-                    var currentUser = {
-                        nickName: user.nickName,
-                        profilePicture: user.profilePicture,
-                        date: Date.now()
-                    }
-
-                    User.updateOne({ nickName: post.nickName }, {
-                        $push: {
-                            $position: 0,
-                            inbox: {
-                                action: 'share',
-                                post: post._id,
-                                user: decoded.id,
-                                date: Date.now()
-                            }
+                    // When saving the message, send the most up to date current user info
+                    post.save(function (err, result) {
+                        if (err) {
+                            return res.status(500).json({
+                                title: 'An error occured',
+                                error: err
+                            });
                         }
-                    }, (err, user) => {
-                        if (err || !user) res.status(500).json({});
-                        res.status(200).json({
-                            message: 'Post updated!',
-                            obj: currentUser
+
+                        var currentUser = {
+                            nickName: user.nickName,
+                            profilePicture: user.profilePicture,
+                            date: Date.now()
+                        }
+
+                        User.updateOne({ nickName: post.nickName }, {
+                            $push: {
+                                $position: 0,
+                                inbox: {
+                                    action: 'share',
+                                    post: post._id,
+                                    user: decoded.id,
+                                    date: Date.now()
+                                }
+                            }
+                        }, (err, user) => {
+                            if (err || !user) res.status(500).json({});
+                            res.status(200).json({
+                                message: 'Post updated!',
+                                obj: currentUser
+                            });
                         });
                     });
                 });
-            });
+            }
         });
     });
 });
@@ -532,7 +527,6 @@ POST_ROUTER.post('/post/:id', function (req, res) {
 // Add a comment to a post
 POST_ROUTER.patch('/answer/:id', (req, res) => {
     req.body.user = jwt.decode(req.query.token).id;
-    console.log(req.params.id);
     Post.findOneAndUpdate({ _id: req.params.id }, { $push: { comments: { $each: [req.body], $position: 0 } } }, (err, post) => {
         if (err || !post) res.status(500).json({}); else
             misc.notifyUser(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'comment');

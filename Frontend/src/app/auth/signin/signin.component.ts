@@ -42,7 +42,7 @@ export class SigninComponent implements OnInit, OnDestroy {
                 this.auth.changeMessage(data.name);
 
                 this.global.profilePicture = data.picture;
-                this.global.name = data.name;
+                this.global.username = data.name;
                 this.global.credit = data.credit;
 
                 this.modal.handleWarning('Hosgeldin ' + this.auth.getCookie('user') + '! Simdi ana sayfaya yonlendiriliyorsunuz!'); // Show this only when first logged in

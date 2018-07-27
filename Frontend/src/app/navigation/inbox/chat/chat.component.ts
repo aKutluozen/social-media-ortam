@@ -97,7 +97,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	complain(message) {
 		message.room = this.selectedRoom;
 		message.reason = this.reason;
-		message.complainer = this.global.name;
+		message.complainer = this.global.username;
 
 		this.chatService.sendComplaint(message).subscribe(
 			res => {

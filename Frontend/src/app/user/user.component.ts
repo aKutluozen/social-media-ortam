@@ -378,7 +378,7 @@ export class UserComponent implements OnInit, OnDestroy {
 				}
 
 				this.global.profilePicture = this.profile.profilePicture;
-				this.global.name = this.profile.nickName;
+				this.global.username = this.profile.nickName;
 
 				this.profileForm.patchValue({
 					firstName: this.profile.firstName || '',

@@ -1,23 +1,25 @@
-<div class="row animated fadeIn">
-    <div class="col-xl-12 col-lg-12 mb-4 px-2 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <h2>Sikayetler</h2>
-                <hr>
-                <div *ngFor="let complaint of complaints" class="card bordered mb-4">
-                    <div class="card-body">
-                        <p>
-                            <b>Sikayet eden:</b> {{ complaint.complaint.complainer }}</p>
-                        <p>
-                            <b>Sebebi:</b> {{ complaint.complaint.reason }}</p>
-                        <p>
-                            <b>Mesaj:</b> {{ complaint.complaint.text.message }}</p>
-                        <p>
-                            <b>Sahibi:</b> {{ complaint.complaint.text.name }}</p>
+<div class="container">
+    <div class="row animated fadeIn">
+        <div class="col-xl-12 col-lg-12 mb-4 px-2 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Sikayetler</h2>
+                    <hr>
+                    <div *ngFor="let complaint of complaints" class="card bordered mb-4">
+                        <div class="card-body">
+                            <p>
+                                <b>Sikayet eden:</b> {{ complaint.complaint.complainer }}</p>
+                            <p>
+                                <b>Sebebi:</b> {{ complaint.complaint.reason }}</p>
+                            <p>
+                                <b>Mesaj:</b> {{ complaint.complaint.text.message }}</p>
+                            <p>
+                                <b>Sahibi:</b> {{ complaint.complaint.text.name }}</p>
+                        </div>
                     </div>
-                </div>
 
-                <button type="button" (click)="loadMore()">yukle</button>
+                    <button type="button" (click)="loadMore()">yukle</button>
+                </div>
             </div>
         </div>
     </div>

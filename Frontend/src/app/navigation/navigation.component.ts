@@ -42,7 +42,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 		this.profileSubscription = this.user.getProfile().subscribe(
 			(data) => {
 				this.global.profilePicture = data.data.profilePicture;
-				this.global.name = data.data.nickName;
+				this.global.username = data.data.nickName;
 			},
 			(error) => {
 				console.log(error);

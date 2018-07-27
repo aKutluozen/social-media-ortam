@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var request = require('request');
 
 // Load routes
 var appRoutes = require('./routes/app');
@@ -38,6 +39,23 @@ app.use('/user', userRoutes);
 app.use('/chat', chatRoutes);
 app.use('/mail', mailRoutes);
 app.use('/', appRoutes);
+
+// Clean up old posts regularly
+var requestLoop = setInterval(function(){
+    request({
+        url: "http://127.0.0.1:3000/post/clean",
+        method: "GET",
+        timeout: 10000,
+        followRedirect: true,
+        maxRedirects: 10
+    },function(error, response, body){
+        if(!error && response.statusCode == 200){
+            console.log('cleaned it up!', body);
+        }else{
+            console.log('error, couldnt clean!' + response.statusCode);
+        }
+    });
+  }, 60000);
 
 app.listen(3000);
 

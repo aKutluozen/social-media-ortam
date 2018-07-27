@@ -14,7 +14,7 @@ export class GlobalService {
     public URL_EMPTY_GALLERY_PIC: string = "uploadempty.png";
 
     public profilePicture: string = '';
-    public name: string = '';
+    public username: string = '';
     public credit: number = 5;
     public banned: boolean = false;
 

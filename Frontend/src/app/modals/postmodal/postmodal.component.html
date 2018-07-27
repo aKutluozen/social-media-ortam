@@ -47,7 +47,7 @@
                         Resim basari ile yuklendi!
                     </div>
                     <div class="row justify-content-center">
-                        <button class="btn btn-primary mr-4" type="submit" [disabled]="postForm.value.content == ''">
+                        <button class="btn btn-primary mr-4" type="submit" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
                             <i class="fa fa-share-square" aria-hidden="true"></i> Paylas</button>
                         <button type="button" class="btn btn-default" (click)="close(false)">
                             <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>

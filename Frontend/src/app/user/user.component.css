@@ -113,7 +113,7 @@ img {
 .bottom-right-button {
     position: absolute;
     bottom: 0px;
-    right: -20px;
+    right: 0px;
     z-index: 10;
 }
 

@@ -321,7 +321,7 @@ export class PostService {
             .map((response: Response) => {
                 // Handle temprorary username and picture !!!
                 comment.user['profilePicture'] = this.global.profilePicture;
-                comment.user['nickName'] = this.global.name;
+                comment.user['nickName'] = this.global.username;
 
                 post.comments.unshift(comment);
                 return response.json();

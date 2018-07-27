@@ -37,7 +37,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 	// Run the seach, store the results
 	ngOnInit() {
-		if (this.global.name !== '') {
+		if (this.global.username !== '') {
 			this.friendSubscription = this.user.getFriendsList().subscribe(data => {
 				this.friends = data;
 			}, error => {
