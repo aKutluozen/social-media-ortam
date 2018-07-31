@@ -42,9 +42,11 @@ POST_ROUTER.get('/clean', (req, res) => {
         group: { $ne: 'private' }
     }, function (err, posts) {
         if (err) {
-            return res.status(400).json({ msg: err })
+            return res.status(400).json({
+                message: 'problem get posts',
+                error: err
+            })
         }
-        // return res.status(200).json({ msg: posts })
 
         // Found old posts, now delete them nicely in a loop.
         async.forEachOf(posts, (value, key, callback) => {
@@ -59,13 +61,19 @@ POST_ROUTER.get('/clean', (req, res) => {
                             // Also delete from inbox
                             for (let i = 0; i < user.inbox.length; i++) {
                                 if (user.inbox[i].post == post._id.toString()) {
-                                    console.log('found one! at ', i);
                                     user.inbox.splice(i, 1);
                                     i--;
                                 }
                             }
 
-                            user.save();
+                            user.save(function (err) {
+                                if (err) {
+                                    return res.status(500).json({
+                                        message: 'problem saving post to user',
+                                        error: err
+                                    })
+                                }
+                            });
                         }
                     });
 
@@ -84,10 +92,19 @@ POST_ROUTER.get('/clean', (req, res) => {
                 }
             });
         }, err => {
-            if (err) return res.status(200).json({ msg: 'not cleaned' })
+            if (err) {
+                return res.status(400).json({
+                    message: 'not cleaned',
+                    error: err
+                });
+            }
             // configs is now a map of JSON data
         });
-        return res.status(200).json({ msg: 'cleaned' })
+
+        return res.status(200).json({
+            message: 'cleaned',
+            data: ''
+        });
     })
 });
 
@@ -121,13 +138,16 @@ POST_ROUTER.get('/subjects', function (req, res) {
         // Handle the error
         if (err) {
             return res.status(500).json({
-                title: 'An error occured when getting subjects',
+                message: 'An error occured when getting subjects',
                 error: err
             });
         }
 
         // Successfully send it to the client
-        res.status(200).json(subjects);
+        return res.status(200).json({
+            message: 'subjects',
+            data: subjects
+        });
     });
 });
 
@@ -137,7 +157,7 @@ POST_ROUTER.use('/', function (req, res, next) {
     jwt.verify(req.query.token, 'secret', function (err, decodedToken) {
         if (err) {
             return res.status(401).json({
-                title: 'No authentication',
+                message: 'No authentication',
                 error: err
             });
         }
@@ -147,14 +167,14 @@ POST_ROUTER.use('/', function (req, res, next) {
 
 // Get all posts with a given subject
 POST_ROUTER.get('/friends/:subject/:amount', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     var amount = parseInt(req.params.amount);
     var theSubject = req.params.subject.toLowerCase();
 
     // Get the user first
-    User.findById(decoded.id, function (err, user) {
-        misc.checkResultErrors(err, user, 'user', res);
+    User.findById(token.id, function (err, user) {
+        misc.checkResultErrors(err, res, 'user', user);
         // Temporary friends array
         var friends = [];
 
@@ -202,9 +222,15 @@ POST_ROUTER.get('/friends/:subject/:amount', function (req, res) {
                     select: 'nickName profilePicture'
                 }]).exec(function (err, posts) {
                     if (err || !posts) {
-                        return res.status(500).json({});
+                        return res.status(500).json({
+                            message: 'problem finding subjects',
+                            error: err
+                        });
                     }
-                    return res.status(200).json(posts);
+                    return res.status(200).json({
+                        message: 'posts',
+                        data: posts
+                    });
                 });
             } else {
                 Post.find({ group: 'public', _id: { $in: postIdArray } }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
@@ -221,9 +247,15 @@ POST_ROUTER.get('/friends/:subject/:amount', function (req, res) {
                     select: 'nickName profilePicture'
                 }]).exec(function (err, posts) {
                     if (err || !posts) {
-                        return res.status(500).json({});
+                        return res.status(500).json({
+                            message: 'problem finding subjects',
+                            error: err
+                        });
                     }
-                    return res.status(200).json(posts);
+                    return res.status(200).json({
+                        message: 'posts',
+                        data: posts
+                    });
                 });
             }
         });
@@ -246,26 +278,34 @@ POST_ROUTER.get('/post/:id', function (req, res) {
             model: User,
             select: 'nickName profilePicture'
         }]).exec((err, post) => {
-            if (err || !post) res.status(500).json({});
-            res.status(200).json(post);
+            if (err || !post) {
+                return res.status(500).json({
+                    message: 'problem getting post',
+                    error: err
+                });
+            }
+            return res.status(200).json({
+                message: 'post',
+                data: post
+            });
         });
 });
 
 // Get private posts
 POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     var amount = parseInt(req.params.amount);
     var publicity = req.params.publicity;
 
-    var person = decoded.id;
+    var person = token.id;
     if (req.params.person) {
         person = req.params.person;
     }
 
     // Get the user first
     User.findById(person, function (err, user) {
-        misc.checkResultErrors(err, user, 'user', res);
+        misc.checkResultErrors(err, res, 'user', user);
 
         Post.find({ nickName: user.nickName, group: 'private' }).sort({ created: 'desc' }).populate([{
             path: 'user',
@@ -281,22 +321,28 @@ POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', function (req, r
             select: 'nickName profilePicture'
         }]).exec(function (err, posts) {
             if (err || !posts) {
-                return res.status(500).json({});
+                return res.status(500).json({
+                    message: 'problem getting private posts',
+                    error: err
+                });
             }
-            return res.status(200).json(posts);
+            return res.status(200).json({
+                message: 'posts',
+                data: posts
+            });
         });
     });
 });
 
 // Get posts of friends
 POST_ROUTER.get('/friends/:amount', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     var amount = parseInt(req.params.amount);
 
     // Get the user first
-    User.findById(decoded.id, function (err, user) {
-        misc.checkResultErrors(err, user, 'user', res);
+    User.findById(token.id, function (err, user) {
+        misc.checkResultErrors(err, res, 'user', user);
 
         // Temporary friends array
         var friends = [];
@@ -338,9 +384,15 @@ POST_ROUTER.get('/friends/:amount', function (req, res) {
                 select: 'nickName profilePicture'
             }]).exec(function (err, posts) {
                 if (err || !posts) {
-                    return res.status(500).json({});
+                    return res.status(500).json({
+                        message: 'problem getting posts of friends',
+                        error: err
+                    });
                 }
-                return res.status(200).json(posts);
+                return res.status(200).json({
+                    message: 'posts',
+                    data: posts
+                });
             });
         });
     });
@@ -348,9 +400,9 @@ POST_ROUTER.get('/friends/:amount', function (req, res) {
 
 // Upload a post image
 POST_ROUTER.post('/image', upload.any(), function (req, res) {
-    res.status(200).json({
+    return res.status(200).json({
         message: 'Post image loaded!',
-        fileName: req.files[0].key
+        data: req.files[0].key // file name
     });
 });
 
@@ -360,8 +412,11 @@ POST_ROUTER.delete('/image', function (req, res) {
 
     // Also, somehow delete it in the post too, if exists!!!
     Post.findOne({ image: { $eq: fileToDelete } }, function (err, post) {
-        if (err) {
-            console.log('error in finding the post with image');
+        if (err || !post) {
+            return res.status(500).json({
+                message: 'problem getting post to delete image',
+                error: err
+            });
         }
 
         var filename = '';
@@ -379,28 +434,28 @@ POST_ROUTER.delete('/image', function (req, res) {
             Key: 'post_images/' + filename
         }, function (err, data) {
             if (err) {
-                res.status(404).json({
-                    message: 'Image to delete not found!'
+                return res.status(404).json({
+                    message: 'Image to delete not found!',
+                    error: err
+                });
+            }
+
+            // If post exists, save with the new empty image
+            if (post != null && post != undefined) {
+                post.image = '';
+                post.save(function (err, postResult) {
+                    misc.checkResultErrors(err, res, 'post', postResult);
+
+                    return res.status(200).json({
+                        message: 'Image deleted in the post!',
+                        data: post
+                    });
                 });
             } else {
-
-                // If post exists, save with the new empty image
-                if (post != null && post != undefined) {
-                    post.image = '';
-                    post.save(function (err, postResult) {
-                        misc.checkResultErrors(err, postResult, 'post', res);
-
-                        res.status(200).json({
-                            message: 'Image deleted in the post!',
-                        });
-                    });
-                } else {
-
-                    res.status(200).json({
-                        message: 'Image deleted!',
-                        location: ''
-                    });
-                }
+                return res.status(200).json({
+                    message: 'Image deleted!',
+                    data: data
+                });
             }
         });
     });
@@ -408,11 +463,11 @@ POST_ROUTER.delete('/image', function (req, res) {
 
 // Add a new post
 POST_ROUTER.post('/', function (req, res, next) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // Find the user first
-    User.findById(decoded.id, function (err, user) {
-        misc.checkResultErrors(err, user, 'user', res);
+    User.findById(token.id, function (err, user) {
+        misc.checkResultErrors(err, res, 'user', user);
 
         // Temp subject patch - Fix this when the front end is fixed !!!
         var sbj = req.body.subject;
@@ -437,19 +492,21 @@ POST_ROUTER.post('/', function (req, res, next) {
 
         // Save it
         post.save(function (err, postResult) {
-            misc.checkResultErrors(err, postResult, 'post', res);
+            misc.checkResultErrors(err, res, 'post', postResult);
 
             // Also save to users array
             user.posts.push(postResult.toObject());
             user.save(function (err, result) {
                 if (err) {
-                    console.log('ERROR', err);
                     return res.status(500).json({
-                        title: 'An error occured saving message to user',
+                        message: 'An error occured saving message to user',
                         error: err
                     });
                 }
-                res.status(201).json(postResult);
+                return res.status(201).json({
+                    message: 'saved',
+                    data: postResult
+                });
             });
         });
     });
@@ -457,15 +514,15 @@ POST_ROUTER.post('/', function (req, res, next) {
 
 // Share a post
 POST_ROUTER.post('/post/:id', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // Find the user first
-    User.findById(decoded.id, function (err, user) {
-        misc.checkResultErrors(err, user, 'user', res);
+    User.findById(token.id, function (err, user) {
+        misc.checkResultErrors(err, res, 'user', user);
 
         // Find the post to add to user
         Post.findById(req.params.id, function (err, post) {
-            misc.checkResultErrors(err, post, 'post', res);
+            misc.checkResultErrors(err, res, 'post', post);
 
             if (post) {
                 // Add users name to the post
@@ -480,7 +537,7 @@ POST_ROUTER.post('/post/:id', function (req, res) {
                 user.save(function (err, result) {
                     if (err) {
                         return res.status(500).json({
-                            title: 'An error occured saving message to user',
+                            message: 'An error occured saving message to user',
                             error: err
                         });
                     }
@@ -489,7 +546,7 @@ POST_ROUTER.post('/post/:id', function (req, res) {
                     post.save(function (err, result) {
                         if (err) {
                             return res.status(500).json({
-                                title: 'An error occured',
+                                message: 'An error occured',
                                 error: err
                             });
                         }
@@ -506,15 +563,16 @@ POST_ROUTER.post('/post/:id', function (req, res) {
                                 inbox: {
                                     action: 'share',
                                     post: post._id,
-                                    user: decoded.id,
+                                    user: token.id,
                                     date: Date.now()
                                 }
                             }
                         }, (err, user) => {
-                            if (err || !user) res.status(500).json({});
-                            res.status(200).json({
-                                message: 'Post updated!',
-                                obj: currentUser
+                            misc.checkUserErrors(err, res, user, null, () => {
+                                return res.status(200).json({
+                                    message: 'Post updated!',
+                                    data: currentUser
+                                });
                             });
                         });
                     });
@@ -528,48 +586,78 @@ POST_ROUTER.post('/post/:id', function (req, res) {
 POST_ROUTER.patch('/answer/:id', (req, res) => {
     req.body.user = jwt.decode(req.query.token).id;
     Post.findOneAndUpdate({ _id: req.params.id }, { $push: { comments: { $each: [req.body], $position: 0 } } }, (err, post) => {
-        if (err || !post) res.status(500).json({}); else
-            misc.notifyUser(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'comment');
+        if (err || !post) {
+            return res.status(500).json({
+                message: 'problem adding a comment',
+                error: err
+            });
+        }
+        misc.notifyUser(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'comment');
     });
 });
 
 // Add a like to a post
 POST_ROUTER.patch('/like/:id', (req, res) => {
     Post.findOneAndUpdate({ _id: req.params.id }, { $push: { $position: 0, likes: req.body.name } }, { new: true }, (err, post) => {
-        if (err || !post) res.status(500).json({}); else
-            misc.notifyUser(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'like');
+        if (err || !post) {
+            return res.status(500).json({
+                message: 'problem adding a like',
+                error: err
+            });
+        }
+        misc.notifyUser(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'like');
     });
 });
 
 // Remove a like from the post
 POST_ROUTER.delete('/like/:id/:name', (req, res) => {
     Post.findOneAndUpdate({ _id: req.params.id }, { $pull: { likes: { $in: [req.params.name] } } }, (err, post) => {
-        if (err || !post) res.status(500).json({}); else
-            misc.removeNotification(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'like');
+        if (err || !post) {
+            return res.status(500).json({
+                message: 'problem removing a like',
+                error: err
+            });
+        }
+        misc.removeNotification(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'like');
     });
 });
 
 // Add a dislike to a post
 POST_ROUTER.patch('/dislike/:id', (req, res) => {
     Post.findOneAndUpdate({ _id: req.params.id }, { $push: { $position: 0, dislikes: req.body.name } }, (err, post) => {
-        if (err || !post) res.status(500).json({}); else
-            misc.notifyUser(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'dislike');
+        if (err || !post) {
+            return res.status(500).json({
+                message: 'problem adding a dislike',
+                error: err
+            });
+        }
+        misc.notifyUser(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'dislike');
     });
 });
 
 // Remove a dislike from the post
 POST_ROUTER.delete('/dislike/:id/:name', (req, res) => {
     Post.findOneAndUpdate({ _id: req.params.id }, { $pull: { dislikes: { $in: [req.params.name] } } }, (err, post) => {
-        if (err || !post) res.status(500).json({}); else
-            misc.removeNotification(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'dislike');
+        if (err || !post) {
+            return res.status(500).json({
+                message: 'problem removing a dislike',
+                error: err
+            });
+        }
+        misc.removeNotification(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'dislike');
     });
 });
 
 // Delete a comment from a post
 POST_ROUTER.delete('/:id1/answer/:id2', (req, res) => {
     Post.findOneAndUpdate({ _id: req.params.id1 }, { $pull: { comments: { id: req.params.id2 } } }, (err, post) => {
-        if (err || !post) res.status(500).json({}); else
-            misc.removeNotification(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'comment');
+        if (err || !post) {
+            return res.status(500).json({
+                message: 'problem deleting a comment',
+                error: err
+            });
+        }
+        misc.removeNotification(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'comment');
     });
 });
 
@@ -588,7 +676,16 @@ POST_ROUTER.patch('/:id', function (req, res) {
             group: req.body.group
         }
     }, (err, post) => {
-        err || !post ? res.status(500).json({}) : res.status(200).json({});
+        if (err || !post) {
+            return res.status(500).json({
+                message: 'problem updating a post',
+                error: err
+            });
+        }
+        return res.status(200).json({
+            message: 'success',
+            data: post
+        });
     });
 });
 
@@ -596,53 +693,67 @@ POST_ROUTER.patch('/:id', function (req, res) {
 POST_ROUTER.delete('/:id', (req, res) => {
     Post.findOneAndRemove({ _id: req.params.id }, (err, post) => {
         if (err || !post) {
-            res.status(500).json({});
-        } else {
-            // Delete it from everybody
-            User.find({ posts: { $in: [post._id] } }, { nickName: 1, posts: 1, inbox: 1 }, (err, users) => {
-                for (let user of users) {
-                    user.posts.pull(post._id);
-                    // Also delete from inbox
-                    for (let i = 0; i < user.inbox.length; i++) {
-                        if (user.inbox[i].post == post._id.toString()) {
-                            console.log('found one! at ', i);
-                            user.inbox.splice(i, 1);
-                            i--;
-                        }
-                    }
-
-                    user.save();
-                }
+            return res.status(500).json({
+                message: 'problem removing a post',
+                error: err
             });
+        }
+        // Delete it from everybody
+        User.find({ posts: { $in: [post._id] } }, { nickName: 1, posts: 1, inbox: 1 }, (err, users) => {
+            for (let user of users) {
+                user.posts.pull(post._id);
+                // Also delete from inbox
+                for (let i = 0; i < user.inbox.length; i++) {
+                    if (user.inbox[i].post == post._id.toString()) {
+                        user.inbox.splice(i, 1);
+                        i--;
+                    }
+                }
 
-            // Handle the post picture too
-            if (post.image != '' && post.image != undefined) {
-                s3.deleteObject({
-                    Bucket: 'socialmediaimages2017',
-                    Key: 'post_images/' + post.image
-                }, function (err, data) {
+                user.save(function (err, result) {
                     if (err) {
-                        console.log(err);
+                        return res.status(500).json({
+                            message: 'problem saving a user when deleting a post',
+                            error: err
+                        });
                     }
                 });
             }
+        });
 
-            res.status(200).json({});
+        // Handle the post picture too
+        if (post.image != '' && post.image != undefined) {
+            s3.deleteObject({
+                Bucket: 'socialmediaimages2017',
+                Key: 'post_images/' + post.image
+            }, function (err, data) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'problem deleting a post image',
+                        error: err
+                    });
+                }
+            });
         }
+
+        return res.status(200).json({
+            message: 'success',
+            data: post
+        });
     });
 });
 
 // Remove a shared post
 POST_ROUTER.delete('/post/:id', function (req, res, next) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // Find the user first
-    User.findById(decoded.id, function (err, user) {
-        misc.checkResultErrors(err, user, 'user', res);
+    User.findById(token.id, function (err, user) {
+        misc.checkResultErrors(err, res, 'user', user);
 
         // Find the post to add to user
         Post.findById(req.params.id, function (err, post) {
-            misc.checkResultErrors(err, post, 'post', res);
+            misc.checkResultErrors(err, res, 'post', post);
 
             // Remove the user from the post
             for (let i = 0; i < post.shares.length; i++) {
@@ -663,7 +774,7 @@ POST_ROUTER.delete('/post/:id', function (req, res, next) {
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured saving message to user',
+                        message: 'problem saving message to user',
                         error: err
                     });
                 }
@@ -671,7 +782,7 @@ POST_ROUTER.delete('/post/:id', function (req, res, next) {
                 post.save(function (err, result) {
                     if (err) {
                         return res.status(500).json({
-                            title: 'An error occured',
+                            message: 'problem saving a post',
                             error: err
                         });
                     }
@@ -681,14 +792,15 @@ POST_ROUTER.delete('/post/:id', function (req, res, next) {
                             inbox: {
                                 action: 'share',
                                 post: post._id,
-                                user: decoded.id,
+                                user: token.id,
                             }
                         }
                     }, (err, user) => {
-                        if (err || !user) res.status(500).json({});
-                        res.status(200).json({
-                            message: 'Post updated!',
-                            obj: result[result.length - 1]
+                        misc.checkUserErrors(err, res, user, null, () => {
+                            return res.status(200).json({
+                                message: 'Post updated!',
+                                data: result[result.length - 1]
+                            });
                         });
                     });
                 });

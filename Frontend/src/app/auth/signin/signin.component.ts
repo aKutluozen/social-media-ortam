@@ -36,20 +36,20 @@ export class SigninComponent implements OnInit, OnDestroy {
         const user = new User(this.signinForm.value.email, this.signinForm.value.password);
         this.subscription = this.auth.signin(new User(this.signinForm.value.email, this.signinForm.value.password)).subscribe(
             data => {
-                this.auth.setCookie('token', data.token, 7);
-                this.auth.setCookie('userId', data.userId, 7);
-                this.auth.setCookie('user', data.name, 7);
-                this.auth.changeMessage(data.name);
+                this.auth.setCookie('token', data.data.token, 7);
+                this.auth.setCookie('userId', data.data.userId, 7);
+                this.auth.setCookie('user', data.data.name, 7);
+                this.auth.changeMessage(data.data.name);
 
-                this.global.profilePicture = data.picture;
-                this.global.username = data.name;
-                this.global.credit = data.credit;
+                this.global.profilePicture = data.data.picture;
+                this.global.username = data.data.name;
+                this.global.credit = data.data.credit;
 
                 this.modal.handleWarning('Hosgeldin ' + this.auth.getCookie('user') + '! Simdi ana sayfaya yonlendiriliyorsunuz!'); // Show this only when first logged in
 
                 window.setTimeout(function () {
                     window.location.href = '/posts/all'; // Reset data
-                }, 1000);
+                }, 100);
 
             },
             error => {

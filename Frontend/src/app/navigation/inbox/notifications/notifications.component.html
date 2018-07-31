@@ -2,10 +2,10 @@
     Hic bir bildirim bulunamadi!</div>
 <div class="col-12 bg-white mb-2" *ngFor="let notification of notifications">
     <div class="row my-auto py-2">
-        <div class="col-md-2 my-auto col-4">
+        <div class="col-md-2 my-auto col-2">
             <img class="full-rounded profile-picture-xs" src="{{ global.URL_S3_USERS + notification.user.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
         </div>
-        <div class="col-md-8 my-auto col-8 pr-0">
+        <div class="col-md-8 my-auto col-10 pr-0">
             <p class="mb-0">
                 <b>{{ notification.user.nickName }}</b>
             </p>
@@ -18,8 +18,9 @@
             <span *ngIf="notification.action != 'complaint'" (click)="showPost(notification._id, notification.post._id, notification.action, notification.user._id)">
                 <i class="fa fa-eye text-success" aria-hidden="true"></i>
             </span>
-            <span *ngIf="notification.action == 'complaint'" (click)="handleComplaint(notification)">
-                <i class="fa fa-eye text-success" aria-hidden="true"></i>
+            <span *ngIf="notification.action == 'complaint'">
+                <span (click)="handleComplaint(notification)"><i class="fa fa-eye text-success" aria-hidden="true"></i></span>
+                <span (click)="removeComplaint(notification)"><i class="fa fa-trash text-danger" aria-hidden="true"></i></span>
             </span>
         </div>
     </div>

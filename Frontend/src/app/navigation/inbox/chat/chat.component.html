@@ -1,4 +1,4 @@
-<div class="p-2" (click)="$event.stopPropagation()">
+<div class="p-4" (click)="$event.stopPropagation()">
     <div class="row mb-2">
         <div class="col-12">
             <select (change)="selectRoom(room)" (click)="$event.stopPropagation()" [(ngModel)]="room" class="form-control">
@@ -8,8 +8,8 @@
     </div>
 
     <div class="scrollable mb-4" id="scrollThis">
-        <div class="row my-4" *ngIf="messages.length == 0">
-            <div class="col text-center">
+        <div class="row mx-auto" *ngIf="messages.length == 0">
+            <div class="col-12 pl-0 message">
                 Hic bir mesaj bulunamadi!
             </div>
         </div>
@@ -21,11 +21,11 @@
                 <div class="complaint-button bordered p-2 ml-2">
                     <p class="text-center my-auto text-success" *ngIf="message.complaintStatus">{{ message.complaintStatus }}</p>
                     <div class="row" *ngIf="!message.complaintStatus">
-                        <div class="col-4">
-                            <button [disabled]="!reason" class="btn btn-primary btn-sm btn-block py-0" (click)="complain(message)">Sikayet et</button>
-                        </div>
-                        <div class="col-8">
+                        <div class="col-12">
                             <input type="text" class="form-control" [(ngModel)]="reason" placeholder="Sebep (max. 100 karakter)">
+                        </div>
+                        <div class="col-12">
+                            <button [disabled]="!reason" class="btn btn-danger btn-sm btn-block py-0" (click)="complain(message)">Sikayet et</button>
                         </div>
                     </div>
                 </div>

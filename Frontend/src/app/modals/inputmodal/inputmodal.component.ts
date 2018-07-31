@@ -27,8 +27,8 @@ export class InputmodalComponent implements OnInit {
 	public messageSetup: any = {};
 	public disableSending: boolean = false;
 	public isFirstMessage: boolean = false;
-
-	private isFriend: boolean = false;
+	public isFriend: boolean = false;
+	
 	private timedCheck: any = 0;
 	private latestMessageTime: number = 0;
 	private interval: number = 1500;
@@ -40,13 +40,12 @@ export class InputmodalComponent implements OnInit {
 			this.display = 'block';
 			// Check if friends?
 			this.user.isFriend(this.messageSetup.receiver).subscribe(
-				isFriend => {
-					if (isFriend === 'true') {
+				data => {
+					if (data.data.toString() === 'true') {
 						this.isFriend = true;
 					} else {
 						this.isFriend = false;
 					}
-					console.log('Is friend??? ', this.isFriend);
 				},
 				err => console.log('ERRRORRR', err)
 			)

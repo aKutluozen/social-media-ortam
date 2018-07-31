@@ -25,8 +25,7 @@
       ],
       "scripts": [
         "assets/fontawesome/js/fontawesome-all.min.js",
-        "assets/jquery/jquery-3.3.1.slim.min.js",
-        "assets/bootstrap/bootstrap.min.js"
+        "~jquery/dist/jquery.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

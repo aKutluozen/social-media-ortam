@@ -54,6 +54,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 	// Find users, skip the current user
 	search() {
+		this.ngOnInit();
 		this.userSubscription = this.user.getUsers(this.searchTerm).subscribe(
 			users => {
 				this.usersFound = [];
@@ -64,6 +65,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 					}
 				}
 				this.searchTerm = '';
+				this.userSubscription.unsubscribe();
 			}, error => {
 				this.modal.handleError('Kullanicilar bulunurken bir sorun olustu!', error);
 			});
@@ -96,6 +98,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 	isRequestSent(otherUser) {
 		var currentUser = this.auth.getCookie('user');
 
+		// this.receivedRequest();
 		for (let followed of otherUser.following) {
 			if (followed.nickName == currentUser && followed.accepted === false) {
 				return true;
@@ -110,9 +113,9 @@ export class SearchComponent implements OnInit, OnDestroy {
 		this.userSubscription = this.user.sendFollowRequest(id).subscribe(
 			data => {
 				this.modal.handleWarning('Takip istegi basari ile gonderildi');
-				this.search(); // refresh the search here <- FIND A GOOD SOLUTION TO THIS REFRESH PROBLEM!
+				// this.search(); // refresh the search here <- FIND A GOOD SOLUTION TO THIS REFRESH PROBLEM!
 			}, error => {
-				this.modal.handleError('Istek gonderilemedi', error);
+				this.modal.handleError('Istek gonderilemedi ya da onceden zaten gonderildi', error);
 			});
 	}
 

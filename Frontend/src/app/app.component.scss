@@ -1,5 +1,3 @@
-@import '../assets/colors.scss';
-
 ::ng-deep {
     .navbar {
         // border-bottom: 8px solid $blue;
@@ -23,60 +21,6 @@
         // box-shadow: none;
         border: 1px solid #efefef;
     }
-
-    // .list-group-item-success {
-    //     background: rgba($light-green, 0.75);
-    // }
-
-    // .list-group-item-warning {
-    //     background: rgba($light-yellow, 0.75);
-    // }
-
-    // .bg-info, .btn-info {
-    //     background: $dark-blue !important;
-    // }
-
-    // .bg-primary, .btn-primary {
-    //     background: $blue !important;
-    //     color: white;
-    // }
-    
-    // .bg-secondary, .btn-secondary {
-    //     background: $light-gray !important;
-    // }
-
-    // .text-secondary {
-    //     color: $light-gray !important;
-    // }
-
-    // .bg-success, .btn-success {
-    //     background: $green !important;
-    // }
-
-    // .text-success {
-    //     color: $green !important;
-    // }
-
-    // .bg-danger, .btn-danger {
-    //     background: $red !important;
-    // }
-
-    // .text-danger {
-    //     color: $red !important;
-    // }
-
-    // .text-primary {
-    //     color: $blue !important;
-    // }
-
-    // .btn {
-    //     border: none;
-    // }
-
-    // .list-group-item-action.active {
-    //     background: $light-blue;
-    //     border: $light-blue;
-    // }
 
     .background {
         position: fixed;

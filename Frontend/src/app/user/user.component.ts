@@ -335,6 +335,7 @@ export class UserComponent implements OnInit, OnDestroy {
 			data => {
 				this.profile = data.data;
 
+				// Add data to a USER MODEL !!!
 				for (let user of data.data.following) {
 					if (user.accepted === true) {
 						if (user.friend.profilePicture != '' && user.friend.profilePicture != undefined) {
@@ -357,11 +358,13 @@ export class UserComponent implements OnInit, OnDestroy {
 				for (let friend of this.friends) {
 					friendNicknames.push(friend['nickName']);
 				}
-
-				// Parse gallery images
+				
+				// Parse gallery imagesimages
 				for (let image of this.profile.images) {
 					this.images.push(image);
 				}
+
+				console.log(this.images);
 
 				this.fillEmptyImages();
 

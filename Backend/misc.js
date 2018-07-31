@@ -4,37 +4,6 @@
 
 var misc = module.exports;
 
-misc.savePost = function (message, res) {
-    message.save(function (err, result) {
-        if (err) {
-            return res.status(500).json({
-                title: 'An error occured',
-                error: err
-            });
-        }
-
-        res.status(200).json({
-            message: 'Post updated!',
-            obj: result[result.length - 1]
-        });
-    });
-}
-
-misc.saveUser = function (user, res) {
-    user.save(function (err, result) {
-        if (err) {
-            return res.status(500).json({
-                title: 'An error occured',
-                error: err
-            });
-        }
-        res.status(200).json({
-            message: 'Profile image deleted!',
-            filename: ''
-        });
-    });
-}
-
 misc.notifyUser = function (response, userModel, currentUserId, postId, otherUserNickName, type) {
     userModel.updateOne({ nickName: otherUserNickName }, {
         $push: {
@@ -47,8 +16,16 @@ misc.notifyUser = function (response, userModel, currentUserId, postId, otherUse
             }
         }
     }, (err, user) => {
-        if (err || !user) response.status(500).json({});
-        response.status(200).json({});
+        if (err || !user) {
+            return response.status(500).json({
+                message: 'problem updating user',
+                error: err
+            });
+        }
+        return response.status(200).json({
+            message: 'user notified',
+            data: user
+        });
     });
 }
 
@@ -66,11 +43,9 @@ misc.notifyUsers = function (userModel, currentUserId, data, otherUserNickName, 
             }
         }
     }, (err, user) => {
-        console.log(err, user);
         callback();
     });
 }
-// $pull: { likes: { $in: [req.params.name] } }
 
 misc.removeNotification = function (response, userModel, currentUserId, postId, otherUserNickName, type) {
     userModel.updateOne({ nickName: otherUserNickName }, {
@@ -82,53 +57,57 @@ misc.removeNotification = function (response, userModel, currentUserId, postId, 
             }
         }
     }, (err, user) => {
-        if (err || !user) response.status(500).json({});
-        response.status(200).json({});
+        if (err || !user) {
+            return response.status(500).json({
+                message: 'problem removing notification',
+                error: err
+            });
+        }
+        return response.status(200).json({
+            message: 'user notification removed',
+            data: user
+        });
     });
 }
 
-misc.checkResultErrors = function (err, post, type, res) {
-    if (err) {
-        return res.status(500).json({
-            title: 'An error occured finding ' + type,
-            error: err
+// Use for general cases
+misc.checkResultErrors = function (error, response, data, type) {
+    if (error) {
+        return response.status(500).json({
+            message: 'An error occured finding ' + type,
+            error: error
         });
     }
 
-    if (!post) {
-        return res.status(500).json({
-            title: 'No ' + type,
-            error: {
-                message: 'No ' + type
-            }
+    if (!data) {
+        return response.status(500).json({
+            message: 'No ' + type,
+            error: 'No ' + type
         });
     }
 }
 
-misc.checkUserErrors = function (response, err, user, decoded, callback) {
-    if (err) {
+// Use when authentication is needed
+misc.checkUserErrors = function (error, response, user, token, callback) {
+    if (error) {
         return response.status(500).json({
-            title: 'An error occured',
-            error: err
+            message: 'An error occured',
+            error: error
         });
     }
 
     if (!user) {
         return response.status(500).json({
-            title: 'No user found',
-            error: {
-                message: 'No message'
-            }
+            message: 'No user found',
+            error: 'No message'
         });
     }
 
-    if (decoded) {
-        if (user._id != decoded.id) {
+    if (token) {
+        if (user._id != token.id) {
             return response.status(401).json({
-                title: 'No authentication',
-                error: {
-                    message: 'Users do not match'
-                }
+                message: 'No authentication',
+                error: 'Users do not match'
             });
         }
     }

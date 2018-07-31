@@ -48,7 +48,9 @@ export class NotificationsComponent {
     handleComplaint(notification) {
         notification.data.text.complainer = notification.user.nickName;
         this.modal.showComplaintModal(notification.data.text);
+    }
 
+    removeComplaint(notification) {
         this.userSubscription = this.user
             .removeNotification(notification._id, notification.action, 123)
             .subscribe(
@@ -117,7 +119,7 @@ export class NotificationsComponent {
                     }
                     this.modal.showPostViewModal(data);
 
-                    // Remove it from inbox now
+                    // Remove it from inbox
                     this.userSubscription = this.user
                         .removeNotification(notificationId, action, user)
                         .subscribe(

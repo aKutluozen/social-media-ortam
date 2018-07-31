@@ -6,6 +6,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var Room = require('../models/room');
 var User = require('../models/user');
+var misc = require('../misc');
 
 var roomsNumbers = [];
 
@@ -20,53 +21,57 @@ Room.find((err, rooms) => {
 
 // Get old room, new room
 CHAT_ROUTER.post('/room', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    if (decoded) {
-        User.findById(decoded.id, function (err, user) {
-            if (!err && user) {
-                // Check if the days are up. if so, say banned. If not, fix it in the database too and let the user in
-                if (user.bannedChat.isBanned == false || !user.bannedChat.isBanned) {
-                    // console.log(req.body.room, req.body.oldRoom);
-                    for (let room = 0; room < roomsNumbers.length; room++) {
-                        if (roomsNumbers[room].name === req.body.room.name) {
-                            roomsNumbers[room].number++;
-                        }
-                        else if (req.body.oldRoom) {
-                            if (roomsNumbers[room].name === req.body.oldRoom.name) {
-                                roomsNumbers[room].number--;
-                            }
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
+            // Check if the days are up. if so, say banned. If not, fix it in the database too and let the user in
+            if (user.bannedChat.isBanned == false || !user.bannedChat.isBanned) {
+                for (let room of roomsNumbers) {
+                    if (room.name === req.body.room.name) {
+                        room.number++;
+                    }
+                    else if (req.body.oldRoom) {
+                        if (room.name === req.body.oldRoom.name) {
+                            room.number--;
                         }
                     }
-
-                    console.log(roomsNumbers);
-                    res.status(200).json({ message: 'room is ' });
-                } else {
-                    res.status(404).json({ message: 'banned!' });
                 }
+                return res.status(200).json({
+                    message: 'room is',
+                    data: ''
+                });
+            } else {
+                return res.status(401).json({
+                    message: 'banned',
+                    error: ''
+                });
             }
         });
-    }
+    });
 });
 
 CHAT_ROUTER.get('/rooms', function (req, res) {
-
     Room.find((err, rooms) => {
         if (err) {
-            res.status(404).json({
-                message: 'No rooms'
+            return res.status(404).json({
+                message: 'No rooms',
+                error: err
             });
         }
-
-        res.status(200).json({
-            rooms: rooms
+        return res.status(200).json({
+            message: 'rooms found',
+            data: rooms
         });
     });
 });
 
 // Get the number of people in that room
 CHAT_ROUTER.get('/room', function (req, res) {
-    res.status(200).json({ number: io.sockets.adapter.rooms });
+    return res.status(200).json({ 
+        message: 'numbers', 
+        data: io.sockets.adapter.rooms 
+    });
 });
 
 io.on('connection', (socket) => {

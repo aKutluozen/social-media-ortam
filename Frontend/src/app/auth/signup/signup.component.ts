@@ -35,16 +35,20 @@ export class SignupComponent implements OnInit, OnDestroy {
             this.signupForm.value.nickName
         );
 
-        this.subscription = this.auth.signup(user).subscribe(
-            data => {
-                this.modal.handleWarning('Kayit oldugunuz icin tesekkurler! Artik siteye giris yapabilirsiniz.');
-                this.router.navigateByUrl('/auth/signin');
-            },
-            error => {
-                this.modal.handleError('Kayit olurken bir problem olustu!', error);
-            }
-        );
-        this.signupForm.reset();
+        if (this.signupForm.value.password == this.signupForm.value.password2) {
+            this.subscription = this.auth.signup(user).subscribe(
+                data => {
+                    this.modal.handleWarning('Kayit oldugunuz icin tesekkurler! Artik siteye giris yapabilirsiniz.');
+                    this.router.navigateByUrl('/auth/signin');
+                },
+                error => {
+                    this.modal.handleError('Kayit olurken bir problem olustu!', error);
+                }
+            );
+            this.signupForm.reset();
+        } else {
+            this.modal.handleError('Iki sifrenin de ayni oldugundan emin olun!', {});
+        }
     }
 
     // Initialize the reactive form, redirect to profile if already logged in
@@ -59,7 +63,8 @@ export class SignupComponent implements OnInit, OnDestroy {
                 Validators.required,
                 Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             ]),
-            password: new FormControl(null, Validators.required)
+            password: new FormControl(null, Validators.required),
+            password2: new FormControl(null, Validators.required)
         });
     }
 

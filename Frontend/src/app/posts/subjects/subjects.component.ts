@@ -22,8 +22,8 @@ export class SubjectsComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
 
     ngOnInit() {
-        this.subscription = this.postService.getSubjects().subscribe((subjects) => {
-            this.subjects = subjects;
+        this.subscription = this.postService.getSubjects().subscribe((data) => {
+            this.subjects = data.data;
         });
     }
 

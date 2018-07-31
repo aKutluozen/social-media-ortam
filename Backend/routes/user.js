@@ -5,24 +5,22 @@ var USER_ROUTER = express.Router(),
     Room = require('../models/room'),
     Message = require('../models/message'),
     bcrypt = require('bcryptjs'),
-    jwt = require('jsonwebtoken');
-
-var multer = require('multer'),
+    jwt = require('jsonwebtoken'),
+    multer = require('multer'),
     multerS3 = require('multer-s3'),
-    AWS = require('aws-sdk');
+    AWS = require('aws-sdk'),
+    misc = require('../misc');
 
 // Handling image upload
 AWS.config.loadFromPath('./s3_config.json');
 var s3 = new AWS.S3();
-
-var misc = require('../misc');
 
 // Protect all the rest of the requests starting with "/user" if the user doesn't have a token
 USER_ROUTER.use('/user', function (req, res, next) {
     jwt.verify(req.query.token, 'secret', function (err, decodedToken) {
         if (err) {
             return res.status(401).json({
-                title: 'No authentication',
+                message: 'No authentication',
                 error: err
             });
         }
@@ -48,81 +46,85 @@ var upload = multer({
 
 // Update profile picture
 USER_ROUTER.post('/user/profilePicture', upload.any(), function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    if (decoded) {
-        User.findById(decoded.id, function (err, user) {
-            misc.checkUserErrors(res, err, user, decoded, () => {
-                // Then, add the new one
-                user.profilePicture = req.files[0].key;
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
+            // Then, add the new one
+            user.profilePicture = req.files[0].key;
 
-                user.save(function (err, result) {
-                    if (err) {
-                        return res.status(500).json({
-                            title: 'An error occured',
-                            error: err
-                        });
-                    }
-                    res.status(200).json({
-                        message: 'Profile image updated!',
-                        fileName: req.files[0].key
+            user.save(function (err, result) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'problem saving user profile picture',
+                        error: err
                     });
+                }
+                return res.status(200).json({
+                    message: 'profile image updated',
+                    data: req.files[0].key // file name
                 });
             });
         });
-    }
+    });
 });
 
 USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
-    User.findById(decoded.id, function (err, user) {
-        if (err || !user) {
-            return res.status(404).json({ message: err });
-        }
+    var token = jwt.decode(req.query.token);
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
 
-        let flag = false;
-        for (let friend of user.following) {
-            if (friend.nickName === req.params.nickName) {
-                flag = friend.accepted;
-                break;
+            let flag = false;
+            for (let friend of user.following) {
+                if (friend.nickName === req.params.nickName) {
+                    flag = friend.accepted;
+                    break;
+                }
             }
-        }
 
-        return res.status(200).json(flag);
-    })
+            return res.status(200).json({
+                message: 'flag',
+                data: flag
+            });
+        });
+    });
 });
 
-// isAdding expects true or false
+// isAdding expects true or false - Doesn't need authentication
 USER_ROUTER.patch('/user/credit/:nickName/:isAdding/:credit', function (req, res) {
+    // var token = jwt.decode(req.query.token);
     User.findOne({ nickName: req.params.nickName }, function (err, user) {
-        if (err || !user) {
-            return res.status(400).json({ message: err });
-        }
+        misc.checkUserErrors(err, res, user, null, () => {
+            // Create the field if not there
+            if (!user.credit) {
+                user['credit'] = 0;
+            }
 
-        // Create the field if not there
-        if (!user.credit) {
-            user['credit'] = 0;
-        }
+            if (req.params.isAdding === 'true') {
+                user.credit += parseInt(req.params.credit);
+            } else {
+                user.credit -= parseInt(req.params.credit);
+            }
 
-        if (req.params.isAdding === 'true') {
-            user.credit += parseInt(req.params.credit);
-        } else {
-            user.credit -= parseInt(req.params.credit);
-        }
-
-        user.save(function (err, result) {
-            if (!err)
-                console.log('\ncredit adjusted!\n', result);
-        })
-    })
+            user.save(function (err, result) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'problem updating credit',
+                        error: err
+                    });
+                }
+            });
+        });
+    });
 });
 
-// Add a complaint
+// Add a complaint - !!! INVESTIGATE
 USER_ROUTER.post('/user/complaint', function (req, res) {
     Room.findOne({ name: req.body.complaint.room.name }, (err, room) => {
         if (err || !room) {
             return res.status(404).json({
-                message: 'Room not found'
+                message: 'Room not found',
+                error: err
             });
         }
 
@@ -134,14 +136,19 @@ USER_ROUTER.post('/user/complaint', function (req, res) {
                 }
             }
         }, function (err, result) {
-            console.log(err);
-            console.log(result);
+            if (err) {
+                return res.status(500).json({
+                    message: 'problem updating user',
+                    error: err
+                });
+            }
         });
 
         User.find({ nickName: { $in: room.mods } }, { nickName: 1, complaintInbox: 1 }, (err, mods) => {
             if (err || !mods) {
                 return res.status(404).json({
-                    message: 'Mods not found'
+                    message: 'Mods not found',
+                    error: err
                 });
             }
 
@@ -150,7 +157,10 @@ USER_ROUTER.post('/user/complaint', function (req, res) {
                 var cb = () => { };
                 if (i == mods.length - 1) {
                     cb = () => {
-                        res.status(200).json({});
+                        return res.status(200).json({
+                            message: '',
+                            data: ''
+                        });
                     }
                 }
 
@@ -162,52 +172,49 @@ USER_ROUTER.post('/user/complaint', function (req, res) {
 });
 
 USER_ROUTER.get('/user/complaints', (req, res) => {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, (err, user) => {
-        if (err || !user) {
-            return res.status(404).json({
-                message: 'problem',
-                err: err
+    User.findById(token.id, (err, user) => {
+        misc.checkUserErrors(err, res, user, token, () => {
+            return res.status(200).json({
+                message: 'complaints',
+                data: user.complaintInbox
             });
-        }
-        return res.status(200).json({
-            complaints: user.complaintInbox
-        })
-    })
+        });
+    });
 });
 
 USER_ROUTER.delete('/user/profilePicture', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             // Delete it from S3 first!
             s3.deleteObject({
                 Bucket: 'socialmediaimages2017',
                 Key: 'user_images/' + user.profilePicture
             }, function (err, data) {
                 if (err) {
-                    res.status(404).json({
-                        message: 'Profile image not found!'
-                    });
-                } else {
-
-                    // Then empty users picture slot
-                    user.profilePicture = '';
-                    user.save(function (err, result) {
-                        if (err) {
-                            return res.status(500).json({
-                                title: 'An error occured',
-                                error: err
-                            });
-                        }
-                        res.status(200).json({
-                            message: 'Profile image deleted!',
-                            filename: ''
-                        });
+                    return res.status(404).json({
+                        message: 'Profile image not found!',
+                        error: err
                     });
                 }
+
+                // Then empty users picture slot
+                user.profilePicture = '';
+                user.save(function (err, result) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'An error occured',
+                            error: err
+                        });
+                    }
+                    return res.status(200).json({
+                        message: 'Profile image deleted!',
+                        data: result
+                    });
+                });
             });
         });
     });
@@ -217,38 +224,39 @@ USER_ROUTER.post('/user/ban/:person/:days', function (req, res) {
     User.update(
         { nickName: req.params.person },
         { bannedChat: { isBanned: true, days: req.params.days, banDate: Date.now() } },
-        function (err, user) {
-            if (!err) {
-                return res.status(200).json({
-                    message: 'success'
-                });
-            } else {
+        function (err, result) {
+            if (err) {
                 return res.status(500).json({
-                    message: 'problem'
+                    message: 'problem banning person',
+                    error: err
                 })
             }
-        })
+            return res.status(200).json({
+                message: 'success',
+                data: result
+            });
+        });
 });
 
 // Update cover picture
 USER_ROUTER.post('/user/coverImage', upload.any(), function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             // Then, add the new one
             user.coverImage = req.files[0].key;
 
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured',
+                        message: 'An error occured',
                         error: err
                     });
                 }
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'Cover image updated!',
-                    fileName: req.files[0].key
+                    data: req.files[0].key
                 });
             });
         });
@@ -256,36 +264,36 @@ USER_ROUTER.post('/user/coverImage', upload.any(), function (req, res) {
 });
 
 USER_ROUTER.delete('/user/coverImage', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             // Delete it from S3 first!
             s3.deleteObject({
                 Bucket: 'socialmediaimages2017',
                 Key: 'user_images/' + user.coverImage
             }, function (err, data) {
                 if (err) {
-                    res.status(404).json({
-                        message: 'Profile image not found!'
-                    });
-                } else {
-
-                    // Then empty users picture slot
-                    user.coverImage = '';
-                    user.save(function (err, result) {
-                        if (err) {
-                            return res.status(500).json({
-                                title: 'An error occured',
-                                error: err
-                            });
-                        }
-                        res.status(200).json({
-                            message: 'Cover image deleted!',
-                            filename: ''
-                        });
+                    return res.status(404).json({
+                        message: 'Profile image not found!',
+                        error: err
                     });
                 }
+
+                // Then empty users picture slot
+                user.coverImage = '';
+                user.save(function (err, result) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'An error occured',
+                            error: err
+                        });
+                    }
+                    return res.status(200).json({
+                        message: 'Cover image deleted!',
+                        data: result
+                    });
+                });
             });
         });
     });
@@ -293,10 +301,10 @@ USER_ROUTER.delete('/user/coverImage', function (req, res) {
 
 // Upload multiple images
 USER_ROUTER.post('/user/images', upload.any(), function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             if (req.files.length > 0) {
                 for (let file of req.files) {
                     user.images.push(file.key);
@@ -306,13 +314,13 @@ USER_ROUTER.post('/user/images', upload.any(), function (req, res) {
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured',
+                        message: 'An error occured',
                         error: err
                     });
                 }
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'User images updated!',
-                    obj: user.images
+                    data: user.images
                 });
             });
         });
@@ -320,10 +328,10 @@ USER_ROUTER.post('/user/images', upload.any(), function (req, res) {
 });
 
 USER_ROUTER.delete('/user/images', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             var fileToDelete = decodeURI(req.body.pictureToDelete.split('/user_images/')[1]);
 
             // Delete it from S3 first!
@@ -332,29 +340,29 @@ USER_ROUTER.delete('/user/images', function (req, res) {
                 Key: 'user_images/' + fileToDelete
             }, function (err, data) {
                 if (err) {
-                    res.status(404).json({
-                        message: 'Image to delete not found!'
-                    });
-                } else {
-
-                    let pos = user.images.indexOf(fileToDelete);
-                    user.images.splice(pos, 1);
-
-                    // Then empty users picture slot
-                    user.save(function (err, result) {
-                        if (err) {
-                            return res.status(500).json({
-                                title: 'An error occured',
-                                error: err
-                            });
-                        }
-
-                        res.status(200).json({
-                            message: 'Profile image deleted!',
-                            location: ''
-                        });
+                    return res.status(404).json({
+                        message: 'Image to delete not found!',
+                        error: err
                     });
                 }
+
+                let pos = user.images.indexOf(fileToDelete);
+                user.images.splice(pos, 1);
+
+                // Then empty users picture slot
+                user.save(function (err, result) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'An error occured',
+                            error: err
+                        });
+                    }
+
+                    return res.status(200).json({
+                        message: 'Profile image deleted!',
+                        data: result
+                    });
+                });
             });
         });
     });
@@ -365,18 +373,19 @@ USER_ROUTER.post('/', function (req, res, next) {
     var user = new User({
         nickName: req.body.nickName.toLowerCase(),
         email: req.body.email.toLowerCase(),
-        password: bcrypt.hashSync(req.body.password, 10)
+        password: bcrypt.hashSync(req.body.password, 10),
+        credit: 100
     });
 
     user.save(function (err, result) {
         if (err) {
             return res.status(500).json({
-                title: 'An error occured',
+                message: 'An error occured',
                 error: err
             });
         }
 
-        res.status(201).json({
+        return res.status(201).json({
             message: 'User created!',
             obj: result
         });
@@ -388,13 +397,11 @@ USER_ROUTER.post('/signin', function (req, res) {
     User.findOne({
         email: req.body.email
     }, function (err, user) {
-        misc.checkUserErrors(res, err, user, null, () => {
+        misc.checkUserErrors(err, res, user, null, () => {
             if (!bcrypt.compareSync(req.body.password, user.password)) {
                 return res.status(401).json({
-                    title: 'Login failed',
-                    error: {
-                        message: 'Invalid credentials'
-                    }
+                    message: 'Login failed',
+                    error: 'Invalid credentials'
                 });
             }
 
@@ -404,13 +411,15 @@ USER_ROUTER.post('/signin', function (req, res) {
             }, 'secret', {
                     expiresIn: "1 day"
                 });
-            res.status(200).json({
+            return res.status(200).json({
                 message: 'Successfully logged in',
-                token: token,
-                userId: user._id,
-                name: user.nickName,
-                credit: user.credit,
-                picture: user.profilePicture
+                data: {
+                    token: token,
+                    userId: user._id,
+                    name: user.nickName,
+                    credit: user.credit,
+                    picture: user.profilePicture
+                }
             });
         });
     });
@@ -418,10 +427,10 @@ USER_ROUTER.post('/signin', function (req, res) {
 
 // Update a user - Profile info
 USER_ROUTER.patch('/user', function (req, res, next) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             // Make them lower case for easy search purposes
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
@@ -439,13 +448,13 @@ USER_ROUTER.patch('/user', function (req, res, next) {
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured',
+                        message: 'An error occured',
                         error: err
                     });
                 }
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'User updated!',
-                    obj: result
+                    data: result
                 });
             });
         });
@@ -454,13 +463,14 @@ USER_ROUTER.patch('/user', function (req, res, next) {
 
 // Get a user profile
 USER_ROUTER.get('/user', function (req, res, next) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    User.findById(decoded.id)
+    User.findById(token.id)
         .populate('following.friend', ['profilePicture'])
         .exec(function (err, user) {
-            misc.checkUserErrors(res, err, user, decoded, () => {
+            misc.checkUserErrors(err, res, user, token, () => {
                 return res.status(200).json({
+                    message: 'user profile',
                     data: user
                 });
             });
@@ -475,7 +485,7 @@ USER_ROUTER.get('/user/requests/:name', function (req, res, next) {
             inbox: 0,
             groups: 0
         }, function (err, user) {
-            misc.checkUserErrors(res, err, user, null, () => {
+            misc.checkUserErrors(err, res, user, null, () => {
                 // Get posts now - private, belongs to user, not shared
                 Post.find({ group: 'private', nickName: req.params.name }).populate([{
                     path: 'user',
@@ -492,12 +502,14 @@ USER_ROUTER.get('/user/requests/:name', function (req, res, next) {
                 }]).exec(function (err, posts) {
                     if (err) {
                         return res.status(500).json({
-                            error: 'error getting posts of profile'
+                            message: 'error getting posts of profile',
+                            error: err
                         });
                     }
                     user.posts = posts;
-                    // console.log(posts[0]);
+
                     return res.status(200).json({
+                        message: 'a user profile',
                         data: user
                     });
                 });
@@ -536,8 +548,9 @@ USER_ROUTER.get('/user/all/:name', function (req, res, next) {
             following: 1
         },
         function (err, users) {
-            misc.checkUserErrors(res, err, users, null, () => {
+            misc.checkUserErrors(err, res, users, null, () => {
                 return res.status(200).json({
+                    message: 'users',
                     data: users
                 });
             });
@@ -546,16 +559,17 @@ USER_ROUTER.get('/user/all/:name', function (req, res, next) {
 
 // Get the requests of a user
 USER_ROUTER.get('/user/requests/all/:offset', function (req, res) {
-    var decoded = jwt.decode(req.query.token),
+    var token = jwt.decode(req.query.token),
         offset = parseInt(req.params.offset);
 
-    User.findById(decoded.id)
+    User.findById(token.id)
         .populate('following.friend', ['profilePicture'])
         .exec(function (err, data) {
-            misc.checkUserErrors(res, err, data, decoded, () => {
+            misc.checkUserErrors(err, res, data, token, () => {
                 // sort skip etc here
                 var result = data.following.reverse().slice(offset, offset + 5);
                 return res.status(200).json({
+                    message: 'requests',
                     data: result
                 });
             });
@@ -564,13 +578,13 @@ USER_ROUTER.get('/user/requests/all/:offset', function (req, res) {
 
 // Adds a user to a group
 USER_ROUTER.post('/user/groups/:name/:friend', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // Find this user first
-    User.findById(decoded.id, {
+    User.findById(token.id, {
         groups: 1
     }, function (err, user) {
-        misc.checkUserErrors(res, err, user, null, () => {
+        misc.checkUserErrors(err, res, user, null, () => {
             // Find the group
             for (let group of user.groups) {
                 if (group.groupName === req.params.name) {
@@ -582,13 +596,13 @@ USER_ROUTER.post('/user/groups/:name/:friend', function (req, res) {
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured',
+                        message: 'An error occured',
                         error: err
                     });
                 }
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'Group modified!',
-                    obj: result
+                    data: result
                 });
             });
         });
@@ -597,13 +611,13 @@ USER_ROUTER.post('/user/groups/:name/:friend', function (req, res) {
 
 // Delete a friend from a group
 USER_ROUTER.delete('/user/groups/:groupName/:friend', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // // Find this user first
-    User.findById(decoded.id, {
+    User.findById(token.id, {
         groups: 1
     }, function (err, user) {
-        misc.checkUserErrors(res, err, user, null, () => {
+        misc.checkUserErrors(err, res, user, null, () => {
             for (let i = 0; i < user.groups.length; i++) {
                 if (user.groups[i]['groupName'] === req.params.groupName) {
                     if (user.groups[i]['friends'].includes(req.params.friend)) {
@@ -616,13 +630,13 @@ USER_ROUTER.delete('/user/groups/:groupName/:friend', function (req, res) {
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured',
+                        message: 'An error occured',
                         error: err
                     });
                 }
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'Group modified!',
-                    obj: result
+                    data: result
                 });
             });
         });
@@ -631,13 +645,13 @@ USER_ROUTER.delete('/user/groups/:groupName/:friend', function (req, res) {
 
 // Adds a new user group
 USER_ROUTER.post('/user/groups/:name', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // Find this user first
-    User.findById(decoded.id, {
+    User.findById(token.id, {
         groups: 1
     }, function (err, user) {
-        misc.checkUserErrors(res, err, user, null, () => {
+        misc.checkUserErrors(err, res, user, null, () => {
             var isDeleting = false,
                 pos = 0;
 
@@ -661,13 +675,13 @@ USER_ROUTER.post('/user/groups/:name', function (req, res) {
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured',
+                        message: 'An error occured',
                         error: err
                     });
                 }
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'Group modified!',
-                    obj: result
+                    data: result
                 });
             });
         });
@@ -676,30 +690,33 @@ USER_ROUTER.post('/user/groups/:name', function (req, res) {
 
 // Gets all the user groups for a given user
 USER_ROUTER.get('/user/groups/', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // Find this user first
-    User.findById(decoded.id, {
+    User.findById(token.id, {
         groups: 1
     }, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
-            return res.status(200).json(user.groups);
+        misc.checkUserErrors(err, res, user, token, () => {
+            return res.status(200).json({
+                message: 'groups',
+                data: user.groups
+            });
         });
     });
 });
 
 // Friend request only - Adds it to the receiver's request list
 USER_ROUTER.post('/user/follow/:id', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // Find this user first
-    User.findById(decoded.id, {
-        nickName: 1
+    User.findById(token.id, {
+        nickName: 1, following: 1
     }, function (err, thisUser) {
-        misc.checkUserErrors(res, err, thisUser, null, () => {
+        misc.checkUserErrors(err, res, thisUser, null, () => {
             // Find the other user
             User.findById(req.params.id, function (err, otherUser) {
-                misc.checkUserErrors(res, err, otherUser, null, () => {
+                misc.checkUserErrors(err, res, otherUser, null, () => {
 
                     var canAdd = true;
 
@@ -712,30 +729,39 @@ USER_ROUTER.post('/user/follow/:id', function (req, res) {
                         }
                     }
 
+                    for (let following of thisUser.following) {
+                        // Is there my name on his/her list?
+                        if (following.nickName == otherUser.nickName) {
+                            canAdd = false;
+                            break;
+                        }
+                    }
+
                     if (canAdd) {
                         otherUser.following.push({
                             nickName: thisUser.nickName,
                             accepted: false,
                             message: '',
-                            friend: decoded.id,
+                            friend: token.id,
                             date: Date.now()
                         });
 
                         otherUser.save(function (err, result) {
                             if (err) {
                                 return res.status(500).json({
-                                    title: 'An error occured',
+                                    message: 'An error occured',
                                     error: err
                                 });
                             }
-                            res.status(200).json({
+                            return res.status(200).json({
                                 message: 'Follow request sent!',
-                                obj: result
+                                data: result
                             });
                         });
                     } else {
-                        res.status(500).json({
-                            message: 'Already exists 123!',
+                        return res.status(500).json({
+                            message: 'already',
+                            error: ''
                         });
                     }
                 });
@@ -747,11 +773,11 @@ USER_ROUTER.post('/user/follow/:id', function (req, res) {
 // Make the friend request accepted
 USER_ROUTER.patch('/user/follow/:id', function (req, res) {
     var currentUser = '';
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // User - The one that is logged in
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             // Object is already there, just make it accepted
             for (let i = 0; i < user.following.length; i++) {
                 if (user.following[i].friend == req.params.id) {
@@ -765,14 +791,14 @@ USER_ROUTER.patch('/user/follow/:id', function (req, res) {
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured saving the logged in user',
+                        message: 'An error occured saving the logged in user',
                         error: err
                     });
                 }
 
                 // Other user - Friend to be
                 User.findById(req.params.id, function (err, otherUser) {
-                    misc.checkUserErrors(res, err, otherUser, null, () => {
+                    misc.checkUserErrors(err, res, otherUser, null, () => {
                         otherUser.following.push({
                             nickName: currentUserNickname,
                             accepted: true,
@@ -784,13 +810,13 @@ USER_ROUTER.patch('/user/follow/:id', function (req, res) {
                         otherUser.save(function (err, result) {
                             if (err) {
                                 return res.status(500).json({
-                                    title: 'An error occured saving other user',
+                                    message: 'An error occured saving other user',
                                     error: err
                                 });
                             }
-                            res.status(200).json({
+                            return res.status(200).json({
                                 message: 'Follow request accepted!',
-                                obj: result
+                                data: result
                             });
                         });
                     });
@@ -802,11 +828,11 @@ USER_ROUTER.patch('/user/follow/:id', function (req, res) {
 
 // Make the friend request rejected
 USER_ROUTER.delete('/user/follow/:name', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // User - The on that is logged in
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             // Take it out from there
             for (let i = 0; i < user.following.length; i++) {
                 if (user.following[i].nickName === req.params.name) {
@@ -817,13 +843,13 @@ USER_ROUTER.delete('/user/follow/:name', function (req, res) {
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured',
+                        message: 'An error occured',
                         error: err
                     });
                 }
-                res.status(200).json({
+                return res.status(200).json({
                     message: 'Follow request accepted!',
-                    obj: result
+                    data: result
                 });
             });
         });
@@ -832,13 +858,13 @@ USER_ROUTER.delete('/user/follow/:name', function (req, res) {
 
 // Delete friends bi-directionally
 USER_ROUTER.delete('/user/unfriend/:name', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
     var currentUser = '';
     var userToUnfriend = req.params.name;
 
     // User - The on that is logged in
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             // Take it out from there
             for (let i = 0; i < user.following.length; i++) {
                 if (user.following[i].nickName === req.params.name) {
@@ -849,7 +875,7 @@ USER_ROUTER.delete('/user/unfriend/:name', function (req, res) {
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occured',
+                        message: 'An error occured',
                         error: err
                     });
                 }
@@ -858,7 +884,7 @@ USER_ROUTER.delete('/user/unfriend/:name', function (req, res) {
                 User.findOne({
                     nickName: req.params.name
                 }, function (err, otherUser) {
-                    misc.checkUserErrors(res, err, user, null, () => {
+                    misc.checkUserErrors(err, res, user, null, () => {
                         currentUser = user.nickName;
 
                         // Take it out from there
@@ -871,13 +897,13 @@ USER_ROUTER.delete('/user/unfriend/:name', function (req, res) {
                         otherUser.save(function (err, result) {
                             if (err) {
                                 return res.status(500).json({
-                                    title: 'An error occured',
+                                    message: 'An error occured',
                                     error: err
                                 });
                             }
-                            res.status(200).json({
+                            return res.status(200).json({
                                 message: 'Friend is gone!',
-                                obj: result
+                                data: result
                             });
                         });
                     });
@@ -889,7 +915,7 @@ USER_ROUTER.delete('/user/unfriend/:name', function (req, res) {
 
 // Mark message read
 USER_ROUTER.post('/user/inbox/:id', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
     // Find all the related messages
     Message.findById(req.params.id, {
@@ -900,29 +926,35 @@ USER_ROUTER.post('/user/inbox/:id', function (req, res) {
     }, function (err, message) {
         if (err) {
             return res.status(500).json({
-                title: 'An error occured marking the message read',
+                message: 'An error occured marking the message read',
                 error: err
             });
         }
 
         if (!message) {
             return res.status(404).json({
-                title: 'Message not found',
+                message: 'Message not found',
                 error: err
             });
         }
 
         // Check who is reading the message, mark accordingly
-        if (message.initiator.toString() === decoded.id) {
+        if (message.initiator.toString() === token.id) {
             message.initiatorRead = true;
-        } else if (message.initiated.toString() === decoded.id) {
+        } else if (message.initiated.toString() === token.id) {
             message.initiatedRead = true;
         }
 
         message.save(function (err, result) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'problem saving message',
+                    error: err
+                });
+            }
             return res.status(200).json({
-                title: 'Message is marked read',
-                message: result
+                message: 'Message is marked read',
+                data: result
             });
         });
     });
@@ -930,31 +962,37 @@ USER_ROUTER.post('/user/inbox/:id', function (req, res) {
 
 // Remove notification
 USER_ROUTER.delete('/user/notifications/:id/:type/:user', function (req, res) {
-
+    var token = jwt.decode(req.query.token);
     User.findById(jwt.decode(req.query.token).id, { inbox: 1 }, function (err, user) {
-        if (err || !user) {
-            return res.status(500).json({ err: err });
-        }
+        misc.checkUserErrors(err, res, user, token, () => {
+            for (let item = 0; item < user.inbox.length; item++) {
+                if (user.inbox[item]._id.toString() == req.params.id) {
+                    user.inbox.splice(item, 1);
+                    break;
+                }
+            }
 
-        for (let item = 0; item < user.inbox.length; item++) {
-            if (user.inbox[item]._id.toString() == req.params.id) {
-                user.inbox.splice(item, 1);
-                break;
-            }
-        }
-        user.save(function (err, suc) {
-            if (!err) {
-                return res.status(200).json({ message: 'success' });
-            }
+            user.save(function (err, result) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'problem removing notification from user',
+                        error: err
+                    });
+                }
+                return res.status(200).json({
+                    message: 'success',
+                    data: result
+                });
+            });
         })
     });
 });
 
 USER_ROUTER.get('/user/notifications/:offset', function (req, res) {
-    var decoded = jwt.decode(req.query.token),
+    var token = jwt.decode(req.query.token),
         offset = parseInt(req.params.offset);
 
-    User.findById(decoded.id)
+    User.findById(token.id)
         .populate([{
             path: 'inbox.user',
             model: User,
@@ -965,11 +1003,12 @@ USER_ROUTER.get('/user/notifications/:offset', function (req, res) {
             select: 'content subject'
         }])
         .exec(function (err, user) {
-            misc.checkUserErrors(res, err, user, decoded, () => {
+            misc.checkUserErrors(err, res, user, token, () => {
                 // Do the skip and limit here
                 var result = user.inbox.reverse().slice(offset, offset + 5);
 
-                res.status(200).json({
+                return res.status(200).json({
+                    message: 'notifications',
                     data: result
                 });
             });
@@ -978,12 +1017,12 @@ USER_ROUTER.get('/user/notifications/:offset', function (req, res) {
 
 // Checks if there is anything unread in a general level - Make this more specific later!
 USER_ROUTER.get('/user/inbox', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
     var flag = false;
 
     // Check for unaccepted friend requests first
-    User.findById(decoded.id, function (err, user) {
-        misc.checkUserErrors(res, err, user, decoded, () => {
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
             // Check for waiting friend request
             if (user.following.length > 0) {
                 for (let i = 0; i < user.following.length; i++) {
@@ -1007,9 +1046,12 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
                 user.bannedChat.days = 0;
                 user.bannedChat.banDate = 0;
 
-                user.save(function (err, res) {
-                    if (!err) {
-                        console.log('user not banned anymore saved');
+                user.save(function (err, result) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'problem saving user ban',
+                            error: err
+                        });
                     }
                 });
             }
@@ -1017,9 +1059,9 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
             // Find all the related messages
             Message.find({
                 $or: [{
-                    initiator: decoded.id
+                    initiator: token.id
                 }, {
-                    initiated: decoded.id
+                    initiated: token.id
                 }]
             }, {
                     initiator: 1,
@@ -1029,7 +1071,7 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
                 }, function (err, messages) {
                     if (err) {
                         return res.status(500).json({
-                            title: 'An error occured find messages of users read',
+                            message: 'An error occured find messages of users read',
                             error: err
                         });
                     }
@@ -1037,11 +1079,11 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
                     if (messages.length > 0) {
                         for (let i = 0; i < messages.length; i++) {
                             // Decide if you are initiator or initiated
-                            if (decoded.id === messages[i].initiator.toString()) {
+                            if (token.id === messages[i].initiator.toString()) {
                                 if (messages[i].initiatorRead === false) {
                                     flag = true;
                                 }
-                            } else if (decoded.id === messages[i].initiated.toString()) {
+                            } else if (token.id === messages[i].initiated.toString()) {
                                 if (messages[i].initiatedRead === false) {
                                     flag = true;
                                 }
@@ -1050,9 +1092,11 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
                     }
 
                     return res.status(200).json({
-                        title: 'What is new in inbox',
-                        message: flag,
-                        userSituation: user.bannedChat
+                        message: 'What is new in inbox',
+                        data: {
+                            flag: flag,
+                            userSituation: user.bannedChat
+                        }
                     });
                 });
         });
@@ -1061,38 +1105,40 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
 
 // Get inbox numbers
 USER_ROUTER.get('/inbox/numbers', function (req, res) {
-    var decoded = jwt.decode(req.query.token);
+    var token = jwt.decode(req.query.token);
 
-    if (decoded) {
-        User.findById(decoded.id, { inbox: 1, following: 1, credit: 1 }, function (err, user) {
-            misc.checkUserErrors(res, err, user, decoded, () => {
-                var requests = [];
-                for (let i = 0; i < user.following.length; i++) {
-                    // There is a new, waiting request!
-                    if (user.following[i].accepted === false) {
-                        requests.push(user.following[i]);
-                    }
+    User.findById(token.id, { inbox: 1, following: 1, credit: 1 }, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
+            var requests = [];
+            for (let i = 0; i < user.following.length; i++) {
+                // There is a new, waiting request!
+                if (user.following[i].accepted === false) {
+                    requests.push(user.following[i]);
+                }
+            }
+
+            Message.find({ $or: [{ initiator: token.id }, { initiated: token.id }] }, function (err, messages) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error with message numbers',
+                        error: err
+                    });
                 }
 
-                Message.find({ $or: [{ initiator: decoded.id }, { initiated: decoded.id }] }, function (err, messages) {
-                    if (err) {
-                        return res.status(500).json({
-                            title: 'Error with message numbers'
-                        });
-                    }
+                var numbers = {
+                    requests: requests.length,
+                    notifications: user.inbox.length,
+                    messages: messages.length,
+                    credit: user.credit
+                }
 
-                    var numbers = {
-                        requests: requests.length,
-                        notifications: user.inbox.length,
-                        messages: messages.length,
-                        credit: user.credit
-                    }
-
-                    return res.status(200).json(numbers);
+                return res.status(200).json({
+                    message: 'numbers',
+                    data: numbers
                 });
             });
         });
-    }
+    });
 });
 
 module.exports = USER_ROUTER;

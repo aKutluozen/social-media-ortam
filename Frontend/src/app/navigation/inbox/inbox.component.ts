@@ -45,33 +45,22 @@ export class InboxComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.checkInterval = window.setInterval(() => {
 			this.subscription = this.inbox.getNumbers().subscribe(
-				data => { this.numbers = data; this.global.credit = data.credit; }, error => console.log(error));
+				data => { this.numbers = data.data; this.global.credit = data.data.credit; }, error => console.log(error));
 
 			// Stop actions if they are not shown
-			if (!this.messagesComponentElement.nativeElement.classList.contains('show')
-			) {
+			if (!this.messagesComponentElement.nativeElement.classList.contains('show')) {
 				this.messagesComponent.destroyAll();
 			}
 
-			if (
-				!this.notificationsComponentElement.nativeElement.classList.contains(
-					'show'
-				)
-			) {
+			if (!this.notificationsComponentElement.nativeElement.classList.contains('show')) {
 				this.notificationsComponent.destroyAll();
 			}
 
-			if (
-				!this.requestsComponentElement.nativeElement.classList.contains('show')
-			) {
+			if (!this.requestsComponentElement.nativeElement.classList.contains('show')) {
 				this.requestsComponent.destroyAll();
 			}
 		}, 2000);
 	}
-
-	// toggleChat() {
-	// 	this.isChatShowing = !this.isChatShowing;
-	// }
 
 	// THERE IS NO DESTROY !!! - Replace with hasClass show not!
 	ngOnDestroy() {

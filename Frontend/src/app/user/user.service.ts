@@ -7,6 +7,8 @@ import 'rxjs/Rx';
 import { Observable, Subject } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { HttpClient } from '@angular/common/http';
+
 // Models
 import { User } from './user.model';
 
@@ -57,9 +59,7 @@ export class UserService {
 
     isFriend(nickName) {
         return this.http.get(this.global.URL + 'user/user/friend/' + nickName + this.auth.getToken())
-            .map((response: Response) => {
-                return response['_body'];
-            })
+            .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error));
     }
 
@@ -279,8 +279,6 @@ export class UserService {
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }
-
-
 
     // Check th inbox periodically
     checkInboxOnInterval(interval) {

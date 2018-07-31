@@ -21,7 +21,6 @@ export class ModalService {
     // Invoking functions
     handleError(error: string, errorResponse) {
         this.errorOccurred.emit(error);
-        console.error("Err", errorResponse);
 
         // Logout the user if token is expired
         if (errorResponse.error) {
@@ -29,6 +28,10 @@ export class ModalService {
                 this.auth.logout();
                 location.reload();
             }
+        }
+        if (this.auth.getCookie('token') == '' || this.auth.getCookie('token') == 'undefined') {
+            this.auth.logout();
+            location.reload();
         }
     }
 

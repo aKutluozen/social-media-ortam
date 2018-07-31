@@ -51,8 +51,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
 		if (this.username) {
 			this.inboxSubscription = this.user.checkInboxOnInterval(5000).subscribe(data => {
-				this.isNew = data.message;
-				this.global.banned = data.userSituation.isBanned;
+				this.isNew = data.data.flag;
+				this.global.banned = data.data.userSituation.isBanned;
 			}, error => {
 				this.modal.handleError('Mesajlar ve istekler kontrol edilirken bir sorun olustu', error);
 			});

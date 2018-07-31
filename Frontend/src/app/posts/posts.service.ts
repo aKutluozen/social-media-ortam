@@ -144,7 +144,7 @@ export class PostService {
 
         return this.http.get(this.global.URL + 'post/friends' + subjectString + publicityString + '/' + amount + personString + this.auth.getToken())
             .map((response: Response) => {
-                let posts = response.json(),
+                let posts = response.json().data,
                     transformedPosts: Post[] = [];
 
                 for (let post of posts) {

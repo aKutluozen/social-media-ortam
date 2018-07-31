@@ -13,7 +13,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item vertical-line" *ngIf="username">
                 </li>
-                <li class="nav-item" *ngIf="username">
+                <!-- <li class="nav-item" *ngIf="username">
                     <ul class="list-inline nav-link">
                         <li class="list-inline-item btn-group">
                             <div class="dropdown">
@@ -34,7 +34,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right my-0 py-0" aria-labelledby="tvMenu">
                                     <iframe src="http://www.canlitvlive.io/tvizle.php?css=eyJ6ZW1pbiI6IiNmZmZmZmYiLCJob3ZlciI6IiNkZmRmZGYiLCJvbml6bGUiOiIwIiwiYWRyZW5rIjoiIzRhNTQ1OSIsImthdGVnb3JpIjoidW5kZWZpbmVkIiwiYXJhbWF2YXIiOiIxIiwibG9nb2FkZXQiOiIxIiwiYWRob3ZlciI6IiMxQTFBMUEiLCJ6ZW1pbnNlYyI6IiNGRkZGRkYifQ==&t=2&tv=&pos=r&logo=1"
-                                        frameborder="0" width="854" height="320" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                        frameborder="0" width="500" height="320" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                                 </div>
                             </div>
                         </li>
@@ -51,7 +51,7 @@
                             </div>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <li class="nav-item vertical-line" *ngIf="username">
                 </li>
                 <li class="nav-item" *ngIf="username">
@@ -80,8 +80,8 @@
                                         </a>
                                         <a [routerLink]="['/profile/me']" class="list-group-item list-group-item-action">
                                             <i class="fa fa-id-card" aria-hidden="true"></i> Profile git</a>
-                                        <a [routerLink]="['/admin']" class="list-group-item list-group-item-action">
-                                            <i class="fa fa-cogs" aria-hidden="true"></i> Yonetim</a>
+                                        <!-- <a [routerLink]="['/admin']" class="list-group-item list-group-item-action">
+                                            <i class="fa fa-cogs" aria-hidden="true"></i> Yonetim</a> -->
                                         <a (click)="logOut()" class="list-group-item list-group-item-action">
                                             <i class="fa fa-sign-out-alt" aria-hidden="true"></i> Cikis yap</a>
                                     </div>
