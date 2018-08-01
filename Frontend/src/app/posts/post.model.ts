@@ -14,6 +14,7 @@ export class Post {
         public image?: string,
         public linkContent?: any,
         public group?: string,
-        public isShared?: boolean
+        public isShared?: boolean,
+        public inView?: boolean
     ) {}
 }

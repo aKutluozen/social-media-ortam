@@ -34,19 +34,33 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-lg-10">
-            <textarea #chatText class="form-control" [(ngModel)]="message" (keypress)="sendWithEnter($event)" rows="2" maxlength="256"></textarea>
+        <div class="col">
+            <emoji-input [popupAnchor]="'bottom'" style="font-family: 'NotoColorEmoji'" [(model)]="message" [textArea]="{cols: 8, rows: 2}" [closeAfterSelection]="false"
+                maxlength="256" (click)="openPopup(false)" (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
+            </emoji-input>
         </div>
-        <div class="col-lg-2 pl-0">
-            <input class="color-box" type="color" [(ngModel)]="color">
-            <button class="color-box btn btn-primary btn-block p-0" (click)="sendMessage(); $event.stopPropagation()">
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-4 h-100">
+            <button type="button" name="button" class="btn btn-warning btn-sm btn-block" (click)="openPopup()">
+                <p class="py-0 my-0">&#9786;</p>
+            </button>
+        </div>
+        <div class="col-4 h-100">
+            <button class="btn btn-primary btn-block btn-sm">
+                <input type="color" class="color-box py-0" [(ngModel)]="color" />
+            </button>
+        </div>
+        <div class="col-4 h-100">
+            <button class="color-box btn btn-success btn-block btn-sm h-100" (click)="sendMessage(); $event.stopPropagation()">
                 <i class="fa fa-share-square" aria-hidden="true"></i>
             </button>
         </div>
     </div>
-    <div class="row my-0">
-        <p class="col-10 my-0 text-right small text-muted">
-            {{ 256 - chatText.value.length }} karakter kaldi.
-        </p>
-    </div>
+</div>
+<div class="row my-0">
+    <p class="col-10 my-0 text-right small text-muted">
+        {{ 256 - message.length }} karakter kaldi.
+    </p>
 </div>

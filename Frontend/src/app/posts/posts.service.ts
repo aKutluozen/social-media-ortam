@@ -30,7 +30,7 @@ export class PostService {
     addNewPost(post: Post) {
         return this.http.post(this.global.URL + 'post' + this.auth.getToken(), JSON.stringify(post), this.auth.getHeaders())
             .map((response: Response) => {
-                var result = response.json();
+                var result = response.json().data;
 
                 // Handle link parsing view
                 var linkCont = '';
@@ -73,8 +73,9 @@ export class PostService {
             })
             .catch((error: Response) => {
                 try {
+                    console.log(error);
                     return Observable.throw(error.json());
-                } catch (e) {
+                } catch (e) {console.log(error);
                     return Observable.throw(error);
                 }
             });

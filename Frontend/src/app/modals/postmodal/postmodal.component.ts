@@ -85,7 +85,7 @@ export class PostmodalComponent implements OnInit {
                 this.pictureMessage = '';
                 this.imageChangedEvent = null;
                 this.croppedImage = null;
-                this.imageToShow = response.fileName;
+                this.imageToShow = response.data;
             },
             () => { console.log('bad') }
         );

@@ -131,7 +131,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		);
 
 		this.chatService.getRooms().subscribe(
-			rooms => { this.rooms = rooms.rooms; console.log(this.rooms); },
+			rooms => { this.rooms = rooms.data; },
 			err => console.error(err)
 		);
 
@@ -140,6 +140,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 			error => console.log(error)
 		);
 	}
+
+	public openPopup: Function;
+
+    setPopupAction(fn: any) {
+        this.openPopup = fn;
+    }
 
 	ngOnDestroy() {
 		this.connection.unsubscribe();

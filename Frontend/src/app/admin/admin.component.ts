@@ -19,6 +19,9 @@ export class AdminComponent implements OnInit {
     }
 
     // Handle complaints here too, not in the notifications window!
+    loadMore() {
+        
+    }
 
     // Also, try and get their ban situation.
     load() {

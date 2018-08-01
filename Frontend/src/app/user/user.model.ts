@@ -19,5 +19,7 @@ export class User {
         public googleplusLink?: string,
         public snapchatLink?: string,
         public instagramLink?: string,
+        public following?: object[],
+        public posts?: object[]
     ) { }
 }

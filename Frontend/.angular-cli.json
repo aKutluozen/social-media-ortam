@@ -19,13 +19,15 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "assets/styles.css",
-        "assets/fontawesome/css/fa-svg-with-js.css",
-        "assets/animate.css"
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+        "../node_modules/animate.css/animate.min.css",
+        "assets/styles.css"
       ],
       "scripts": [
-        "assets/fontawesome/js/fontawesome-all.min.js",
-        "~jquery/dist/jquery.min.js"
+        "../node_modules/@fortawesome/fontawesome-free/js/all.min.js",
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -57,7 +59,6 @@
   },
   "defaults": {
     "styleExt": "scss",
-    "component": {
-    }
+    "component": {}
   }
 }
