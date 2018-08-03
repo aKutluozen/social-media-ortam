@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" (click)="close()">&times;</button>
-                <div class="scrollable p-4" id="scrollMessages" *ngIf="!isFirstMessage">
+                <div class="scrollable mt-2 p-4" id="scrollMessages" *ngIf="!isFirstMessage">
                     <div class="row" *ngFor="let message of messageSetup?.messages">
                         <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 mt-2 p-2 bg-primary speech-bubble text-white">
                             {{ message.sender }} @ {{ message.date | date: 'short' }} : {{ message.message }}
@@ -15,7 +15,20 @@
                         </div>
                     </div>
                 </div>
-                <textarea maxlength="256" [(ngModel)]="message" class="form-control" (keypress)="sendWithEnter($event)" rows="2"></textarea>
+                <div *ngIf="messageSetup.type === 'chat'" class="row mt-2">
+                    <div class="col-2 h-100 pr-0">
+                        <button type="button" name="button" class="px-0 mx-0 btn btn-warning btn-block" (click)="openPopup()">
+                            <i class="far fa-smile"></i>
+                        </button>
+                    </div>
+                    <div class="col-10 h-100">
+                        <emoji-input [popupAnchor]="'bottom'" style="font-family: 'NotoColorEmoji'" [(model)]="message" [textArea]="{rows: 2}" [closeAfterSelection]="false"
+                             (click)="openPopup(false)" (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
+                        </emoji-input>
+                    </div>
+                </div>
+
+                <textarea *ngIf="messageSetup.type === 'first'" maxlength="256" [(ngModel)]="message" class="form-control" (keypress)="sendWithEnter($event)" rows="2"></textarea>
                 <div class="row my-0">
                     <p class="col my-0 text-right small text-muted">
                         {{ 256 - message.length }} karakter kaldi.
@@ -24,7 +37,8 @@
             </div>
             <div class="modal-footer">
                 <span *ngIf="!isFriend">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit }}</span>
-                <button *ngIf="messageSetup.type === 'first'" [disabled]="!isFriend && global.credit < 10" type="button" class="btn btn-primary" (click)="sendFirstMessage()">
+                <button *ngIf="messageSetup.type === 'first'" [disabled]="!isFriend && global.credit < 10" type="button" class="btn btn-primary"
+                    (click)="sendFirstMessage()">
                     <i class="fa fa-envelope" aria-hidden="true"></i> Gonder</button>
                 <button *ngIf="messageSetup.type === 'chat'" type="submit" class="btn btn-primary" (click)="sendChatMessage($event)" [disabled]="disableSending || (!isFriend && global.credit < 10)">
                     <i class="fa fa-comment" aria-hidden="true"></i> Cevapla</button>

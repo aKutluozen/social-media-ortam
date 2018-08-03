@@ -83,7 +83,7 @@ body.navbar-height{
         }
 
         .chat {
-            height: calc(90vh) !important;
+            max-height: calc(90vh) !important;
             width: calc(90vw) !important;
             left: 50% !important;
             top: 50% !important;

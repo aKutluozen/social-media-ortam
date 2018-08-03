@@ -3,11 +3,12 @@ import { ChatService } from './chat.service';
 import { AuthService } from 'app/auth/auth.service';
 import { GlobalService } from 'app/globals.service';
 import { ModalService } from '../../../modals/modal.service';
+import * as $ from 'jquery';
 
 @Component({
 	selector: 'app-chat',
 	templateUrl: './chat.component.html',
-	styleUrls: ['./chat.component.css']
+	styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, OnDestroy {
 	public messages: object[] = [];
@@ -115,6 +116,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		// Limit textarea
 		this.connection = this.chatService.getMessages().subscribe(message => {
 			//console.log(message['text'].room.name, this.selectedRoom.name);
 			if (message['text']['room'].name === this.selectedRoom['name']) {
@@ -124,6 +126,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		});
 		this.chatService.selectRoom(this.room).subscribe(
 			data => {
+				$('textarea').attr('maxlength', 256);
 			},
 			error => {
 				console.log(error);

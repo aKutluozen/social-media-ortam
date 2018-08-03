@@ -495,6 +495,10 @@ POST_ROUTER.post('/', function (req, res, next) {
             misc.checkResultErrors(err, res, 'post', postResult);
 
             // Also save to users array
+            if (!postResult) {
+                return;
+            }
+
             user.posts.push(postResult.toObject());
             user.save(function (err, result) {
                 if (err) {

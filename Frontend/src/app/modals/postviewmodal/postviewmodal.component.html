@@ -8,7 +8,7 @@
             </div> -->
             <div class="modal-body">
                 <button type="button" class="close" (click)="close()">&times;</button>
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col">
                         <div *ngIf="post?.isShared" class="row justify-content-md-center border border-secondary border-top-0 border-left-0 border-right-0 pb-2 mb-3">
                             <div class="col-3 col-md-2">
@@ -63,8 +63,8 @@
                                             placeholder="Yorumunuz ..." required></textarea>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <button [disabled]="!shareComment" class="btn btn-primary btn-block" (click)="shareThis()">
+                                <div class="col-2 pl-0">
+                                    <button [disabled]="!shareComment" class="btn btn-primary btn-block btn-sm" (click)="shareThis()">
                                         <i class="fa fa-comment" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -91,8 +91,8 @@
                                             placeholder="Yorumunuz ..." required></textarea>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <button [disabled]="!answer" class="btn btn-primary btn-block" (click)="sendAnswer()">
+                                <div class="col-2 pl-0">
+                                    <button [disabled]="!answer" class="btn btn-primary btn-block btn-sm" (click)="sendAnswer()">
                                         <i class="fa fa-comment" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -168,23 +168,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mt-2">
+                <div class="row">
                     <div class="col-6 mx-auto" *ngIf="isLoggedIn()">
-                        <div class="btn-group btn-group-justified  btn-group-sm" role="group">
+                        <div class="btn-group justify-content-center btn-group-sm" role="group">
                             <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn btn-smiley btn-info" (click)="onShare()">
-                                <i class="fa fa-share-alt smiley" aria-hidden="true"></i>
+                                <i class="fa fa-share-alt" aria-hidden="true"></i>
                                 <span class="badge">{{ post?.shares.length }}</span>
                             </button>
                             <button class="btn btn-smiley btn-primary" (click)="commentThis()">
-                                <i class="fa fa-comment smiley" aria-hidden="true"></i>
+                                <i class="fa fa-comment" aria-hidden="true"></i>
                                 <span class="badge">{{ post?.comments.length }}</span>
                             </button>
                             <button class="btn btn-smiley btn-success" (click)="likeThis()">
-                                <i class="fa fa-smile smiley" aria-hidden="true"></i>
+                                <i class="fa fa-smile" aria-hidden="true"></i>
                                 <span class="badge">{{ post?.likes.length }}</span>
                             </button>
                             <button class="btn btn-smiley btn-danger" (click)="dislikeThis()">
-                                <i class="fa fa-frown smiley" aria-hidden="true"></i>
+                                <i class="fa fa-frown" aria-hidden="true"></i>
                                 <span class="badge">{{ post?.dislikes.length }}</span>
                             </button>
                         </div>
@@ -193,14 +193,14 @@
 
                 <div class="row pt-2" *ngIf="!post?.inView">
                     <div class="col-md-3 ml-md-auto">
-                        <div class="btn-group btn-group-justified btn-group-sm" role="group">
-                            <button *ngIf="belongsToUser()" class="btn btn-config btn-primary btn-sm" (click)="onEdit()">
+                        <div class="btn-group justify-content-center btn-group-sm" role="group">
+                            <button *ngIf="belongsToUser()" class="btn btn-primary btn-sm btn-config" (click)="onEdit()">
                                 <i class="fa fa-edit" aria-hidden="true"></i>
                             </button>
-                            <button *ngIf="belongsToUser()" class="btn btn-config btn-danger btn-sm" (click)="onDelete()">
+                            <button *ngIf="belongsToUser()" class="btn btn-danger btn-sm btn-config" (click)="onDelete()">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>
-                            <button *ngIf="shareBelongsToUser()" [ngClass]="{'bottom-right': !belongsToUser()}" class="btn btn-config btn-warning btn-sm"
+                            <button *ngIf="shareBelongsToUser()" [ngClass]="{'bottom-right': !belongsToUser()}" class="btn btn-warning btn-sm btn-config"
                                 (click)="onDeleteShare()">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>

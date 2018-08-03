@@ -384,7 +384,7 @@ export class PostService {
             .map((response: Response) => {
                 this.posts.splice(this.posts.indexOf(post), 1); // remove it first
                 // parse the user, add it to the posts last share element, then push it back again
-                var result = response.json().obj;
+                var result = response.json().data;
 
                 var obj = {
                     date: result.date,
@@ -401,6 +401,9 @@ export class PostService {
 
                 return response.json();
             })
-            .catch((error: Response) => Observable.throw(error.json()));
+            .catch((error: Response) => { 
+                console.log('we here', error); 
+                return Observable.throw(error.json())
+            });
     }
 }

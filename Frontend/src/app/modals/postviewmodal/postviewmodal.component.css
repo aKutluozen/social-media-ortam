@@ -28,30 +28,16 @@
     color: gray;
 }
 
-.config {
-    font-size: 14px;
-}
-
-.config a {
-    padding: 2px;
-}
-
-.smiley {
-    font-size: 16px;
-}
-
 .btn-smiley {
     padding: 0px !important;
     transition: all 0.25s;
     width: 25%;
-    margin-left: 5px !important;
 }
 
 .btn-config {
     padding: 0px !important;
     transition: all 0.25s;
-    width: 50%;
-    margin-left: 5px !important;
+    width: 33%;
 }
 
 .btn-group {

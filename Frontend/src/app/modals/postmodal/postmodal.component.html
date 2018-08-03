@@ -4,13 +4,13 @@
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" (click)="close()">&times;</button>
-                <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="mt-2">
                     <div class="row">
                         <div class="col">
-                            <textarea #message formControlName="content" id="content" class="form-control" rows="5" placeholder="Mesajiniz... "
-                                maxlength="256"></textarea>
+                            <textarea #message formControlName="content" id="content" class="form-control" rows="5" placeholder="Mesajiniz... " maxlength="256"></textarea>
                         </div>
                     </div>
+
                     <div class="row my-0">
                         <p class="col my-0 text-right small text-muted">
                             {{ 256 - message.value.length }} karakter kaldi.

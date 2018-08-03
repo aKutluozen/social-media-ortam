@@ -43,6 +43,7 @@ export class PostmodalComponent implements OnInit {
     public imageChangedEvent: any = '';
     public croppedImage: any = '';
     public pictureMessage: string = '';
+
     fileChangeEvent(event: any): void {
         this.imageChangedEvent = event;
     }

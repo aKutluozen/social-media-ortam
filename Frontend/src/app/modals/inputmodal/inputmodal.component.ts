@@ -6,11 +6,12 @@ import { ModalService } from '../modal.service';
 import { InboxService } from 'app/navigation/inbox/inbox.service';
 import { GlobalService } from '../../globals.service';
 import { UserService } from '../../user/user.service';
+import * as $ from 'jquery';
 
 @Component({
 	selector: 'app-inputmodal',
 	templateUrl: './inputmodal.component.html',
-	styleUrls: ['./inputmodal.component.css']
+	styleUrls: ['./inputmodal.component.scss']
 })
 export class InputmodalComponent implements OnInit {
 
@@ -38,6 +39,10 @@ export class InputmodalComponent implements OnInit {
 		this.inputService.inputActivated.subscribe((messageSetup: any) => {
 			this.messageSetup = messageSetup;
 			this.display = 'block';
+
+			// Limit textarea
+			$('textarea').attr('maxlength', 256);
+
 			// Check if friends?
 			this.user.isFriend(this.messageSetup.receiver).subscribe(
 				data => {
@@ -154,6 +159,12 @@ export class InputmodalComponent implements OnInit {
 			}
 		}
 	}
+
+	public openPopup: Function;
+
+    setPopupAction(fn: any) {
+        this.openPopup = fn;
+    }
 
 	scrollDown() {
 		if (!this.isFirstMessage) {

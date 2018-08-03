@@ -1,0 +1,28 @@
+.scrollable {
+    max-height: 400px;
+    height: 400px;
+    width: 100%;
+    display: block;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+    background: #efefef;
+}
+
+.speech-bubble {
+    border-radius: 0px;
+    font-size: 12px;
+    width: 100%;
+    font-family: NotoColorEmoji, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    word-spacing: -10px !important;
+}
+
+.bg-secondary, .bg-primary  {
+    color: white;
+}
+
+::ng-deep {
+    textarea {
+        background: #f1f1f1 !important;
+        width: 100% !important;
+    }
+}

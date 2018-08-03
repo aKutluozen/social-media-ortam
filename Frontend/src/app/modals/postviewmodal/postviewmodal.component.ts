@@ -169,7 +169,8 @@ export class PostviewmodalComponent implements OnInit {
                 this.onSharing = false;
                 // this.close();
             }, error => {
-                this.modal.handleError('Paylasima cevap verilirken bir sorun olustu', error);
+                console.log(error);
+                this.modal.handleError('Paylasim paylasilirken bir sorun olustu', error);
             });
         // this.close();
     }

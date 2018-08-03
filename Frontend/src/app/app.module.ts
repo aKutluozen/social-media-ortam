@@ -24,6 +24,7 @@ import { ChatComponent } from './navigation/inbox/chat/chat.component';
 import { ChatPageComponent } from './navigation/inbox/chat/chat-page/chat.page.component';
 import { AdminComponent } from './admin/admin.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { EmojiPickerModule } from 'ng-emoji-picker';
 
 // Services
 import { AuthService } from './auth/auth.service';
@@ -76,7 +77,8 @@ const APP_ROUTES: Routes = [
 		ReactiveFormsModule,
 		PostsModule,
 		ImageCropperModule,
-		InboxModule
+		InboxModule,
+		EmojiPickerModule
 	],
 	exports: [
 		RouterModule

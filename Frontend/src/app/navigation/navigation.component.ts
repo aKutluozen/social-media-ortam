@@ -8,6 +8,7 @@ import { UserService } from 'app/user/user.service';
 import { ModalService } from 'app/modals/modal.service';
 import { GlobalService } from 'app/globals.service';
 import { Subscription } from 'rxjs';
+import * as $ from 'jquery';
 
 @Component({
 	selector: 'app-navigation',

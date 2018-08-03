@@ -2,20 +2,19 @@
     Hic bir mesaj bulunamadi!</div>
 <div class="col-12 bg-white mb-2" *ngFor="let message of messages">
     <div class="row my-auto py-2">
-        <div class="col-md-2 my-auto col-2">
+        <div class="col-2 my-auto">
             <img class="full-rounded profile-picture-xs" src="{{ global.URL_S3_USERS + message.picture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
         </div>
-        <div class="col-md-7 my-auto col-10 pr-0">
+        <div class="col-7 my-auto pr-0">
             <p class="mb-0">
                 <b>{{ message.receiver }}</b>
             </p>
             <p class="x-small text-muted mb-0">{{ message.messages[0].date | date:'shortDate' }}</p>
         </div>
-        <div class="col-md-3 text-right align-self-center pl-0">
+        <div class="col-3 text-right align-self-center pl-0">
             <span (click)="answerMessage(message.receiver, message._id)">
                 <i class="fa fa-comments text-success" aria-hidden="true"></i>
             </span>
-
             <span (click)="deleteMessage(message._id)">
                 <i class="fa fa-ban text-danger" aria-hidden="true"></i>
             </span>
