@@ -48,7 +48,6 @@ export class MessagesComponent {
 			.getMessagesInGeneral(this.messageOffset)
 			.subscribe(
 				data => {
-					console.log('HERE WE ARE!', data);
 					if (data.data.length == 0) {
 						this.messageOffset -= this.skipNumber;
 					}

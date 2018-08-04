@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class GlobalService {
-    // public URL: string = "http://18.217.236.111:3000/";
-    // public URL_CHAT: string = "http://18.217.236.111:5000";
-    public URL: string = "http://localhost:3000/";
-    public URL_CHAT: string = "http://localhost:5000";
+    public URL: string = "http://18.217.236.111:3000/";
+    public URL_CHAT: string = "http://18.217.236.111:5000";
+    // public URL: string = "http://localhost:3000/";
+    // public URL_CHAT: string = "http://localhost:5000";
 
     public URL_S3_USERS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/user_images/";
     public URL_S3_POSTS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/post_images/";

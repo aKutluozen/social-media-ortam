@@ -113,6 +113,7 @@ export class PostService {
         ajax.send(JSON.stringify({ pictureToDelete: picture }));
 
         ajax.onload = function (response) {
+            console.log(response);
             switch (response.srcElement['status']) {
                 case 200: callbackSuccess(JSON.parse(ajax.response)); break;
                 case 404: console.log('image to delete was not found!'); break;

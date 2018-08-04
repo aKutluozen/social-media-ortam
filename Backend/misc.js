@@ -71,14 +71,14 @@ misc.removeNotification = function (response, userModel, currentUserId, postId, 
 }
 
 // Use for general cases
-misc.checkResultErrors = function (error, response, data, type) {
+misc.checkResultErrors = function (error, response, type, data) {
     if (error) {
         return response.status(500).json({
             message: 'An error occured finding ' + type,
             error: error
         });
     }
-
+    
     if (!data) {
         return response.status(500).json({
             message: 'No ' + type,

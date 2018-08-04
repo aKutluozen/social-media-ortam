@@ -136,7 +136,7 @@ export class UserComponent implements OnInit, OnDestroy {
 					files,
 					(response) => {
 						this.images = [];
-						for (let file of response.obj) {
+						for (let file of response.data) {
 							this.images.push(file);
 						}
 						this.fillEmptyImages();
@@ -197,11 +197,11 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.user.updateProfilePicture(
 			file,
 			(response) => {
-				if (response.fileName != '') {
+				if (response.data != '') {
 					this.croppedProfilePicture = '';
 					this.profilePictureChangedEvent = null;
-					this.profilePicture = response.fileName;
-					this.global.profilePicture = response.fileName;
+					this.profilePicture = response.data;
+					this.global.profilePicture = response.data;
 				} else {
 					this.profilePicture = '';
 				}
@@ -241,10 +241,10 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.user.updateCoverImage(
 			file,
 			(response) => {
-				if (response.fileName != '') {
+				if (response.data != '') {
 					this.croppedCoverPicture = '';
 					this.coverPictureChangedEvent = null;
-					this.coverPicture = response.fileName;
+					this.coverPicture = response.data;
 				} else {
 					this.coverPicture = '';
 				}
@@ -338,9 +338,14 @@ export class UserComponent implements OnInit, OnDestroy {
 				// Add data to a USER MODEL !!!
 				for (let user of data.data.following) {
 					if (user.accepted === true) {
-						if (user.friend.profilePicture != '' && user.friend.profilePicture != undefined) {
-							user.friend.profilePicture = user.friend.profilePicture;
+						// if (user.friend.profilePicture != '' && user.friend.profilePicture != undefined) {
+						// 	user.friend.profilePicture = user.friend.profilePicture;
+						// }
+						// Handle missing pictures
+						if (!user.friend.profilePicture || user.friend.profilePicture == '') {
+							user.friend.profilePicture = 'emptyprofile.png';
 						}
+						// console.log(user.friend);
 						this.friends.push(user);
 					}
 				}
@@ -358,13 +363,11 @@ export class UserComponent implements OnInit, OnDestroy {
 				for (let friend of this.friends) {
 					friendNicknames.push(friend['nickName']);
 				}
-				
+
 				// Parse gallery imagesimages
 				for (let image of this.profile.images) {
 					this.images.push(image);
 				}
-
-				console.log(this.images);
 
 				this.fillEmptyImages();
 

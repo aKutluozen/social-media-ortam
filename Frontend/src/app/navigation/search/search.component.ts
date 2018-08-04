@@ -61,6 +61,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 				let currentId = this.auth.getCookie('userId');
 				for (let user of users.data) {
 					if (user._id != currentId) {
+						// Handle missing pictures
+						if (!user.profilePicture) {
+							user.profilePicture = 'emptyprofile.png';
+						}
+
 						this.usersFound.push(user);
 					}
 				}

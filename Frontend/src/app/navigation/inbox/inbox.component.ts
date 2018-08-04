@@ -59,7 +59,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 			if (!this.requestsComponentElement.nativeElement.classList.contains('show')) {
 				this.requestsComponent.destroyAll();
 			}
-		}, 2000);
+		}, 10000);
 	}
 
 	// THERE IS NO DESTROY !!! - Replace with hasClass show not!

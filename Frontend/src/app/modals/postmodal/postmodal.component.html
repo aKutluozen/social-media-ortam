@@ -30,6 +30,8 @@
                                 (loadImageFailed)="loadImageFailed()"></image-cropper>
                             <button class="btn btn-success text-center" *ngIf="croppedImage" type="button" (click)="addPostImage()">
                                 <i class="fa fa-image" aria-hidden="true"></i>Yukle</button>
+                            <button class="btn btn-danger text-center" *ngIf="croppedImage" type="button" (click)="emptyPostImage()">
+                                <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
                             <img hidden [src]="croppedImage" />
                         </div>
                     </div>

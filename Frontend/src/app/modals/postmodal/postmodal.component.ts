@@ -92,6 +92,12 @@ export class PostmodalComponent implements OnInit {
         );
     }
 
+    emptyPostImage() {
+		this.croppedImage = '';
+		this.imageChangedEvent = null;
+		this.imageToShow = '';
+	}
+
     deletePostPicture() {
         this.postService.deletePostPicture(
             this.imageToShow,
@@ -204,7 +210,7 @@ export class PostmodalComponent implements OnInit {
                 if (hashTags.length === 0) {
                     hashTags = ['genel'];
                 }
-
+                
                 // Create
                 const post = new Post(
                     this.postForm.value.content,

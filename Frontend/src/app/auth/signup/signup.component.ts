@@ -32,7 +32,9 @@ export class SignupComponent implements OnInit, OnDestroy {
         const user = new User(
             this.signupForm.value.email,
             this.signupForm.value.password,
-            this.signupForm.value.nickName
+            this.signupForm.value.nickName, '', '', '', '', 
+            this.signupForm.value.firstName,
+            this.signupForm.value.lastName
         );
 
         if (this.signupForm.value.password == this.signupForm.value.password2) {
@@ -64,7 +66,9 @@ export class SignupComponent implements OnInit, OnDestroy {
                 Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             ]),
             password: new FormControl(null, Validators.required),
-            password2: new FormControl(null, Validators.required)
+            password2: new FormControl(null, Validators.required),
+            firstName: new FormControl(null),
+            lastName: new FormControl(null)
         });
     }
 

@@ -8,7 +8,7 @@ body {
     margin-bottom: 60px;
     background: rgb(235, 235, 235);
     /* background-color: rgb(247, 238, 212); */
-    background-image: url('assets/images/istanbul.png');
+    /* background-image: url('assets/images/istanbul.png'); */
     background-attachment: fixed;
     background-size: 100% auto;
     background-repeat: no-repeat;

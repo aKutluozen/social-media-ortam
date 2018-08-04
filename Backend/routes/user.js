@@ -332,13 +332,16 @@ USER_ROUTER.delete('/user/images', function (req, res) {
 
     User.findById(token.id, function (err, user) {
         misc.checkUserErrors(err, res, user, token, () => {
-            var fileToDelete = decodeURI(req.body.pictureToDelete.split('/user_images/')[1]);
+            //var fileToDelete = decodeURI(req.body.pictureToDelete.split('/user_images/')[1]);
+            var fileToDelete = req.body.pictureToDelete;
+            //console.log(req.body.pictureToDelete);
 
             // Delete it from S3 first!
             s3.deleteObject({
                 Bucket: 'socialmediaimages2017',
                 Key: 'user_images/' + fileToDelete
             }, function (err, data) {
+               // console.log(err, data);
                 if (err) {
                     return res.status(404).json({
                         message: 'Image to delete not found!',
@@ -374,6 +377,8 @@ USER_ROUTER.post('/', function (req, res, next) {
         nickName: req.body.nickName.toLowerCase(),
         email: req.body.email.toLowerCase(),
         password: bcrypt.hashSync(req.body.password, 10),
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         credit: 100
     });
 
@@ -520,19 +525,15 @@ USER_ROUTER.get('/user/requests/:name', function (req, res, next) {
 // Search all users by name - NEEDS TO BE IMPROVED TO A MORE FLEXIBLE SEARCH
 USER_ROUTER.get('/user/all/:name', function (req, res, next) {
     User.find({
-        $or: [{
-            nickName: {
-                $regex: req.params.name.toLowerCase()
-            }
-        },
+        $or: [
         {
             firstName: {
-                $regex: req.params.name.toLowerCase()
+                $regex: req.params.name.toLowerCase(), $options : 'i'
             }
         },
         {
             lastName: {
-                $regex: req.params.name.toLowerCase()
+                $regex: req.params.name.toLowerCase(), $options : 'i'
             }
         }
         ]

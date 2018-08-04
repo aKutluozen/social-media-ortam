@@ -111,6 +111,13 @@ POST_ROUTER.get('/clean', (req, res) => {
 // Get all subjects and group them
 POST_ROUTER.get('/subjects', function (req, res) {
     Post.aggregate([
+        {
+            $match: {
+                group: {
+                    $ne: 'private'
+                }
+            }
+        },
         { $unwind: "$subject" },
         {
             $group: {
@@ -337,7 +344,6 @@ POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', function (req, r
 // Get posts of friends
 POST_ROUTER.get('/friends/:amount', function (req, res) {
     var token = jwt.decode(req.query.token);
-
     var amount = parseInt(req.params.amount);
 
     // Get the user first
