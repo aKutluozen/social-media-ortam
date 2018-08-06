@@ -49,7 +49,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
                 window.setTimeout(function () {
                     // window.location.href = './'; // Reset data
-                   // window.location.reload(true);
+                   //  window.location.reload(true);
                     navigator['app'].loadUrl('file:///android_asset/www/index.html');
                 }, 500);
 
