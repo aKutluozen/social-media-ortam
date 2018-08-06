@@ -18,7 +18,7 @@
                 <b>
                     <i>{{ message.text.name }}:</i>
                 </b> {{message.text.message}}
-                <div class="complaint-button bordered p-2 ml-2">
+                <div class="complaint-button border p-2 ml-2">
                     <p class="text-center my-auto text-success" *ngIf="message.complaintStatus">{{ message.complaintStatus }}</p>
                     <div class="row" *ngIf="!message.complaintStatus">
                         <div class="col-12">

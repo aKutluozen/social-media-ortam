@@ -1,5 +1,5 @@
 // Main modules
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
@@ -10,6 +10,8 @@ import { PostService } from 'app/posts/posts.service';
 import { UserService } from 'app/user/user.service';
 import { AuthService } from 'app/auth/auth.service';
 import { GlobalService } from 'app/globals.service';
+import * as $ from 'jquery';
+declare var $: any;
 
 // Models
 import { Post } from "../../posts/post.model";
@@ -30,7 +32,6 @@ export class PostviewmodalComponent implements OnInit {
         public global: GlobalService
     ) { }
 
-    public display: string = 'none';
     public content: string = '';
     public onComment: boolean = false;
     public answer: String = '';
@@ -40,20 +41,25 @@ export class PostviewmodalComponent implements OnInit {
     public post: Post;
     private parsedLink: string = '';
 
+    @ViewChild('modalElement') modalElement: ElementRef;
+
     // Close it
     close() {
-        this.display = 'none';
         this.post = null;
         this.onComment = false;
         this.onSharing = false;
         this.shareComment = '';
+        $(this.modalElement.nativeElement).modal('hide');
     }
 
     // Initialize the reactive form
     ngOnInit() {
         this.modal.postModalViewActivated.subscribe((postObject: Object) => {
-            this.display = 'block';
             this.post = postObject as Post;
+
+            this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
+                this.close();
+            });
         });
     }
 
@@ -61,7 +67,7 @@ export class PostviewmodalComponent implements OnInit {
     onEdit() {
         this.postService.editPost(this.post);
         this.modal.showPostModal({ type: 'edit', publicity: this.post.group });
-        // this.close();
+        this.close();
     }
 
     // Handle deleting
@@ -85,7 +91,6 @@ export class PostviewmodalComponent implements OnInit {
                 );
             }
         });
-        // this.close();
     }
 
     // Handle deleting
@@ -109,7 +114,6 @@ export class PostviewmodalComponent implements OnInit {
                 );
             }
         });
-        // this.close();
     }
 
     viewProfile(name) {
@@ -119,7 +123,6 @@ export class PostviewmodalComponent implements OnInit {
             }, error => {
                 this.modal.handleError('Profil yuklenirken bir sorun olustu!', error);
             });
-        // this.close();
     }
 
     // Like the post
@@ -167,12 +170,10 @@ export class PostviewmodalComponent implements OnInit {
                 // this.modal.handleWarning('Basari ile paylasildi!');
                 this.shareComment = '';
                 this.onSharing = false;
-                // this.close();
             }, error => {
                 console.log(error);
                 this.modal.handleError('Paylasim paylasilirken bir sorun olustu', error);
             });
-        // this.close();
     }
 
     // Send an answer to post
@@ -183,7 +184,6 @@ export class PostviewmodalComponent implements OnInit {
                 // this.modal.handleWarning('Cevap basari ile gonderildi!');
             }, error => {
                 this.modal.handleError('Paylasima cevap verilirken bir sorun olustu', error);
-                // this.close();
             });
     }
 
@@ -215,7 +215,6 @@ export class PostviewmodalComponent implements OnInit {
                     });
             }
         });
-        // this.close();
     }
 
     answerWithEnter(event) {

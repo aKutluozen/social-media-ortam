@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Services
 import { ModalService } from '../modal.service';
@@ -6,6 +6,8 @@ import { UserService } from 'app/user/user.service';
 import { AuthService } from 'app/auth/auth.service';
 import { GlobalService } from 'app/globals.service';
 import { PostService } from 'app/posts/posts.service';
+import * as $ from 'jquery';
+declare var $: any;
 
 @Component({
 	selector: 'app-usermodal',
@@ -22,7 +24,8 @@ export class UsermodalComponent implements OnInit {
 		public postService: PostService
 	) { }
 
-	public display: string = 'none';
+	@ViewChild('modalElement') modalElement: ElementRef;
+
 	public user: any = {};
 	public images: string[] = [];
 	public justView: boolean = false;
@@ -30,7 +33,7 @@ export class UsermodalComponent implements OnInit {
 	public isFriend: boolean = false;
 	public isInTheFollowList: boolean = false;
 	public showImage: string = '';
-	
+
 	private friends: any = {};
 
 	// Initialize the modal
@@ -44,8 +47,7 @@ export class UsermodalComponent implements OnInit {
 			}
 
 			this.user = user;
-			this.display = 'block';
-			
+
 			if (this.user['viewType'] == 'just-view') {
 				this.justView = true;
 			} else {
@@ -60,8 +62,8 @@ export class UsermodalComponent implements OnInit {
 						this.images.push(image);
 					}
 				}
-			}	
-			
+			}
+
 			this.user.posts = [];
 			this.postService.getPosts(this.user._id, 0, 'private', this.user._id).subscribe(
 				data => {
@@ -70,7 +72,6 @@ export class UsermodalComponent implements OnInit {
 				error => console.log(error)
 			);
 
-			console.log(this.user);
 			this.isInTheFollowList = false;
 			// Check if a friend!
 			this.userService.getFriendsList().subscribe(
@@ -80,7 +81,7 @@ export class UsermodalComponent implements OnInit {
 						if (friend.nickName == this.user.nickName) {
 							this.isInTheFollowList = true;
 						}
-						
+
 						if (friend.nickName == this.user.nickName && friend.accepted == true) {
 							this.isFriend = true;
 							break;
@@ -88,10 +89,14 @@ export class UsermodalComponent implements OnInit {
 							this.isFriend = false;
 						}
 					}
-					console.log(this.friends);
+
+					this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
+						this.user = {};
+					});
 				}, error => { }
 			);
 		});
+
 	}
 
 	// Turn on the answering modal
@@ -158,7 +163,6 @@ export class UsermodalComponent implements OnInit {
 
 	// Close the modal
 	close() {
-		this.user = {};
-		this.display = 'none';
+		$(this.modalElement.nativeElement).modal('hide');
 	}
 }

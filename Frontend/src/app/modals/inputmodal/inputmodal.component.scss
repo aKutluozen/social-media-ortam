@@ -8,17 +8,14 @@
     background: #efefef;
 }
 
-.speech-bubble {
-    border-radius: 0px;
-    font-size: 12px;
-    width: 100%;
-    font-family: NotoColorEmoji, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    word-spacing: -10px !important;
-}
-
-.bg-secondary, .bg-primary  {
-    color: white;
-}
+// .speech-bubble {
+//     border-radius: 0px;
+//     font-size: 12px;
+//     width: 100%;
+//     color: black !important;
+//     font-family: NotoColorEmoji, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+//     word-spacing: -10px !important;
+// }
 
 ::ng-deep {
     textarea {

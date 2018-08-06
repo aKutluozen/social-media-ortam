@@ -4,8 +4,7 @@ import { GlobalService } from "../globals.service";
 
 @Component({
     selector: 'app-auth',
-    templateUrl: './auth.component.html',
-    styleUrls: ['./auth.component.css']
+    templateUrl: './auth.component.html'
 })
 export class AuthComponent {
     constructor(private auth: AuthService, private global: GlobalService) { }

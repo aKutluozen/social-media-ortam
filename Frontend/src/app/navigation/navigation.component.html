@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light border-bottom">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" id="navbarButton" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,7 +11,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <app-search></app-search>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item vertical-line" *ngIf="username">
+                <li class="nav-item border-left" *ngIf="username">
                 </li>
                 <li class="nav-item" *ngIf="username">
                     <ul class="list-inline nav-link">
@@ -61,12 +61,12 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item vertical-line" *ngIf="username">
+                <li class="nav-item border-left" *ngIf="username">
                 </li>
                 <li class="nav-item" *ngIf="username">
                     <ul class="list-inline nav-link" app-inbox></ul>
                 </li>
-                <li class="nav-item vertical-line" *ngIf="username">
+                <li class="nav-item border-left" *ngIf="username">
                 </li>
                 <li class="nav-item" *ngIf="username">
                     <ul class="list-inline nav-link">

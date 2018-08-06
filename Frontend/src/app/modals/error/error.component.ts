@@ -1,28 +1,28 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { ModalService } from "../modal.service";
+import * as $ from 'jquery';
+declare var $: any;
 
 @Component({
     selector: 'app-error',
-    templateUrl: './error.component.html',
-    styleUrls: ['./error.component.css']
+    templateUrl: './error.component.html'
 })
 export class ErrorComponent implements OnInit {
 
     constructor(private modal: ModalService) { }
 
     public error: string = '';
-    public display: string = 'none';
 
-    // Close the modal
-    close() {
-        this.display = 'none';
-    }
+    @ViewChild('modalElement') modalElement: ElementRef;
 
     // Initialize the modal
     ngOnInit() {
         this.modal.errorOccurred.subscribe((error: string) => {
             this.error = error;
-            this.display = 'block';
+
+            this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
+                this.error = '';
+            });
         });
     }
 }

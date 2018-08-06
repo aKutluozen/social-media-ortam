@@ -50,13 +50,6 @@ body {
     cursor: pointer;
 }
 
-.card {
-    border: none;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-}
-
 .bottom-right {
     position: absolute;
     right: 16px;
@@ -98,57 +91,14 @@ textarea:enabled {
     border-radius: 100% !important;
 }
 
-/* MODALS */
-
-.modal {
-    z-index: 1060;
-    pointer-events: none;
-    transition: 1s all;
-    overflow-y: auto;
-}
-
-.backdrop {
-    /* background-color: rgba(0, 0, 0, 0.6); */
-    /* background: radial-gradient(rgba(0, 0, 0, 0.25) 10%, rgba(255, 255, 255, 0) 90%); */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 1050;
-}
-
-.modal-title {
-    color: white;
+.img-thumbnail {
+    padding: 2px;
 }
 
 .modal-header {
-    border-radius: 4px 4px 0 0;
+    color: white;
+    font-weight: bold;
 }
-
-.modal-content {
-    box-shadow: 10px 10px 100px rgba(0, 0, 0, 0.5);
-    border: none;
-    border-radius: 4px;
-    max-height: calc(100vh - 80px);
-    overflow-y: auto;
-    margin: 0 10px;
-}
-
-.modal.fade .modal-dialog{
-    -webkit-transform: inherit;
- }
-
-/* .row {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.row>[class*='col-'] {
-    display: flex;
-    flex-direction: column;
-} */
-
 
 /* PROFILE PICTURES */
 
@@ -188,18 +138,6 @@ textarea:enabled {
     margin: auto;
     display: block;
 }
-
-
-/* COLOR */
-
-.light-green {
-    background: rgb(193, 228, 161);
-}
-
-.light-orange {
-    background: rgb(236, 205, 157);
-}
-
 
 /* width */
 

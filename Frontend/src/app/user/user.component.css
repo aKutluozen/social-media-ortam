@@ -19,12 +19,6 @@
     transition: 0.5s all;
     visibility: visible;
 }
-/* 
-#profilePicture:hover #image-upload-button {
-    opacity: 1;
-    transition: 0.5s all;
-    visibility: visible;
-} */
 
 /* Gallery delete control */
 .gallery-thumbnails:hover .image-delete-button {
@@ -146,14 +140,6 @@ img {
     margin-bottom: 16px !important;
     position: relative;
     transition: 0.5s all;
-}
-
-.friend-image img {
-    object-fit: cover;
-}
-
-.img-thumbnail {
-    padding: 2px;
 }
 
 .col-form-label {

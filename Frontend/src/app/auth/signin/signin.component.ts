@@ -14,8 +14,7 @@ import { Subscription } from "rxjs";
 
 @Component({
     selector: 'app-signin',
-    templateUrl: './signin.component.html',
-    styleUrls: ['../auth.component.css']
+    templateUrl: './signin.component.html'
 })
 export class SigninComponent implements OnInit, OnDestroy {
 
@@ -48,9 +47,10 @@ export class SigninComponent implements OnInit, OnDestroy {
                 this.modal.handleWarning('Hosgeldin ' + this.auth.getCookie('user') + '! Simdi ana sayfaya yonlendiriliyorsunuz!'); // Show this only when first logged in
 
                 window.setTimeout(function () {
-                    // window.location.href = './'; // Reset data
-                   //  window.location.reload(true);
-                    navigator['app'].loadUrl('file:///android_asset/www/index.html');
+                   
+                   window.location.reload(true);
+                   window.location.href = './'; // Reset data
+                    // navigator['app'].loadUrl('file:///android_asset/www/index.html');
                 }, 500);
 
             },
@@ -83,7 +83,7 @@ export class SigninComponent implements OnInit, OnDestroy {
                 Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             ]),
             resetCode: new FormControl(null, Validators.required),
-            newPassword: new FormControl(null, Validators.required)
+            newPassword: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')])
         });
     }
 

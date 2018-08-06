@@ -1,35 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalService } from '../modal.service';
 import { GlobalService } from 'app/globals.service';
+import * as $ from 'jquery';
+declare var $: any;
 
 @Component({
 	selector: 'app-imagemodal',
-	templateUrl: './imagemodal.component.html',
-	styleUrls: ['./imagemodal.component.css']
+	templateUrl: './imagemodal.component.html'
 })
 export class ImagemodalComponent implements OnInit {
 
 	constructor(
-		private modal: ModalService, 
+		private modal: ModalService,
 		public global: GlobalService
 	) { }
 
-	public display: string = 'none';
 	public imageText: string = '';
 	public imageUrl: string = '';
 
-	// Close the modal
-	close() {
-		this.display = 'none';
-		this.imageText = '';
-		this.imageUrl = '';
-	}
+	@ViewChild('modalElement') modalElement: ElementRef;
 
 	// Initialize the modal
 	ngOnInit() {
 		this.modal.imageShowed.subscribe((imageUrl: string) => {
 			this.imageUrl = imageUrl;
-			this.display = 'block';
+			
+			this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
+				this.imageText = '';
+				this.imageUrl = '';
+			})
 		});
 	}
 }

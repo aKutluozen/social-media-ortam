@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalService } from "../modal.service";
 import { UserService } from '../../user/user.service';
+import * as $ from 'jquery';
+declare var $: any;
 
 @Component({
     selector: 'app-complaintmodal',
-    templateUrl: './complaintmodal.component.html',
-    styleUrls: ['./complaintmodal.component.css']
+    templateUrl: './complaintmodal.component.html'
 })
 export class ComplaintmodalComponent implements OnInit {
 
@@ -15,17 +16,22 @@ export class ComplaintmodalComponent implements OnInit {
     public display = 'none';
     public days: number = 0;
 
+    @ViewChild('modalElement') modalElement: ElementRef;
+
     // Close the modal
     close() {
-        this.display = 'none';
         this.complaint = {};
+        $(this.modalElement.nativeElement).modal('hide');
     }
 
     // Initialize the modal
     ngOnInit() {
         this.modal.complaintModalActivated.subscribe((complaint: object) => {
             this.complaint = complaint;
-            this.display = 'block';
+
+            this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
+                this.complaint = {};
+            });
         });
     }
 
@@ -35,7 +41,7 @@ export class ComplaintmodalComponent implements OnInit {
                 (res) => {
                     if (res.message == 'success') {
                         this.modal.handleWarning('Kullanici basari ile yasaklandi.');
-                        this.display = 'none';
+                        this.close();
                     } else {
                         this.modal.handleError('Yasaklarken sorun olustu', res);
                     }

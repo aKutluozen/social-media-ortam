@@ -1,13 +1,12 @@
-<div class="backdrop" [ngStyle]="{'display': display}" (click)="close()"></div>
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+<div class="modal fade" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" (click)="close()">&times;</button>
-                <img class="modal-image mt-2" src="{{ global.URL_S3_USERS + imageUrl }}" onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <img class="modal-image img-fluid mt-2" src="{{ global.URL_S3_USERS + imageUrl }}" onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-sm" (click)="close()">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>
         </div>

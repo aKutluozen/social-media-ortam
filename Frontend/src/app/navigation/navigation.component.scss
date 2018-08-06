@@ -1,24 +1,5 @@
-.fa-menu {
-    font-size: 2em;
-    color: rgba(255, 255, 255, 0.8) !important;
-}
-
-.fa-logo {
-    font-size: 24px;
-    padding-right: 10px;
-}
-
-.newMessages {
-    /* color: rgb(24, 24, 24); */
-    animation: pulse infinite 1s;
-}
-
 body.navbar-height{
     padding-top: 200px;
-}
-
-.special-bg {
-    background: #ffffff;
 }
 
 .scrollable {
@@ -26,8 +7,9 @@ body.navbar-height{
     overflow-y: scroll;
 }
 
-.vertical-line {
-    border-left: 1px solid #ddd;
+.newMessages {
+    /* color: rgb(24, 24, 24); */
+    animation: pulse infinite 1s;
 }
 
 @keyframes pulse {

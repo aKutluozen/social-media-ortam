@@ -1,14 +1,15 @@
 // Main modules
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Services
 import { ModalService } from '../modal.service';
 import { InboxService } from 'app/navigation/inbox/inbox.service';
+import * as $ from 'jquery';
+declare var $: any;
 
 @Component({
 	selector: 'app-questionmodal',
-	templateUrl: './questionmodal.component.html',
-	styleUrls: ['./questionmodal.component.css']
+	templateUrl: './questionmodal.component.html'
 })
 export class QuestionmodalComponent implements OnInit {
 
@@ -17,7 +18,6 @@ export class QuestionmodalComponent implements OnInit {
 		private messageService: InboxService
 	) { }
 
-	public display: string = 'none';
 	public content: string = '';
 
 	private approveFunction;
@@ -25,22 +25,26 @@ export class QuestionmodalComponent implements OnInit {
 	private collection;
 	private helperService;
 
+	@ViewChild('modalElement') modalElement: ElementRef;
+
 	// Initialize the question modal
 	ngOnInit() {
 		this.modal.questionModalActivated.subscribe((questionSetup: Object) => {
-			this.display = 'block';
 			this.content = questionSetup['content'];
 			this.approveFunction = questionSetup['approveFunction'];
 			this.dataToBeDeleted = questionSetup['itemToBeDeleted'];
 			this.collection = questionSetup['itemCollection'];
 			this.helperService = questionSetup['helperService'];
+
+			this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
+				this.approveFunction = '';
+			});
 		});
 	}
 
 	// Close it
 	close() {
-		this.approveFunction = '';
-		this.display = 'none';
+		$(this.modalElement.nativeElement).modal('hide');
 	}
 
 	// Approve function needs to be passed with necessary 3 parameters 

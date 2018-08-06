@@ -37,7 +37,6 @@ import { ChatService } from 'app/navigation/inbox/chat/chat.service';
 import { GlobalService } from 'app/globals.service';
 import { PostsModule } from './posts/posts.module';
 import { InboxModule } from './navigation/inbox/inbox.module';
-import { ChatModule } from './navigation/inbox/chat/chat.module';
 
 // Main routes - Lazily loaded
 const APP_ROUTES: Routes = [

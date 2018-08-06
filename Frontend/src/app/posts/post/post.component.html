@@ -1,5 +1,5 @@
-<div class="card bordered mb-4 p-2 w-100">
-    <div class="card-body row bg-light-yellow">
+<div class="card border mb-4 w-100">
+    <div class="card-body row">
         <div *ngIf="!inProfile" class="col-12 mb-0 card-title">
             <div class="row mb-2">
                 <div class="col-2" *ngIf="!post.isShared">
@@ -31,32 +31,29 @@
         </div>
         <div (click)="view()" class="card-text col my-auto h-100" [ngClass]="{'p-2 pt-0': post.isShared, 'p-2': !post.isShared}">
             <div class="row" *ngIf="post.image && !post.linkContent">
-                <div class="col-5">
+                <div class="col-5 pr-0">
                     <img src="{{ global.URL_S3_POSTS + post?.image }}" class="img-thumbnail" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'">
                 </div>
                 <div class="col-7 align-self-center">
                     <p class="text-center my-auto mx-auto">
                         <small class="text-primary">
                             <i>#{{ post?.subject[0].length >= 16 ? post?.subject[0].substring(0, 16) + ' ...' : post?.subject[0]
-                                }}</i> -</small>
-                        <span class="text-muted">
-                            <small [ngClass]="{'scale-text': post.content.length < 40 }">{{ post.content.length > 40 ? post.content.substring(0, 40) + ' ...' : post.content }}</small>
-                        </span>
+                                }}
+                            </i> -</small>
+                        <small class="text-muted">{{ post.content.length > 40 ? post.content.substring(0, 40) + ' ...' : post.content }}</small>
                     </p>
                 </div>
             </div>
             <div class="row" *ngIf="post.linkContent && !post.image">
-                <div class="col-5">
-                    <img class="img-thumbnail link-image" src="{{ post?.linkContent.image }}" alt="Resim yok" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                <div class="col-5 pr-0">
+                    <img class="img-thumbnail" src="{{ post?.linkContent.image }}" alt="Resim yok" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                 </div>
                 <div class="col-7  align-self-center">
-                    <h5>{{ post?.linkContent.title.length > 40 ? post.linkContent.title.substring(0, 40) + ' ...' : post.linkContent.title
+                    <h6>{{ post?.linkContent.title.length > 40 ? post.linkContent.title.substring(0, 40) + ' ...' : post.linkContent.title
                         }}
-                    </h5>
-                    <span class="text-muted">
-                        <small>{{ post?.linkContent.description.length > 60 ? post.linkContent.description.substring(0, 60) + '
-                            ...' : post.linkContent.description }}</small>
-                    </span>
+                    </h6>
+                    <small class="text-muted">{{ post?.linkContent.description.length > 60 ? post.linkContent.description.substring(0, 60) + ' ...'
+                        : post.linkContent.description }}</small>
                 </div>
             </div>
             <div class="row" *ngIf="!post.image && !post.linkContent">
@@ -64,10 +61,9 @@
                     <p class="text-center my-auto mx-auto">
                         <small class="text-primary">
                             <i>#{{ post?.subject[0]?.length >= 16 ? post?.subject[0]?.substring(0, 16) + ' ...' : post?.subject[0]
-                                }}</i> -</small>
-                        <span class="text-muted">
-                            <small [ngClass]="{'scale-text': post?.content?.length < 40 }">{{ post.content.length > 140 ? post.content.substring(0, 140) + ' ...' : post.content }}</small>
-                        </span>
+                                }}
+                            </i> -</small>
+                        <small class="text-muted">{{ post.content.length > 140 ? post.content.substring(0, 140) + ' ...' : post.content }}</small>
                     </p>
                 </div>
             </div>

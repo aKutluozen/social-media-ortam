@@ -13,8 +13,7 @@ import { Subscription } from "rxjs";
 
 @Component({
     selector: 'app-signup',
-    templateUrl: './signup.component.html',
-    styleUrls: ['../auth.component.css']
+    templateUrl: './signup.component.html'
 })
 export class SignupComponent implements OnInit, OnDestroy {
 
@@ -29,10 +28,13 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     // Sign up, create a new user and send it
     onSubmit() {
+        if (this.signupForm.value.password) {
+
+        }
         const user = new User(
             this.signupForm.value.email,
             this.signupForm.value.password,
-            this.signupForm.value.nickName, '', '', '', '', 
+            this.signupForm.value.nickName, '', '', '', '',
             this.signupForm.value.firstName,
             this.signupForm.value.lastName
         );
@@ -65,8 +67,8 @@ export class SignupComponent implements OnInit, OnDestroy {
                 Validators.required,
                 Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             ]),
-            password: new FormControl(null, Validators.required),
-            password2: new FormControl(null, Validators.required),
+            password: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
+            password2: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
             firstName: new FormControl(null),
             lastName: new FormControl(null)
         });

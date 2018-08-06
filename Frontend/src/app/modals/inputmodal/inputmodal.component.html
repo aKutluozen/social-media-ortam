@@ -1,16 +1,14 @@
-<div *ngIf="messageSetup.type === 'first'" class="backdrop" [ngStyle]="{'display': display}" (click)="close(true)"></div>
-<div *ngIf="messageSetup.type === 'chat'" class="backdrop" [ngStyle]="{'display': display}" (click)="close(false)"></div>
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+<div class="modal fade" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" (click)="close()">&times;</button>
+                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
                 <div class="scrollable mt-2 p-4" id="scrollMessages" *ngIf="!isFirstMessage">
                     <div class="row" *ngFor="let message of messageSetup?.messages">
-                        <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 mt-2 p-2 bg-primary speech-bubble text-white">
+                        <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 mt-2 p-2 alert alert-primary speech-bubble">
                             {{ message.sender }} @ {{ message.date | date: 'short' }} : {{ message.message }}
                         </div>
-                        <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 col-md-8 mt-2 p-2 bg-secondary speech-bubble">
+                        <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 col-md-8 mt-2 p-2 alert alert-secondary speech-bubble">
                             {{ message.sender }} @ {{ message.date | date: 'short' }} : {{ message.message }}
                         </div>
                     </div>
@@ -23,12 +21,13 @@
                     </div>
                     <div class="col-10 h-100">
                         <emoji-input [popupAnchor]="'bottom'" style="font-family: 'NotoColorEmoji'" [(model)]="message" [textArea]="{rows: 2}" [closeAfterSelection]="false"
-                             (click)="openPopup(false)" (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
+                            (click)="openPopup(false)" (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
                         </emoji-input>
                     </div>
                 </div>
 
-                <textarea *ngIf="messageSetup.type === 'first'" maxlength="256" [(ngModel)]="message" class="form-control" (keypress)="sendWithEnter($event)" rows="2"></textarea>
+                <textarea *ngIf="messageSetup.type === 'first'" maxlength="256" [(ngModel)]="message" class="form-control" (keypress)="sendWithEnter($event)"
+                    rows="2"></textarea>
                 <div class="row my-0">
                     <p class="col my-0 text-right small text-muted">
                         {{ 256 - message.length }} karakter kaldi.
@@ -40,11 +39,10 @@
                 <button *ngIf="messageSetup.type === 'first'" [disabled]="!isFriend && global.credit < 10" type="button" class="btn btn-primary btn-sm"
                     (click)="sendFirstMessage()">
                     <i class="fa fa-envelope" aria-hidden="true"></i> Gonder</button>
-                <button *ngIf="messageSetup.type === 'chat'" type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage($event)" [disabled]="disableSending || (!isFriend && global.credit < 10)">
+                <button *ngIf="messageSetup.type === 'chat'" type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage($event)"
+                    [disabled]="disableSending || (!isFriend && global.credit < 10)">
                     <i class="fa fa-comment" aria-hidden="true"></i> Cevapla</button>
-                <button *ngIf="messageSetup.type === 'first'" type="button" class="btn btn-default btn-sm" (click)="close(true)">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
-                <button *ngIf="messageSetup.type === 'chat'" type="button" class="btn btn-default btn-sm" (click)="close(false)">
+                <button type="button" data-dismiss="modal" class="btn btn-default btn-sm" (click)="close()">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>
         </div>

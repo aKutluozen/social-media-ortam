@@ -418,7 +418,14 @@ POST_ROUTER.delete('/image', function (req, res) {
 
     // Also, somehow delete it in the post too, if exists!!!
     Post.findOne({ image: { $eq: fileToDelete } }, function (err, post) {
-        if (err || !post) {
+        // if (!post) {
+        //     return res.status(500).json({
+        //         message: 'problem getting post to delete image',
+        //         error: err
+        //     });
+        // }
+
+        if (err) {
             return res.status(500).json({
                 message: 'problem getting post to delete image',
                 error: err

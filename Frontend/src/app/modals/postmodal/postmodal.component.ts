@@ -1,5 +1,5 @@
 // Main modules
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
@@ -10,14 +10,15 @@ import { PostService } from 'app/posts/posts.service';
 import { UserService } from 'app/user/user.service';
 import { AuthService } from 'app/auth/auth.service';
 import { GlobalService } from 'app/globals.service';
+import * as $ from 'jquery';
+declare var $: any;
 
 // Models
 import { Post } from "../../posts/post.model";
 
 @Component({
     selector: 'app-postmodal',
-    templateUrl: './postmodal.component.html',
-    styleUrls: ['./postmodal.component.css']
+    templateUrl: './postmodal.component.html'
 })
 export class PostmodalComponent implements OnInit {
 
@@ -30,7 +31,6 @@ export class PostmodalComponent implements OnInit {
         public global: GlobalService
     ) { }
 
-    public display: string = 'none';
     public content: string = '';
     public group: string = '';
     public postForm: FormGroup;
@@ -43,6 +43,8 @@ export class PostmodalComponent implements OnInit {
     public imageChangedEvent: any = '';
     public croppedImage: any = '';
     public pictureMessage: string = '';
+
+    @ViewChild('modalElement') modalElement: ElementRef;
 
     fileChangeEvent(event: any): void {
         this.imageChangedEvent = event;
@@ -59,12 +61,11 @@ export class PostmodalComponent implements OnInit {
 
     close(isSavingPicture?) {
         // Delete if an image is uploaded!
-        if (isSavingPicture == false) {
+        if (isSavingPicture == false && !this.isEditing && this.imageToShow) {
             this.deletePostPicture();
         }
 
         this.croppedImage = '';
-        this.display = 'none';
         this.postForm.reset();
         this.post = null;
         this.postForm.value.content = '';
@@ -74,6 +75,7 @@ export class PostmodalComponent implements OnInit {
         this.group = '';
         document.getElementById('postPictureFile')['value'] = null;
         document.getElementById('postPictureFile')['value'] = '';
+        $(this.modalElement.nativeElement).modal('hide');
     }
 
     addPostImage() {
@@ -106,6 +108,7 @@ export class PostmodalComponent implements OnInit {
                 if (this.post != undefined) {
                     this.post.image = '';
                 }
+                console.log('Deleted!');
             },
             () => {
                 console.log('Many images are NOT uploaded!');
@@ -242,7 +245,6 @@ export class PostmodalComponent implements OnInit {
     // Initialize the reactive form
     ngOnInit() {
         this.modal.postModalActivated.subscribe((postObject: Object) => {
-            this.display = 'block';
             if (postObject['publicity']) {
                 this.group = postObject['publicity'];
             }
@@ -252,6 +254,8 @@ export class PostmodalComponent implements OnInit {
                     content: ''
                 });
             }
+
+            this.modal.handleModalToggle(this.modalElement.nativeElement, () => {})
         });
 
         this.postForm = new FormGroup({

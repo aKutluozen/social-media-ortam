@@ -1,6 +1,9 @@
 // Main modules
 import { EventEmitter, Injectable } from "@angular/core";
 import { AuthService } from "app/auth/auth.service";
+import * as $ from 'jquery';
+
+declare var $: any;
 
 @Injectable()
 export class ModalService {
@@ -17,6 +20,15 @@ export class ModalService {
     public postModalActivated = new EventEmitter<Object>();
     public postModalViewActivated = new EventEmitter<Object>();
     public complaintModalActivated = new EventEmitter<Object>();
+
+    handleModalToggle(element, closingAction) {
+        // Handle showing
+        $(element).modal('show');
+        // Handle closing event
+        $(element).on('hidden.bs.modal', (e) => {
+            closingAction();
+        });
+    }
 
     // Invoking functions
     handleError(error: string, errorResponse) {

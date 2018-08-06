@@ -1,13 +1,8 @@
-<div class="backdrop" [ngStyle]="{'display': display}" (click)="close()"></div>
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display, 'overflow-y: scroll !important': display != ''}">
+<div class="modal fade" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
-            <!-- <div class="modal-header bg-primary">
-                    <h4 class="modal-title"><i class="fa fa-comment" aria-hidden="true"></i> PAYLASIM</h4>
-                
-            </div> -->
             <div class="modal-body">
-                <button type="button" class="close" (click)="close()">&times;</button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <div class="row mt-2">
                     <div class="col">
                         <div *ngIf="post?.isShared" class="row justify-content-md-center border border-secondary border-top-0 border-left-0 border-right-0 pb-2 mb-3">

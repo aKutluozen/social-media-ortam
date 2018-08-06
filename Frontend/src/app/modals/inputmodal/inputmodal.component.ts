@@ -1,5 +1,5 @@
 // Main modules
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Services
 import { ModalService } from '../modal.service';
@@ -7,6 +7,7 @@ import { InboxService } from 'app/navigation/inbox/inbox.service';
 import { GlobalService } from '../../globals.service';
 import { UserService } from '../../user/user.service';
 import * as $ from 'jquery';
+declare var $: any;
 
 @Component({
 	selector: 'app-inputmodal',
@@ -22,23 +23,22 @@ export class InputmodalComponent implements OnInit {
 		private global: GlobalService,
 		private user: UserService
 	) { }
-
-	public display: string = 'none';
 	public message: string = '';
 	public messageSetup: any = {};
 	public disableSending: boolean = false;
 	public isFirstMessage: boolean = false;
 	public isFriend: boolean = false;
-	
+
 	private timedCheck: any = 0;
 	private latestMessageTime: number = 0;
 	private interval: number = 1500;
+
+	@ViewChild('modalElement') modalElement: ElementRef;
 
 	// Load the chat dialog
 	ngOnInit() {
 		this.inputService.inputActivated.subscribe((messageSetup: any) => {
 			this.messageSetup = messageSetup;
-			this.display = 'block';
 
 			// Limit textarea
 			$('textarea').attr('maxlength', 256);
@@ -51,6 +51,10 @@ export class InputmodalComponent implements OnInit {
 					} else {
 						this.isFriend = false;
 					}
+
+					this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
+						this.close();
+					})
 				},
 				err => console.log('ERRRORRR', err)
 			)
@@ -67,10 +71,12 @@ export class InputmodalComponent implements OnInit {
 	// Close the modal, stop the checking
 	close(isFirst?: boolean) {
 		this.message = '';
-		this.display = 'none';
-		if (isFirst === false) {
+
+		if (!this.isFirstMessage) {
 			this.timedCheck.unsubscribe();
 		}
+
+		$(this.modalElement.nativeElement).modal('hide');
 	}
 
 	// Load all messages when the window is opened
@@ -117,7 +123,7 @@ export class InputmodalComponent implements OnInit {
 							this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { }, err => console.log(err));
 						}
 					}
-					this.close(true);
+					this.close();
 				},
 				error => {
 					this.modal.handleError('Mesaj gonderilemedi.', error);
@@ -162,15 +168,15 @@ export class InputmodalComponent implements OnInit {
 
 	public openPopup: Function;
 
-    setPopupAction(fn: any) {
-        this.openPopup = fn;
-    }
+	setPopupAction(fn: any) {
+		this.openPopup = fn;
+	}
 
 	scrollDown() {
 		if (!this.isFirstMessage) {
 			window.setTimeout(() => {
 				var elem = document.getElementById('scrollMessages');
-				elem.scrollBy(0,elem.scrollHeight + 100);
+				elem.scrollBy(0, elem.scrollHeight + 100);
 			}, 100);
 		}
 	}
