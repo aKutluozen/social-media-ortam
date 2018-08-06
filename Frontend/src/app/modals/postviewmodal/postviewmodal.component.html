@@ -1,5 +1,5 @@
 <div class="backdrop" [ngStyle]="{'display': display}" (click)="close()"></div>
-<div class="modal animated fadeIn" tabindex="-1" role="dialog" [ngStyle]="{'display': display, 'overflow-y: scroll !important': display != ''}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display, 'overflow-y: scroll !important': display != ''}">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <!-- <div class="modal-header bg-primary">
@@ -160,7 +160,7 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <a class="btn btn-info float-right" href="{{ post?.linkContent.url }}" target="_blank">
+                                        <a class="btn  btn-sm btn-info float-right" href="{{ post?.linkContent.url }}" target="_blank">
                                             <i class="fa fa-link" aria-hidden="true"></i> Linke git</a>
                                     </div>
                                 </div>

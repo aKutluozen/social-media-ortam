@@ -189,7 +189,7 @@ export class PostmodalComponent implements OnInit {
 
                 this.postService.updatePost(this.post).subscribe(
                     data => {
-                        this.modal.handleWarning('Basari ile guncellendi!');
+                        // this.modal.handleWarning('Basari ile guncellendi!');
                         this.close();
                     },
                     error => {
@@ -225,7 +225,7 @@ export class PostmodalComponent implements OnInit {
 
                 this.postService.addNewPost(post).subscribe(
                     data => {
-                        this.modal.handleWarning('Basari ile paylasildi!');
+                        // this.modal.handleWarning('Basari ile paylasildi!');
                         this.close();
                     },
                     error => {

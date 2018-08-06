@@ -1,5 +1,5 @@
 <div class="row">
-    <form class="col-md-6" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+    <form class="col-md-8" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <input type="email" id="email" class="form-control" placeholder="E-posta" formControlName="email">
         </div>
@@ -9,7 +9,7 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-6">
-                    <button class="btn btn-primary btn-block" type="submit" [disabled]="!signinForm.valid">
+                    <button class="btn btn-primary btn-block btn-sm" type="submit" [disabled]="!signinForm.valid">
                         <i class="fa fa-sign-in-alt" aria-hidden="true"></i> Giris yap</button>
                 </div>
                 <div class="col-6 align-self-center text-secondary small forgot" (click)="forgot()">
@@ -18,8 +18,8 @@
             </div>
         </div>
     </form>
-    <div class="col-md-6 text-center my-auto">
-        <i class="fa fa-sign-in-alt fa-9x" aria-hidden="true"></i>
+    <div class="col-md-4 text-center my-auto">
+        <i class="fa fa-sign-in-alt fa-7x" aria-hidden="true"></i>
     </div>
 </div>
 <div *ngIf="isResetting">
@@ -35,7 +35,7 @@
                         <input type="email" id="email" class="ml-2 form-control" placeholder="E-posta" formControlName="email">
                     </div>
                     <div class="col align-self-center">
-                        <button class="btn btn-warning btn-block" type="button" (click)="sendForgotRequest()">
+                        <button class="btn btn-warning btn-block btn-sm" type="button" (click)="sendForgotRequest()">
                             Kodu gonder</button>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                 <input type="password" id="newPassword" class="ml-2 form-control" placeholder="Yeni sifre" formControlName="newPassword">
             </div>
             <div class="form-group">
-                <button class="btn btn-primary btn-block" type="button" (click)="refreshPassword()" [disabled]="!resetForm.valid">Sifreyi degistir</button>
+                <button class="btn btn-primary btn-block btn-sm" type="button" (click)="refreshPassword()" [disabled]="!resetForm.valid">Sifreyi degistir</button>
             </div>
         </form>
     </div>

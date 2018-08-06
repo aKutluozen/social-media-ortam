@@ -6,6 +6,7 @@ import { AuthService } from 'app/auth/auth.service';
 import { ModalService } from 'app/modals/modal.service';
 import { UserService } from 'app/user/user.service';
 import { GlobalService } from 'app/globals.service';
+import * as $ from 'jquery';
 
 // Models
 import { User } from 'app/user/user.model';
@@ -50,6 +51,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 		if (this.querySubscription) this.querySubscription.unsubscribe();
 		if (this.userSubscription) this.userSubscription.unsubscribe();
 		if (this.friendSubscription) this.friendSubscription.unsubscribe();
+	}
+
+	closeDropdown(el) {
+		$(el).parent().hide();
 	}
 
 	// Find users, skip the current user
@@ -117,7 +122,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 	follow(id) {
 		this.userSubscription = this.user.sendFollowRequest(id).subscribe(
 			data => {
-				this.modal.handleWarning('Takip istegi basari ile gonderildi');
+				// this.modal.handleWarning('Takip istegi basari ile gonderildi');
 				// this.search(); // refresh the search here <- FIND A GOOD SOLUTION TO THIS REFRESH PROBLEM!
 			}, error => {
 				this.modal.handleError('Istek gonderilemedi ya da onceden zaten gonderildi', error);

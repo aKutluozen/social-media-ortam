@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
     <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        <button class="navbar-toggler navbar-toggler-right" id="navbarButton" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -22,7 +22,10 @@
                                     <div class="item-text">Haberler</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right my-0 py-0" aria-labelledby="newspaperMenu">
-                                    <iframe src="https://www.cnnturk.com/news/embed_v2/manset/650x550?p=" width="650" height="550" frameborder="0"></iframe>
+                                    <div class="row mx-0">
+                                        <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+                                    </div>
+                                    <iframe src="https://www.cnnturk.com/news/embed_v2/manset/650x550?p=" width="100%" height="240" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </li>
@@ -33,8 +36,11 @@
                                     <div class="item-text">Televizyon</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right my-0 py-0" aria-labelledby="tvMenu">
-                                    <iframe src="http://www.canlitvlive.io/tvizle.php?css=eyJ6ZW1pbiI6IiNmZmZmZmYiLCJob3ZlciI6IiNkZmRmZGYiLCJvbml6bGUiOiIwIiwiYWRyZW5rIjoiIzRhNTQ1OSIsImthdGVnb3JpIjoidW5kZWZpbmVkIiwiYXJhbWF2YXIiOiIxIiwibG9nb2FkZXQiOiIxIiwiYWRob3ZlciI6IiMxQTFBMUEiLCJ6ZW1pbnNlYyI6IiNGRkZGRkYifQ==&t=2&tv=&pos=r&logo=1"
-                                        frameborder="0" width="500" height="320" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                    <div class="row mx-0">
+                                        <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+                                    </div>
+                                    <iframe src="http://web.canlitvlive.io/tvizle.php?css=eyJ6ZW1pbiI6IiNmZmZmZmYiLCJob3ZlciI6IiNmYWZkZmYiLCJvbml6bGUiOiIwIiwiYWRyZW5rIjoiI0IwRDVFNyIsImthdGVnb3JpIjoidW5kZWZpbmVkIiwiYXJhbWF2YXIiOiIxIiwibG9nb2FkZXQiOiIwIiwiYWRob3ZlciI6IiMxQTFBMUEiLCJ6ZW1pbnNlYyI6IiNGRkZGRkYifQ==&t=2&tv=&pos=r&logo=1"
+                                        frameborder="0" width="100%" height="350" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                                 </div>
                             </div>
                         </li>
@@ -45,8 +51,11 @@
                                     <div class="item-text">Radyo</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right my-0 py-0" aria-labelledby="radioMenu">
+                                    <div class="row mx-0">
+                                        <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+                                    </div>
                                     <iframe src="http://www.canliradyolive.com/radyo.php?css=eyJ6ZW1pbiI6IiNmZmZmZmYiLCJhcmFtYXZhciI6IjEiLCJob3ZlciI6IiM5YjliOWIiLCJhZHJlbmsiOiIjOTI5MjkyIiwiYWRob3ZlciI6IiMxQTFBMUEiLCJ6ZW1pbnNlYyI6IiM4MTgxODEifQ==&t=2&rd=&pos=undefined&logo=1&kk=1&eq=2&load=2&ct=0&clr=dbdbdb"
-                                        frameborder="0" width="350" height="320"></iframe>
+                                        frameborder="0" width="100%" height="320"></iframe>
                                 </div>
                             </div>
                         </li>
@@ -61,7 +70,7 @@
                 </li>
                 <li class="nav-item" *ngIf="username">
                     <ul class="list-inline nav-link">
-                        <li class="list-inline-item" routerLinkActive="active">
+                        <li class="list-inline-item" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/posts/all']">
                                 <i class="fa fa-home"> </i>
                                 <div class="item-text">Ana sayfa</div>
@@ -73,12 +82,15 @@
                                     <img class="profile-picture" src="{{ global.URL_S3_USERS + global.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                                     <div class="item-text">Profil</div>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileMenu">
+                                <div class="dropdown-menu dropdown-menu-right mt-0 pt-0" aria-labelledby="profileMenu">
+                                    <div class="row mx-0">
+                                        <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+                                    </div>
                                     <div class="list-group-flush">
                                         <a class="list-group-item list-group-item-action">
                                             <i class="fa fa-credit-card" aria-hidden="true"></i> : {{ global.credit }}
                                         </a>
-                                        <a [routerLink]="['/profile/me']" class="list-group-item list-group-item-action">
+                                        <a [routerLink]="['/profile/me']" class="list-group-item list-group-item-action" id="profileLink">
                                             <i class="fa fa-id-card" aria-hidden="true"></i> Profile git</a>
                                         <!-- <a [routerLink]="['/admin']" class="list-group-item list-group-item-action">
                                             <i class="fa fa-cogs" aria-hidden="true"></i> Yonetim</a> -->

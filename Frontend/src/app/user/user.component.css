@@ -19,12 +19,12 @@
     transition: 0.5s all;
     visibility: visible;
 }
-
+/* 
 #profilePicture:hover #image-upload-button {
     opacity: 1;
     transition: 0.5s all;
     visibility: visible;
-}
+} */
 
 /* Gallery delete control */
 .gallery-thumbnails:hover .image-delete-button {
@@ -159,3 +159,10 @@ img {
 .col-form-label {
     font-weight: bold;
 }
+
+@media (hover: none) {
+    .add-images, .cover-image-upload-button, #info-update-control, #share-control, #image-upload-button, .image-delete-button {
+      visibility: visible;
+      opacity: 1;
+    }
+  }

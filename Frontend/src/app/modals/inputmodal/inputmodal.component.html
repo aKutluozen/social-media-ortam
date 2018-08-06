@@ -1,6 +1,6 @@
 <div *ngIf="messageSetup.type === 'first'" class="backdrop" [ngStyle]="{'display': display}" (click)="close(true)"></div>
 <div *ngIf="messageSetup.type === 'chat'" class="backdrop" [ngStyle]="{'display': display}" (click)="close(false)"></div>
-<div class="modal animated fadeIn" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -17,7 +17,7 @@
                 </div>
                 <div *ngIf="messageSetup.type === 'chat'" class="row mt-2">
                     <div class="col-2 h-100 pr-0">
-                        <button type="button" name="button" class="px-0 mx-0 btn btn-warning btn-block" (click)="openPopup()">
+                        <button type="button" name="button" class="px-0 mx-0 btn btn-warning btn-block btn-sm" (click)="openPopup()">
                             <i class="far fa-smile"></i>
                         </button>
                     </div>
@@ -37,14 +37,14 @@
             </div>
             <div class="modal-footer">
                 <span *ngIf="!isFriend">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit }}</span>
-                <button *ngIf="messageSetup.type === 'first'" [disabled]="!isFriend && global.credit < 10" type="button" class="btn btn-primary"
+                <button *ngIf="messageSetup.type === 'first'" [disabled]="!isFriend && global.credit < 10" type="button" class="btn btn-primary btn-sm"
                     (click)="sendFirstMessage()">
                     <i class="fa fa-envelope" aria-hidden="true"></i> Gonder</button>
-                <button *ngIf="messageSetup.type === 'chat'" type="submit" class="btn btn-primary" (click)="sendChatMessage($event)" [disabled]="disableSending || (!isFriend && global.credit < 10)">
+                <button *ngIf="messageSetup.type === 'chat'" type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage($event)" [disabled]="disableSending || (!isFriend && global.credit < 10)">
                     <i class="fa fa-comment" aria-hidden="true"></i> Cevapla</button>
-                <button *ngIf="messageSetup.type === 'first'" type="button" class="btn btn-default" (click)="close(true)">
+                <button *ngIf="messageSetup.type === 'first'" type="button" class="btn btn-default btn-sm" (click)="close(true)">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
-                <button *ngIf="messageSetup.type === 'chat'" type="button" class="btn btn-default" (click)="close(false)">
+                <button *ngIf="messageSetup.type === 'chat'" type="button" class="btn btn-default btn-sm" (click)="close(false)">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>
         </div>

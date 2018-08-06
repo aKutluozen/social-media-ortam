@@ -416,6 +416,8 @@ USER_ROUTER.post('/signin', function (req, res) {
             }, 'secret', {
                     expiresIn: "1 day"
                 });
+
+                console.log(token);
             return res.status(200).json({
                 message: 'Successfully logged in',
                 data: {

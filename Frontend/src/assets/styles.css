@@ -132,6 +132,7 @@ textarea:enabled {
     border-radius: 4px;
     max-height: calc(100vh - 80px);
     overflow-y: auto;
+    margin: 0 10px;
 }
 
 .modal.fade .modal-dialog{

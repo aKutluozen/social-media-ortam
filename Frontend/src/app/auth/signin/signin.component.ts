@@ -48,8 +48,10 @@ export class SigninComponent implements OnInit, OnDestroy {
                 this.modal.handleWarning('Hosgeldin ' + this.auth.getCookie('user') + '! Simdi ana sayfaya yonlendiriliyorsunuz!'); // Show this only when first logged in
 
                 window.setTimeout(function () {
-                    window.location.href = '/'; // Reset data
-                }, 100);
+                    // window.location.href = './'; // Reset data
+                   // window.location.reload(true);
+                    navigator['app'].loadUrl('file:///android_asset/www/index.html');
+                }, 500);
 
             },
             error => {

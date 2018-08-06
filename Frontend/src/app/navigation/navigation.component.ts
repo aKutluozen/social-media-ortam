@@ -58,6 +58,16 @@ export class NavigationComponent implements OnInit, OnDestroy {
 				this.modal.handleError('Mesajlar ve istekler kontrol edilirken bir sorun olustu', error);
 			});
 		}
+
+		$(document).click(function (e) {
+			if (!$(e.target).is('.navbar-collapse *') || $(e.target).is('#profileLink') || $(e.target).is('#homePageLink *')) {
+				$('.collapse').removeClass('show');
+			}
+		});
+	}
+
+	closeDropdown(el) {
+		$(el).parent().hide();
 	}
 
 	ngOnDestroy() {

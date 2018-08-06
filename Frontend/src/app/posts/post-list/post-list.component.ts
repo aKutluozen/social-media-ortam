@@ -35,6 +35,7 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.postLoadInterval = window.setInterval(() => {
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                 this.loadMore();
+                console.log('test', this.postService.posts.length);
             }
         }, 1000);
     }
@@ -72,6 +73,8 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.postSubscriptionWithInterval = this.postService.getPosts(this.subject, this.postAmount).subscribe((morePosts: Post[]) => {
             if (morePosts.length > 0) {
                 this.postService.posts = this.postService.posts.concat(morePosts);
+            } else {
+                window.clearInterval(this.postLoadInterval);
             }
         }, error => {
             this.modal.handleError('Konulari goruntulerken bir sorun olustu', error);
@@ -79,6 +82,6 @@ export class PostListComponent implements OnInit, OnDestroy {
     }
 
     openPostWindow() {
-		this.modal.showPostModal({publicity: 'public'});
-	}
+        this.modal.showPostModal({ publicity: 'public' });
+    }
 }

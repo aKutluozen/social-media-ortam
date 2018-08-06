@@ -1,5 +1,5 @@
 <div class="backdrop" [ngStyle]="{'display': display}" (click)="close(false)"></div>
-<div class="modal animated fadeIn" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -18,9 +18,9 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col">
-                            <label class="btn btn-info text-center" *ngIf="!imageToShow" for="postPictureFile">
+                            <label class="btn btn-info text-center btn-sm" *ngIf="!imageToShow" for="postPictureFile">
                                 <i class="fa fa-image" aria-hidden="true"></i> Resim sec</label>
-                            <label class="btn btn-danger text-center" *ngIf="imageToShow" (click)="deletePostPicture()">
+                            <label class="btn btn-danger text-center btn-sm" *ngIf="imageToShow" (click)="deletePostPicture()">
                                 <i class="fa fa-trash" aria-hidden="true"></i> Resmi sil</label>
 
                             <input hidden id="postPictureFile" type="file" (change)="fileChangeEvent($event)" />
@@ -28,9 +28,9 @@
                             <image-cropper *ngIf="imageChangedEvent" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false" [aspectRatio]="4/3"
                                 [resizeToWidth]="320" format="jpeg" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
                                 (loadImageFailed)="loadImageFailed()"></image-cropper>
-                            <button class="btn btn-success text-center" *ngIf="croppedImage" type="button" (click)="addPostImage()">
+                            <button class="btn btn-success text-center btn-sm" *ngIf="croppedImage" type="button" (click)="addPostImage()">
                                 <i class="fa fa-image" aria-hidden="true"></i>Yukle</button>
-                            <button class="btn btn-danger text-center" *ngIf="croppedImage" type="button" (click)="emptyPostImage()">
+                            <button class="btn btn-danger text-center btn-sm" *ngIf="croppedImage" type="button" (click)="emptyPostImage()">
                                 <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
                             <img hidden [src]="croppedImage" />
                         </div>
@@ -49,9 +49,9 @@
                         Resim basari ile yuklendi!
                     </div>
                     <div class="row justify-content-center">
-                        <button class="btn btn-primary mr-4" type="submit" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
+                        <button class="btn btn-primary mr-4 btn-sm" type="submit" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
                             <i class="fa fa-share-square" aria-hidden="true"></i> Paylas</button>
-                        <button type="button" class="btn btn-default" (click)="close(false)">
+                        <button type="button" class="btn btn-default btn-sm" (click)="close(false)">
                             <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
                     </div>
                 </form>

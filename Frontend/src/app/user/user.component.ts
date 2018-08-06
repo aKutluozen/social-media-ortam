@@ -77,7 +77,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.userSubscription = this.user.updateProfile(this.profileForm.value).subscribe(
 			result => {
 				this.profileForm.disable();
-				this.modal.handleWarning('Profiliniz basari ile guncellenmistir!');
+				// this.modal.handleWarning('Profiliniz basari ile guncellenmistir!');
 			},
 			error => {
 				this.modal.handleError('Profil guncellenirken bir hata olustu!', error);
@@ -102,9 +102,10 @@ export class UserComponent implements OnInit, OnDestroy {
 							let pos = this.images.indexOf(image);
 							this.images.splice(pos, 1);
 							this.fillEmptyImages();
-							this.modal.handleWarning('Resim silindi!');
+							// this.modal.handleWarning('Resim silindi!');
 						},
 						() => {
+							this.modal.handleError('Resimler yuklenirken bir sorun oldu', {});
 							console.log('Many images are NOT uploaded!');
 						});
 				}
@@ -176,7 +177,7 @@ export class UserComponent implements OnInit, OnDestroy {
 					(response) => {
 						this.profilePicture = '';
 						this.global.profilePicture = '';
-						this.modal.handleWarning('Profil resmi silindi!');
+						// this.modal.handleWarning('Profil resmi silindi!');
 					},
 					(error) => {
 						console.log('Profile image NOT updated!');
@@ -263,7 +264,7 @@ export class UserComponent implements OnInit, OnDestroy {
 				user.deleteCoverImage(
 					(response) => {
 						this.coverPicture = '';
-						this.modal.handleWarning('Kapak resmi silindi!');
+						// this.modal.handleWarning('Kapak resmi silindi!');
 					},
 					(error) => {
 						console.log('Cover image NOT updated!');

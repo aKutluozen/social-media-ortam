@@ -9,6 +9,7 @@ import { UserService } from 'app/user/user.service';
 import { InboxService } from './inbox.service';
 import { Subscription } from 'rxjs/Subscription';
 import { GlobalService } from '../../globals.service';
+import * as $ from 'jquery';
 
 @Component({
 	selector: '[app-inbox]',
@@ -60,6 +61,10 @@ export class InboxComponent implements OnInit, OnDestroy {
 				this.requestsComponent.destroyAll();
 			}
 		}, 10000);
+	}
+
+	closeDropdown(el) {
+		$(el).parent().hide();
 	}
 
 	// THERE IS NO DESTROY !!! - Replace with hasClass show not!

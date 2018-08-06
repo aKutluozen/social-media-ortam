@@ -9,7 +9,10 @@
             <i class="fa fa-search fa-lg" aria-hidden="true"></i>
         </button>
 
-        <div class="box p-2 scrollable dropdown-menu dropdown-menu-right" aria-labelledby="searchMenu">
+        <div class="box p-2 scrollable dropdown-menu dropdown-menu-right mt-0 pt-0" aria-labelledby="searchMenu">
+            <div class="row mx-0">
+                <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+            </div>
             <div class="col-12 text-center mb-2">
                 {{ usersFound.length }} sonuc bulundu.</div>
             <div class="col-12 bg-white mb-2" *ngFor="let user of usersFound">

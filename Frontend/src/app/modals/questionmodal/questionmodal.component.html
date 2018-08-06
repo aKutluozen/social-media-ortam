@@ -1,5 +1,5 @@
 <div class="backdrop" [ngStyle]="{'display': display}" (click)="close()"></div>
-<div class="modal animated fadeIn" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
@@ -9,8 +9,8 @@
                 <p [innerHTML]="content"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="approve()"><i class="fa fa-check-square" aria-hidden="true"></i> Onayla</button>
-                <button type="button" class="btn btn-default" (click)="close()"><i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+                <button type="button" class="btn btn-primary btn-sm" (click)="approve()"><i class="fa fa-check-square" aria-hidden="true"></i> Onayla</button>
+                <button type="button" class="btn btn-default btn-sm" (click)="close()"><i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>
         </div>
     </div>

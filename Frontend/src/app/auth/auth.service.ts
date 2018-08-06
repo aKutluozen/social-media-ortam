@@ -43,7 +43,9 @@ export class AuthService {
         this.setCookie('token', null, 0);
         this.setCookie('userId', null, 0);
         this.setCookie('user', null, 0);
-        window.location.href = '/';
+        // window.location.href = './';
+        //window.location.reload(true);
+        navigator['app'].loadUrl('file:///android_asset/www/index.html');
     }
 
     // Determined by checking if there is a token saved or not

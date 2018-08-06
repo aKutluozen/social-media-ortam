@@ -128,7 +128,7 @@ export class UsermodalComponent implements OnInit {
 	follow(id) {
 		this.userService.sendFollowRequest(id).subscribe(
 			data => {
-				this.modal.handleWarning('Takip istegi basari ile gonderildi');
+				// this.modal.handleWarning('Takip istegi basari ile gonderildi');
 				this.close();
 			}, error => {
 				this.modal.handleError('Istek gonderilemedi', error);
@@ -146,7 +146,7 @@ export class UsermodalComponent implements OnInit {
 				service.deleteFriend(name).subscribe(
 					data => {
 						this.isFriend = false;
-						this.modal.handleWarning('Arkadasliktan cikarildi!');
+						// this.modal.handleWarning('Arkadasliktan cikarildi!');
 						this.close();
 					}, error => {
 						this.modal.handleError('Arkadaslik iptal edilirken bir sorun olustu', error);

@@ -72,7 +72,7 @@ export class RequestsComponent {
 						this.requests.splice(i, 1);
 					}
 				}
-				this.modal.handleWarning('Takip istegi kabul edildi!');
+				// this.modal.handleWarning('Takip istegi kabul edildi!');
 			}, error => {
 				this.modal.handleError('Kabul edilemedi', error);
 			});
@@ -93,7 +93,7 @@ export class RequestsComponent {
 								collection.splice(i, 1);
 							}
 						}
-						this.modal.handleWarning('Takip istegi iptal edildi!');
+						// this.modal.handleWarning('Takip istegi iptal edildi!');
 					}, error => {
 						this.modal.handleError('Takip istegi iptal edilirken bir sorun olustu', error);
 					});

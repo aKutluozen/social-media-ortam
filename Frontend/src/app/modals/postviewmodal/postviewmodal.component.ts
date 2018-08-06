@@ -76,7 +76,7 @@ export class PostviewmodalComponent implements OnInit {
             approveFunction: function (post, collection, service) {
                 service.deletePost(post).subscribe(
                     result => {
-                        self.modal.handleWarning('Paylasim basari ile silindi!');
+                        // self.modal.handleWarning('Paylasim basari ile silindi!');
                         self.close();
                     },
                     error => {
@@ -100,7 +100,7 @@ export class PostviewmodalComponent implements OnInit {
             approveFunction: function (post, collection, service) {
                 service.deletePostShared(post).subscribe(
                     result => {
-                        self.modal.handleWarning('Paylasim basari ile silindi!');
+                        // self.modal.handleWarning('Paylasim basari ile silindi!');
                         self.close();
                     },
                     error => {
@@ -164,7 +164,7 @@ export class PostviewmodalComponent implements OnInit {
         // First, say something about the share - Open a form modal
         this.postService.sharePost(this.shareComment, this.post).subscribe(
             result => {
-                this.modal.handleWarning('Basari ile paylasildi!');
+                // this.modal.handleWarning('Basari ile paylasildi!');
                 this.shareComment = '';
                 this.onSharing = false;
                 // this.close();
@@ -180,7 +180,7 @@ export class PostviewmodalComponent implements OnInit {
         this.postService.answerPost(this.answer, this.post).subscribe(
             result => {
                 this.answer = '';
-                this.modal.handleWarning('Cevap basari ile gonderildi!');
+                // this.modal.handleWarning('Cevap basari ile gonderildi!');
             }, error => {
                 this.modal.handleError('Paylasima cevap verilirken bir sorun olustu', error);
                 // this.close();
@@ -209,7 +209,7 @@ export class PostviewmodalComponent implements OnInit {
                                 post.comments.splice(i, 1);
                             }
                         }
-                        self.modal.handleWarning('Cevap basari ile silindi!');
+                        // self.modal.handleWarning('Cevap basari ile silindi!');
                     }, error => {
                         self.modal.handleError('Cevap silinirken bir sorun olustu.', error);
                     });

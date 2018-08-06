@@ -1,5 +1,5 @@
 <div class="backdrop" [ngStyle]="{'display': display}" (click)="close()"></div>
-<div class="modal animated fadeIn" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger">
@@ -15,11 +15,11 @@
                 <p>Sikayet edilen kisiyi dilediginiz gun sayisi kadar sohbetlerden uzaklastirabilirsiniz.</p>
                 <div class="row">
                     <div class="col-8"><input class="form-control" min="1" max="30" type="number" placeholder="Gun sayisi" [(ngModel)]="days"></div>
-                    <div class="col-4"><button class="btn btn-danger btn-block" (click)="blockFromChat(complaint['name'])"><i class="fa fa-ban"></i> Yasakla</button></div>
+                    <div class="col-4"><button class="btn btn-danger btn-block btn-sm" (click)="blockFromChat(complaint['name'])"><i class="fa fa-ban"></i> Yasakla</button></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" (click)="close()">
+                <button type="button" class="btn btn-default btn-sm" (click)="close()">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>
         </div>
