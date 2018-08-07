@@ -59,10 +59,4 @@ export class InboxService {
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }
-
-    getNumbers() {
-        return this.http.get(this.global.URL + 'user/inbox/numbers' + this.auth.getToken())
-            .map((response: Response) => response.json())
-            .catch((error: Response) => Observable.throw(error.json()));
-    }
 }

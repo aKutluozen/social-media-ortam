@@ -11,7 +11,7 @@ export class ModalService {
     constructor(private auth: AuthService) { }
 
     // Emitters
-    public errorOccurred = new EventEmitter<string>();
+    public errorOccurred = new EventEmitter<Object>();
     public imageShowed = new EventEmitter<string>();
     public inputActivated = new EventEmitter<Object>();
     public warningOccurred = new EventEmitter<string>();
@@ -32,7 +32,12 @@ export class ModalService {
 
     // Invoking functions
     handleError(error: string, errorResponse) {
-        this.errorOccurred.emit(error);
+        var errorObj = {
+            message: error,
+            error: errorResponse
+        }
+        
+        this.errorOccurred.emit(errorObj);
 
         // Logout the user if token is expired
         if (errorResponse.error) {

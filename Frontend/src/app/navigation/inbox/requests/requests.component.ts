@@ -25,21 +25,19 @@ export class RequestsComponent {
 	private skipNumber: number = 5;
 	private friendSubscription: Subscription;
 	private profileSubscription: Subscription;
-	private requestSubscription: Subscription;
 
-  destroyAll() {
-    this.requestOffset = 0;
-    this.requests = [];
-    if (this.friendSubscription) this.friendSubscription.unsubscribe();
+	destroyAll() {
+		this.requestOffset = 0;
+		this.requests = [];
+		if (this.friendSubscription) this.friendSubscription.unsubscribe();
 		if (this.profileSubscription) this.profileSubscription.unsubscribe();
-		if (this.requestSubscription) this.requestSubscription.unsubscribe();
-  }
+	}
 
-  loadAll() {
-    this.requestOffset = 0;
-    this.requests = [];
-    this.load();
-  }
+	loadAll() {
+		this.requestOffset = 0;
+		this.requests = [];
+		this.load();
+	}
 
 	load() {
 		this.friendSubscription = this.user.getFriendRequests(this.requestOffset).subscribe(
@@ -61,44 +59,6 @@ export class RequestsComponent {
 	loadMore() {
 		this.requestOffset += this.skipNumber;
 		this.load();
-	}
-
-	// Accept friendship, remove it from the list if successfull
-	acceptRequest(id, request) {
-		this.requestSubscription = this.user.addToFollowing(id).subscribe(
-			data => {
-				for (let i = 0; i < this.requests.length; i++) {
-					if (this.requests[i]['nickName'] === request.nickName) {
-						this.requests.splice(i, 1);
-					}
-				}
-				// this.modal.handleWarning('Takip istegi kabul edildi!');
-			}, error => {
-				this.modal.handleError('Kabul edilemedi', error);
-			});
-	}
-
-	// Reject friendship, remove it from the list if successfull
-	rejectRequest(name, request) {
-		this.modal.showQuestion({
-			content: 'Bu istegi geri cevirmek istediginize emin misiniz?',
-			itemToBeDeleted: name,
-			itemCollection: this.requests,
-			helperService: this.user,
-			approveFunction: (name, collection, service) => {
-				this.requestSubscription = service.rejectFollowing(name).subscribe(
-					data => {
-						for (let i = 0; i < collection.length; i++) {
-							if (collection[i]['nickName'] === request.nickName) {
-								collection.splice(i, 1);
-							}
-						}
-						// this.modal.handleWarning('Takip istegi iptal edildi!');
-					}, error => {
-						this.modal.handleError('Takip istegi iptal edilirken bir sorun olustu', error);
-					});
-			}
-		});
 	}
 
 	// View a profile with a given name

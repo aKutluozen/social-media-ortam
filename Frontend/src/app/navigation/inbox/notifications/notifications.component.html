@@ -3,9 +3,9 @@
 <div class="col-12 bg-white mb-2" *ngFor="let notification of notifications">
     <div class="row my-auto py-2">
         <div class="my-auto col-2">
-            <img class="full-rounded profile-picture-xs" src="{{ global.URL_S3_USERS + notification.user.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+            <img class="rounded-circle profile-picture-xs" src="{{ global.URL_S3_USERS + notification.user.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
         </div>
-        <div class="col-7 my-auto pr-0">
+        <div class="col-7 my-auto pr-0" (click)="handleNotification(notification)">
             <p class="mb-0">
                 <b>{{ notification.user.nickName }}</b>
             </p>

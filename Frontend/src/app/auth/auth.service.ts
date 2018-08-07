@@ -87,6 +87,13 @@ export class AuthService {
             .catch((error: Response) => Observable.throw(error.json()));
     }
 
+
+    sendErrorMessage(error) {
+        return this.http.post(this.global.URL + 'mail/error', JSON.stringify({ error: error }), this.headers)
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()));
+    }
+
     getCookie(cname) {
         var name = cname + "=";
         var ca = document.cookie.split(';');

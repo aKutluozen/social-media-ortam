@@ -2,13 +2,17 @@
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger">
-                <h4 class="modal-title"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> SORUN</h4>
+                <h4 class="modal-title">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> SORUN</h4>
             </div>
             <div class="modal-body">
-                <p>{{ error }}</p>
+                <p>{{ error?.message }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+                <button type="button" class="btn btn-primary btn-sm" (click)="sendErrorMessage()">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> Hata mesaji gonder</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>
         </div>
     </div>

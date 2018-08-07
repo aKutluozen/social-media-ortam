@@ -34,7 +34,8 @@ export class SignupComponent implements OnInit, OnDestroy {
         const user = new User(
             this.signupForm.value.email,
             this.signupForm.value.password,
-            this.signupForm.value.nickName, '', '', '', '',
+            this.signupForm.value.nickName, 
+            this.signupForm.value.chatNickName, '', '', '', '',
             this.signupForm.value.firstName,
             this.signupForm.value.lastName
         );
@@ -63,6 +64,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
         this.signupForm = new FormGroup({
             nickName: new FormControl(null, Validators.required),
+            chatNickName: new FormControl(null, Validators.required),
             email: new FormControl(null, [
                 Validators.required,
                 Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")

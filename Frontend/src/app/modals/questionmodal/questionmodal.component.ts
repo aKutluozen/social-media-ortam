@@ -42,15 +42,10 @@ export class QuestionmodalComponent implements OnInit {
 		});
 	}
 
-	// Close it
-	close() {
-		$(this.modalElement.nativeElement).modal('hide');
-	}
-
 	// Approve function needs to be passed with necessary 3 parameters 
 	// (what to delete, where to delete it from, what service to use)
 	approve() {
 		this.approveFunction(this.dataToBeDeleted, this.collection, this.helperService);
-		this.close();
+		$(this.modalElement.nativeElement).modal('hide');
 	}
 }

@@ -27,7 +27,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
 	public username: string = '';
 	public searchString: string = '';
-	public isNew: boolean = false;
+	public flagObject: any = {};
 	private messageSubscription: Subscription;
 	private inboxSubscription: Subscription;
 	private profileSubscription: Subscription;
@@ -52,8 +52,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
 		if (this.username) {
 			this.inboxSubscription = this.user.checkInboxOnInterval(5000).subscribe(data => {
-				this.isNew = data.data.flag;
+				this.flagObject = data.data.flagObject;
+				this.flagObject.numbers = data.data.numbers;
 				this.global.banned = data.data.userSituation.isBanned;
+				console.log(data.data.numbers);
 			}, error => {
 				this.modal.handleError('Mesajlar ve istekler kontrol edilirken bir sorun olustu', error);
 			});

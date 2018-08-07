@@ -67,6 +67,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.profileForm.enable();
 		this.profileForm.get('email').disable();
 		this.profileForm.get('nickName').disable();
+		// this.profileForm.get('chatNickName').disable();
 	}
 
 	disableInfoUpdate() {
@@ -312,6 +313,7 @@ export class UserComponent implements OnInit, OnDestroy {
 			firstName: new FormControl({ value: '', disabled: true }, Validators.required),
 			lastName: new FormControl({ value: '', disabled: true }, Validators.required),
 			nickName: new FormControl({ value: '', disabled: true }),
+			chatNickName: new FormControl({ value: '', disabled: true }),
 			birthday: new FormControl({ value: '', disabled: true }, Validators.required),
 			jobStatus: new FormControl({ value: '', disabled: true }, Validators.required),
 			education: new FormControl({ value: '', disabled: true }, Validators.required),
@@ -391,6 +393,7 @@ export class UserComponent implements OnInit, OnDestroy {
 					firstName: this.profile.firstName || '',
 					lastName: this.profile.lastName || '',
 					nickName: this.profile.nickName || '',
+					chatNickName: this.profile.chatNickName || '',
 					birthday: realBirthday || '',
 					jobStatus: this.profile.jobStatus || '',
 					education: this.profile.education || '',

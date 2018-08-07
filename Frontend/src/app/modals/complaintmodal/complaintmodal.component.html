@@ -1,5 +1,4 @@
-<div class="backdrop" [ngStyle]="{'display': display}" (click)="close()"></div>
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+<div class="modal fade" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger">
@@ -19,7 +18,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-sm" (click)="close()">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>
         </div>

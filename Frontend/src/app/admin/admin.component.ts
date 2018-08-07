@@ -5,8 +5,7 @@ import { ModalService } from '../modals/modal.service';
 
 @Component({
     selector: 'app-admin',
-    templateUrl: './admin.component.html',
-    styleUrls: ['./admin.component.css']
+    templateUrl: './admin.component.html'
 })
 export class AdminComponent implements OnInit {
     constructor(private global: GlobalService, private user: UserService, private modal: ModalService) { }

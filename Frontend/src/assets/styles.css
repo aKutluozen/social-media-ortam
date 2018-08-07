@@ -4,28 +4,16 @@
 }
 
 body {
-    padding-top: 80px;
+    padding-top: 100px;
     margin-bottom: 60px;
-    background: rgb(235, 235, 235);
-    /* background-color: rgb(247, 238, 212); */
+    /* background: rgb(245, 245, 245); */
     /* background-image: url('assets/images/istanbul.png'); */
     background-attachment: fixed;
     background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: 0 100%;
-    /* animation: moveLeftBG 4s infinite; */
-    font-size: 90%;
-    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
-    line-height: 60px;
-    margin-top: 50px;
-    background-color: #f5f5f5;
+    /* font-size: 90%;
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif; */
 }
 
 .close {
@@ -34,20 +22,19 @@ body {
     top: 2px;
 }
 
-.card .text-muted {
-    line-height: 1;
-}
-
-.text-muted {
-    word-wrap: break-word !important;
-}
-
-.badge {
-    border-radius: 4px;
-}
-
 .list-inline-item:hover {
     cursor: pointer;
+    background: none;
+}
+
+.list-group-item {
+    background: none;
+    color: inherit;
+}
+
+.list-group-item:hover {
+    background: #eee;
+    color: inherit;
 }
 
 .bottom-right {
@@ -56,13 +43,8 @@ body {
     bottom: 16px;
 }
 
-.border-secondary {
-    border-color: rgb(211, 211, 211) !important;
-}
-
-.form-control {
-    font-size: 90%;
-    box-shadow: none !important;
+.card:hover {
+    cursor: pointer;
 }
 
 input,
@@ -81,18 +63,6 @@ textarea:disabled {
 input:enabled,
 textarea:enabled {
     border-bottom: 1px solid rgb(219, 219, 219) !important;
-}
-
-.rounded {
-    border-radius: 4px !important;
-}
-
-.full-rounded {
-    border-radius: 100% !important;
-}
-
-.img-thumbnail {
-    padding: 2px;
 }
 
 .modal-header {

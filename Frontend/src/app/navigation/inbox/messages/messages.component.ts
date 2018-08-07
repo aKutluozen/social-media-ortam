@@ -122,7 +122,6 @@ export class MessagesComponent {
 								collection.splice(i, 1);
 							}
 						}
-						// this.modal.handleWarning("Mesaj silindi!");
 					},
 					error => {
 						this.modal.handleError("Mesaj silinemedi", error);

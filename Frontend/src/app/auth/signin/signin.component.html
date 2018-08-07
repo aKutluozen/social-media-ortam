@@ -43,11 +43,6 @@
                     <b>2)</b> E-mail adresinize gonderdigimiz kodu giriniz.</label>
                 <input type="text" id="resetCode" class="ml-2 form-control" placeholder="Sifre" formControlName="resetCode">
             </div>
-            <div class="form-group">
-                <label>
-                    <b>3)</b> Yeni sifreyi giriniz.</label>
-                <input type="password" id="newPassword" class="ml-2 form-control" placeholder="Yeni sifre" formControlName="newPassword">
-            </div>
             <div class="form-row">
                 <div class="col-12 pl-3">
                     <div class="small alert alert-warning">
@@ -63,6 +58,11 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    <b>3)</b> Yeni sifreyi giriniz.</label>
+                <input type="password" id="newPassword" class="ml-2 form-control" placeholder="Yeni sifre" formControlName="newPassword">
             </div>
             <div class="form-group mb-0">
                 <button class="btn btn-primary btn-block btn-sm" type="button" (click)="refreshPassword()" [disabled]="!resetForm.valid">

@@ -1,7 +1,10 @@
 <div class="row">
     <form class="col-md-12" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <input type="text" id="nickName" class="form-control" placeholder="Rumuz (Anonim sohbette gozukecek)" formControlName="nickName">
+            <input type="text" id="nickName" class="form-control" placeholder="Takma isim" formControlName="nickName">
+        </div>
+        <div class="form-group">
+            <input type="text" id="chatNickName" class="form-control" placeholder="Rumuz (anonim sohbet)" formControlName="chatNickName">
         </div>
         <div class="form-group">
             <input type="email" id="email" class="form-control" placeholder="E-posta" formControlName="email">

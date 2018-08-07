@@ -68,10 +68,6 @@
     border-radius: 100%;
 }
 
-.border-top {
-    border-top: 1px solid #ddd;
-}
-
 .extra-box {
     height: 340px;
     margin: auto;

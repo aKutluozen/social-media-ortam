@@ -220,9 +220,10 @@ USER_ROUTER.delete('/user/profilePicture', function (req, res) {
     });
 });
 
+// Ban from chat by chatNickName
 USER_ROUTER.post('/user/ban/:person/:days', function (req, res) {
     User.update(
-        { nickName: req.params.person },
+        { chatNickName: req.params.person },
         { bannedChat: { isBanned: true, days: req.params.days, banDate: Date.now() } },
         function (err, result) {
             if (err) {
@@ -341,7 +342,7 @@ USER_ROUTER.delete('/user/images', function (req, res) {
                 Bucket: 'socialmediaimages2017',
                 Key: 'user_images/' + fileToDelete
             }, function (err, data) {
-               // console.log(err, data);
+                // console.log(err, data);
                 if (err) {
                     return res.status(404).json({
                         message: 'Image to delete not found!',
@@ -375,6 +376,7 @@ USER_ROUTER.delete('/user/images', function (req, res) {
 USER_ROUTER.post('/', function (req, res, next) {
     var user = new User({
         nickName: req.body.nickName.toLowerCase(),
+        chatNickName: req.body.chatNickName.toLowerCase(),
         email: req.body.email.toLowerCase(),
         password: bcrypt.hashSync(req.body.password, 10),
         firstName: req.body.firstName,
@@ -417,13 +419,13 @@ USER_ROUTER.post('/signin', function (req, res) {
                     expiresIn: "1 day"
                 });
 
-                console.log(token);
             return res.status(200).json({
                 message: 'Successfully logged in',
                 data: {
                     token: token,
                     userId: user._id,
                     name: user.nickName,
+                    chatNickName: user.chatNickName,
                     credit: user.credit,
                     picture: user.profilePicture
                 }
@@ -524,20 +526,25 @@ USER_ROUTER.get('/user/requests/:name', function (req, res, next) {
         });
 });
 
-// Search all users by name - NEEDS TO BE IMPROVED TO A MORE FLEXIBLE SEARCH
+// Search all users by name
 USER_ROUTER.get('/user/all/:name', function (req, res, next) {
     User.find({
         $or: [
-        {
-            firstName: {
-                $regex: req.params.name.toLowerCase(), $options : 'i'
+            {
+                nickName: {
+                    $regex: req.params.name.toLowerCase(), $options: 'i'
+                }
+            },
+            {
+                firstName: {
+                    $regex: req.params.name.toLowerCase(), $options: 'i'
+                }
+            },
+            {
+                lastName: {
+                    $regex: req.params.name.toLowerCase(), $options: 'i'
+                }
             }
-        },
-        {
-            lastName: {
-                $regex: req.params.name.toLowerCase(), $options : 'i'
-            }
-        }
         ]
     }, {
             _id: 1,
@@ -546,6 +553,7 @@ USER_ROUTER.get('/user/all/:name', function (req, res, next) {
             bio: 1,
             firstName: 1,
             lastName: 1,
+            nickName: 1,
             education: 1,
             jobStatus: 1,
             following: 1
@@ -1018,27 +1026,35 @@ USER_ROUTER.get('/user/notifications/:offset', function (req, res) {
         });
 });
 
-// Checks if there is anything unread in a general level - Make this more specific later!
+// Checks any notifications and gets the numbers also
 USER_ROUTER.get('/user/inbox', function (req, res) {
     var token = jwt.decode(req.query.token);
-    var flag = false;
 
     // Check for unaccepted friend requests first
     User.findById(token.id, function (err, user) {
         misc.checkUserErrors(err, res, user, token, () => {
+            var flagObject = {
+                newRequest: false,
+                newNotification: false,
+                newMessage: false
+            }
+
+            var requests = 0;
+
             // Check for waiting friend request
             if (user.following.length > 0) {
                 for (let i = 0; i < user.following.length; i++) {
                     // There is a new, waiting request!
                     if (user.following[i].accepted === false) {
-                        flag = true;
+                        flagObject.newRequest = true;
+                        requests++;
                     }
                 }
             }
 
-            // Check to see if anything the user shared has comment, like etc. on it.
+            // Check to see if anything the user shared has comment, like etc. on it. <- Notification
             if (user.inbox.length > 0) {
-                flag = true;
+                flagObject.newNotification = true;
             }
 
             var dd = new Date(user.bannedChat.banDate);
@@ -1079,16 +1095,17 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
                         });
                     }
 
+                    // Check if there are messages
                     if (messages.length > 0) {
                         for (let i = 0; i < messages.length; i++) {
                             // Decide if you are initiator or initiated
                             if (token.id === messages[i].initiator.toString()) {
                                 if (messages[i].initiatorRead === false) {
-                                    flag = true;
+                                    flagObject.newMessage = true;
                                 }
                             } else if (token.id === messages[i].initiated.toString()) {
                                 if (messages[i].initiatedRead === false) {
-                                    flag = true;
+                                    flagObject.newMessage = true;
                                 }
                             }
                         }
@@ -1097,51 +1114,19 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
                     return res.status(200).json({
                         message: 'What is new in inbox',
                         data: {
-                            flag: flag,
-                            userSituation: user.bannedChat
+                            userSituation: user.bannedChat,
+                            flagObject: flagObject,
+                            numbers: {
+                                requests: requests,
+                                notifications: user.inbox.length,
+                                messages: messages.length,
+                                credit: user.credit
+                            }
                         }
                     });
                 });
         });
     })
-});
-
-// Get inbox numbers
-USER_ROUTER.get('/inbox/numbers', function (req, res) {
-    var token = jwt.decode(req.query.token);
-
-    User.findById(token.id, { inbox: 1, following: 1, credit: 1 }, function (err, user) {
-        misc.checkUserErrors(err, res, user, token, () => {
-            var requests = [];
-            for (let i = 0; i < user.following.length; i++) {
-                // There is a new, waiting request!
-                if (user.following[i].accepted === false) {
-                    requests.push(user.following[i]);
-                }
-            }
-
-            Message.find({ $or: [{ initiator: token.id }, { initiated: token.id }] }, function (err, messages) {
-                if (err) {
-                    return res.status(500).json({
-                        message: 'Error with message numbers',
-                        error: err
-                    });
-                }
-
-                var numbers = {
-                    requests: requests.length,
-                    notifications: user.inbox.length,
-                    messages: messages.length,
-                    credit: user.credit
-                }
-
-                return res.status(200).json({
-                    message: 'numbers',
-                    data: numbers
-                });
-            });
-        });
-    });
 });
 
 module.exports = USER_ROUTER;

@@ -19,7 +19,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	public rooms: object[] = [];
 	public reason: string = '';
 	public isExpanded: boolean = false;
-	private name: string = this.auth.getCookie('user');
+	private name: string = this.auth.getCookie('chatNickName');
 	private picture: string = this.global.profilePicture;
 	private selectedRoom: object = {};
 	private messageTimeout: boolean = false;
@@ -119,7 +119,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		// Limit textarea
 		this.connection = this.chatService.getMessages().subscribe(message => {
-			//console.log(message['text'].room.name, this.selectedRoom.name);
 			if (message['text']['room'].name === this.selectedRoom['name']) {
 				this.messages.push(message);
 			}

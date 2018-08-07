@@ -4,6 +4,7 @@ var mongooseUniqueValidator = require('mongoose-unique-validator');
 
 var schema = new Schema({
     nickName: { type: String, required: true, unique: true },
+    chatNickName: { type: String, unique: true },
     firstName: { type: String },
     lastName: { type: String },
     bio: { type: String },

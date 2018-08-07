@@ -38,6 +38,7 @@ export class SigninComponent implements OnInit, OnDestroy {
                 this.auth.setCookie('token', data.data.token, 7);
                 this.auth.setCookie('userId', data.data.userId, 7);
                 this.auth.setCookie('user', data.data.name, 7);
+                this.auth.setCookie('chatNickName', data.data.chatNickName, 7);
                 this.auth.changeMessage(data.data.name);
 
                 this.global.profilePicture = data.data.picture;
@@ -89,15 +90,15 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     sendForgotRequest() {
         this.auth.sendResetRequest(this.resetForm.value.email).subscribe(
-            data => console.log('succesfully sent', data),
-            error => console.error('problem sending request', error)
+            data => this.modal.handleWarning('Girdiginiz emaile bir sifre yolladik, lutfen kontrol ediniz.'),
+            error => this.modal.handleError('Bir sorun olustu', error)
         )
     }
 
     refreshPassword() {
         this.auth.refreshPassword(this.resetForm.value.email, this.resetForm.value.resetCode, this.resetForm.value.newPassword).subscribe(
             data => {
-                this.modal.handleWarning('Sifreniz basari ile yenilenmistir! Lutfen tekrar giris yapmayi deneyiniz. ');
+                this.modal.handleWarning('Sifreniz basari ile yenilenmistir! Lutfen tekrar giris yapmayi deneyiniz.');
                 this.isResetting = false;
             },
             error => {

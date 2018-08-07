@@ -133,11 +133,41 @@ export class UsermodalComponent implements OnInit {
 	follow(id) {
 		this.userService.sendFollowRequest(id).subscribe(
 			data => {
-				// this.modal.handleWarning('Takip istegi basari ile gonderildi');
+				this.modal.handleWarning('Takip istegi basari ile gonderildi');
 				this.close();
 			}, error => {
 				this.modal.handleError('Istek gonderilemedi', error);
 			});
+	}
+
+	// Accept friendship, remove it from the list if successfull
+	acceptRequest(id) {
+		this.userService.addToFollowing(id).subscribe(
+			data => {
+				this.modal.handleWarning('Takip istegi kabul edildi!');
+				this.close();
+			}, error => {
+				this.modal.handleError('Kabul edilemedi', error);
+			});
+	}
+
+	// Reject friendship, remove it from the list if successfull
+	rejectRequest(name) {
+		this.modal.showQuestion({
+			content: 'Bu istegi geri cevirmek istediginize emin misiniz?',
+			itemToBeDeleted: name,
+			itemCollection: [],
+			helperService: this.userService,
+			approveFunction: (name, collection, service) => {
+				service.rejectFollowing(name).subscribe(
+					data => {
+						this.modal.handleWarning('Takip istegi iptal edildi!');
+						this.close();
+					}, error => {
+						this.modal.handleError('Takip istegi iptal edilirken bir sorun olustu', error);
+					});
+			}
+		});
 	}
 
 	// Delete a friend

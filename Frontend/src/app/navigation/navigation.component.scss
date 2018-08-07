@@ -7,24 +7,6 @@ body.navbar-height{
     overflow-y: scroll;
 }
 
-.newMessages {
-    /* color: rgb(24, 24, 24); */
-    animation: pulse infinite 1s;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1.0);
-    }
-    50% {
-        transform: scale(1.35);
-        text-shadow: 0px 0px 16px white;
-    }
-    100% {
-        transform: scale(1.0);
-    }
-}
-
 .profile-picture {
     height: 24px;
     width: 24px;

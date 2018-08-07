@@ -45,6 +45,14 @@ export class NotificationsComponent {
         this.load();
     }
 
+    handleNotification(notification) {
+        if (notification.action == 'complaint') {
+            this.handleComplaint(notification);
+        } else {
+            this.showPost(notification._id, notification.post._id, notification.action, notification.user._id)
+        }
+    }
+
     handleComplaint(notification) {
         notification.data.text.complainer = notification.user.nickName;
         this.modal.showComplaintModal(notification.data.text);
@@ -61,7 +69,7 @@ export class NotificationsComponent {
                         }
                     }
                 },
-                error => { 
+                error => {
                     this.modal.handleError('Bildirim silinemedi!', error);
                 }
             );
@@ -111,13 +119,14 @@ export class NotificationsComponent {
         if (action != 'complaint') {
             this.postSubscription = this.posts.getOnePost(id).subscribe(
                 data => {
-                    data.postId = data._id;
-                    data.profilePicture = data.user.profilePicture;
+                    data.data.postId = data.data._id;
+                    data.data.profilePicture = data.data.user.profilePicture;
 
-                    if (data.linkContent) {
-                        data.linkContent = JSON.parse(data.linkContent);
+                    if (data.data.linkContent) {
+                        data.data.linkContent = JSON.parse(data.data.linkContent);
                     }
-                    this.modal.showPostViewModal(data);
+
+                    this.modal.showPostViewModal(data.data);
 
                     // Remove it from inbox
                     this.userSubscription = this.user
@@ -130,7 +139,7 @@ export class NotificationsComponent {
                                     }
                                 }
                             },
-                            error => { this.modal.handleError('Silemedik!', error);}
+                            error => { this.modal.handleError('Silemedik!', error); }
                         );
                 },
                 error => {

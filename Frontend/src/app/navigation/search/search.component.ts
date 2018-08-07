@@ -108,7 +108,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 	isRequestSent(otherUser) {
 		var currentUser = this.auth.getCookie('user');
 
-		// this.receivedRequest();
 		for (let followed of otherUser.following) {
 			if (followed.nickName == currentUser && followed.accepted === false) {
 				return true;
@@ -126,6 +125,15 @@ export class SearchComponent implements OnInit, OnDestroy {
 				// this.search(); // refresh the search here <- FIND A GOOD SOLUTION TO THIS REFRESH PROBLEM!
 			}, error => {
 				this.modal.handleError('Istek gonderilemedi ya da onceden zaten gonderildi', error);
+			});
+	}
+
+	viewProfile(name) {
+		this.userSubscription = this.user.viewProfile(name).subscribe(
+			data => {
+				this.modal.showUserModal(data.data);
+			}, error => {
+				this.modal.handleError('Profil yuklenirken bir sorun olustu!', error);
 			});
 	}
 

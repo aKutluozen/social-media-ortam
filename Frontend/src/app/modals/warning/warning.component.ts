@@ -11,20 +11,14 @@ export class WarningComponent implements OnInit {
 
     constructor(private modal: ModalService) { }
 
-    public warning: string;
+    public warning: string = '';
 
     @ViewChild('modalElement') modalElement: ElementRef;
-
-    // Close the modal
-    close() {
-        this.warning = '';
-    }
 
     // Initialize the modal
     ngOnInit() {
         this.modal.warningOccurred.subscribe((warning: string) => {
             this.warning = warning;
-            // Finally, show the modal
             this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
                 this.warning = '';
             });

@@ -13,7 +13,6 @@ export class ComplaintmodalComponent implements OnInit {
     constructor(private modal: ModalService, private user: UserService) { }
 
     public complaint: object;
-    public display = 'none';
     public days: number = 0;
 
     @ViewChild('modalElement') modalElement: ElementRef;

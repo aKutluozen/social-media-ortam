@@ -9,62 +9,10 @@
                 <b>ortam</b> online</i>
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <app-search></app-search>
+            <app-search *ngIf="username"></app-search>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item border-left" *ngIf="username">
-                </li>
                 <li class="nav-item" *ngIf="username">
-                    <ul class="list-inline nav-link">
-                        <li class="list-inline-item btn-group">
-                            <div class="dropdown">
-                                <a id="newspaperMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-newspaper" aria-hidden="true"></i>
-                                    <div class="item-text">Haberler</div>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right my-0 py-0" aria-labelledby="newspaperMenu">
-                                    <div class="row mx-0">
-                                        <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
-                                    </div>
-                                    <iframe src="https://www.cnnturk.com/news/embed_v2/manset/650x550?p=" width="100%" height="240" frameborder="0"></iframe>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-inline-item btn-group">
-                            <div class="dropdown">
-                                <a id="tvMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-tv" aria-hidden="true"></i>
-                                    <div class="item-text">Televizyon</div>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right my-0 py-0" aria-labelledby="tvMenu">
-                                    <div class="row mx-0">
-                                        <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
-                                    </div>
-                                    <iframe src="http://web.canlitvlive.io/tvizle.php?css=eyJ6ZW1pbiI6IiNmZmZmZmYiLCJob3ZlciI6IiNmYWZkZmYiLCJvbml6bGUiOiIwIiwiYWRyZW5rIjoiI0IwRDVFNyIsImthdGVnb3JpIjoidW5kZWZpbmVkIiwiYXJhbWF2YXIiOiIxIiwibG9nb2FkZXQiOiIwIiwiYWRob3ZlciI6IiMxQTFBMUEiLCJ6ZW1pbnNlYyI6IiNGRkZGRkYifQ==&t=2&tv=&pos=r&logo=1"
-                                        frameborder="0" width="100%" height="350" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-inline-item btn-group">
-                            <div class="dropdown">
-                                <a id="radioMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-music" aria-hidden="true"></i>
-                                    <div class="item-text">Radyo</div>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right my-0 py-0" aria-labelledby="radioMenu">
-                                    <div class="row mx-0">
-                                        <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
-                                    </div>
-                                    <iframe src="http://www.canliradyolive.com/radyo.php?css=eyJ6ZW1pbiI6IiNmZmZmZmYiLCJhcmFtYXZhciI6IjEiLCJob3ZlciI6IiM5YjliOWIiLCJhZHJlbmsiOiIjOTI5MjkyIiwiYWRob3ZlciI6IiMxQTFBMUEiLCJ6ZW1pbnNlYyI6IiM4MTgxODEifQ==&t=2&rd=&pos=undefined&logo=1&kk=1&eq=2&load=2&ct=0&clr=dbdbdb"
-                                        frameborder="0" width="100%" height="320"></iframe>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item border-left" *ngIf="username">
-                </li>
-                <li class="nav-item" *ngIf="username">
-                    <ul class="list-inline nav-link" app-inbox></ul>
+                    <ul class="list-inline nav-link" app-inbox [flagObject]="flagObject"></ul>
                 </li>
                 <li class="nav-item border-left" *ngIf="username">
                 </li>

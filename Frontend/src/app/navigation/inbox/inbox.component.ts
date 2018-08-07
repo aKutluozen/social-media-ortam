@@ -3,7 +3,8 @@ import {
 	OnInit,
 	OnDestroy,
 	ViewChild,
-	ElementRef
+	ElementRef,
+	Input
 } from '@angular/core';
 import { UserService } from 'app/user/user.service';
 import { InboxService } from './inbox.service';
@@ -28,6 +29,8 @@ export class InboxComponent implements OnInit, OnDestroy {
 
 	public isChatShowing: boolean = false;
 
+	@Input() flagObject: any;
+
 	// Capture all the children components and elements
 	@ViewChild('messagesComponentElement') messagesComponentElement: ElementRef;
 	@ViewChild('messagesComponent') messagesComponent;
@@ -45,8 +48,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 	// Constantly checks for the numbers
 	ngOnInit() {
 		this.checkInterval = window.setInterval(() => {
-			this.subscription = this.inbox.getNumbers().subscribe(
-				data => { this.numbers = data.data; this.global.credit = data.data.credit; }, error => console.log(error));
+			this.global.credit = this.flagObject.numbers.credit;
 
 			// Stop actions if they are not shown
 			if (!this.messagesComponentElement.nativeElement.classList.contains('show')) {
@@ -60,7 +62,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 			if (!this.requestsComponentElement.nativeElement.classList.contains('show')) {
 				this.requestsComponent.destroyAll();
 			}
-		}, 10000);
+		}, 5000);
 	}
 
 	closeDropdown(el) {
