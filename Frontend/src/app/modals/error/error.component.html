@@ -9,8 +9,8 @@
                 <p>{{ error?.message }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-sm" (click)="sendErrorMessage()">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Hata mesaji gonder</button>
+                <button *ngIf="error?.error?.message != 'banned'" type="button" class="btn btn-primary btn-sm" (click)="sendErrorMessage()">
+                    <i class="fa fa-share-square" aria-hidden="true"></i> Hata mesaji gonder</button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>

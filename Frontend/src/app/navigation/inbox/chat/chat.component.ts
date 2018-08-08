@@ -54,7 +54,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 					error => {
 						this.modal.handleError('Yasak!', error);
 						this.selectedRoom = {};
-						console.log('Error', error);
 					}
 				)
 			}
@@ -84,7 +83,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 					window.setTimeout(() => { this.messageTimeout = false; }, 2000);
 				}
 			} else {
-				this.modal.handleError('Sohbetten kovuldunuz!', {});
+				this.modal.handleError('Sohbetten kovuldunuz!', {error: '', message: 'banned'});
 			}
 		}
 	}
@@ -129,7 +128,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 				$('textarea').attr('maxlength', 256);
 			},
 			error => {
-				console.log(error);
+				// console.log(error);
 			}
 		);
 
@@ -138,10 +137,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 			err => console.error(err)
 		);
 
-		this.chatService.getNumbers().subscribe(
-			data => console.log(data),
-			error => console.log(error)
-		);
+		// this.chatService.getNumbers().subscribe(
+		// 	data => console.log(data),
+		// 	error => console.log(error)
+		// );
 	}
 
 	public openPopup: Function;

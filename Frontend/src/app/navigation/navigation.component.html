@@ -1,10 +1,10 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark border-bottom">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" id="navbarButton" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand text-primary" [routerLink]="['/posts/all']">
+        <a class="navbar-brand" [routerLink]="['/posts/all']">
             <i>
                 <b>ortam</b> online</i>
         </a>
@@ -12,14 +12,12 @@
             <app-search *ngIf="username"></app-search>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item" *ngIf="username">
-                    <ul class="list-inline nav-link" app-inbox [flagObject]="flagObject"></ul>
-                </li>
-                <li class="nav-item border-left" *ngIf="username">
+                    <ul class="list-inline nav-link pt-2" app-inbox [flagObject]="flagObject"></ul>
                 </li>
                 <li class="nav-item" *ngIf="username">
                     <ul class="list-inline nav-link">
                         <li class="list-inline-item" routerLinkActive="active" id="homePageLink">
-                            <a class="dropdown" href="#" [routerLink]="['/posts/all']">
+                            <a class="dropdown text-white" href="#" [routerLink]="['/posts/all']">
                                 <i class="fa fa-home"> </i>
                                 <div class="item-text">Ana sayfa</div>
                             </a>

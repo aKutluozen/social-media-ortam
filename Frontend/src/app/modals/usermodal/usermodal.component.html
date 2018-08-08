@@ -130,22 +130,18 @@
 
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <span *ngIf="!isMe">
-                        <button *ngIf="!isFriend && !isInTheFollowList" [disabled]="isRequestSent(user) || isInTheFollowList" class="btn btn-primary btn-sm"
-                            (click)="follow(user._id)">
-                            <i class="fa fa-eye" aria-hidden="true"></i> Takip et</button>
-
-                        <button *ngIf="!isFriend && isInTheFollowList" class="btn btn-success btn-sm" (click)="acceptRequest(user._id)">
-                            <i class="fa fa-eye" aria-hidden="true"></i> Istegi kabul et</button>
-                        <button *ngIf="!isFriend && isInTheFollowList" class="btn btn-danger btn-sm" (click)="rejectRequest(user.nickName)">
-                            <i class="fa fa-user-times" aria-hidden="true"></i> Istegi iptal et</button>
-
-                        <button *ngIf="!justView && isFriend" class="btn btn-danger btn-sm" (click)="unfriend(user.nickName)">
-                            <i class="fa fa-user-times" aria-hidden="true"></i> Arkadasliktan cikar</button>
-                        <button class="btn btn-info btn-sm" (click)="answerMessage(user.nickName)">
-                            <i class="fa fa-envelope" aria-hidden="true"></i> Mesaj yolla</button>
-                    </span>
+                <div class="modal-footer btn-group">
+                    <button *ngIf="!isFriend && !isInTheFollowList && !isMe" [disabled]="isRequestSent(user) || isInTheFollowList" class="btn btn-primary btn-sm"
+                        (click)="follow(user._id)">
+                        <i class="fa fa-eye" aria-hidden="true"></i> Takip et</button>
+                    <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-success btn-sm" (click)="acceptRequest(user._id)">
+                        <i class="fa fa-eye" aria-hidden="true"></i> Kabul et</button>
+                    <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-danger btn-sm" (click)="rejectRequest(user.nickName)">
+                        <i class="fa fa-user-times" aria-hidden="true"></i> Geri cevir</button>
+                    <button *ngIf="!justView && isFriend && !isMe" class="btn btn-danger btn-sm" (click)="unfriend(user.nickName)">
+                        <i class="fa fa-user-times" aria-hidden="true"></i> Arkadasliktan cikar</button>
+                    <button class="btn btn-info btn-sm" *ngIf="!isMe" (click)="answerMessage(user.nickName)">
+                        <i class="fa fa-envelope" aria-hidden="true"></i> Konus</button>
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                         <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
                 </div>

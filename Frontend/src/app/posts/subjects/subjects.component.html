@@ -11,7 +11,7 @@
                 <b>Ozel Paylasimlar</b>
             </a>
             <a class="list-group-item list-group-item-action small" *ngFor="let subject of subjects" (click)="postListRef.filterBySubject(subject._id)">{{ subject._id }}
-                <span class="badge bg-info text-light"> {{ subject.count }}</span>
+                <span class="badge bg-info text-light float-right"> {{ subject.count }}</span>
             </a>
         </div>
     </div>

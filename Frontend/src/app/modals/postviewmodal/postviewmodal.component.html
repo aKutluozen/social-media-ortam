@@ -106,7 +106,7 @@
                                         <div class="col-2">
                                             <img class="img-thumnail profile-picture" src="{{ global.URL_S3_USERS + comment.user.profilePicture }}" onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                                         </div>
-                                        <div class="pl-0" [ngClass]="{
+                                        <div [ngClass]="{
                                             'col-8': answerBelongsToUser(comment.user.nickName), 
                                             'col-10': !answerBelongsToUser(comment.user.nickName)
                                         }">
@@ -174,11 +174,11 @@
                                 <i class="fa fa-comment" aria-hidden="true"></i>
                                 <span class="badge">{{ post?.comments.length }}</span>
                             </button>
-                            <button class="btn btn-smiley btn-success" (click)="likeThis()">
+                            <button *ngIf="post.nickName != global.username" class="btn btn-smiley btn-success" (click)="likeThis()">
                                 <i class="fa fa-smile" aria-hidden="true"></i>
                                 <span class="badge">{{ post?.likes.length }}</span>
                             </button>
-                            <button class="btn btn-smiley btn-danger" (click)="dislikeThis()">
+                            <button *ngIf="post.nickName != global.username" class="btn btn-smiley btn-danger" (click)="dislikeThis()">
                                 <i class="fa fa-frown" aria-hidden="true"></i>
                                 <span class="badge">{{ post?.dislikes.length }}</span>
                             </button>

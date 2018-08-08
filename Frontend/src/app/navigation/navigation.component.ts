@@ -55,7 +55,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
 				this.flagObject = data.data.flagObject;
 				this.flagObject.numbers = data.data.numbers;
 				this.global.banned = data.data.userSituation.isBanned;
-				console.log(data.data.numbers);
 			}, error => {
 				this.modal.handleError('Mesajlar ve istekler kontrol edilirken bir sorun olustu', error);
 			});

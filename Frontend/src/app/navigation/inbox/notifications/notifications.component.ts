@@ -91,7 +91,7 @@ export class NotificationsComponent {
                         } else if (item.action === "share") {
                             item.actionReadable = "paylasimini paylasti";
                         } else if (item.action === "comment") {
-                            item.actionReadable = "paylasimina yorum yapti";
+                            item.actionReadable = "paylasimini cevapladi";
                         } else if (item.action === "complaint") {
                             item.actionReadable = "sikayet!"
                         }

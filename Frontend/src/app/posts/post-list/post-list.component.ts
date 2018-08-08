@@ -35,7 +35,6 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.postLoadInterval = window.setInterval(() => {
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                 this.loadMore();
-                console.log('test', this.postService.posts.length);
             }
         }, 1000);
     }

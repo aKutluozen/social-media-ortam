@@ -20,7 +20,6 @@ import { PostmodalComponent } from './modals/postmodal/postmodal.component';
 import { PostviewmodalComponent } from './modals/postviewmodal/postviewmodal.component';
 import { AuthComponent } from './auth/auth.component';
 import { PostsComponent } from './posts/posts.component';
-import { ChatComponent } from './navigation/inbox/chat/chat.component';
 import { ChatPageComponent } from './navigation/inbox/chat/chat-page/chat.page.component';
 import { AdminComponent } from './admin/admin.component';
 import { ImageCropperModule } from 'ngx-image-cropper';

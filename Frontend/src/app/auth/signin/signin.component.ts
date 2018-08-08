@@ -48,9 +48,9 @@ export class SigninComponent implements OnInit, OnDestroy {
                 this.modal.handleWarning('Hosgeldin ' + this.auth.getCookie('user') + '! Simdi ana sayfaya yonlendiriliyorsunuz!'); // Show this only when first logged in
 
                 window.setTimeout(function () {
-                   
-                   window.location.reload(true);
-                   window.location.href = './'; // Reset data
+
+                    window.location.reload(true);
+                    window.location.href = './'; // Reset data
                     // navigator['app'].loadUrl('file:///android_asset/www/index.html');
                 }, 500);
 
@@ -68,9 +68,6 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     // Initialize the reactive form, redirect to profile if already logged in
     ngOnInit() {
-        if (this.auth.isLoggedIn()) {
-            this.router.navigate(['/auth', 'profile']);
-        }
         this.signinForm = new FormGroup({
             email: new FormControl(null, [
                 Validators.required,
@@ -86,6 +83,9 @@ export class SigninComponent implements OnInit, OnDestroy {
             resetCode: new FormControl(null, Validators.required),
             newPassword: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')])
         });
+        if (this.auth.isLoggedIn()) {
+            this.router.navigateByUrl('/auth/signin');
+        }
     }
 
     sendForgotRequest() {
