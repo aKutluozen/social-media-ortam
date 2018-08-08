@@ -122,14 +122,20 @@ img {
     width: 100%;
     object-fit: cover;
     background: white;
+    margin-top: -2px;
 }
 
 .mb-n-80 {
     margin-bottom: -60px;
 }
 
-.form-group {
-    margin-bottom: 0;
+.form-group input {
+    color: #ddd !important;
+}
+
+textarea {
+    background: none !important;
+    color: #ddd !important;
 }
 
 .friend-image {

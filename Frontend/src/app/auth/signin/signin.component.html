@@ -33,7 +33,7 @@
                         <input type="email" id="email" class="ml-2 form-control" placeholder="E-posta" formControlName="email">
                     </div>
                     <div class="col align-self-center">
-                        <button class="btn btn-warning btn-block btn-sm" type="button" (click)="sendForgotRequest()">
+                        <button class="btn btn-warning btn-block btn-sm" type="button" (click)="sendForgotRequest(); $event.stopPropagation()">
                             <i class="fas fa-envelope" aria-hidden="true"></i> Kodu gonder</button>
                     </div>
                 </div>

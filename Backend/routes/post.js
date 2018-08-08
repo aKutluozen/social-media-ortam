@@ -680,7 +680,7 @@ POST_ROUTER.delete('/:id1/answer/:id2', (req, res) => {
 
 // Update a post
 POST_ROUTER.patch('/:id', function (req, res) {
-    var sbj = req.body.subject;
+    var sbj = req.body.subject
     if (sbj.length === 0) {
         sbj = ['genel'];
     }

@@ -22,6 +22,7 @@ img {
     width: 100%;
     object-fit: cover;
     background: white;
+    margin-top: -2px;
 }
 
 .mt-n-60 {
@@ -31,4 +32,3 @@ img {
 .list-inline-item {
     display: inline-block;
 }
-

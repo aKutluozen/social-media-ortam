@@ -42,7 +42,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     loadPosts() {
         this.postSubscription = this.postService.getPosts('', 0).subscribe(
             (posts: Post[]) => {
-                this.postService.posts = posts;
+                this.postService.posts = posts.slice();
             }, error => {
                 this.modal.handleError('Paylasimlari goruntulerken bir sorun olustu', error);
             });
@@ -61,7 +61,7 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.subject = subject;
         this.postAmount = 0;
         this.postSubscriptionSubjects = this.postService.getPosts(subject, this.postAmount).subscribe((posts: Post[]) => {
-            this.postService.posts = posts;
+            this.postService.posts = posts.slice();
         }, error => {
             this.modal.handleError('Konulari goruntulerken bir sorun olustu', error);
         });

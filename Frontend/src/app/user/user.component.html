@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container  animated fadeIn">
     <div class="row">
         <div class="col-xl-3 px-2 col-lg-6">
             <div class="row mb-3">
                 <div class="col">
-                    <div class="card">
+                    <div class="card bg-dark text-white">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-4 col-6 my-auto" id="profilePicture">
@@ -27,15 +27,15 @@
                                         </h5>
                                     </span>
                                     <hr class="my-2">
-                                    <span class="text-muted small">
-                                        <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ profile?.following['length'] }}</span>
+                                    <small>
+                                        <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ profile?.following['length'] }}</small>
                                     <br>
-                                    <span class="text-muted small">
-                                        <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ profile?.posts['length'] }}</span>
+                                    <small>
+                                        <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ profile?.posts['length'] }}</small>
                                     <br>
 
-                                    <span class="text-muted small">
-                                        <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi: {{ profile?.credit }}</span>
+                                    <small>
+                                        <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi: {{ profile?.credit }}</small>
                                     <br>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
             <div class="row justify-content-center mb-3">
                 <div class="col">
                     <form class="form-horizontal" [formGroup]="profileForm" (ngSubmit)="saveProfile()" id="ngForm">
-                        <div class="card info-update-hover">
+                        <div class="card bg-dark text-white info-update-hover">
                             <div class="card-body">
                                 <div class="top-right-button">
                                     <span id="info-update-control">
@@ -164,35 +164,7 @@
                     </form>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h5 class="mb-4 sm text-center">
-                                        <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar ({{ friends.length }})
-                                    </h5>
-                                </div>
-                            </div>
-                            <!-- show groups -->
 
-                            <div class="row">
-                                <div class="col-12 text-center" *ngIf="friends.length == 0">Hic bir arkadas bulunamadi!</div>
-                                <div class="col">
-                                    <div *ngFor="let friend of friends" (friendDeleteEvent)="test()">
-                                        <div class="friend-image text-center m-1">
-                                            <img (click)="showFriend(friend.nickName)" class="img-thumbnail" src="{{ global.URL_S3_USERS + friend.friend.profilePicture }}"
-                                                onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
-                                            <small>{{ friend.nickName }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="col-xl-9 px-2 col-lg-6 mb-3">
@@ -256,7 +228,7 @@
                 </div>
             </div>
             <!-- Posts and activities -->
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-12">
 
                     <div class="card share-hover">
@@ -279,6 +251,35 @@
                                 <p class="col-12 text-center" *ngIf="postService.posts.length == 0">Hic bir paylasim bulunamadi!</p>
                                 <app-post class="mb-4" [mylocation]="'profile'" [post]="post" *ngFor="let post of postService.posts">
                                 </app-post>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="mb-4 sm text-center">
+                                        <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar ({{ friends.length }})
+                                    </h5>
+                                </div>
+                            </div>
+                            <!-- show groups -->
+
+                            <div class="row">
+                                <div class="col-12 text-center" *ngIf="friends.length == 0">Hic bir arkadas bulunamadi!</div>
+                                <div class="col">
+                                    <div *ngFor="let friend of friends" (friendDeleteEvent)="test()">
+                                        <div class="friend-image text-center m-1">
+                                            <img (click)="showFriend(friend.nickName)" class="img-thumbnail" src="{{ global.URL_S3_USERS + friend.friend.profilePicture }}"
+                                                onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                                            <small>{{ friend.nickName }}</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

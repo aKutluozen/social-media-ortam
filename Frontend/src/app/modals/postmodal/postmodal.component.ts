@@ -149,10 +149,10 @@ export class PostmodalComponent implements OnInit {
                     if (cleanWord.match(/[^a-z0-9]+/i) != null) {
                         let finalWord = cleanWord.substring(0, cleanWord.match(/[^a-z0-9]+/i).index);
                         if (finalWord.length > 0) {
-                            hashTags.add(finalWord);
+                            hashTags.add(finalWord.toLowerCase());
                         }
                     } else {
-                        hashTags.add(cleanWord);
+                        hashTags.add(cleanWord.toLowerCase());
                     }
                 }
             }

@@ -67,7 +67,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.profileForm.enable();
 		this.profileForm.get('email').disable();
 		this.profileForm.get('nickName').disable();
-		// this.profileForm.get('chatNickName').disable();
+		this.profileForm.get('chatNickName').disable();
 	}
 
 	disableInfoUpdate() {
