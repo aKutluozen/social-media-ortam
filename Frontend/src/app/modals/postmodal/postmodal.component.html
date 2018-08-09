@@ -24,9 +24,19 @@
 
                             <input hidden id="postPictureFile" type="file" (change)="fileChangeEvent($event)" />
 
-                            <image-cropper *ngIf="imageChangedEvent" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false" [aspectRatio]="4/3"
+                            <image-cropper *ngIf="imageChangedEvent && isCropping" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+                                [aspectRatio]="4/3" [resizeToWidth]="320" format="jpeg" (imageCropped)="imageCropped($event)"
+                                (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+                            <canvas id="rotateCanvas" hidden></canvas>
+                            <img id="i1" src="" alt="" />
+                            <image-cropper *ngIf="!isCropping" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false" [aspectRatio]="imageRatio"
                                 [resizeToWidth]="320" format="jpeg" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
                                 (loadImageFailed)="loadImageFailed()"></image-cropper>
+
+                            <button class="btn btn-warning text-center btn-sm" *ngIf="croppedImage" type="button" (click)="rotateImage()">
+                                <i class="fas fa-crop-alt" aria-hidden="true"></i>Resmi cevir</button>
+                            <button class="btn btn-primary text-center btn-sm" *ngIf="croppedImage" type="button" (click)="isCropping = !isCropping">
+                                <i class="fas fa-crop-alt" aria-hidden="true"></i>Resmi kirp</button>
                             <button class="btn btn-success text-center btn-sm" *ngIf="croppedImage" type="button" (click)="addPostImage()">
                                 <i class="fa fa-image" aria-hidden="true"></i>Yukle</button>
                             <button class="btn btn-danger text-center btn-sm" *ngIf="croppedImage" type="button" (click)="emptyPostImage()">

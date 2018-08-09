@@ -35,10 +35,13 @@ export class PostmodalComponent implements OnInit {
     public group: string = '';
     public postForm: FormGroup;
     public imageToShow: string = '';
+    public isCropping: boolean = false;
+    public imageRatio: Number = 1;
 
     private post: Post;
     private parsedLink: string = '';
     private isEditing: boolean = false;
+    private degree: number = 0;
 
     public imageChangedEvent: any = '';
     public croppedImage: any = '';
@@ -48,13 +51,58 @@ export class PostmodalComponent implements OnInit {
 
     fileChangeEvent(event: any): void {
         this.imageChangedEvent = event;
+
+        // Get the original image dimension for cropping purposes
+        var fr = new FileReader;
+
+        fr.onload = () => {
+            var img = new Image;
+
+            img.onload = () => {
+                this.imageRatio = img.width / img.height;
+            };
+
+            img.src = fr.result;
+        };
+
+        fr.readAsDataURL(event.target.files[0]); // I'm using a <input type="file"> for demonstrating
     }
+
     imageCropped(image: string) {
         this.croppedImage = image;
+
+        if (!this.isCropping) {
+            $('.cropper').hide();
+        }
     }
+    // ! KEEP WORKING ON THIS!
+    rotateImage() {
+        var canvas = $('#rotateCanvas')[0];
+        var img = new Image();
+        img.src = this.croppedImage;
+        if (img.width >= img.height) {
+            canvas.width = img.width;
+            canvas.height = img.height;
+        } else {
+            canvas.width = img.height;
+            canvas.height = img.width;
+        }
+        var context = canvas.getContext("2d");
+        this.degree += 90;
+        this.degree = this.degree % 360;
+        context.translate(img.width / 2, img.height / 2);
+        context.rotate(this.degree * Math.PI / 180);
+        context.drawImage(img, -(img.width / 2), -(img.height / 2));
+        context.restore();
+        var rotatedImageSrc = canvas.toDataURL();
+        this.croppedImage = rotatedImageSrc;
+        $('#i1').attr('src', rotatedImageSrc);
+    }
+
     imageLoaded() {
         // show cropper
     }
+
     loadImageFailed() {
         // show message
     }
@@ -70,6 +118,7 @@ export class PostmodalComponent implements OnInit {
         this.post = null;
         this.postForm.value.content = '';
         this.imageToShow = '';
+        this.isCropping = false;
         this.pictureMessage = '';
         this.imageChangedEvent = null;
         this.group = '';
@@ -88,6 +137,7 @@ export class PostmodalComponent implements OnInit {
                 this.pictureMessage = '';
                 this.imageChangedEvent = null;
                 this.croppedImage = null;
+                this.isCropping = false;
                 this.imageToShow = response.data;
             },
             () => { console.log('bad') }
@@ -95,10 +145,11 @@ export class PostmodalComponent implements OnInit {
     }
 
     emptyPostImage() {
-		this.croppedImage = '';
-		this.imageChangedEvent = null;
-		this.imageToShow = '';
-	}
+        this.croppedImage = '';
+        this.imageChangedEvent = null;
+        this.imageToShow = '';
+        this.isCropping = false;
+    }
 
     deletePostPicture() {
         this.postService.deletePostPicture(
@@ -213,7 +264,7 @@ export class PostmodalComponent implements OnInit {
                 if (hashTags.length === 0) {
                     hashTags = ['genel'];
                 }
-                
+
                 // Create
                 const post = new Post(
                     this.postForm.value.content,
@@ -255,7 +306,7 @@ export class PostmodalComponent implements OnInit {
                 });
             }
 
-            this.modal.handleModalToggle(this.modalElement.nativeElement, () => {})
+            this.modal.handleModalToggle(this.modalElement.nativeElement, () => { })
         });
 
         this.postForm = new FormGroup({

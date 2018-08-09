@@ -43,7 +43,8 @@ app.use('/', appRoutes);
 // Clean up old posts regularly
 var requestLoop = setInterval(function () {
     request({
-        url: "http://18.217.236.111:3000/post/clean",
+        // url: "http://18.217.236.111:3000/post/clean",
+        url: "http://127.0.0.1:3000/post/clean",
         method: "GET",
         timeout: 10000,
         followRedirect: true,
