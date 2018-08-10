@@ -43,6 +43,10 @@ span:hover {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
+.search:focus {
+    background: white !important;
+}
+
 .search-button {
     border: none;
     background: none;

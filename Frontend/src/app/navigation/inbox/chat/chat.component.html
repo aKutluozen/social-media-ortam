@@ -1,6 +1,9 @@
 <div class="p-4" (click)="$event.stopPropagation()">
-    <div class="row mb-2">
-        <div class="col-12">
+    <div class="row mb-2 border-bottom pb-2">
+        <div class="col-6 align-self-center">
+            Oda seciniz:
+        </div>
+        <div class="col-6 pl-0">
             <select (change)="selectRoom(room)" (click)="$event.stopPropagation()" [(ngModel)]="room" class="form-control">
                 <option *ngFor="let room of rooms" value="{{ room.name }}">{{ room.name }}</option>
             </select>
@@ -18,7 +21,7 @@
                 <b>
                     <i>{{ message.text.name }}:</i>
                 </b> {{message.text.message}}
-                <div class="complaint-button border p-2 ml-2">
+                <div class="complaint-button bg-light border p-2 ml-2">
                     <p class="text-center my-auto text-success" *ngIf="message.complaintStatus">{{ message.complaintStatus }}</p>
                     <div class="row" *ngIf="!message.complaintStatus">
                         <div class="col-12">
@@ -34,14 +37,6 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col">
-            <emoji-input [popupAnchor]="'bottom'" style="font-family: 'NotoColorEmoji'" [(model)]="message" [textArea]="{rows: 2}"
-                [closeAfterSelection]="false" maxlength="256" (click)="openPopup(false)" (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
-            </emoji-input>
-        </div>
-    </div>
-
-    <div class="row mt-2">
         <div class="col-4 h-100">
             <button type="button" name="button" class="btn btn-warning btn-block" (click)="openPopup()">
                 <i class="far fa-smile"></i>
@@ -59,4 +54,13 @@
             </button>
         </div>
     </div>
+    <div class="row mt-4">
+        <div class="col">
+            <emoji-input [popupAnchor]="'bottom'" [(model)]="message" [textArea]="{rows: 2}" [closeAfterSelection]="false" maxlength="256"
+                (click)="openPopup(false)" (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
+            </emoji-input>
+        </div>
+    </div>
+
+
 </div>

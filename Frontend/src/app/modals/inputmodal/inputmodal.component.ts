@@ -8,7 +8,7 @@ import { GlobalService } from '../../globals.service';
 import { UserService } from '../../user/user.service';
 import * as $ from 'jquery';
 declare var $: any;
-
+declare var SimplePeer: any;
 @Component({
 	selector: 'app-inputmodal',
 	templateUrl: './inputmodal.component.html',

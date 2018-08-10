@@ -36,6 +36,7 @@ export class PostmodalComponent implements OnInit {
     public postForm: FormGroup;
     public imageToShow: string = '';
     public isCropping: boolean = false;
+    public isRotating: boolean = false;
     public imageRatio: Number = 1;
 
     private post: Post;
@@ -44,6 +45,7 @@ export class PostmodalComponent implements OnInit {
     private degree: number = 0;
 
     public imageChangedEvent: any = '';
+    public cropperSize: any = { x1: 0, y1: 0, x2: '100%', y2: '100%' };
     public croppedImage: any = '';
     public pictureMessage: string = '';
 
@@ -71,32 +73,66 @@ export class PostmodalComponent implements OnInit {
     imageCropped(image: string) {
         this.croppedImage = image;
 
+        // Check vertical proportion here, if too big, stop it.
+        var i = new Image();
+        i.onload = () => {
+            if (i.height > 960) {
+                this.modal.handleError('Resim cok uzun! Yukselik ve genislik orani 3/1\'i gecemez.', {});
+                // Reset the cropper
+                this.cropperSize.x2 = 320;
+            }
+        };
+
+        i.src = this.croppedImage;
+
         if (!this.isCropping) {
             $('.cropper').hide();
         }
     }
     // ! KEEP WORKING ON THIS!
     rotateImage() {
+        this.isRotating = true;
+
+        $('#i1').attr('src', this.croppedImage);
+
         var canvas = $('#rotateCanvas')[0];
         var img = new Image();
         img.src = this.croppedImage;
-        if (img.width >= img.height) {
+
+        this.degree += 90;
+        this.degree %= 360;
+
+        // Reset the cropper
+        // this.cropperSize.x1 = 0;
+        // this.cropperSize.y1 = 0;
+        // this.cropperSize.x2 = 320;
+        // this.cropperSize.y2 = '100%';
+
+
+        if (this.degree == 0 || this.degree == 180) {
             canvas.width = img.width;
             canvas.height = img.height;
+            this.imageRatio = img.height / img.width;
         } else {
             canvas.width = img.height;
             canvas.height = img.width;
+            this.imageRatio = img.width / img.height;
         }
+
         var context = canvas.getContext("2d");
-        this.degree += 90;
-        this.degree = this.degree % 360;
-        context.translate(img.width / 2, img.height / 2);
+
+        if (this.degree == 0 || this.degree == 180) {
+            context.translate(img.width / 2, img.height / 2);
+        } else {
+            context.translate(img.height / 2, img.width / 2);
+        }
         context.rotate(this.degree * Math.PI / 180);
-        context.drawImage(img, -(img.width / 2), -(img.height / 2));
+        context.drawImage(img, -(img.width / 2), - (img.height / 2));
         context.restore();
         var rotatedImageSrc = canvas.toDataURL();
         this.croppedImage = rotatedImageSrc;
         $('#i1').attr('src', rotatedImageSrc);
+        if (!this.isCropping) this.cropperSize = { x1: 0, y1: 0, x2: '100%', y2: '100%' }
     }
 
     imageLoaded() {
@@ -121,6 +157,7 @@ export class PostmodalComponent implements OnInit {
         this.isCropping = false;
         this.pictureMessage = '';
         this.imageChangedEvent = null;
+        this.isRotating = false;
         this.group = '';
         document.getElementById('postPictureFile')['value'] = null;
         document.getElementById('postPictureFile')['value'] = '';
@@ -138,6 +175,7 @@ export class PostmodalComponent implements OnInit {
                 this.imageChangedEvent = null;
                 this.croppedImage = null;
                 this.isCropping = false;
+                this.isRotating = false;
                 this.imageToShow = response.data;
             },
             () => { console.log('bad') }
@@ -149,6 +187,7 @@ export class PostmodalComponent implements OnInit {
         this.imageChangedEvent = null;
         this.imageToShow = '';
         this.isCropping = false;
+        this.isRotating = false;
     }
 
     deletePostPicture() {

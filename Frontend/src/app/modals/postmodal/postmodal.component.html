@@ -16,7 +16,7 @@
                         </p>
                     </div>
                     <div class="row mb-4">
-                        <div class="col">
+                        <div class="col-12">
                             <label class="btn btn-info text-center btn-sm" *ngIf="!imageToShow" for="postPictureFile">
                                 <i class="fa fa-image" aria-hidden="true"></i> Resim sec</label>
                             <label class="btn btn-danger text-center btn-sm" *ngIf="imageToShow" (click)="deletePostPicture()">
@@ -24,21 +24,25 @@
 
                             <input hidden id="postPictureFile" type="file" (change)="fileChangeEvent($event)" />
 
-                            <image-cropper *ngIf="imageChangedEvent && isCropping" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+                            <image-cropper *ngIf="imageChangedEvent && isCropping" [cropper]="cropperSize" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
                                 [aspectRatio]="4/3" [resizeToWidth]="320" format="jpeg" (imageCropped)="imageCropped($event)"
                                 (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
-                            <canvas id="rotateCanvas" hidden></canvas>
-                            <img id="i1" src="" alt="" />
-                            <image-cropper *ngIf="!isCropping" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false" [aspectRatio]="imageRatio"
-                                [resizeToWidth]="320" format="jpeg" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
-                                (loadImageFailed)="loadImageFailed()"></image-cropper>
+                            <image-cropper *ngIf="imageChangedEvent && !isCropping" [cropper]="cropperSize" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+                                [aspectRatio]="imageRatio" [resizeToWidth]="320" format="jpeg" (imageCropped)="imageCropped($event)"
+                                (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
 
+                            <canvas id="rotateCanvas" class="d-none"></canvas>
+                            <div class="rotate-preview-wrapper mx-auto m-2" *ngIf="isRotating">
+                                <img id="i1" class="rotate-image-preview" src="" alt="" />
+                            </div>
+                        </div>
+                        <div class="row col justify-content-center mx-auto">
                             <button class="btn btn-warning text-center btn-sm" *ngIf="croppedImage" type="button" (click)="rotateImage()">
-                                <i class="fas fa-crop-alt" aria-hidden="true"></i>Resmi cevir</button>
+                                <i class="fas fa-sync-alt"></i> Resmi cevir</button>
                             <button class="btn btn-primary text-center btn-sm" *ngIf="croppedImage" type="button" (click)="isCropping = !isCropping">
-                                <i class="fas fa-crop-alt" aria-hidden="true"></i>Resmi kirp</button>
+                                <i class="fas fa-crop-alt" aria-hidden="true"></i> Resmi kirp</button>
                             <button class="btn btn-success text-center btn-sm" *ngIf="croppedImage" type="button" (click)="addPostImage()">
-                                <i class="fa fa-image" aria-hidden="true"></i>Yukle</button>
+                                <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
                             <button class="btn btn-danger text-center btn-sm" *ngIf="croppedImage" type="button" (click)="emptyPostImage()">
                                 <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
                             <img hidden [src]="croppedImage" />

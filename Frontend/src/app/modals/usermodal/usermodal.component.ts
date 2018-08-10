@@ -96,7 +96,6 @@ export class UsermodalComponent implements OnInit {
 				}, error => { }
 			);
 		});
-
 	}
 
 	// Turn on the answering modal
