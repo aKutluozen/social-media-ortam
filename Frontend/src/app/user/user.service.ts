@@ -234,6 +234,12 @@ export class UserService {
             .catch((error: Response) => Observable.throw(error.json()));
     }
 
+    resetPassword(oldPass, newPass) {
+        return this.http.post(this.global.URL + 'user/password' + this.auth.getToken(), JSON.stringify({ oldPassword: oldPass, newPassword: newPass }), this.auth.getHeaders())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()));
+    }
+
     getComplaints() {
         return this.http.get(this.global.URL + 'user/user/complaints' + this.auth.getToken())
             .map((response: Response) => response.json())

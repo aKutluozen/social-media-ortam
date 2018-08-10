@@ -715,6 +715,7 @@ POST_ROUTER.delete('/:id', (req, res) => {
                 error: err
             });
         }
+        
         // Delete it from everybody
         User.find({ posts: { $in: [post._id] } }, { nickName: 1, posts: 1, inbox: 1 }, (err, users) => {
             for (let user of users) {

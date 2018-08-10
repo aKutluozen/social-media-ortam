@@ -23,7 +23,7 @@
                         </button>
                     </div>
                     <div class="col-10 h-100">
-                        <emoji-input [popupAnchor]="'bottom'" style="font-family: 'NotoColorEmoji'" [(model)]="message" [textArea]="{rows: 2}" [closeAfterSelection]="false"
+                        <emoji-input [popupAnchor]="'bottom'" [(model)]="message" [textArea]="{rows: 2}" [closeAfterSelection]="false"
                             (click)="openPopup(false)" (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
                         </emoji-input>
                     </div>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <span *ngIf="!isFriend">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit }}</span>
+                <span *ngIf="!isFriend" class="small">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit }}</span>
                 <button *ngIf="messageSetup.type === 'first'" [disabled]="!isFriend && global.credit < 10" type="button" class="btn btn-primary btn-sm"
                     (click)="sendFirstMessage()">
                     <i class="fa fa-envelope" aria-hidden="true"></i> Gonder</button>

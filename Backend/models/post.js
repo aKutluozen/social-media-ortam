@@ -15,12 +15,12 @@ var upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: 'socialmediaimages2017/post_images',
-        metadata: function(req, file, cb) {
+        metadata: function (req, file, cb) {
             cb(null, {
                 fieldName: file.fieldname
             });
         },
-        key: function(req, file, cb) {
+        key: function (req, file, cb) {
             cb(null, Date.now().toString() + file.originalname)
         }
     })
@@ -48,6 +48,6 @@ var schema = new Schema({
     image: { type: String },
     linkContent: { type: String },
     group: { type: String }
-}, { usePushEach: true} );
+}, { usePushEach: true });
 
 module.exports = mongoose.model('Post', schema);

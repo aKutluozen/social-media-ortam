@@ -50,6 +50,13 @@ export class UserComponent implements OnInit, OnDestroy {
 
 	private userSubscription: Subscription;
 
+	resetPassword(oldPass, newPass) {
+		this.user.resetPassword(oldPass, newPass).subscribe(
+			data => this.modal.handleWarning('Sifreniz basari ile degismistir!'),
+			error => this.modal.handleError('Sifrenizi degistirirken bir sorun olustu', error)
+		);
+	}
+
 	showThisImage(imageUrl) {
 		if (imageUrl) {
 			this.modal.showImageInModal(imageUrl);

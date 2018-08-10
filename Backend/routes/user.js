@@ -69,6 +69,44 @@ USER_ROUTER.post('/user/profilePicture', upload.any(), function (req, res) {
     });
 });
 
+// Remove a user from everywhere
+USER_ROUTER.delete('/', function (req, res) {
+    var token = jwt.decode(req.query.token);
+
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
+            // Delete each post - This deletes all the pictures related, and removes them from people
+            async.forEachOf(user.posts, (value, key, callback) => {
+                request({
+                    url: "http://127.0.0.1:3000/post/" + value._id,
+                    method: "DELETE",
+                    timeout: 10000,
+                    followRedirect: true,
+                    maxRedirects: 10
+                }, function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        console.log('cleaned it up!', body);
+                    } else {
+                        console.log('error, couldnt clean!' + response.statusCode);
+                    }
+                });
+
+                callback();
+            }, err => {
+                if (err) {
+                    return res.status(400).json({
+                        message: 'not cleaned',
+                        error: err
+                    });
+                }
+            });
+
+            // Remove user files uploaded
+            // Remove user
+        });
+    });
+});
+
 USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
     var token = jwt.decode(req.query.token);
     User.findById(token.id, function (err, user) {
@@ -1127,6 +1165,37 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
                 });
         });
     })
+});
+
+USER_ROUTER.post('/password', function (req, res) {
+    var token = jwt.decode(req.query.token);
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
+            // Check if the password is correct
+            if (req.body.oldPassword)
+                if (!bcrypt.compareSync(req.body.oldPassword, user.password)) {
+                    return res.status(401).json({
+                        message: 'Login failed',
+                        error: 'Invalid credentials'
+                    });
+                }
+
+            user.password = bcrypt.hashSync(req.body.newPassword, 10);
+            user.save(function (err) {
+                if (err) {
+                    return res.status(400).json({
+                        message: 'Problem saving user new password',
+                        error: err
+                    });
+                }
+
+                return res.status(200).json({
+                    message: 'Password updated!',
+                    data: ''
+                });
+            });
+        });
+    });
 });
 
 module.exports = USER_ROUTER;

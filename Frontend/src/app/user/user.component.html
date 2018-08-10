@@ -164,7 +164,6 @@
                     </form>
                 </div>
             </div>
-
         </div>
 
         <div class="col-xl-9 px-2 col-lg-6 mb-3">
@@ -277,6 +276,69 @@
                                             <img (click)="showFriend(friend.nickName)" class="img-thumbnail" src="{{ global.URL_S3_USERS + friend.friend.profilePicture }}"
                                                 onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                                             <small>{{ friend.nickName }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="mb-4 sm text-center">
+                                        <i class="fa fa-cogs" aria-hidden="true"></i> Ayarlar
+                                    </h5>
+                                </div>
+                            </div>
+                            <!-- show groups -->
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-center">
+                                                <i class="fas fa-key"></i> Sifre yenile</h5>
+                                            <div class="form-group mb-0">
+                                                <input type="text" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2" [(ngModel)]="passwordOld" #passOld="ngModel" placeholder="Eski sifre" />
+                                                <input type="text" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2" [(ngModel)]="passwordNew" #passNew="ngModel" placeholder="Yeni sifre" />
+                                                {{ passOld | json }} 
+                                                <button type="button" [disabled]="(passOld.errors || passNew.errors)" class="btn btn-primary btn-sm float-right" (click)="resetPassword(passOld.value, passNew.value)">
+                                                    <i class="fas fa-sync-alt"></i> Yenile</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-center">
+                                                <i class="fas fa-credit-card"></i> Kredi Al</h5>
+                                            <div class="form-group mb-0">
+                                                <input type="text" class="form-control border mb-2" placeholder="Miktar" />
+                                                <p>
+                                                    <b>Tutar: 50 TL</b>
+                                                </p>
+                                                <button type="button" class="btn btn-success btn-sm float-right">
+                                                    <i class="fas fa-shopping-cart"></i> Satin al</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-center">
+                                                <i class="fas fa-key"></i> Hesap Ayarlari</h5>
+                                            <div class="form-group mb-0">
+                                                <input type="text" class="form-control border mb-2" placeholder="Sifrenizi giriniz" />
+                                                <button type="button" class="btn btn-danger btn-sm float-right">
+                                                    <i class="fas fa-power-off"></i> Hesabi kapat</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
