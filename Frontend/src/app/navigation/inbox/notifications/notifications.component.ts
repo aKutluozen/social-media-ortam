@@ -1,18 +1,18 @@
 // Main modules
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 // Services
-import { ModalService } from "app/modals/modal.service";
-import { UserService } from "app/user/user.service";
-import { AuthService } from "app/auth/auth.service";
-import { GlobalService } from "app/globals.service";
-import { PostService } from "app/posts/posts.service";
-import { Subscription } from "rxjs";
+import { ModalService } from 'app/modals/modal.service';
+import { UserService } from 'app/user/user.service';
+import { AuthService } from 'app/auth/auth.service';
+import { GlobalService } from 'app/globals.service';
+import { PostService } from 'app/posts/posts.service';
+import { Subscription } from 'rxjs';
 
 @Component({
-    selector: "app-notifications",
-    templateUrl: "./notifications.component.html",
-    styleUrls: ["./notifications.component.css"]
+    selector: 'app-notifications',
+    templateUrl: './notifications.component.html',
+    styleUrls: ['./notifications.component.css']
 })
 export class NotificationsComponent {
     constructor(
@@ -48,9 +48,71 @@ export class NotificationsComponent {
     handleNotification(notification) {
         if (notification.action == 'complaint') {
             this.handleComplaint(notification);
+        } else if (notification.action.substring(0, 6) == 'credit') {
+            this.handleCredit(notification);
+        } else if (notification.action == 'received') {
+            this.modal.handleWarning('Tebrikler! Biriktirmeye ve harcamaya devam!');
+            this.removeComplaint(notification);
+        } else if (notification.action == 'lost') {
+            this.removeComplaint(notification);
         } else {
             this.showPost(notification._id, notification.post._id, notification.action, notification.user._id)
         }
+    }
+
+    removeCreditRequest(notification) {
+        this.removeComplaint(notification);
+    }
+
+    handleCredit(notification) {
+        var actionExplanation = notification.user.nickName + ' sizden ' + notification.data + ' kredi istiyor.';
+        var action = 'giving';
+        if (notification.action.split('_')[1] == 'sending') {
+            action = 'taking';
+            actionExplanation = notification.user.nickName + ' size ' + notification.data + ' kredi gondermek istiyor.';
+        }
+        var creditAmount = parseInt(notification.data);
+        this.modal.showQuestion({
+            content: actionExplanation + ' Bu islemi gerceklestirmek istediginizden emin misiniz?',
+            approveFunction: () => {
+                if (action == 'taking') {
+                    this.user.adjustCredit(this.global.username, creditAmount, true).subscribe(
+                        data => {
+                            this.modal.handleWarning(notification.data + ' kredi aldiniz! Dikkatli kullanin ;) ');
+                            // Remove from notifications
+                            this.removeComplaint(notification);
+                        },
+                        error => this.modal.handleError('Kredi alirken bir sorun olustu', error)
+                    )
+                } else {
+                    // Wanted from you
+                    if (this.global.credit >= creditAmount) {
+                        var adjustingOwnCredit = new Promise((resolve, reject) => {
+                            this.user.adjustCredit(this.global.username, creditAmount, false).subscribe(
+                                data => resolve('this credit adjusted'),
+                                error => reject('this credit could not be adjusted')
+                            );
+                        });
+
+                        var adjustingOtherCredit = new Promise((resolve, reject) => {
+                            this.user.adjustCredit(notification.user.nickName, creditAmount, true).subscribe(
+                                data => resolve('other credit adjusted'),
+                                error => reject('other credit could not be adjusted')
+                            );
+                        });
+
+                        Promise.all([adjustingOwnCredit, adjustingOtherCredit]).then(values => {
+                            this.modal.handleWarning(notification.data + ' kredi verdiniz! ');
+                            this.removeComplaint(notification);
+                        }).catch(error => {
+                            this.modal.handleError('Kredi verirken bir sorun olustu', error);
+                        });
+                    } else {
+                        this.modal.handleError('Yeterince krediniz yok. Borclu ciktiniz :) ', {});
+                    }
+                }
+            }
+        });
     }
 
     handleComplaint(notification) {
@@ -64,7 +126,7 @@ export class NotificationsComponent {
             .subscribe(
                 data => {
                     for (let i = 0; i < this.notifications.length; i++) {
-                        if (this.notifications[i]["_id"] == notification._id) {
+                        if (this.notifications[i]['_id'] == notification._id) {
                             this.notifications.splice(i, 1);
                         }
                     }
@@ -80,30 +142,39 @@ export class NotificationsComponent {
             .getNotifications(this.notificationOffset)
             .subscribe(
                 data => {
+                    console.log(data.data);
                     if (data.data.length == 0) {
                         this.notificationOffset -= this.skipNumber;
                     }
                     for (let item of data.data) {
-                        if (item.action === "like") {
-                            item.actionReadable = "paylasimini begendi";
-                        } else if (item.action === "dislike") {
-                            item.actionReadable = "paylasimini begenmedi";
-                        } else if (item.action === "share") {
-                            item.actionReadable = "paylasimini paylasti";
-                        } else if (item.action === "comment") {
-                            item.actionReadable = "paylasimini cevapladi";
-                        } else if (item.action === "complaint") {
-                            item.actionReadable = "sikayet!"
+                        if (item.action === 'like') {
+                            item.actionReadable = 'paylasimini begendi';
+                        } else if (item.action === 'dislike') {
+                            item.actionReadable = 'paylasimini begenmedi';
+                        } else if (item.action === 'share') {
+                            item.actionReadable = 'paylasimini paylasti';
+                        } else if (item.action === 'comment') {
+                            item.actionReadable = 'paylasimini cevapladi';
+                        } else if (item.action === 'complaint') {
+                            item.actionReadable = 'sikayet var!'
+                        } else if (item.action === 'credit_sending') {
+                            item.actionReadable = 'kredi yolladi!'
+                        } else if (item.action === 'credit_asking') {
+                            item.actionReadable = 'kredi istedi!'
+                        } else if (item.action === 'received') {
+                            item.actionReadable = 'kredi aldiniz!';
+                        } else if (item.action === 'lost') {
+                            item.actionReadable = 'krediniz gitti';
                         }
 
-                        if (item.post != null || item.action == 'complaint') {
+                        if (item.post != null || item.action == 'complaint' || item.action.substring(0, 6) == 'credit' || item.action == 'received' || item.action == 'lost') {
                             this.notifications.push(item);
                         }
                     }
                 },
                 error => {
                     this.modal.handleError(
-                        "Mesajlar ve istekler goruntulenirken bir sorun olustu",
+                        'Mesajlar ve istekler goruntulenirken bir sorun olustu',
                         error
                     );
                 }
@@ -134,7 +205,7 @@ export class NotificationsComponent {
                         .subscribe(
                             data => {
                                 for (let i = 0; i < this.notifications.length; i++) {
-                                    if (this.notifications[i]["_id"] == notificationId) {
+                                    if (this.notifications[i]['_id'] == notificationId) {
                                         this.notifications.splice(i, 1);
                                     }
                                 }
@@ -143,7 +214,7 @@ export class NotificationsComponent {
                         );
                 },
                 error => {
-                    this.modal.handleError("Paylasimi gosterirken bir sorun olustu", error);
+                    this.modal.handleError('Paylasimi gosterirken bir sorun olustu', error);
                 }
             );
         }

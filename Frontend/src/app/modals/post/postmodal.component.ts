@@ -89,7 +89,7 @@ export class PostmodalComponent implements OnInit {
             $('.cropper').hide();
         }
     }
-    // ! KEEP WORKING ON THIS!
+
     rotateImage() {
         this.isRotating = true;
 
@@ -101,13 +101,6 @@ export class PostmodalComponent implements OnInit {
 
         this.degree += 90;
         this.degree %= 360;
-
-        // Reset the cropper
-        // this.cropperSize.x1 = 0;
-        // this.cropperSize.y1 = 0;
-        // this.cropperSize.x2 = 320;
-        // this.cropperSize.y2 = '100%';
-
 
         if (this.degree == 0 || this.degree == 180) {
             canvas.width = img.width;

@@ -65,11 +65,11 @@ export class UsermodalComponent implements OnInit {
 			}
 
 			this.user.posts = [];
-			this.postService.getPosts(this.user._id, 0, 'private', this.user._id).subscribe(
+			var postSubscription = this.postService.getPosts(this.user._id, 0, 'private', this.user._id).subscribe(
 				data => {
 					this.user.posts = data;
 				},
-				error => console.log(error)
+				error => { postSubscription.unsubscribe(); console.log(error) }
 			);
 
 			this.isInTheFollowList = false;
@@ -96,6 +96,10 @@ export class UsermodalComponent implements OnInit {
 				}, error => { }
 			);
 		});
+	}
+
+	creditAskSend(nickName) {
+		this.modal.showCreditModal(nickName);
 	}
 
 	// Turn on the answering modal
@@ -174,13 +178,13 @@ export class UsermodalComponent implements OnInit {
 		this.modal.showQuestion({
 			content: 'Bu kisiyi arkadasliktan cikarmak istediginize emin misiniz?',
 			itemToBeDeleted: name,
-			itemCollection: '',
+			itemCollection: [],
 			helperService: this.userService,
 			approveFunction: (name, collection, service) => {
 				service.deleteFriend(name).subscribe(
 					data => {
 						this.isFriend = false;
-						// this.modal.handleWarning('Arkadasliktan cikarildi!');
+						this.modal.handleWarning('Arkadasliktan cikarildi!');
 						this.close();
 					}, error => {
 						this.modal.handleError('Arkadaslik iptal edilirken bir sorun olustu', error);

@@ -6,7 +6,7 @@
                     <div class="card bg-dark text-white">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-4 col-6 my-auto" id="profilePicture">
+                                <div class="col-lg-5 col-6 my-auto" id="profilePicture">
                                     <div id="image-upload-button">
                                         <label class="profile-image-upload-button btn btn-primary text-center btn-sm px-1 py-0" *ngIf="!profilePicture" for="profilePictureFile">
                                             <i class="fa fa-upload" aria-hidden="true"></i>
@@ -18,7 +18,7 @@
                                     <img src="{{ global.URL_S3_USERS + profilePicture }}" class="rounded-circle" alt="profil" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'"
                                         (click)="showThisImage(profilePicture)">
                                 </div>
-                                <div class="col-lg-8 col-6 align-self-center">
+                                <div class="col-lg-7 col-6 align-self-center">
                                     <span>
                                         <h5 class="my-0 py-0 text-primary">
                                             <b>
@@ -47,11 +47,20 @@
                                     <image-cropper *ngIf="profilePictureChangedEvent" [imageChangedEvent]="profilePictureChangedEvent" [maintainAspectRatio]="true"
                                         [aspectRatio]="1/1" [resizeToWidth]="200" format="jpeg" (imageCropped)="profilePictureCropped($event)"
                                         (imageLoaded)="profileImageLoaded()" (loadImageFailed)="profileImageLoadImageFailed()"></image-cropper>
-                                    <button class="btn btn-success btn-sm text-center" *ngIf="croppedProfilePicture" type="button" (click)="addProfileImage()">
-                                        <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
-                                    <button class="btn btn-danger btn-sm text-center" *ngIf="croppedProfilePicture" type="button" (click)="emptyProfilePicture()">
-                                        <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
-                                    <img hidden [src]="croppedProfilePicture" />
+
+                                    <canvas id="rotateProfileCanvas" class="d-none"></canvas>
+                                    <div class="rotate-preview-wrapper mx-auto m-2" *ngIf="isRotating">
+                                        <img id="i1p" class="rotate-image-preview" src="" alt="" />
+                                    </div>
+                                    <div class="row col justify-content-center mx-auto px-0">
+                                        <button class="btn btn-warning text-center btn-sm" *ngIf="croppedProfilePicture" type="button" (click)="rotateProfileImage()">
+                                            <i class="fas fa-sync-alt"></i> Cevir</button>
+                                        <button class="btn btn-success btn-sm text-center" *ngIf="croppedProfilePicture" type="button" (click)="addProfileImage()">
+                                            <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
+                                        <button class="btn btn-danger btn-sm text-center" *ngIf="croppedProfilePicture" type="button" (click)="emptyProfilePicture()">
+                                            <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
+                                        <img hidden [src]="croppedProfilePicture" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -177,11 +186,20 @@
                                 <image-cropper *ngIf="coverPictureChangedEvent" [imageChangedEvent]="coverPictureChangedEvent" [maintainAspectRatio]="true"
                                     [aspectRatio]="8/3" [resizeToWidth]="800" format="jpeg" (imageCropped)="coverPictureCropped($event)"
                                     (imageLoaded)="coverImageLoaded()" (loadImageFailed)="profileImageLoadImageFailed()"></image-cropper>
-                                <button class="btn btn-success btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="addCoverImage()">
-                                    <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
-                                <button class="btn btn-danger btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="emptyCoverPicture()">
-                                    <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
-                                <img hidden [src]="croppedCoverPicture" />
+
+                                <canvas id="rotateCoverCanvas" class="d-none"></canvas>
+                                <div class="rotate-preview-wrapper mx-auto m-2" *ngIf="isRotatingCover">
+                                    <img id="i1c" class="rotate-image-preview" src="" alt="" />
+                                </div>
+                                <div class="row col justify-content-center mx-auto px-0">
+                                    <!-- <button class="btn btn-warning text-center btn-sm" *ngIf="croppedCoverPicture" type="button" (click)="rotateCoverImage()">
+                                        <i class="fas fa-sync-alt"></i> Cevir</button> -->
+                                    <button class="btn btn-success btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="addCoverImage()">
+                                        <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
+                                    <button class="btn btn-danger btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="emptyCoverPicture()">
+                                        <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
+                                    <img hidden [src]="croppedCoverPicture" />
+                                </div>
                             </div>
 
                             <div class="top-right-button mr-4">
@@ -298,16 +316,30 @@
                             <!-- show groups -->
 
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-md-4 mb-4">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="text-center">
                                                 <i class="fas fa-key"></i> Sifre yenile</h5>
                                             <div class="form-group mb-0">
-                                                <input type="text" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2" [(ngModel)]="passwordOld" #passOld="ngModel" placeholder="Eski sifre" />
-                                                <input type="text" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2" [(ngModel)]="passwordNew" #passNew="ngModel" placeholder="Yeni sifre" />
-                                                {{ passOld | json }} 
-                                                <button type="button" [disabled]="(passOld.errors || passNew.errors)" class="btn btn-primary btn-sm float-right" (click)="resetPassword(passOld.value, passNew.value)">
+                                                <input type="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2"
+                                                    [(ngModel)]="passwordOld" #passOld="ngModel" placeholder="Eski sifre" />
+                                                <input type="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2"
+                                                    [(ngModel)]="passwordNew" #passNew="ngModel" placeholder="Yeni sifre" />
+                                                <div class="small alert alert-warning" *ngIf="passOld.errors || passNew.errors">
+                                                    <p>
+                                                        <i class="fa fa-exclamation"></i>
+                                                        Sifreniz asagidaki kurallara uygun olmalidir:</p>
+                                                    <ul>
+                                                        <li>En az 8 karakter</li>
+                                                        <li>En az 1 kucuk harf</li>
+                                                        <li>En az 1 buyuk harf</li>
+                                                        <li>En az 1 sayi</li>
+                                                        <li>En az 1 ozel karakter (!@#$%^&*) icermelidir</li>
+                                                    </ul>
+                                                </div>
+                                                <button type="button" [disabled]="passOld.errors || passNew.errors || passwordOld == undefined || passwordNew == undefined"
+                                                    class="btn btn-primary btn-sm float-right" (click)="resetPassword(passOld.value, passNew.value); passwordOld = null; passwordNew = null">
                                                     <i class="fas fa-sync-alt"></i> Yenile</button>
                                             </div>
                                         </div>
@@ -329,14 +361,15 @@
                                         </div>
                                     </div>
                                 </div> -->
-                                <div class="col-4">
+                                <div class="col-md-4 mb-4">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="text-center">
                                                 <i class="fas fa-key"></i> Hesap Ayarlari</h5>
                                             <div class="form-group mb-0">
-                                                <input type="text" class="form-control border mb-2" placeholder="Sifrenizi giriniz" />
-                                                <button type="button" class="btn btn-danger btn-sm float-right">
+                                                <input type="text" class="form-control border mb-2" #closePass [(ngModel)]="closePassword" placeholder="Sifrenizi giriniz"
+                                                />
+                                                <button type="button" [disabled]="!closePass.value" class="btn btn-danger btn-sm float-right" (click)="closeAccount(closePass.value); closePassword = null">
                                                     <i class="fas fa-power-off"></i> Hesabi kapat</button>
                                             </div>
                                         </div>

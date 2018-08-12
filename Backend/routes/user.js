@@ -5,6 +5,8 @@ var USER_ROUTER = express.Router(),
     Room = require('../models/room'),
     Message = require('../models/message'),
     bcrypt = require('bcryptjs'),
+    request = require('request'),
+    async = require('async'),
     jwt = require('jsonwebtoken'),
     multer = require('multer'),
     multerS3 = require('multer-s3'),
@@ -70,39 +72,115 @@ USER_ROUTER.post('/user/profilePicture', upload.any(), function (req, res) {
 });
 
 // Remove a user from everywhere
-USER_ROUTER.delete('/', function (req, res) {
+USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
     var token = jwt.decode(req.query.token);
 
+    // This is a big operation, use promises to make sure each one is completed before finishing.
     User.findById(token.id, function (err, user) {
         misc.checkUserErrors(err, res, user, token, () => {
-            // Delete each post - This deletes all the pictures related, and removes them from people
-            async.forEachOf(user.posts, (value, key, callback) => {
-                request({
-                    url: "http://127.0.0.1:3000/post/" + value._id,
-                    method: "DELETE",
-                    timeout: 10000,
-                    followRedirect: true,
-                    maxRedirects: 10
-                }, function (error, response, body) {
-                    if (!error && response.statusCode == 200) {
-                        console.log('cleaned it up!', body);
-                    } else {
-                        console.log('error, couldnt clean!' + response.statusCode);
+            if (!bcrypt.compareSync(req.params.password, user.password)) {
+                return res.status(401).json({
+                    message: 'Login failed',
+                    error: 'Invalid credentials'
+                });
+            }
+
+            var removePosts = new Promise((resolve, reject) => {
+                async.forEachOf(user.posts, (value, key, callback) => {
+                    request({
+                        url: "http://127.0.0.1:3000/post/" + value + "?token=" + req.query.token,
+                        method: "DELETE",
+                        timeout: 10000,
+                        followRedirect: true,
+                        maxRedirects: 10
+                    }, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            console.log('cleaned it up!', body);
+                        } else {
+                            reject({ message: 'problem deleting posts', error: error });
+                        }
+                    });
+
+                    callback();
+                }, err => {
+                    if (err) {
+                        reject({ message: 'problem deleting posts', error: err });
                     }
                 });
 
-                callback();
-            }, err => {
-                if (err) {
-                    return res.status(400).json({
-                        message: 'not cleaned',
-                        error: err
-                    });
-                }
+                resolve({ message: 'done deleting posts' });
+            })
+
+            var removeFromOtherPeople = new Promise((resolve, reject) => {
+                User.updateMany({ 'following.nickName': { $in: [req.params.nickName] } }, { $pull: { following: { nickName: req.params.nickName } } }, function (err, users) {
+                    if (err) {
+                        reject({ message: 'problem deleting from friends' });
+                    }
+                    resolve({ message: 'done deleting from friends' });
+                });
             });
 
-            // Remove user files uploaded
-            // Remove user
+            var removeUserFiles = new Promise((resolve, reject) => {
+                var allImagesArray = [].concat(user.images, user.coverImage, user.profilePicture);
+
+                async.forEachOf(allImagesArray, (value, key, callback) => {
+                    s3.deleteObject({
+                        Bucket: 'socialmediaimages2017',
+                        Key: 'user_images/' + value
+                    }, function (err, data) {
+                        if (err) {
+                            reject({ message: 'problem deleting files of profile' });
+                        }
+                    });
+
+                    callback();
+                }, err => {
+                    if (err) {
+                        reject({ message: 'problem deleting files', error: err });
+                    }
+                });
+
+                resolve({ message: 'done deleting files' });
+            });
+
+            var removeFromMessages = new Promise((resolve, reject) => {
+                Message.deleteOne({ $or: [{ initiator: user._id }, { initiated: user._id }] }, function (err, message) {
+                    if (err) {
+                        reject({ message: 'problem deleting messages', error: err });
+                    }
+                    resolve({ message: 'done deleting messages' });
+                });
+            });
+
+            var removeFromChat = new Promise((resolve, reject) => {
+                Room.updateMany({ mods: { $in: [req.params.nickName] } }, { $pull: { mods: { $in: [req.params.nickName] } } }, function (err, result) {
+                    if (err) {
+                        reject({ message: 'problem deleting from chat', error: err });
+                    }
+                    resolve({ message: 'done deleting from chat' });
+                });
+            });
+
+            var removeUser = new Promise((resolve, reject) => {
+                User.deleteOne({ nickName: req.params.nickName }, function (err, result) {
+                    if (err) {
+                        reject({ message: 'problem deleting profile', error: err });
+                    }
+                    resolve({ message: 'done removing profile' });
+                })
+            });
+
+            Promise.all([removePosts, removeFromOtherPeople, removeUserFiles, removeFromMessages, removeFromChat, removeUser]).then((values) => {
+                return res.status(200).json({
+                    message: 'profile deleted',
+                    data: ''
+                });
+            }).catch((error) => {
+                return res.status(400).json({
+                    message: 'problem deleting profile',
+                    error: error
+                });
+            });
         });
     });
 });
@@ -128,7 +206,30 @@ USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
     });
 });
 
-// isAdding expects true or false - Doesn't need authentication
+USER_ROUTER.post('/user/credit/:nickName/:isAsking/:credit', function (req, res) {
+    var token = jwt.decode(req.query.token);
+
+    var requestString = 'credit_sending';
+    if (req.params.isAsking == 'true') {
+        requestString = 'credit_asking';
+    } else {
+        // Decrease the credit!
+        var amount = parseInt(req.params.credit);
+        User.updateOne({ _id: token.id }, { $inc: { credit: -amount } }, function (err, result) {
+            if (err) {
+                return res.status(400).json({
+                    message: 'Problem sending credit',
+                    error: err
+                });
+            }
+        })
+    }
+
+    // Notify the other user
+    misc.notifyUser(res, User, token.id, null, req.params.nickName, requestString, req.params.credit);
+});
+
+// isAdding expects true or false
 USER_ROUTER.patch('/user/credit/:nickName/:isAdding/:credit', function (req, res) {
     // var token = jwt.decode(req.query.token);
     User.findOne({ nickName: req.params.nickName }, function (err, user) {
@@ -140,8 +241,24 @@ USER_ROUTER.patch('/user/credit/:nickName/:isAdding/:credit', function (req, res
 
             if (req.params.isAdding === 'true') {
                 user.credit += parseInt(req.params.credit);
+                // Also notify the user
+                user.inbox.push({
+                    action: 'received',
+                    post: null,
+                    data: req.params.credit,
+                    user: user._id,
+                    date: Date.now()
+                });
             } else {
                 user.credit -= parseInt(req.params.credit);
+                // Also notify the user
+                user.inbox.push({
+                    action: 'lost',
+                    post: null,
+                    data: req.params.credit,
+                    user: user._id,
+                    date: Date.now()
+                });
             }
 
             user.save(function (err, result) {
@@ -151,6 +268,11 @@ USER_ROUTER.patch('/user/credit/:nickName/:isAdding/:credit', function (req, res
                         error: err
                     });
                 }
+
+                return res.status(200).json({
+                    message: 'credit updated',
+                    data: req.params.credit
+                });
             });
         });
     });
@@ -196,7 +318,7 @@ USER_ROUTER.post('/user/complaint', function (req, res) {
                 if (i == mods.length - 1) {
                     cb = () => {
                         return res.status(200).json({
-                            message: '',
+                            message: 'all related users are notified',
                             data: ''
                         });
                     }
@@ -916,7 +1038,7 @@ USER_ROUTER.delete('/user/unfriend/:name', function (req, res) {
         misc.checkUserErrors(err, res, user, token, () => {
             // Take it out from there
             for (let i = 0; i < user.following.length; i++) {
-                if (user.following[i].nickName === req.params.name) {
+                if (user.following[i].nickName === userToUnfriend) {
                     user.following.splice(i, 1);
                 }
             }
@@ -931,7 +1053,7 @@ USER_ROUTER.delete('/user/unfriend/:name', function (req, res) {
 
                 // Other user - Friend to be deleted
                 User.findOne({
-                    nickName: req.params.name
+                    nickName: userToUnfriend
                 }, function (err, otherUser) {
                     misc.checkUserErrors(err, res, user, null, () => {
                         currentUser = user.nickName;
@@ -1167,12 +1289,12 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
     })
 });
 
-USER_ROUTER.post('/password', function (req, res) {
+USER_ROUTER.post('/user/password', function (req, res) {
     var token = jwt.decode(req.query.token);
     User.findById(token.id, function (err, user) {
         misc.checkUserErrors(err, res, user, token, () => {
             // Check if the password is correct
-            if (req.body.oldPassword)
+            if (req.body.oldPassword && req.body.newPassword) {
                 if (!bcrypt.compareSync(req.body.oldPassword, user.password)) {
                     return res.status(401).json({
                         message: 'Login failed',
@@ -1180,20 +1302,26 @@ USER_ROUTER.post('/password', function (req, res) {
                     });
                 }
 
-            user.password = bcrypt.hashSync(req.body.newPassword, 10);
-            user.save(function (err) {
-                if (err) {
-                    return res.status(400).json({
-                        message: 'Problem saving user new password',
-                        error: err
-                    });
-                }
+                user.password = bcrypt.hashSync(req.body.newPassword, 10);
+                user.save(function (err) {
+                    if (err) {
+                        return res.status(400).json({
+                            message: 'Problem saving user new password',
+                            error: err
+                        });
+                    }
 
-                return res.status(200).json({
-                    message: 'Password updated!',
-                    data: ''
+                    return res.status(200).json({
+                        message: 'Password updated!',
+                        data: ''
+                    });
                 });
-            });
+            } else {
+                return res.status(401).json({
+                    message: 'Login failed',
+                    error: 'Invalid credentials'
+                });
+            }
         });
     });
 });

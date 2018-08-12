@@ -11,13 +11,14 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { ErrorComponent } from './modals/error/error.component';
 import { WarningComponent } from './modals/warning/warning.component';
 import { SearchComponent } from './navigation/search/search.component';
-import { ImagemodalComponent } from './modals/imagemodal/imagemodal.component';
-import { InputmodalComponent } from './modals/inputmodal/inputmodal.component';
-import { UsermodalComponent } from './modals/usermodal/usermodal.component';
-import { QuestionmodalComponent } from './modals/questionmodal/questionmodal.component';
-import { ComplaintmodalComponent } from './modals/complaintmodal/complaintmodal.component';
-import { PostmodalComponent } from './modals/postmodal/postmodal.component';
-import { PostviewmodalComponent } from './modals/postviewmodal/postviewmodal.component';
+import { ImagemodalComponent } from './modals/image/imagemodal.component';
+import { InputmodalComponent } from './modals/input/inputmodal.component';
+import { CreditmodalComponent } from './modals/credit/creditmodal.component';
+import { UsermodalComponent } from './modals/user/usermodal.component';
+import { QuestionmodalComponent } from './modals/question/questionmodal.component';
+import { ComplaintmodalComponent } from './modals/complaint/complaintmodal.component';
+import { PostmodalComponent } from './modals/post/postmodal.component';
+import { PostviewmodalComponent } from './modals/postview/postviewmodal.component';
 import { AuthComponent } from './auth/auth.component';
 import { PostsComponent } from './posts/posts.component';
 import { ChatPageComponent } from './navigation/inbox/chat/chat-page/chat.page.component';
@@ -64,6 +65,7 @@ const APP_ROUTES: Routes = [
 		QuestionmodalComponent,
 		PostmodalComponent,
 		PostviewmodalComponent,
+		CreditmodalComponent,
 		AuthComponent,
 		AdminComponent
 	],

@@ -10,13 +10,26 @@
                 <b>{{ notification.user.nickName }}</b>
             </p>
             <p class="mb-2 small action">
-                {{ notification.actionReadable }}
+                <span *ngIf="notification.action.substring(0, 6) == 'credit' || notification.action == 'received'">{{ notification.data }}</span> {{ notification.actionReadable }}
             </p>
         </div>
         <div class="col-4 text-right align-self-center pl-0">
-            <button type="button" class="btn btn-success btn-sm px-1" *ngIf="notification.action != 'complaint'" (click)="showPost(notification._id, notification.post._id, notification.action, notification.user._id)">
+            <button type="button" class="btn btn-success btn-sm px-1" *ngIf="notification.action != 'complaint' && notification.action.substring(0, 6) != 'credit' && notification.action != 'received' && notification.action != 'lost'"
+                (click)="showPost(notification._id, notification.post._id, notification.action, notification.user._id)">
                 <i class="fa fa-eye" aria-hidden="true"></i>
             </button>
+            <button *ngIf="notification.action == 'received' || notification.action == 'lost'" type="button" class="btn btn-success btn-sm px-1"
+                (click)="removeCreditRequest(notification)">
+                <i class="fas fa-check"></i>
+            </button>
+            <span *ngIf="notification.action.substring(0, 6) == 'credit'">
+                <button type="button" class="btn btn-success btn-sm px-1" (click)="handleCredit(notification)">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
+                <button *ngIf="notification.action.split('_')[1] == 'asking'" type="button" class="btn btn-danger btn-sm px-1" (click)="removeCreditRequest(notification)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+            </span>
             <span *ngIf="notification.action == 'complaint'">
                 <button type="button" class="btn btn-success btn-sm px-1" (click)="handleComplaint(notification)">
                     <i class="fa fa-eye" aria-hidden="true"></i>

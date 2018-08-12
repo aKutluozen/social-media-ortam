@@ -30,17 +30,23 @@ export class UserService {
 
     private friends: object[] = [];
 
-    private _friendDeleteEvent = new BehaviorSubject<string>('test 123');
+    private _friendDeleteEvent = new BehaviorSubject<string>('test');
     public $friendEvent = this._friendDeleteEvent.asObservable();
 
+    closeAccount(oldPass, nickName) {
+        return this.http.delete(this.global.URL + 'user/user/profile/' + nickName + '/' + oldPass + this.auth.getToken(), this.auth.getHeaders())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error));
+    }
+
     // Delete a friend bi-directionally
-    deleteFriend(name) {
-        return this.http.delete(this.global.URL + 'user/user/unfriend/' + name + this.auth.getToken(), this.auth.getHeaders())
+    deleteFriend(nickName) {
+        return this.http.delete(this.global.URL + 'user/user/unfriend/' + nickName + this.auth.getToken(), this.auth.getHeaders())
             .map((response: Response) => {
-                this._friendDeleteEvent.next(name);
+                this._friendDeleteEvent.next(nickName);
                 return response.json();
             })
-            .catch((error: Response) => Observable.throw(error.json()));
+            .catch((error: Response) => { return Observable.throw(error.json()) });
     }
 
     // Get the friends request and messages list
@@ -235,7 +241,7 @@ export class UserService {
     }
 
     resetPassword(oldPass, newPass) {
-        return this.http.post(this.global.URL + 'user/password' + this.auth.getToken(), JSON.stringify({ oldPassword: oldPass, newPassword: newPass }), this.auth.getHeaders())
+        return this.http.post(this.global.URL + 'user/user/password' + this.auth.getToken(), JSON.stringify({ oldPassword: oldPass, newPassword: newPass }), this.auth.getHeaders())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }
@@ -308,6 +314,12 @@ export class UserService {
     // isAdding can be true of false
     adjustCredit(nickName, amount, isAdding) {
         return this.http.patch(this.global.URL + 'user/user/credit/' + nickName + '/' + isAdding + '/' + amount + this.auth.getToken(), this.auth.getHeaders())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()));
+    }
+
+    sendCreditRequest(nickName, amount, isAsking) {
+        return this.http.post(this.global.URL + 'user/user/credit/' + nickName + '/' + isAsking + '/' + amount + this.auth.getToken(), this.auth.getHeaders())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }

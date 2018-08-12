@@ -1,0 +1,50 @@
+<div class="modal fade" #modalElement tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h4 class="modal-title">
+                    <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi Islemleri</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <b>Kredi istenen yada gonderilecek kisi:</b> {{ otherUser }}</p>
+                <input type="number" class="form-control mb-4" [(ngModel)]="creditAmount" placeholder="Kredi miktarini buraya giriniz">
+                <table class="table table-striped table-hover mb-4">
+                    <tr>
+                        <td>
+                            <b>Toplam krediniz:</b>
+                        </td>
+                        <td> {{ global.credit }} ookr</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Islem miktari:</b>
+                        </td>
+                        <td>{{ creditAmount }} ookr</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Son durum:</b>
+                        </td>
+                        <td>
+                            <b>Alirsaniz:</b> {{ global.credit + creditAmount }} ookr
+                        </td>
+                        <td>
+                            <b>Gonderirseniz:</b> {{ global.credit - creditAmount }} ookr
+                        </td>
+                    </tr>
+                </table>
+                <button type="button" class="btn btn-primary" (click)="askCredit()" [disabled]="creditAmount == 0">
+                    <i class="fas fa-arrow-right"></i>
+                    <i class="fas fa-credit-card"></i> Kredi iste</button>
+                <button type="button" class="btn btn-secondary" (click)="sendCredit()" [disabled]="creditAmount > global.credit || creditAmount == 0">
+                    <i class="fas fa-credit-card"></i>
+                    <i class="fas fa-arrow-right"></i> <span *ngIf="global.credit - creditAmount >= 0">Kredi gonder</span><span *ngIf="global.credit - creditAmount < 0">Limit asildi</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

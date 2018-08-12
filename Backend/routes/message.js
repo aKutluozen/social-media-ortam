@@ -193,7 +193,6 @@ MESSAGE_ROUTER.get('/all/:offset', function (req, res) {
         id = token.id,
         offset = parseInt(req.params.offset);
 
-        console.log('\n WE HERE \n');
     // Find the user that have the messages
     User.findById(id, function (err, user) {
         misc.checkUserErrors(err, res, user, token, () => {

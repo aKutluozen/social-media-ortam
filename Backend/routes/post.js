@@ -181,7 +181,10 @@ POST_ROUTER.get('/friends/:subject/:amount', function (req, res) {
 
     // Get the user first
     User.findById(token.id, function (err, user) {
-        misc.checkResultErrors(err, res, 'user', user);
+        var finalResponse = misc.checkResultErrors(err, res, 'user', user);
+        if (finalResponse) {
+            return finalResponse;
+        }
         // Temporary friends array
         var friends = [];
 
@@ -312,7 +315,10 @@ POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', function (req, r
 
     // Get the user first
     User.findById(person, function (err, user) {
-        misc.checkResultErrors(err, res, 'user', user);
+        var finalResponse = misc.checkResultErrors(err, res, 'user', user);
+        if (finalResponse) {
+            return finalResponse;
+        }
 
         Post.find({ nickName: user.nickName, group: 'private' }).sort({ created: 'desc' }).populate([{
             path: 'user',
@@ -348,7 +354,10 @@ POST_ROUTER.get('/friends/:amount', function (req, res) {
 
     // Get the user first
     User.findById(token.id, function (err, user) {
-        misc.checkResultErrors(err, res, 'user', user);
+        var finalResponse = misc.checkResultErrors(err, res, 'user', user);
+        if (finalResponse) {
+            return finalResponse;
+        }
 
         // Temporary friends array
         var friends = [];
@@ -418,13 +427,6 @@ POST_ROUTER.delete('/image', function (req, res) {
 
     // Also, somehow delete it in the post too, if exists!!!
     Post.findOne({ image: { $eq: fileToDelete } }, function (err, post) {
-        // if (!post) {
-        //     return res.status(500).json({
-        //         message: 'problem getting post to delete image',
-        //         error: err
-        //     });
-        // }
-
         if (err) {
             return res.status(500).json({
                 message: 'problem getting post to delete image',
@@ -457,7 +459,10 @@ POST_ROUTER.delete('/image', function (req, res) {
             if (post != null && post != undefined) {
                 post.image = '';
                 post.save(function (err, postResult) {
-                    misc.checkResultErrors(err, res, 'post', postResult);
+                    var finalResponse = misc.checkResultErrors(err, res, 'post', postResult);
+                    if (finalResponse) {
+                        return finalResponse;
+                    }
 
                     return res.status(200).json({
                         message: 'Image deleted in the post!',
@@ -480,7 +485,10 @@ POST_ROUTER.post('/', function (req, res, next) {
 
     // Find the user first
     User.findById(token.id, function (err, user) {
-        misc.checkResultErrors(err, res, 'user', user);
+        var finalResponse = misc.checkResultErrors(err, res, 'user', user);
+        if (finalResponse) {
+            return finalResponse;
+        }
 
         // Temp subject patch - Fix this when the front end is fixed !!!
         var sbj = req.body.subject;
@@ -505,9 +513,11 @@ POST_ROUTER.post('/', function (req, res, next) {
 
         // Save it
         post.save(function (err, postResult) {
-            misc.checkResultErrors(err, res, 'post', postResult);
+            var finalResponse = misc.checkResultErrors(err, res, 'post', postResult);
+            if (finalResponse) {
+                return finalResponse;
+            }
 
-            // Also save to users array
             if (!postResult) {
                 return;
             }
@@ -535,11 +545,17 @@ POST_ROUTER.post('/post/:id', function (req, res) {
 
     // Find the user first
     User.findById(token.id, function (err, user) {
-        misc.checkResultErrors(err, res, 'user', user);
+        var finalResponse = misc.checkResultErrors(err, res, 'user', user);
+        if (finalResponse) {
+            return finalResponse;
+        }
 
         // Find the post to add to user
         Post.findById(req.params.id, function (err, post) {
-            misc.checkResultErrors(err, res, 'post', post);
+            var finalResponse = misc.checkResultErrors(err, res, 'post', post);
+            if (finalResponse) {
+                return finalResponse;
+            }
 
             if (post) {
                 // Add users name to the post
@@ -715,7 +731,7 @@ POST_ROUTER.delete('/:id', (req, res) => {
                 error: err
             });
         }
-        
+
         // Delete it from everybody
         User.find({ posts: { $in: [post._id] } }, { nickName: 1, posts: 1, inbox: 1 }, (err, users) => {
             for (let user of users) {
@@ -767,11 +783,17 @@ POST_ROUTER.delete('/post/:id', function (req, res, next) {
 
     // Find the user first
     User.findById(token.id, function (err, user) {
-        misc.checkResultErrors(err, res, 'user', user);
+        var finalResponse = misc.checkResultErrors(err, res, 'user', user);
+        if (finalResponse) {
+            return finalResponse;
+        }
 
         // Find the post to add to user
         Post.findById(req.params.id, function (err, post) {
-            misc.checkResultErrors(err, res, 'post', post);
+            var finalResponse = misc.checkResultErrors(err, res, 'post', post);
+            if (finalResponse) {
+                return finalResponse;
+            }
 
             // Remove the user from the post
             for (let i = 0; i < post.shares.length; i++) {

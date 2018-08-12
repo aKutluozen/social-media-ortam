@@ -38,6 +38,10 @@ export class QuestionmodalComponent implements OnInit {
 
 			this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
 				this.approveFunction = '';
+				this.content = '';
+				this.approveFunction = '';
+				this.dataToBeDeleted = '';
+				this.collection = '';
 			});
 		});
 	}

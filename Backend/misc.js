@@ -4,13 +4,14 @@
 
 var misc = module.exports;
 
-misc.notifyUser = function (response, userModel, currentUserId, postId, otherUserNickName, type) {
+misc.notifyUser = function (response, userModel, currentUserId, postId, otherUserNickName, type, data) {
     userModel.updateOne({ nickName: otherUserNickName }, {
         $push: {
             $position: 0,
             inbox: {
                 action: type,
                 post: postId,
+                data: data,
                 user: currentUserId,
                 date: Date.now()
             }

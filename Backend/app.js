@@ -53,7 +53,7 @@ var requestLoop = setInterval(function () {
         if (!error && response.statusCode == 200) {
             console.log('cleaned it up!', body);
         } else {
-            console.log('error, couldnt clean!' + response.statusCode);
+            console.log('error, couldnt clean!' + response);
         }
     });
 }, 60000);

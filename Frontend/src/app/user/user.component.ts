@@ -9,6 +9,8 @@ import { GlobalService } from "app/globals.service";
 import { PostService } from "app/posts/posts.service";
 import { Subscription } from 'rxjs/Subscription';
 import { Post } from '../posts/post.model';
+import * as $ from 'jquery';
+declare var $: any;
 
 @Component({
 	selector: 'app-user',
@@ -33,10 +35,16 @@ export class UserComponent implements OnInit, OnDestroy {
 	public oldImages: string[] = [];
 	public showImage: string = 'none';
 	public imageShowed: string = '';
+	public isRotating: boolean = false;
+	public isRotatingCover: boolean = false;
+
 	public friends: Object[] = [];
 	private subscription: Subscription;
 	private postSubscription: Subscription;
+	private degree: number = 0;
+	private degreeCover: number = 0;
 	public myPosts: Post[] = [];
+	private isCroppingCover: boolean = false;
 
 	// Profile picture variables
 	public profilePictureChangedEvent: any = '';
@@ -47,6 +55,8 @@ export class UserComponent implements OnInit, OnDestroy {
 	public coverPictureChangedEvent: any = '';
 	public croppedCoverPicture: any = '';
 	public coverPicture: string = '';
+	public coverCropperSize: any = {};
+	public coverImageRatio: number = 0;
 
 	private userSubscription: Subscription;
 
@@ -55,6 +65,95 @@ export class UserComponent implements OnInit, OnDestroy {
 			data => this.modal.handleWarning('Sifreniz basari ile degismistir!'),
 			error => this.modal.handleError('Sifrenizi degistirirken bir sorun olustu', error)
 		);
+	}
+
+	closeAccount(oldPass) {
+		this.modal.showQuestion({
+			content: 'Bu hesabi kapatmak istediginizden emin misiniz?',
+			itemToBeDeleted: { oldPassword: oldPass, user: this.auth.getCookie('user') },
+			itemCollection: this.user,
+			approveFunction: (pass, user) => {
+				user.closeAccount(pass.oldPassword, pass.user).subscribe(
+					data => {
+						this.modal.handleWarning('Hesap basariyla kapanmistir ve alakali her sey silinmistir. Gule gule!');
+						this.auth.logout();
+						this.router.navigateByUrl('/auth/signin');
+					},
+					error => {
+						this.modal.handleError('Hesap kapatilirken bir sorun olustu', error);
+					}
+				);
+			}
+		});
+	}
+
+	rotateCoverImage() {
+		this.isRotatingCover = true;
+
+		$('#i1c').attr('src', this.croppedCoverPicture);
+
+		var canvas = $('#rotateCoverCanvas')[0];
+		var img = new Image();
+		img.src = this.croppedCoverPicture;
+
+		this.degree += 90;
+		this.degree %= 360;
+
+		//if (this.degree == 0 || this.degree == 180) {
+		canvas.width = 800;
+		canvas.height = 300;
+
+
+		var context = canvas.getContext("2d");
+
+		if (this.degree == 0 || this.degree == 180) {
+			context.translate(img.width / 2, img.height / 2);
+		} else {
+			context.translate(img.height / 2, img.width / 2);
+		}
+		context.rotate(this.degree * Math.PI / 180);
+		context.drawImage(img, -(img.width / 2), - (img.height / 2));
+		context.restore();
+		var rotatedImageSrc = canvas.toDataURL();
+		this.croppedCoverPicture = rotatedImageSrc;
+		$('#i1c').attr('src', rotatedImageSrc);
+		if (!this.isCroppingCover) this.coverCropperSize = { x1: 0, y1: 0, x2: '100%', y2: '100%' }
+	}
+
+	rotateProfileImage() {
+		this.isRotating = true;
+
+		$('#i1p').attr('src', this.croppedProfilePicture);
+
+		var canvas = $('#rotateProfileCanvas')[0];
+		var img = new Image();
+		img.src = this.croppedProfilePicture;
+
+		this.degree += 90;
+		this.degree %= 360;
+
+		if (this.degree == 0 || this.degree == 180) {
+			canvas.width = img.width;
+			canvas.height = img.height;
+		} else {
+			canvas.width = img.height;
+			canvas.height = img.width;
+		}
+
+		var context = canvas.getContext("2d");
+
+		if (this.degree == 0 || this.degree == 180) {
+			context.translate(img.width / 2, img.height / 2);
+		} else {
+			context.translate(img.height / 2, img.width / 2);
+		}
+		context.rotate(this.degree * Math.PI / 180);
+		context.drawImage(img, -(img.width / 2), - (img.height / 2));
+		context.restore();
+		var rotatedImageSrc = canvas.toDataURL();
+		this.croppedProfilePicture = rotatedImageSrc;
+		$('#i1p').attr('src', rotatedImageSrc);
+		// if (!this.isCropping) this.cropperSize = { x1: 0, y1: 0, x2: '100%', y2: '100%' }
 	}
 
 	showThisImage(imageUrl) {
@@ -198,6 +297,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.croppedProfilePicture = '';
 		this.profilePictureChangedEvent = null;
 		this.profilePicture = '';
+		this.isRotating = false;
 	}
 
 	addProfileImage() {
@@ -209,6 +309,7 @@ export class UserComponent implements OnInit, OnDestroy {
 				if (response.data != '') {
 					this.croppedProfilePicture = '';
 					this.profilePictureChangedEvent = null;
+					this.isRotating = false;
 					this.profilePicture = response.data;
 					this.global.profilePicture = response.data;
 				} else {
@@ -224,10 +325,37 @@ export class UserComponent implements OnInit, OnDestroy {
 
 	coverPictureFileChangeEvent(event: any): void {
 		this.coverPictureChangedEvent = event;
+
+		// // Get the original image dimension for cropping purposes
+		// var fr = new FileReader;
+
+		// fr.onload = () => {
+		//     var img = new Image;
+
+		//     img.onload = () => {
+		//         this.coverImageRatio = img.width / img.height;
+		//     };
+
+		//     img.src = fr.result;
+		// };
+
+		// fr.readAsDataURL(event.target.files[0]); // I'm using a <input type="file"> for demonstrating
 	}
 
 	coverPictureCropped(image: string) {
 		this.croppedCoverPicture = image;
+
+		// Check vertical proportion here, if too big, stop it.
+		var i = new Image();
+		i.onload = () => {
+			if (i.height > 960) {
+				this.modal.handleError('Resim cok uzun! Yukselik ve genislik orani 3/1\'i gecemez.', {});
+				// Reset the cropper
+				this.coverCropperSize.x2 = 320;
+			}
+		};
+
+		i.src = this.croppedCoverPicture;
 	}
 
 	coverImageLoaded() {
@@ -242,6 +370,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.croppedCoverPicture = '';
 		this.coverPictureChangedEvent = null;
 		this.coverPicture = '';
+		this.isRotatingCover = false;
 	}
 
 	addCoverImage() {
@@ -254,6 +383,7 @@ export class UserComponent implements OnInit, OnDestroy {
 					this.croppedCoverPicture = '';
 					this.coverPictureChangedEvent = null;
 					this.coverPicture = response.data;
+					this.isRotatingCover = false;
 				} else {
 					this.coverPicture = '';
 				}
