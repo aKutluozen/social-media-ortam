@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalService } from '../modal.service';
 import { GlobalService } from 'app/globals.service';
-import * as $ from 'jquery';
-declare var $: any;
 
 @Component({
 	selector: 'app-imagemodal',

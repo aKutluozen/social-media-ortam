@@ -3,13 +3,11 @@ var POST_ROUTER = express.Router(),
     Post = require('../models/post'),
     jwt = require('jsonwebtoken'),
     User = require('../models/user'),
-    async = require('async');
-
-var multer = require('multer'),
+    async = require('async'),
+    multer = require('multer'),
     multerS3 = require('multer-s3'),
-    AWS = require('aws-sdk');
-
-var misc = require('../misc');
+    AWS = require('aws-sdk'), 
+    misc = require('../misc');
 
 // Handling image upload
 AWS.config.loadFromPath('./s3_config.json');
@@ -161,7 +159,7 @@ POST_ROUTER.get('/subjects', function (req, res) {
 // Protect the routes
 // Each request this will execute
 POST_ROUTER.use('/', function (req, res, next) {
-    jwt.verify(req.query.token, 'secret', function (err, decodedToken) {
+    jwt.verify(req.query.token, process.env.SECRET, function (err, decodedToken) {
         if (err) {
             return res.status(401).json({
                 message: 'No authentication',

@@ -60,11 +60,9 @@ export class PostComponent implements OnInit, OnDestroy {
 
     viewProfile(name) {
         this.subscription = this.user.viewProfile(name).subscribe(
-            data => {
-                this.modal.showUserModal(data.data);
-            }, error => {
-                this.modal.handleError('Profil yuklenirken bir sorun olustu!', error);
-            });
+            data => this.modal.showUserModal(data.data), 
+            error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+        );
     }
 
     // Check if the post belongs to the user logged in

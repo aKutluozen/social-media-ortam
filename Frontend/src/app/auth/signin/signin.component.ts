@@ -55,9 +55,7 @@ export class SigninComponent implements OnInit, OnDestroy {
                 }, 500);
 
             },
-            error => {
-                this.modal.handleError('Giris yapilamadi, lutfen bilgilerinizi kontrol ediniz!', error);
-            }
+            error => this.modal.handleError('Giris yapilamadi, lutfen bilgilerinizi kontrol ediniz!', error)
         );
         this.signinForm.reset();
     }
@@ -92,7 +90,7 @@ export class SigninComponent implements OnInit, OnDestroy {
         this.auth.sendResetRequest(this.resetForm.value.email).subscribe(
             data => this.modal.handleWarning('Girdiginiz emaile bir sifre yolladik, lutfen kontrol ediniz.'),
             error => this.modal.handleError('Bir sorun olustu', error)
-        )
+        );
     }
 
     refreshPassword() {
@@ -101,10 +99,8 @@ export class SigninComponent implements OnInit, OnDestroy {
                 this.modal.handleWarning('Sifreniz basari ile yenilenmistir! Lutfen tekrar giris yapmayi deneyiniz.');
                 this.isResetting = false;
             },
-            error => {
-                this.modal.handleError('Yanlis kod girdiniz. Lutfen butun formu gerektigi gibi doldurunuz.', error);
-            }
-        )
+            error => this.modal.handleError('Yanlis kod girdiniz. Lutfen butun formu gerektigi gibi doldurunuz.', error)
+        );
     }
 
     ngOnDestroy() {

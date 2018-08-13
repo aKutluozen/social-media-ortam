@@ -35,8 +35,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 	@ViewChild('messagesComponentElement') messagesComponentElement: ElementRef;
 	@ViewChild('messagesComponent') messagesComponent;
 
-	@ViewChild('notificationsComponentElement')
-	notificationsComponentElement: ElementRef;
+	@ViewChild('notificationsComponentElement') notificationsComponentElement: ElementRef;
 	@ViewChild('notificationsComponent') notificationsComponent;
 
 	@ViewChild('requestsComponentElement') requestsComponentElement: ElementRef;
@@ -48,10 +47,6 @@ export class InboxComponent implements OnInit, OnDestroy {
 	// Constantly checks for the numbers
 	ngOnInit() {
 		this.checkInterval = window.setInterval(() => {
-			if (this.flagObject.numbers) {
-				this.global.credit = this.flagObject.numbers.credit;
-			}
-
 			// Stop actions if they are not shown
 			if (!this.messagesComponentElement.nativeElement.classList.contains('show')) {
 				this.messagesComponent.destroyAll();

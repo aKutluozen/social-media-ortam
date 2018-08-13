@@ -14,8 +14,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-search',
-	templateUrl: './search.component.html',
-	styleUrls: ['./search.component.css']
+	templateUrl: './search.component.html'
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
@@ -39,11 +38,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 	// Run the seach, store the results
 	ngOnInit() {
 		if (this.global.username !== '') {
-			this.friendSubscription = this.user.getFriendsList().subscribe(data => {
-				this.friends = data;
-			}, error => {
-				this.modal.handleError('Arkadas listesini getirirken bir sorun olustu!', error);
-			});
+			this.friendSubscription = this.user.getFriendsList().subscribe(
+				data => this.friends = data,
+				error => this.modal.handleError('Arkadas listesini getirirken bir sorun olustu!', error)
+			);
 		}
 	}
 
@@ -76,9 +74,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 				}
 				this.searchTerm = '';
 				this.userSubscription.unsubscribe();
-			}, error => {
-				this.modal.handleError('Kullanicilar bulunurken bir sorun olustu!', error);
-			});
+			}, error => this.modal.handleError('Kullanicilar bulunurken bir sorun olustu!', error)
+		);
 	}
 
 	searchWithEnter(event) {
@@ -120,21 +117,16 @@ export class SearchComponent implements OnInit, OnDestroy {
 	// Add user tot he following list of the other user
 	follow(id) {
 		this.userSubscription = this.user.sendFollowRequest(id).subscribe(
-			data => {
-				// this.modal.handleWarning('Takip istegi basari ile gonderildi');
-				// this.search(); // refresh the search here <- FIND A GOOD SOLUTION TO THIS REFRESH PROBLEM!
-			}, error => {
-				this.modal.handleError('Istek gonderilemedi ya da onceden zaten gonderildi', error);
-			});
+			data => this.modal.handleWarning('Takip istegi basari ile gonderildi'),
+			error => this.modal.handleError('Istek gonderilemedi ya da onceden zaten gonderildi', error)
+		);
 	}
 
 	viewProfile(name) {
 		this.userSubscription = this.user.viewProfile(name).subscribe(
-			data => {
-				this.modal.showUserModal(data.data);
-			}, error => {
-				this.modal.handleError('Profil yuklenirken bir sorun olustu!', error);
-			});
+			data => this.modal.showUserModal(data.data),
+			error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+		);
 	}
 
 	// Send a message to the other user

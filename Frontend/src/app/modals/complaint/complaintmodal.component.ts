@@ -45,7 +45,7 @@ export class ComplaintmodalComponent implements OnInit {
                         this.modal.handleError('Yasaklarken sorun olustu', res);
                     }
                 },
-                (err) => console.log(err)
+                (err) => this.modal.handleError('Yasaklarken sorun olustu', err)
             );
     }
 }

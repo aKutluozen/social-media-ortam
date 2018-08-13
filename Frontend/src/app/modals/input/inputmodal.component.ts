@@ -39,7 +39,7 @@ export class InputmodalComponent implements OnInit {
 	ngOnInit() {
 		this.inputService.inputActivated.subscribe((messageSetup: any) => {
 			this.messageSetup = messageSetup;
-
+			
 			// Limit textarea
 			$('textarea').attr('maxlength', 256);
 
@@ -56,12 +56,19 @@ export class InputmodalComponent implements OnInit {
 						this.close();
 					})
 				},
-				err => console.log('ERRRORRR', err)
-			)
+				err => this.modal.handleError('Arkadaslik kontrolunde bir sorun olustu', err)
+			);
 
 			if (this.messageSetup['type'] === 'chat') {
-				this.loadMessages(this.messageSetup['messageId']);
-				this.isFirstMessage = false;
+				// Somehow, add the message id here if it not already there.
+				var messageId;
+				this.messageService.getMessageIdGivenFriend(this.messageSetup.receiver, this.global.username).subscribe(
+					data => {
+						this.loadMessages(data.data);
+						this.isFirstMessage = false;
+					},
+					error => console.error(error)
+				);
 			} else {
 				this.isFirstMessage = true;
 			}
@@ -72,7 +79,7 @@ export class InputmodalComponent implements OnInit {
 	close(isFirst?: boolean) {
 		this.message = '';
 
-		if (!this.isFirstMessage) {
+		if (!this.isFirstMessage && this.timedCheck) {
 			this.timedCheck.unsubscribe();
 		}
 
@@ -81,15 +88,14 @@ export class InputmodalComponent implements OnInit {
 
 	// Load all messages when the window is opened
 	loadMessages(id) {
-		this.messageService.getMessagesWithAFriend(this.messageSetup['messageId']).subscribe(
+		this.messageService.getMessagesWithAFriend(this.messageSetup['messageId'] || id).subscribe(
 			data => {
 				this.messageSetup['messages'] = data.data.messages;
 				let lastPos = this.messageSetup['messages'].length - 1;
 				this.latestMessageTime = this.messageSetup['messages'][lastPos].date;
 				this.checkMessages(id, this.latestMessageTime, this.interval);
-			}, error => {
-				this.modal.handleError('Mesajlar ve istekler goruntulenirken bir sorun olustu', error);
-			});
+			}, error => this.modal.handleError('Mesajlar ve istekler goruntulenirken bir sorun olustu', error)
+		);
 	}
 
 	// When chat mode is on, check for the latest messages every second
@@ -120,14 +126,13 @@ export class InputmodalComponent implements OnInit {
 					if (type !== 'chat') {
 						this.modal.handleWarning('Mesaj basariyla gonderildi!');
 						if (!this.isFriend) {
-							this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { }, err => console.log(err));
+							this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { }, err => console.error(err));
 						}
 					}
 					this.close();
 				},
-				error => {
-					this.modal.handleError('Mesaj gonderilemedi.', error);
-				});
+				error => this.modal.handleError('Mesaj gonderilemedi.', error)
+			);
 		}
 	}
 
@@ -136,9 +141,7 @@ export class InputmodalComponent implements OnInit {
 		if (this.message.length > 1 && !this.disableSending) {
 			if (event.keyCode === 13) {
 				if (!this.isFirstMessage) {
-
 					this.sendChatMessage();
-
 				} else if (this.isFriend && this.global.credit >= 10) {
 					this.sendFirstMessage();
 				}
@@ -157,7 +160,7 @@ export class InputmodalComponent implements OnInit {
 			} else if (!this.isFriend && this.global.credit >= 10) {
 				this.messageService.sendMessage(this.message, this.messageSetup['receiver'], 'chat').subscribe(data => {
 					if (!this.isFriend) {
-						this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { }, err => console.log(err));
+						this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { }, err => console.error(err));
 					}
 					this.disableSending = true;
 					this.message = '';

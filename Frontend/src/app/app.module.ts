@@ -21,7 +21,6 @@ import { PostmodalComponent } from './modals/post/postmodal.component';
 import { PostviewmodalComponent } from './modals/postview/postviewmodal.component';
 import { AuthComponent } from './auth/auth.component';
 import { PostsComponent } from './posts/posts.component';
-import { ChatPageComponent } from './navigation/inbox/chat/chat-page/chat.page.component';
 import { AdminComponent } from './admin/admin.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EmojiPickerModule } from 'ng-emoji-picker';
@@ -45,7 +44,6 @@ const APP_ROUTES: Routes = [
 	{ path: 'auth', component: AuthComponent, loadChildren: 'app/auth/auth.module#AuthModule' },
 	{ path: 'profile', loadChildren: 'app/user/user.module#UserModule' },
 	{ path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
-	{ path: 'chat', component: ChatPageComponent, canActivate: [AuthGuard] },
 	{ pathMatch: 'full', path: '**', redirectTo: '/posts/all' }
 ];
 

@@ -16,6 +16,10 @@ body {
     font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif; */
 }
 
+.search:focus {
+    background: white !important;
+}
+
 .close {
     position: absolute;
     right:6px;

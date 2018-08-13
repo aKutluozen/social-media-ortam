@@ -46,9 +46,7 @@ export class SignupComponent implements OnInit, OnDestroy {
                     this.modal.handleWarning('Kayit oldugunuz icin tesekkurler! Artik siteye giris yapabilirsiniz.');
                     this.router.navigateByUrl('/auth/signin');
                 },
-                error => {
-                    this.modal.handleError('Kayit olurken bir problem olustu!', error);
-                }
+                error => this.modal.handleError('Kayit olurken bir problem olustu!', error)
             );
             this.signupForm.reset();
         } else {

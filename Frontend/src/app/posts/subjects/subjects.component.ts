@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
-
-import { Post } from "../post.model";
 import { PostService } from "../posts.service";
 import { AuthService } from "app/auth/auth.service";
 import { Subscription } from "rxjs";

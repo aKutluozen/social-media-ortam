@@ -42,11 +42,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 		this.modal.showQuestion({
 			content: 'Bu odaya girmeden once asagidaki kurallari kabul etmelisiniz: <br>' + this.selectedRoom['rules'],
-			approveFunction: (post, collection, service) => {
+			approveFunction: () => {
 				this.selectedRoom['canEnter'] = true;
 				this.chatService.selectRoom(this.selectedRoom).subscribe(
 					data => {
-						// Automatically open the chat again here
 						window['$']('#navbarButton').click();
 						window['$']('#chatMenu').click();
 						this.messages = [];
@@ -83,7 +82,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 					window.setTimeout(() => { this.messageTimeout = false; }, 2000);
 				}
 			} else {
-				this.modal.handleError('Sohbetten kovuldunuz!', {error: '', message: 'banned'});
+				this.modal.handleError('Sohbetten kovuldunuz!', { error: '', message: 'banned' });
 			}
 		}
 	}
@@ -102,14 +101,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 		this.chatService.sendComplaint(message).subscribe(
 			res => {
-				// Mark it
 				for (let msg of this.messages) {
 					if (msg['text']['message'] == message.text.message) {
 						msg['complaintStatus'] = 'Sikayet gonderildi';
 					}
 				}
 			},
-			err => { console.log(err); }
+			err => this.modal.handleError('Sikayet gonderilirken bir sorun olustu', err)
 		);
 
 		this.reason = '';
@@ -123,31 +121,23 @@ export class ChatComponent implements OnInit, OnDestroy {
 			}
 			this.scrollDown();
 		});
+
 		this.chatService.selectRoom(this.room).subscribe(
-			data => {
-				$('textarea').attr('maxlength', 256);
-			},
-			error => {
-				// console.log(error);
-			}
+			data => $('textarea').attr('maxlength', 256),
+			error => this.modal.handleError('Odaya girilirken bir sorun olustu', error)
 		);
 
 		this.chatService.getRooms().subscribe(
 			rooms => { this.rooms = rooms.data; },
 			err => console.error(err)
 		);
-
-		// this.chatService.getNumbers().subscribe(
-		// 	data => console.log(data),
-		// 	error => console.log(error)
-		// );
 	}
 
 	public openPopup: Function;
 
-    setPopupAction(fn: any) {
-        this.openPopup = fn;
-    }
+	setPopupAction(fn: any) {
+		this.openPopup = fn;
+	}
 
 	ngOnDestroy() {
 		this.connection.unsubscribe();

@@ -31,9 +31,7 @@ export class ErrorComponent implements OnInit {
             data => {
                 this.modal.handleWarning('Hata raporu basariyla gonderildi!');
                 $(this.modalElement.nativeElement).modal('hide');
-            }, error => {
-                this.modal.handleError('Hata raporu gonderilemedi', error);
-            }
-        )
+            }, error => this.modal.handleError('Hata raporu gonderilemedi', error)
+        );
     }
 }

@@ -40,18 +40,16 @@ export class UsermodalComponent implements OnInit {
 	ngOnInit() {
 		this.modal.userModalActivated.subscribe((user: any) => {
 
+			this.isMe = false;
 			if (user.nickName === this.auth.getCookie('user')) {
 				this.isMe = true;
-			} else {
-				this.isMe = false;
 			}
 
 			this.user = user;
 
+			this.justView = false;
 			if (this.user['viewType'] == 'just-view') {
 				this.justView = true;
-			} else {
-				this.justView = false;
 			}
 
 			// Handle gallery
@@ -66,10 +64,8 @@ export class UsermodalComponent implements OnInit {
 
 			this.user.posts = [];
 			var postSubscription = this.postService.getPosts(this.user._id, 0, 'private', this.user._id).subscribe(
-				data => {
-					this.user.posts = data;
-				},
-				error => { postSubscription.unsubscribe(); console.log(error) }
+				data => this.user.posts = data,
+				error => { postSubscription.unsubscribe(); console.error(error) }
 			);
 
 			this.isInTheFollowList = false;
@@ -105,7 +101,7 @@ export class UsermodalComponent implements OnInit {
 	// Turn on the answering modal
 	answerMessage(receiver) {
 		this.modal.showInputModal({
-			type: 'first',
+			type: 'chat',
 			title: 'Mesaj gonder',
 			receiver: receiver
 		});
@@ -138,9 +134,8 @@ export class UsermodalComponent implements OnInit {
 			data => {
 				this.modal.handleWarning('Takip istegi basari ile gonderildi');
 				this.close();
-			}, error => {
-				this.modal.handleError('Istek gonderilemedi', error);
-			});
+			}, error => this.modal.handleError('Istek gonderilemedi', error)
+		);
 	}
 
 	// Accept friendship, remove it from the list if successfull
@@ -149,26 +144,21 @@ export class UsermodalComponent implements OnInit {
 			data => {
 				this.modal.handleWarning('Takip istegi kabul edildi!');
 				this.close();
-			}, error => {
-				this.modal.handleError('Kabul edilemedi', error);
-			});
+			}, error => this.modal.handleError('Kabul edilemedi', error)
+		);
 	}
 
 	// Reject friendship, remove it from the list if successfull
 	rejectRequest(name) {
 		this.modal.showQuestion({
 			content: 'Bu istegi geri cevirmek istediginize emin misiniz?',
-			itemToBeDeleted: name,
-			itemCollection: [],
-			helperService: this.userService,
-			approveFunction: (name, collection, service) => {
-				service.rejectFollowing(name).subscribe(
+			approveFunction: () => {
+				this.userService.rejectFollowing(name).subscribe(
 					data => {
 						this.modal.handleWarning('Takip istegi iptal edildi!');
 						this.close();
-					}, error => {
-						this.modal.handleError('Takip istegi iptal edilirken bir sorun olustu', error);
-					});
+					}, error => this.modal.handleError('Takip istegi iptal edilirken bir sorun olustu', error)
+				);
 			}
 		});
 	}
@@ -177,21 +167,16 @@ export class UsermodalComponent implements OnInit {
 	unfriend(name) {
 		this.modal.showQuestion({
 			content: 'Bu kisiyi arkadasliktan cikarmak istediginize emin misiniz?',
-			itemToBeDeleted: name,
-			itemCollection: [],
-			helperService: this.userService,
-			approveFunction: (name, collection, service) => {
-				service.deleteFriend(name).subscribe(
+			approveFunction: () => {
+				this.userService.deleteFriend(name).subscribe(
 					data => {
 						this.isFriend = false;
 						this.modal.handleWarning('Arkadasliktan cikarildi!');
 						this.close();
-					}, error => {
-						this.modal.handleError('Arkadaslik iptal edilirken bir sorun olustu', error);
-					});
+					}, error => this.modal.handleError('Arkadaslik iptal edilirken bir sorun olustu', error)
+				);
 			}
 		});
-
 	}
 
 	// Close the modal

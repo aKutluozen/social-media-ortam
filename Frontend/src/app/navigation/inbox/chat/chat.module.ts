@@ -6,7 +6,6 @@ import { EmojiPickerModule } from 'ng-emoji-picker';
 
 // Components
 import { ChatComponent } from './chat.component';
-import { ChatPageComponent } from './chat-page/chat.page.component';
 
 // Services
 import { ChatService } from './chat.service';
@@ -22,8 +21,7 @@ import { ChatService } from './chat.service';
 		ChatComponent
 	],
 	declarations: [
-		ChatComponent,
-		ChatPageComponent
+		ChatComponent
 	],
 	providers: [
 		ChatService

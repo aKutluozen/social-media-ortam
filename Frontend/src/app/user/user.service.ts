@@ -115,7 +115,7 @@ export class UserService {
         ajax.onload = function (response) {
             switch (response.srcElement['status']) {
                 case 200: callbackSuccess(JSON.parse(ajax.response)); break;
-                case 500: console.log('Problem updating cover picture!'); break;
+                case 500: callbackError(); break;
             }
         };
 
@@ -136,7 +136,7 @@ export class UserService {
         ajax.onload = function (response) {
             switch (response.srcElement['status']) {
                 case 200: callbackSuccess(JSON.parse(ajax.response)); break;
-                case 404: console.log('cover image to delete was not found!'); break;
+                case 404: callbackError(); break;
             }
         };
 
@@ -158,7 +158,7 @@ export class UserService {
         ajax.onload = function (response) {
             switch (response.srcElement['status']) {
                 case 200: callbackSuccess(JSON.parse(ajax.response)); break;
-                case 500: console.log('Problem updating profile picture!'); break;
+                case 500: callbackError(); break;
             }
         };
 
@@ -179,7 +179,7 @@ export class UserService {
         ajax.onload = function (response) {
             switch (response.srcElement['status']) {
                 case 200: callbackSuccess(JSON.parse(ajax.response)); break;
-                case 404: console.log('image to delete was not found!'); break;
+                case 404: callbackError(); break;
             }
         };
 
@@ -200,7 +200,7 @@ export class UserService {
         ajax.onload = function (response) {
             switch (response.srcElement['status']) {
                 case 200: callbackSuccess(JSON.parse(ajax.response)); break;
-                case 404: console.log('image to delete was not found!'); break;
+                case 404: callbackError(); break;
             }
         };
 

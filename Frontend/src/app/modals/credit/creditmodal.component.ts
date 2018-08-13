@@ -40,11 +40,8 @@ export class CreditmodalComponent implements OnInit {
     sendCredit() {
         this.modal.showQuestion({
             content: 'Bu islemi gerceklestirmek istediginize emin misiniz?',
-            itemToBeDeleted: this.otherUser,
-            itemCollection: this.creditAmount,
-            helperService: this.user,
-            approveFunction: (otherUser, creditAmount, service) => {
-                service.sendCreditRequest(otherUser, creditAmount, false).subscribe(
+            approveFunction: () => {
+                this.user.sendCreditRequest(this.otherUser, this.creditAmount, false).subscribe(
                     data => this.modal.handleWarning('Kredi hediyeniz basari ile gonderilmistir!'),
                     error => this.modal.handleError('Kredi hediyesi isteginiz gonderilirken bir sorun olustu!', error)
                 );
@@ -56,11 +53,8 @@ export class CreditmodalComponent implements OnInit {
     askCredit() {
         this.modal.showQuestion({
             content: 'Bu islemi gerceklestirmek istediginize emin misiniz?',
-            itemToBeDeleted: this.otherUser,
-            itemCollection: this.creditAmount,
-            helperService: this.user,
-            approveFunction: (otherUser, creditAmount, service) => {
-                service.sendCreditRequest(otherUser, creditAmount, true).subscribe(
+            approveFunction: () => {
+                this.user.sendCreditRequest(this.otherUser, this.creditAmount, true).subscribe(
                     data => this.modal.handleWarning('Isteginiz basari ile gonderilmistir!'),
                     error => this.modal.handleError('Kredi istegi gonderilirken bir sorun olustu!', error)
                 );

@@ -19,7 +19,7 @@ var s3 = new AWS.S3();
 
 // Protect all the rest of the requests starting with "/user" if the user doesn't have a token
 USER_ROUTER.use('/user', function (req, res, next) {
-    jwt.verify(req.query.token, 'secret', function (err, decodedToken) {
+    jwt.verify(req.query.token, process.env.SECRET, function (err, decodedToken) {
         if (err) {
             return res.status(401).json({
                 message: 'No authentication',
@@ -75,7 +75,6 @@ USER_ROUTER.post('/user/profilePicture', upload.any(), function (req, res) {
 USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
     var token = jwt.decode(req.query.token);
 
-    // This is a big operation, use promises to make sure each one is completed before finishing.
     User.findById(token.id, function (err, user) {
         misc.checkUserErrors(err, res, user, token, () => {
             if (!bcrypt.compareSync(req.params.password, user.password)) {
@@ -144,7 +143,7 @@ USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
             });
 
             var removeFromMessages = new Promise((resolve, reject) => {
-                Message.deleteOne({ $or: [{ initiator: user._id }, { initiated: user._id }] }, function (err, message) {
+                Message.deleteOne({ $or: [{ initiator: user._id }, { initiated: user._id }] }, function (err, result) {
                     if (err) {
                         reject({ message: 'problem deleting messages', error: err });
                     }
@@ -209,7 +208,7 @@ USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
 USER_ROUTER.post('/user/credit/:nickName/:isAsking/:credit', function (req, res) {
     var token = jwt.decode(req.query.token);
 
-    var requestString = 'credit_sending';
+    var requestString = 'received';
     if (req.params.isAsking == 'true') {
         requestString = 'credit_asking';
     } else {
@@ -222,7 +221,17 @@ USER_ROUTER.post('/user/credit/:nickName/:isAsking/:credit', function (req, res)
                     error: err
                 });
             }
-        })
+        });
+
+        // Give the other person already
+        User.updateOne({ nickName: req.params.nickName }, { $inc: { credit: amount } }, function (err, result) {
+            if (err) {
+                return res.status(400).json({
+                    message: 'Problem sending credit',
+                    error: err
+                });
+            }
+        });
     }
 
     // Notify the other user
@@ -278,7 +287,7 @@ USER_ROUTER.patch('/user/credit/:nickName/:isAdding/:credit', function (req, res
     });
 });
 
-// Add a complaint - !!! INVESTIGATE
+// Add a complaint
 USER_ROUTER.post('/user/complaint', function (req, res) {
     Room.findOne({ name: req.body.complaint.room.name }, (err, room) => {
         if (err || !room) {
@@ -287,22 +296,6 @@ USER_ROUTER.post('/user/complaint', function (req, res) {
                 error: err
             });
         }
-
-        // Room is found, find mod(s)
-        User.update({ nickName: { $in: room.mods } }, {
-            $push: {
-                complaintInbox: {
-                    complaint: req.body.complaint
-                }
-            }
-        }, function (err, result) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'problem updating user',
-                    error: err
-                });
-            }
-        });
 
         User.find({ nickName: { $in: room.mods } }, { nickName: 1, complaintInbox: 1 }, (err, mods) => {
             if (err || !mods) {
@@ -575,7 +568,7 @@ USER_ROUTER.post('/signin', function (req, res) {
             // Create and send the token
             var token = jwt.sign({
                 id: user._id
-            }, 'secret', {
+            }, process.env.SECRET, {
                     expiresIn: "1 day"
                 });
 

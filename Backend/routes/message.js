@@ -9,7 +9,7 @@ var MESSAGE_ROUTER = express.Router(),
 // Protect the routes
 // Each request this will execute
 MESSAGE_ROUTER.use('/', function (req, res, next) {
-    jwt.verify(req.query.token, 'secret', function (err, decodedToken) {
+    jwt.verify(req.query.token, process.env.SECRET, function (err, decodedToken) {
         if (err) {
             return res.status(401).json({
                 message: 'No authentication',
@@ -85,7 +85,7 @@ MESSAGE_ROUTER.post('/message/:receiver/', function (req, res) {
                             });
                             // Found, just attach to it
                         } else {
-                            message.messages = message.messages.slice(-100); // Keep last 10 messages !!!
+                            message.messages = message.messages.slice(-100); // Keep last 100 messages !!!
                             message.messages.push(msg);
 
                             // other person hasn't read yet!
@@ -133,6 +133,48 @@ MESSAGE_ROUTER.get('/message/:id/', function (req, res) {
 
         return res.status(201).json({
             data: messages
+        });
+    });
+});
+
+// Get messages with a given friend
+MESSAGE_ROUTER.get('/user/:nickNameOther/:nickNameThis', function (req, res) {
+    var thisId, otherId;
+
+    // Get ids from nick names
+    var gettingOtherID = new Promise((resolve, reject) => {
+        User.findOne({ nickName: req.params.nickNameOther }, (err, user) => {
+            if (err) reject();
+            thisId = user._id;
+            resolve();
+        });
+    });
+
+    var gettingThisID = new Promise((resolve, reject) => {
+        User.findOne({ nickName: req.params.nickNameThis }, (err, user) => {
+            if (err) reject();
+            otherId = user._id;
+            resolve();
+        });
+    })
+
+    Promise.all([gettingThisID, gettingOtherID]).then(values => {
+        Message.findOne({ $or: [{ initiator: thisId, initiated: otherId }, { initiator: otherId, initiated: thisId }] }, function (err, message) {
+            if (err || !message) {
+                return res.status(500).json({
+                    message: 'An error occured finding the message',
+                    error: err
+                });
+            }
+            return res.status(200).json({
+                message: 'messages',
+                data: message._id
+            });
+        });
+    }).catch(error => {
+        return res.status(500).json({
+            message: 'An error occured finding the message',
+            error: err
         });
     });
 });

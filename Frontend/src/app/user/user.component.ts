@@ -29,6 +29,9 @@ export class UserComponent implements OnInit, OnDestroy {
 	) {
 	}
 
+	public passwordOld: string;
+	public passwordNew: string;
+	public closePassword: string;
 	public profile: User;
 	public profileForm: FormGroup;
 	public images: string[] = [];
@@ -70,18 +73,14 @@ export class UserComponent implements OnInit, OnDestroy {
 	closeAccount(oldPass) {
 		this.modal.showQuestion({
 			content: 'Bu hesabi kapatmak istediginizden emin misiniz?',
-			itemToBeDeleted: { oldPassword: oldPass, user: this.auth.getCookie('user') },
-			itemCollection: this.user,
-			approveFunction: (pass, user) => {
-				user.closeAccount(pass.oldPassword, pass.user).subscribe(
+			approveFunction: () => {
+				this.user.closeAccount(oldPass, this.auth.getCookie('user')).subscribe(
 					data => {
 						this.modal.handleWarning('Hesap basariyla kapanmistir ve alakali her sey silinmistir. Gule gule!');
 						this.auth.logout();
 						this.router.navigateByUrl('/auth/signin');
 					},
-					error => {
-						this.modal.handleError('Hesap kapatilirken bir sorun olustu', error);
-					}
+					error => this.modal.handleError('Hesap kapatilirken bir sorun olustu', error)
 				);
 			}
 		});
@@ -99,10 +98,8 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.degree += 90;
 		this.degree %= 360;
 
-		//if (this.degree == 0 || this.degree == 180) {
 		canvas.width = 800;
 		canvas.height = 300;
-
 
 		var context = canvas.getContext("2d");
 
@@ -153,7 +150,6 @@ export class UserComponent implements OnInit, OnDestroy {
 		var rotatedImageSrc = canvas.toDataURL();
 		this.croppedProfilePicture = rotatedImageSrc;
 		$('#i1p').attr('src', rotatedImageSrc);
-		// if (!this.isCropping) this.cropperSize = { x1: 0, y1: 0, x2: '100%', y2: '100%' }
 	}
 
 	showThisImage(imageUrl) {
@@ -184,37 +180,29 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.userSubscription = this.user.updateProfile(this.profileForm.value).subscribe(
 			result => {
 				this.profileForm.disable();
-				// this.modal.handleWarning('Profiliniz basari ile guncellenmistir!');
+				this.modal.handleWarning('Profiliniz basari ile guncellenmistir!');
 			},
-			error => {
-				this.modal.handleError('Profil guncellenirken bir hata olustu!', error);
-			}
+			error => this.modal.handleError('Profil guncellenirken bir hata olustu!', error)
 		);
 	}
 
 	// Media pictures update actions ************
 
 	deleteThisImage(image) {
-
 		// Don't delete empty images
 		if (image) {
 			this.modal.showQuestion({
 				content: 'Bu resmi istediginizden emin misiniz?',
-				itemToBeDeleted: image,
-				itemCollection: this.user,
-				approveFunction: (image, user) => {
-					user.deleteGalleryPicture(
+				approveFunction: () => {
+					this.user.deleteGalleryPicture(
 						image,
 						() => {
 							let pos = this.images.indexOf(image);
 							this.images.splice(pos, 1);
 							this.fillEmptyImages();
-							// this.modal.handleWarning('Resim silindi!');
 						},
-						() => {
-							this.modal.handleError('Resimler yuklenirken bir sorun oldu', {});
-							console.log('Many images are NOT uploaded!');
-						});
+						err => this.modal.handleError('Resimler yuklenirken bir sorun oldu', err)
+					);
 				}
 			});
 		}
@@ -242,16 +230,15 @@ export class UserComponent implements OnInit, OnDestroy {
 			} else {
 				this.user.updateGalleryPictures(
 					files,
-					(response) => {
+					response => {
 						this.images = [];
 						for (let file of response.data) {
 							this.images.push(file);
 						}
 						this.fillEmptyImages();
 					},
-					() => {
-						console.log('Many images are NOT uploaded!');
-					});
+					err => this.modal.handleError('Galeriye resimler yuklenirken bir sorun olustu', err)
+				);
 			}
 		}
 	}
@@ -277,18 +264,14 @@ export class UserComponent implements OnInit, OnDestroy {
 	deleteProfilePicture() {
 		this.modal.showQuestion({
 			content: 'Profile resmini istediginizden emin misiniz?',
-			itemToBeDeleted: '',
-			itemCollection: this.user,
-			approveFunction: (message, user) => {
-				user.deleteProfilePicture(
-					(response) => {
+			approveFunction: () => {
+				this.user.deleteProfilePicture(
+					response => {
 						this.profilePicture = '';
 						this.global.profilePicture = '';
-						// this.modal.handleWarning('Profil resmi silindi!');
 					},
-					(error) => {
-						console.log('Profile image NOT updated!');
-					});
+					err => this.modal.handleError('Profil resmi yuklenirken bir sorun olustu', err)
+				);
 			}
 		});
 	}
@@ -305,7 +288,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
 		this.user.updateProfilePicture(
 			file,
-			(response) => {
+			response => {
 				if (response.data != '') {
 					this.croppedProfilePicture = '';
 					this.profilePictureChangedEvent = null;
@@ -316,30 +299,14 @@ export class UserComponent implements OnInit, OnDestroy {
 					this.profilePicture = '';
 				}
 			},
-			() => {
-				console.log('Profile image NOT uploaded!');
-			});
+			err => this.modal.handleError('Profil yuklenirken bir sorun olustu', err)
+		);
 	}
 
 	// Cover picture update actions ************
 
 	coverPictureFileChangeEvent(event: any): void {
 		this.coverPictureChangedEvent = event;
-
-		// // Get the original image dimension for cropping purposes
-		// var fr = new FileReader;
-
-		// fr.onload = () => {
-		//     var img = new Image;
-
-		//     img.onload = () => {
-		//         this.coverImageRatio = img.width / img.height;
-		//     };
-
-		//     img.src = fr.result;
-		// };
-
-		// fr.readAsDataURL(event.target.files[0]); // I'm using a <input type="file"> for demonstrating
 	}
 
 	coverPictureCropped(image: string) {
@@ -378,7 +345,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
 		this.user.updateCoverImage(
 			file,
-			(response) => {
+			response => {
 				if (response.data != '') {
 					this.croppedCoverPicture = '';
 					this.coverPictureChangedEvent = null;
@@ -388,25 +355,18 @@ export class UserComponent implements OnInit, OnDestroy {
 					this.coverPicture = '';
 				}
 			},
-			() => {
-				console.log('Cover image NOT uploaded!');
-			});
+			err => this.modal.handleError('Kapak resmi yuklenirken bir sorun olustu', err)
+		);
 	}
 
 	deleteCoverImage() {
 		this.modal.showQuestion({
 			content: 'Kapak resmini istediginizden emin misiniz?',
-			itemToBeDeleted: '',
-			itemCollection: this.user,
-			approveFunction: (message, user) => {
-				user.deleteCoverImage(
-					(response) => {
-						this.coverPicture = '';
-						// this.modal.handleWarning('Kapak resmi silindi!');
-					},
-					(error) => {
-						console.log('Cover image NOT updated!');
-					});
+			approveFunction: () => {
+				this.user.deleteCoverImage(
+					response => this.coverPicture = '',
+					err => this.modal.handleError('Kapak resmi guncellenemedi', err)
+				);
 			}
 		});
 	}
@@ -414,11 +374,9 @@ export class UserComponent implements OnInit, OnDestroy {
 	// Show a friends profile in a modal
 	showFriend(name) {
 		this.userSubscription = this.user.viewProfile(name).subscribe(
-			data => {
-				this.modal.showUserModal(data.data);
-			}, error => {
-				this.modal.handleError('Profil yuklenirken bir sorun olustu!', error);
-			});
+			data => this.modal.showUserModal(data.data),
+			error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+		);
 	}
 
 	// Fill images with empty ones if less than 5
@@ -465,27 +423,19 @@ export class UserComponent implements OnInit, OnDestroy {
 		});
 
 		this.postSubscription = this.postService.getPosts(this.auth.getCookie('userId'), 0, 'private', this.auth.getCookie('userId')).subscribe(
-			data => {
-				this.postService.posts = data;
-			},
-			error => console.log(error)
+			data => this.postService.posts = data,
+			error => console.error(error)
 		);
 
 		this.userSubscription = this.user.getProfile().subscribe(
 			data => {
 				this.profile = data.data;
 
-				// Add data to a USER MODEL !!!
 				for (let user of data.data.following) {
 					if (user.accepted === true) {
-						// if (user.friend.profilePicture != '' && user.friend.profilePicture != undefined) {
-						// 	user.friend.profilePicture = user.friend.profilePicture;
-						// }
-						// Handle missing pictures
 						if (!user.friend.profilePicture || user.friend.profilePicture == '') {
 							user.friend.profilePicture = 'emptyprofile.png';
 						}
-						// console.log(user.friend);
 						this.friends.push(user);
 					}
 				}
@@ -544,9 +494,7 @@ export class UserComponent implements OnInit, OnDestroy {
 					instagramLink: this.profile.instagramLink || ''
 				});
 			},
-			error => {
-				this.modal.handleError('Profil yuklenirken bir sorun olustu!', error);
-			}
+			error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
 		);
 	}
 }

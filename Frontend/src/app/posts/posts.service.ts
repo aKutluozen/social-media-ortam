@@ -72,9 +72,8 @@ export class PostService {
             })
             .catch((error: Response) => {
                 try {
-                    console.log(error);
                     return Observable.throw(error.json());
-                } catch (e) {console.log(error);
+                } catch (e) {
                     return Observable.throw(error);
                 }
             });
@@ -93,7 +92,7 @@ export class PostService {
         ajax.onload = function (response) {
             switch (response.srcElement['status']) {
                 case 200: callbackSuccess(JSON.parse(ajax.response)); break;
-                case 500: console.log('Problem updating post picture!'); break;
+                case 500: console.error('Problem updating post picture!'); break;
             }
         };
 
@@ -112,10 +111,9 @@ export class PostService {
         ajax.send(JSON.stringify({ pictureToDelete: picture }));
 
         ajax.onload = function (response) {
-            console.log(response);
             switch (response.srcElement['status']) {
                 case 200: callbackSuccess(JSON.parse(ajax.response)); break;
-                case 404: console.log('image to delete was not found!'); break;
+                case 404: console.error('image to delete was not found!'); break;
             }
         };
 
@@ -231,7 +229,6 @@ export class PostService {
     }
 
     getLoadedPosts() {
-        console.log(this.posts);
         return this.posts;
     }
 
@@ -261,17 +258,16 @@ export class PostService {
             return this.http.patch(this.global.URL + 'post/like/' + post.postId + this.auth.getToken(), { name: name }, this.auth.getHeaders())
                 .map((response: Response) => {
                     post.likes.unshift(name);
-                    this.userService.adjustCredit(post.nickName, 1, true).subscribe(data => { }, err => console.log(err));
+                    this.userService.adjustCredit(post.nickName, 1, true).subscribe(data => { }, err => console.error(err));
                     return response.json();
                 })
                 .catch((error: Response) => Observable.throw(error.json()));
-
             // If the user is already there, remove his name from the list
         } else {
             return this.http.delete(this.global.URL + 'post/like/' + post.postId + '/' + name + '/' + this.auth.getToken(), this.auth.getHeaders())
                 .map((response: Response) => {
                     post.likes.splice(post.likes.indexOf(name), 1);
-                    this.userService.adjustCredit(post.nickName, 1, false).subscribe(data => { }, err => console.log(err));
+                    this.userService.adjustCredit(post.nickName, 1, false).subscribe(data => { }, err => console.error(err));
                     return response.json();
                 })
                 .catch((error: Response) => Observable.throw(error.json()));
@@ -286,7 +282,6 @@ export class PostService {
             return this.http.patch(this.global.URL + 'post/dislike/' + post.postId + this.auth.getToken(), { name: name }, this.auth.getHeaders())
                 .map((response: Response) => {
                     post.dislikes.unshift(name);
-                    this.userService.adjustCredit(post.nickName, 1, false).subscribe(data => { }, err => console.log(err));
                     return response.json();
                 })
                 .catch((error: Response) => Observable.throw(error.json()));
@@ -296,7 +291,6 @@ export class PostService {
             return this.http.delete(this.global.URL + 'post/dislike/' + post.postId + '/' + name + '/' + this.auth.getToken(), this.auth.getHeaders())
                 .map((response: Response) => {
                     post.dislikes.splice(post.dislikes.indexOf(name), 1);
-                    this.userService.adjustCredit(post.nickName, 1, true).subscribe(data => { }, err => console.log(err));
                     return response.json();
                 })
                 .catch((error: Response) => Observable.throw(error.json()));
@@ -402,7 +396,6 @@ export class PostService {
                 return response.json();
             })
             .catch((error: Response) => { 
-                console.log('we here', error); 
                 return Observable.throw(error.json())
             });
     }

@@ -59,11 +59,7 @@ export class PostmodalComponent implements OnInit {
 
         fr.onload = () => {
             var img = new Image;
-
-            img.onload = () => {
-                this.imageRatio = img.width / img.height;
-            };
-
+            img.onload = () => this.imageRatio = img.width / img.height;
             img.src = fr.result;
         };
 
@@ -163,7 +159,7 @@ export class PostmodalComponent implements OnInit {
         this.postService.addPostPicture(
             file,
             // SUCCESS
-            (response) => {
+            response => {
                 this.pictureMessage = '';
                 this.imageChangedEvent = null;
                 this.croppedImage = null;
@@ -171,7 +167,7 @@ export class PostmodalComponent implements OnInit {
                 this.isRotating = false;
                 this.imageToShow = response.data;
             },
-            () => { console.log('bad') }
+            err => this.modal.handleError('Resim eklenirken bir sorun olustu', err)
         );
     }
 
@@ -191,11 +187,9 @@ export class PostmodalComponent implements OnInit {
                 if (this.post != undefined) {
                     this.post.image = '';
                 }
-                console.log('Deleted!');
             },
-            () => {
-                console.log('Many images are NOT uploaded!');
-            });
+            err => this.modal.handleError('Gonderi resmi silinirken bir sorun olustu', err)
+        );
     }
 
     // Create or update based on action
@@ -212,8 +206,9 @@ export class PostmodalComponent implements OnInit {
                         this.parsedLink = '';
                     }
                     sendPostToBackEnd.call(this);
-                }
-            )
+                },
+                err => this.modal.handleError('Linkte bir sorun olustu!', err)
+            );
         } else {
             this.parsedLink = '';
             sendPostToBackEnd.call(this);
@@ -274,15 +269,11 @@ export class PostmodalComponent implements OnInit {
                 }
 
                 this.postService.updatePost(this.post).subscribe(
-                    data => {
-                        // this.modal.handleWarning('Basari ile guncellendi!');
-                        this.close();
-                    },
+                    data => this.close(),
                     error => {
                         this.modal.handleError('Paylasirken bir sorun oldu!', error);
                         this.close();
                     });
-
                 try {
                     this.post.linkContent = JSON.parse(this.post.linkContent);
                 } catch (e) {
@@ -310,10 +301,7 @@ export class PostmodalComponent implements OnInit {
                 );
 
                 this.postService.addNewPost(post).subscribe(
-                    data => {
-                        // this.modal.handleWarning('Basari ile paylasildi!');
-                        this.close();
-                    },
+                    data => this.close(),
                     error => {
                         this.modal.handleError('Paylasirken bir sorun oldu!', error);
                         this.close();

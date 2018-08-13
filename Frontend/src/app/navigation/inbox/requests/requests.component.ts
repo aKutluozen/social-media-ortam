@@ -51,9 +51,8 @@ export class RequestsComponent {
 						this.requests.push(item);
 					}
 				}
-			}, error => {
-				this.modal.handleError('Mesajlar ve istekler goruntulenirken bir sorun olustu', error);
-			});
+			}, error => this.modal.handleError('Mesajlar ve istekler goruntulenirken bir sorun olustu', error)
+		);
 	}
 
 	loadMore() {
@@ -65,11 +64,9 @@ export class RequestsComponent {
 	viewProfile(name) {
 		this.profileSubscription = this.user.viewProfile(name).subscribe(
 			data => {
-				// add view type to user object
 				data.data.viewType = 'just-view';
 				this.modal.showUserModal(data.data);
-			}, error => {
-				this.modal.handleError('Profil yuklenirken bir sorun olustu!', error);
-			});
+			}, error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+		);
 	}
 }

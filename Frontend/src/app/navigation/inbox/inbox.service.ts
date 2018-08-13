@@ -23,6 +23,12 @@ export class InboxService {
             .catch((error: Response) => Observable.throw(error.json()));
     }
 
+    getMessageIdGivenFriend(nickNameOther, nickNameThis) {
+        return this.http.get(this.global.URL + 'message/user/' + nickNameOther + '/' + nickNameThis + this.auth.getToken())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()));
+    }
+
     // Delete a dialog
     deleteMessage(id) {
         return this.http.delete(this.global.URL + 'message/message/' + id + this.auth.getToken())
@@ -54,8 +60,8 @@ export class InboxService {
     // Send a message to a user - Type: chat or first
     sendMessage(message, receiver, type) {
         return this.http.post(
-          this.global.URL + 'message/message/' + receiver + this.auth.getToken(),
-          JSON.stringify({ message: message }), this.auth.getHeaders())
+            this.global.URL + 'message/message/' + receiver + this.auth.getToken(),
+            JSON.stringify({ message: message }), this.auth.getHeaders())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }

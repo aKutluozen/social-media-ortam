@@ -108,8 +108,7 @@ EMAIL_ROUTER.post('/reset/new', function (req, res) {
 });
 
 EMAIL_ROUTER.post('/error', function (req, res) {
-    console.log(req.body.error);
-    // Do something with the error - Email it maybe, or save it in a db
+    console.error(req.body);
     return res.status(200).json({
         message: 'success',
         data: ''

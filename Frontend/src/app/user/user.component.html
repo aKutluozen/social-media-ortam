@@ -33,7 +33,6 @@
                                     <small>
                                         <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ profile?.posts['length'] }}</small>
                                     <br>
-
                                     <small>
                                         <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi: {{ profile?.credit }}</small>
                                     <br>
@@ -72,20 +71,23 @@
                 <div class="col">
                     <form class="form-horizontal" [formGroup]="profileForm" (ngSubmit)="saveProfile()" id="ngForm">
                         <div class="card bg-dark text-white info-update-hover">
+                            <div class="card-header">
+                                <i class="fas fa-id-card"></i> Bilgiler
+
+                                <span id="info-update-control" class="float-right">
+                                    <label *ngIf="profileForm.disabled" class="btn btn-primary mb-0 btn-sm text-center py-0 px-1" (click)="enableInfoUpdate()">
+                                        <i class="fa fa-edit" aria-hidden="true"></i>
+                                    </label>
+                                    <label *ngIf="!profileForm.disabled" class="btn btn-success mb-0 btn-sm text-center py-0 px-1" (click)="saveProfile()">
+                                        <i class="fa fa-save" aria-hidden="true"></i>
+                                    </label>
+                                    <label *ngIf="!profileForm.disabled" class="btn btn-danger mb-0 btn-sm text-center py-0 px-1" (click)="disableInfoUpdate()">
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                    </label>
+                                </span>
+
+                            </div>
                             <div class="card-body">
-                                <div class="top-right-button">
-                                    <span id="info-update-control">
-                                        <label *ngIf="profileForm.disabled" class="btn btn-primary btn-sm text-center py-0 px-1" (click)="enableInfoUpdate()">
-                                            <i class="fa fa-edit" aria-hidden="true"></i>
-                                        </label>
-                                        <label *ngIf="!profileForm.disabled" class="btn btn-success btn-sm text-center py-0 px-1" (click)="saveProfile()">
-                                            <i class="fa fa-save" aria-hidden="true"></i>
-                                        </label>
-                                        <label *ngIf="!profileForm.disabled" class="btn btn-danger btn-sm text-center py-0 px-1" (click)="disableInfoUpdate()">
-                                            <i class="fa fa-ban" aria-hidden="true"></i>
-                                        </label>
-                                    </span>
-                                </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="email">Email:</label>
                                     <input readonly type="text" class="form-control" id="email" formControlName="email">
@@ -177,6 +179,17 @@
 
         <div class="col-xl-9 px-2 col-lg-6 mb-3">
             <div class="card mb-3">
+                <div class="card-header cover-image-control">
+                    <i class="fas fa-images"></i> Galeri
+                    <div id="cover-upload-button" class="float-right">
+                        <label class="cover-image-upload-button btn btn-primary btn-sm text-center px-1 py-0 mb-0" *ngIf="!coverPicture" for="coverPictureFile">
+                            <i class="fa fa-upload" aria-hidden="true"></i> Kapak resmi ekle
+                        </label>
+                        <label class="cover-image-upload-button btn btn-danger btn-sm text-center px-1 py-0 mb-0" *ngIf="coverPicture" (click)="deleteCoverImage()">
+                            <i class="fa fa-trash" aria-hidden="true"></i> Kapak resmi sil
+                        </label>
+                    </div>
+                </div>
                 <div class="card-body pt-0 px-0 ">
                     <div class="row">
                         <div class="col-md-12 cover-image-control" [ngClass]="{'mb-n-80': !coverPictureChangedEvent}">
@@ -186,14 +199,11 @@
                                 <image-cropper *ngIf="coverPictureChangedEvent" [imageChangedEvent]="coverPictureChangedEvent" [maintainAspectRatio]="true"
                                     [aspectRatio]="8/3" [resizeToWidth]="800" format="jpeg" (imageCropped)="coverPictureCropped($event)"
                                     (imageLoaded)="coverImageLoaded()" (loadImageFailed)="profileImageLoadImageFailed()"></image-cropper>
-
                                 <canvas id="rotateCoverCanvas" class="d-none"></canvas>
                                 <div class="rotate-preview-wrapper mx-auto m-2" *ngIf="isRotatingCover">
                                     <img id="i1c" class="rotate-image-preview" src="" alt="" />
                                 </div>
                                 <div class="row col justify-content-center mx-auto px-0">
-                                    <!-- <button class="btn btn-warning text-center btn-sm" *ngIf="croppedCoverPicture" type="button" (click)="rotateCoverImage()">
-                                        <i class="fas fa-sync-alt"></i> Cevir</button> -->
                                     <button class="btn btn-success btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="addCoverImage()">
                                         <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
                                     <button class="btn btn-danger btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="emptyCoverPicture()">
@@ -202,31 +212,15 @@
                                 </div>
                             </div>
 
-                            <div class="top-right-button mr-4">
-                                <div id="cover-upload-button">
-                                    <label class="cover-image-upload-button btn btn-primary btn-sm text-center px-1 py-0" *ngIf="!coverPicture" for="coverPictureFile">
-                                        <i class="fa fa-upload" aria-hidden="true"></i>
-                                    </label>
-                                    <label class="cover-image-upload-button btn btn-danger btn-sm text-center px-1 py-0" *ngIf="coverPicture" (click)="deleteCoverImage()">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </label>
-                                </div>
-                            </div>
+
                             <hr *ngIf="croppedCoverPicture">
                             <img *ngIf="!coverPictureChangedEvent" src="{{ global.URL_S3_USERS + coverPicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'"
                                 class="cover-image mb-4" (click)="showThisImage(coverPicture)">
-
                         </div>
                         <!-- Image Gallery -->
                         <div class="col-12">
                             <div class="row justify-content-center gallery-images-button-control">
-                                <div class="col-10">
-                                    <div class="bottom-right-button" *ngIf="images.includes('')">
-                                        <label class="btn btn-primary btn-sm text-center add-images px-1 py-0" for="pictureFiles">
-                                            <i class="fa fa-upload" aria-hidden="true"></i>
-                                        </label>
-                                        <input hidden id="pictureFiles" type="file" (change)="addGalleryImages()" accept=".jpg, .jpeg, .png" maxlength="256" multiple>
-                                    </div>
+                                <div class="col-10 mb-n-80">
                                     <div class="row">
                                         <div class="px-2 col-lg-2 col-4 align-self-center" *ngFor="let image of images">
                                             <div class="gallery-thumbnails">
@@ -239,6 +233,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-11 mt-4 pt-2">
+                                    <div class="float-right" *ngIf="images.includes('')">
+                                        <label class="btn btn-primary btn-sm text-center add-images mb-0 px-1 py-0" for="pictureFiles">
+                                            <i class="fa fa-upload" aria-hidden="true"></i>
+                                        </label>
+                                        <input hidden id="pictureFiles" type="file" (change)="addGalleryImages()" accept=".jpg, .jpeg, .png" maxlength="256" multiple>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -247,23 +249,16 @@
             <!-- Posts and activities -->
             <div class="row mb-3">
                 <div class="col-md-12">
-
                     <div class="card share-hover">
+                        <div class="card-header">
+                            <span id="share-control" class="float-right" *ngIf="postService.posts.length < 12">
+                                <label class="btn btn-primary btn-sm text-center py-0 px-1 mb-0" (click)="openPostWindow()">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                                </label>
+                            </span>
+                            <i class="fa fa-map-pin" aria-hidden="true"></i> Panom ({{postService.posts.length}}/12)
+                        </div>
                         <div class="card-body">
-                            <div class="top-right-button" *ngIf="postService.posts.length < 12">
-                                <span id="share-control">
-                                    <label class="btn btn-primary btn-sm text-center py-0 px-1" (click)="openPostWindow()">
-                                        <i class="fa fa-plus-square" aria-hidden="true"></i>
-                                    </label>
-                                </span>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <h5 class="mb-4 sm text-center">
-                                        <i class="fa fa-map-pin" aria-hidden="true"></i> Panom ({{postService.posts.length}}/12)
-                                    </h5>
-                                </div>
-                            </div>
                             <div class="card-columns">
                                 <p class="col-12 text-center" *ngIf="postService.posts.length == 0">Hic bir paylasim bulunamadi!</p>
                                 <app-post class="mb-4" [mylocation]="'profile'" [post]="post" *ngFor="let post of postService.posts">
@@ -276,16 +271,10 @@
             <div class="row mb-3">
                 <div class="col">
                     <div class="card">
+                        <div class="card-header">
+                            <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar ({{ friends.length }})
+                        </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h5 class="mb-4 sm text-center">
-                                        <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar ({{ friends.length }})
-                                    </h5>
-                                </div>
-                            </div>
-                            <!-- show groups -->
-
                             <div class="row">
                                 <div class="col-12 text-center" *ngIf="friends.length == 0">Hic bir arkadas bulunamadi!</div>
                                 <div class="col">
@@ -305,16 +294,10 @@
             <div class="row mb-3">
                 <div class="col">
                     <div class="card">
+                        <div class="card-header">
+                            <i class="fa fa-cogs" aria-hidden="true"></i> Ayarlar
+                        </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h5 class="mb-4 sm text-center">
-                                        <i class="fa fa-cogs" aria-hidden="true"></i> Ayarlar
-                                    </h5>
-                                </div>
-                            </div>
-                            <!-- show groups -->
-
                             <div class="row">
                                 <div class="col-md-4 mb-4">
                                     <div class="card">
@@ -345,32 +328,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="col-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="text-center">
-                                                <i class="fas fa-credit-card"></i> Kredi Al</h5>
-                                            <div class="form-group mb-0">
-                                                <input type="text" class="form-control border mb-2" placeholder="Miktar" />
-                                                <p>
-                                                    <b>Tutar: 50 TL</b>
-                                                </p>
-                                                <button type="button" class="btn btn-success btn-sm float-right">
-                                                    <i class="fas fa-shopping-cart"></i> Satin al</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <div class="col-md-4 mb-4">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="text-center">
-                                                <i class="fas fa-key"></i> Hesap Ayarlari</h5>
+                                                <i class="fas fa-power-off"></i> Hesabi Kapat</h5>
                                             <div class="form-group mb-0">
-                                                <input type="text" class="form-control border mb-2" #closePass [(ngModel)]="closePassword" placeholder="Sifrenizi giriniz"
+                                                <input type="password" class="form-control border mb-2" #closePass [(ngModel)]="closePassword" placeholder="Sifrenizi giriniz"
                                                 />
                                                 <button type="button" [disabled]="!closePass.value" class="btn btn-danger btn-sm float-right" (click)="closeAccount(closePass.value); closePassword = null">
-                                                    <i class="fas fa-power-off"></i> Hesabi kapat</button>
+                                                    <i class="fas fa-power-off"></i> Kapat</button>
                                             </div>
                                         </div>
                                     </div>

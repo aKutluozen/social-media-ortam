@@ -68,15 +68,14 @@ CHAT_ROUTER.get('/rooms', function (req, res) {
 
 // Get the number of people in that room
 CHAT_ROUTER.get('/room', function (req, res) {
-    return res.status(200).json({ 
-        message: 'numbers', 
-        data: io.sockets.adapter.rooms 
+    return res.status(200).json({
+        message: 'numbers',
+        data: io.sockets.adapter.rooms
     });
 });
 
 io.on('connection', (socket) => {
     socket.on('disconnect', function () {
-        console.log('user disconnected');
     });
 
     socket.on('add-message', (message) => {

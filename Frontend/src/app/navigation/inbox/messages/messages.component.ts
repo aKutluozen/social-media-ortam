@@ -67,12 +67,7 @@ export class MessagesComponent {
 						this.messages.push(item);
 					}
 				},
-				error => {
-					this.modal.handleError(
-						"Mesajlar ve istekler goruntulenirken bir sorun olustu",
-						error
-					);
-				}
+				error => this.modal.handleError("Mesajlar ve istekler goruntulenirken bir sorun olustu", error)
 			);
 	}
 
@@ -92,12 +87,7 @@ export class MessagesComponent {
 
 		this.inboxSubscription = this.user.markInbox(id).subscribe(
 			data => { },
-			error => {
-				this.modal.handleError(
-					"Mesajlar ve istekler goruntulenirken bir sorun olustu",
-					error
-				);
-			}
+			error => this.modal.handleError("Mesajlar ve istekler goruntulenirken bir sorun olustu", error)
 		);
 
 		// Mark it in the front end for class to disappear
@@ -112,20 +102,16 @@ export class MessagesComponent {
 	deleteMessage(id) {
 		this.modal.showQuestion({
 			content: "Bu mesaji silmek istediginize emin misiniz?",
-			itemToBeDeleted: this.message,
-			itemCollection: this.messages,
-			approveFunction: (message, collection) => {
-				this.messageSubscription = message.deleteMessage(id).subscribe(
+			approveFunction: () => {
+				this.messageSubscription = this.message.deleteMessage(id).subscribe(
 					data => {
-						for (let i = 0; i < collection.length; i++) {
-							if (collection[i]["_id"] === id) {
-								collection.splice(i, 1);
+						for (let i = 0; i < this.messages.length; i++) {
+							if (this.messages[i]["_id"] === id) {
+								this.messages.splice(i, 1);
 							}
 						}
 					},
-					error => {
-						this.modal.handleError("Mesaj silinemedi", error);
-					}
+					error => this.modal.handleError("Mesaj silinemedi", error)
 				);
 			}
 		});

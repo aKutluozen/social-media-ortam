@@ -27,7 +27,7 @@ export class AdminComponent implements OnInit {
         this.user
             .getComplaints()
             .subscribe(
-                data => {this.complaints = data.complaints; console.log(data);},
+                data => {this.complaints = data.complaints;},
                 error => {
                     this.modal.handleError(
                         "Sikayetler goruntulenirken bir sorun olustu",

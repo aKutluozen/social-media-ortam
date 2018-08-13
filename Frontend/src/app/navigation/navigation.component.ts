@@ -41,21 +41,22 @@ export class NavigationComponent implements OnInit, OnDestroy {
 		this.username = this.auth.getCookie('user') || '';
 
 		this.profileSubscription = this.user.getProfile().subscribe(
-			(data) => {
+			data => {
 				this.global.profilePicture = data.data.profilePicture;
 				this.global.username = data.data.nickName;
 			},
-			(error) => {
-				console.log(error);
-			}
+			error => console.error(error)
+
 		);
 
 		if (this.username) {
-			this.inboxSubscription = this.user.checkInboxOnInterval(5000).subscribe(data => {
+			this.inboxSubscription = this.user.checkInboxOnInterval(3000).subscribe(data => {
 				this.flagObject = data.data.flagObject;
 				this.flagObject.numbers = data.data.numbers;
 				this.global.banned = data.data.userSituation.isBanned;
+				this.global.credit = data.data.numbers.credit;
 			}, error => {
+				this.inboxSubscription.unsubscribe();
 				this.modal.handleError('Mesajlar ve istekler kontrol edilirken bir sorun olustu', error);
 			});
 		}

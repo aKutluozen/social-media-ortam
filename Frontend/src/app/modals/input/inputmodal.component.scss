@@ -8,18 +8,8 @@
     background: #efefef;
 }
 
-// .speech-bubble {
-//     border-radius: 0px;
-//     font-size: 12px;
-//     width: 100%;
-//     color: black !important;
-//     font-family: NotoColorEmoji, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-//     word-spacing: -10px !important;
-// }
-
 ::ng-deep {
     textarea {
-        // background: #f1f1f1 !important;
         width: 100% !important;
     }
 }

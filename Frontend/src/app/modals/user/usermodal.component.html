@@ -4,17 +4,17 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <div class="row px-2 mt-2">
-                    <div class="col-xl-3 px-2 col-lg-6">
+                    <div class="col-xl-3 col-md-3 px-2 col-lg-6">
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="card bg-dark text-white">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-4 col-6 my-auto" id="profilePicture">
+                                            <div class="col-lg-5 col-6 my-auto" id="profilePicture">
                                                 <img src="{{ global.URL_S3_USERS + user.profilePicture }}" class="rounded-circle" alt="profil" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'"
                                                     (click)="showThisImage(user.profilePicture)">
                                             </div>
-                                            <div class="col-lg-8 col-6 align-self-center">
+                                            <div class="col-lg-7 col-6 align-self-center">
                                                 <span>
                                                     <h5 class="my-0 py-0 text-primary">
                                                         <b>
@@ -92,7 +92,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-9 px-2 col-lg-6 mb-0">
+                    <div class="col-xl-9 col-md-9 px-2 col-lg-6 mb-0">
                         <div class="card mb-3">
                             <div class="card-body py-0 px-0">
 
@@ -121,13 +121,11 @@
                         </div>
 
                         <!-- Posts and activities -->
-
                         <div class="card-columns">
                             <p class="col-12 text-center" *ngIf="user?.posts?.length == 0">Hic bir paylasim bulunamadi!</p>
                             <app-post class="mb-4" [mylocation]="'profile'" [inView]="'inView'" [post]="post" *ngFor="let post of user?.posts">
                             </app-post>
                         </div>
-
                     </div>
                 </div>
                 <div class="modal-footer btn-group p-0">
@@ -135,13 +133,13 @@
                         (click)="follow(user._id)">
                         <i class="fa fa-eye" aria-hidden="true"></i> Takip et</button>
                     <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-success btn-sm" (click)="acceptRequest(user._id)">
-                        <i class="fa fa-eye" aria-hidden="true"></i> Kabul et</button>
+                        <i class="fa fa-check" aria-hidden="true"></i> Kabul</button>
                     <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-danger btn-sm" (click)="rejectRequest(user.nickName)">
-                        <i class="fa fa-user-times" aria-hidden="true"></i> Geri cevir</button>
+                        <i class="fa fa-user-times" aria-hidden="true"></i> Iptal</button>
                     <button *ngIf="!justView && isFriend && !isMe" class="btn btn-danger btn-sm" (click)="unfriend(user.nickName)">
-                        <i class="fa fa-user-times" aria-hidden="true"></i> Arkadasliktan cikar</button>
+                        <i class="fa fa-user-times" aria-hidden="true"></i> Ayril</button>
                     <button *ngIf="!justView && isFriend && !isMe" class="btn btn-warning btn-sm" (click)="creditAskSend(user.nickName)">
-                        <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi iste/gonder</button>
+                        <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi</button>
                     <button class="btn btn-info btn-sm" *ngIf="!isMe" (click)="answerMessage(user.nickName)">
                         <i class="fa fa-envelope" aria-hidden="true"></i> Konus</button>
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
