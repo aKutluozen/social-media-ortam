@@ -11,7 +11,18 @@ var USER_ROUTER = express.Router(),
     multer = require('multer'),
     multerS3 = require('multer-s3'),
     AWS = require('aws-sdk'),
-    misc = require('../misc');
+    misc = require('../misc'),
+    RateLimit = require('express-rate-limit');
+
+// Handle limit
+var limiter = new RateLimit({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 5, // limit each IP to 1000 requests per windowMs
+    delayMs: 0, // disable delaying - full speed until the max limit is reached
+    message: "IP rate limit exceeded!"
+});
+
+USER_ROUTER.use('/signin', limiter);
 
 // Handling image upload
 AWS.config.loadFromPath('./s3_config.json');

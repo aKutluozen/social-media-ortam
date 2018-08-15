@@ -35,10 +35,10 @@ export class SigninComponent implements OnInit, OnDestroy {
         const user = new User(this.signinForm.value.email, this.signinForm.value.password);
         this.subscription = this.auth.signin(new User(this.signinForm.value.email, this.signinForm.value.password)).subscribe(
             data => {
-                this.auth.setCookie('token', data.data.token, 7);
-                this.auth.setCookie('userId', data.data.userId, 7);
-                this.auth.setCookie('user', data.data.name, 7);
-                this.auth.setCookie('chatNickName', data.data.chatNickName, 7);
+                this.auth.setCookie('token', data.data.token, 1);
+                this.auth.setCookie('userId', data.data.userId, 1);
+                this.auth.setCookie('user', data.data.name, 1);
+                this.auth.setCookie('chatNickName', data.data.chatNickName, 1);
                 this.auth.changeMessage(data.data.name);
 
                 this.global.profilePicture = data.data.picture;

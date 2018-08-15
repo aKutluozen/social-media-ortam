@@ -4,7 +4,8 @@ var express = require('express'),
     mongoose = require('mongoose'),
     request = require('request'),
     helmet = require('helmet'),
-    compression = require('compression');
+    compression = require('compression'),
+    RateLimit = require('express-rate-limit');
 
 // Load routes
 var appRoutes = require('./routes/app'),
@@ -23,12 +24,19 @@ var mongoUrl = "mongodb://alikutluozen:alikutluozen@socialmediacluster-shard-00-
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoUrl, { useMongoClient: true });
 
+var limiter = new RateLimit({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 1000, // limit each IP to 1000 requests per windowMs
+    delayMs: 0, // disable delaying - full speed until the max limit is reached
+    message: "IP rate limit exceeded!"
+});
+
+app.use(limiter);
 app.use(helmet());
 app.use(logger('dev'));
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -46,7 +54,6 @@ app.use('/', appRoutes);
 // Clean up old posts regularly
 var requestLoop = setInterval(function () {
     request({
-        // url: "http://18.217.236.111:3000/post/clean",
         url: URL,
         method: "GET",
         timeout: 10000,
