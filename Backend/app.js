@@ -5,7 +5,8 @@ var express = require('express'),
     request = require('request'),
     helmet = require('helmet'),
     compression = require('compression'),
-    RateLimit = require('express-rate-limit');
+    RateLimit = require('express-rate-limit'),
+    expressSanitized = require('express-sanitize-escape');
 
 // Load routes
 var appRoutes = require('./routes/app'),
@@ -37,6 +38,7 @@ app.use(logger('dev'));
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressSanitized.middleware());
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

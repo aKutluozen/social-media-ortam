@@ -1,39 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../globals.service';
-import { UserService } from '../user/user.service';
+import { AuthService } from '../auth/auth.service';
 import { ModalService } from '../modals/modal.service';
+import { NgForm, FormGroup, FormControl, Validators } from "@angular/forms";
 
 @Component({
     selector: 'app-admin',
     templateUrl: './admin.component.html'
 })
 export class AdminComponent implements OnInit {
-    constructor(private global: GlobalService, private user: UserService, private modal: ModalService) { }
+    constructor(private global: GlobalService, private auth: AuthService, private modal: ModalService) { }
 
-    public admin: string = 'here';
     public complaints: object[] = [];
+    public messageForm: FormGroup;
 
     ngOnInit() {
-        this.load();
+        this.messageForm = new FormGroup({
+            messageType: new FormControl({ value: 'suggestion', disabled: false }, Validators.required),
+            message: new FormControl({ value: null, disabled: false }, Validators.required)
+        });
     }
 
-    // Handle complaints here too, not in the notifications window!
-    loadMore() {
-        
-    }
-
-    // Also, try and get their ban situation.
-    load() {
-        this.user
-            .getComplaints()
-            .subscribe(
-                data => {this.complaints = data.complaints;},
-                error => {
-                    this.modal.handleError(
-                        "Sikayetler goruntulenirken bir sorun olustu",
-                        error
-                    );
-                }
-            );
+    sendMessage() {
+        this.auth.sendAdminMessage(this.messageForm.value.message, this.messageForm.value.messageType, this.global.username).subscribe(
+            data => { 
+                this.modal.handleWarning('Mesajiniz basariyla gonderildi!'); 
+                this.messageForm.reset(); 
+            },
+            error => this.modal.handleError('Mesajinizi gonderirken bir hata olustu', error)
+        );
     }
 }

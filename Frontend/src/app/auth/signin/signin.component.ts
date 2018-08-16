@@ -29,6 +29,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     public resetForm: FormGroup;
     public isResetting: boolean = false;
     private subscription: Subscription;
+    private timeout: any = 0;
 
     // Sign in, save the token and other unique information
     onSubmit() {
@@ -47,7 +48,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
                 this.modal.handleWarning('Hosgeldin ' + this.auth.getCookie('user') + '! Simdi ana sayfaya yonlendiriliyorsunuz!'); // Show this only when first logged in
 
-                window.setTimeout(function () {
+                this.timeout = window.setTimeout(function () {
 
                     window.location.reload(true);
                     window.location.href = './'; // Reset data
@@ -105,5 +106,6 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         if (this.subscription) this.subscription.unsubscribe();
+        window.clearTimeout(this.timeout);
     }
 }

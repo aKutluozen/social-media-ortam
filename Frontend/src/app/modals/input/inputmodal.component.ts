@@ -30,6 +30,7 @@ export class InputmodalComponent implements OnInit {
 	public isFriend: boolean = false;
 
 	private timedCheck: any = 0;
+	private timeout: any = 0;
 	private latestMessageTime: number = 0;
 	private interval: number = 1500;
 
@@ -39,7 +40,7 @@ export class InputmodalComponent implements OnInit {
 	ngOnInit() {
 		this.inputService.inputActivated.subscribe((messageSetup: any) => {
 			this.messageSetup = messageSetup;
-			
+
 			// Limit textarea
 			$('textarea').attr('maxlength', 256);
 
@@ -83,6 +84,7 @@ export class InputmodalComponent implements OnInit {
 			this.timedCheck.unsubscribe();
 		}
 
+		window.clearTimeout(this.timeout);
 		$(this.modalElement.nativeElement).modal('hide');
 	}
 
@@ -177,7 +179,7 @@ export class InputmodalComponent implements OnInit {
 
 	scrollDown() {
 		if (!this.isFirstMessage) {
-			window.setTimeout(() => {
+			this.timeout = window.setTimeout(() => {
 				var elem = document.getElementById('scrollMessages');
 				elem.scrollBy(0, elem.scrollHeight + 100);
 			}, 100);

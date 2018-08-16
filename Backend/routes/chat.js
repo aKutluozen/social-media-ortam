@@ -44,7 +44,7 @@ CHAT_ROUTER.post('/room', function (req, res) {
             } else {
                 return res.status(401).json({
                     message: 'banned',
-                    error: ''
+                    error: 'banned from the room'
                 });
             }
         });

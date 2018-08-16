@@ -1,24 +1,31 @@
-<div class="container">
+<div class="container  animated fadeIn">
     <div class="row">
         <div class="col-xl-12 col-lg-12 mb-4 px-2 mb-3">
             <div class="card">
-                <div class="card-body">
-                    <h2>Sikayetler</h2>
-                    <hr>
-                    <div *ngFor="let complaint of complaints" class="card border mb-4">
-                        <div class="card-body">
-                            <p>
-                                <b>Sikayet eden:</b> {{ complaint.complaint.complainer }}</p>
-                            <p>
-                                <b>Sebebi:</b> {{ complaint.complaint.reason }}</p>
-                            <p>
-                                <b>Mesaj:</b> {{ complaint.complaint.text.message }}</p>
-                            <p>
-                                <b>Sahibi:</b> {{ complaint.complaint.text.name }}</p>
-                        </div>
+                <div class="card-header">
+                    <i class="fa fa-question-circle"></i> Yardim
+                </div>
+                <div class="card-body row">
+                    <div class="col-12">
+                        <form class="card" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+                            <div class="card-body">
+                                <p class="lead">Bu formu doldurarak sitemiz ile ilgili oneri ve sikayetlerinizi bize iletebilirsiniz.</p>
+                                <div class="form-group row mx-auto">
+                                    <label for="messagetype" class="col-md-1 my-auto">Konu</label>
+                                    <select class="form-control col-md-3" id="messagetype" formControlName="messageType">
+                                        <option value="suggestion" selected>Oneri</option>
+                                        <option value="request">Istek</option>
+                                        <option value="complaint">Sikayet</option>
+                                        <option value="bug">Ariza</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <textarea type="text" formControlName="message" class="form-control" maxlength="1024" minlength="16" rows="5" placeholder="Mesajinizi buraya yaziniz"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary" [disabled]="!messageForm.valid">Gonder</button>
+                            </div>
+                        </form>
                     </div>
-
-                    <button type="button" (click)="loadMore()">yukle</button>
                 </div>
             </div>
         </div>

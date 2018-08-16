@@ -3,11 +3,21 @@ var express = require('express'),
     nodemailer = require('nodemailer'),
     User = require('../models/user'),
     bcrypt = require('bcryptjs'),
-    misc = require('../misc');
+    misc = require('../misc')
+RateLimit = require('express-rate-limit');
+
+// Handle limit
+var limiter = new RateLimit({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 10, // limit each IP to 1000 requests per windowMs
+    delayMs: 0, // disable delaying - full speed until the max limit is reached
+    message: "IP rate limit exceeded!"
+});
 
 require("dotenv").config();
 
 var EMAIL_ROUTER = express.Router();
+EMAIL_ROUTER.use('/', limiter);
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -113,6 +123,33 @@ EMAIL_ROUTER.post('/error', function (req, res) {
         message: 'success',
         data: ''
     });
+});
+
+EMAIL_ROUTER.post('/message', function (req, res) {
+    User.find({ nickName: req.body.nickName }, { email: 1 }, function (err, user) {
+        misc.checkUserErrors(err, res, user, null, () => {
+            var mailOptions = {
+                from: process.env.USER,
+                to: 'ali_kutluozen@hotmail.com',
+                subject: req.body.messageType + ' from ' + req.body.nickName,
+                text: req.body.message + '\n\n Contact ID: ' + user
+            };
+
+            transporter.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    return res.status(400).json({
+                        message: 'problem',
+                        error: err
+                    });
+                } else {
+                    return res.status(200).json({
+                        message: 'success',
+                        data: info
+                    });
+                }
+            });
+        });
+    })
 });
 
 module.exports = EMAIL_ROUTER;

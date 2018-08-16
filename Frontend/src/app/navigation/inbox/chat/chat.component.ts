@@ -23,6 +23,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	private picture: string = this.global.profilePicture;
 	private selectedRoom: object = {};
 	private messageTimeout: boolean = false;
+	private timeout: any = 0;
 
 	constructor(
 		private chatService: ChatService,
@@ -79,7 +80,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 					this.message = '';
 
 					this.messageTimeout = true;
-					window.setTimeout(() => { this.messageTimeout = false; }, 2000);
+					this.timeout = window.setTimeout(() => { this.messageTimeout = false; }, 2000);
 				}
 			} else {
 				this.modal.handleError('Sohbetten kovuldunuz!', { error: '', message: 'banned' });
@@ -141,10 +142,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.connection.unsubscribe();
+		window.clearTimeout(this.timeout);
 	}
 
 	scrollDown() {
-		window.setTimeout(() => {
+		this.timeout = window.setTimeout(() => {
 			document.getElementById("scrollThis").scrollBy(0, document.getElementById("scrollThis").scrollHeight + 100);
 		}, 100);
 	}
