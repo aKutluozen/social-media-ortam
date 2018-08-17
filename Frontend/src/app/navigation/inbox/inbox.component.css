@@ -15,7 +15,3 @@
     max-height: 320px;
     overflow-y: scroll;
 }
-
-span:hover {
-    cursor: pointer;
-}

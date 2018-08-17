@@ -3,23 +3,22 @@
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" (click)="close()">&times;</button>
-                <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="postForm">
                     <div class="row">
                         <div class="col">
-                            <textarea #message formControlName="content" id="content" class="form-control" rows="5" placeholder="Mesajiniz... " maxlength="256"></textarea>
+                            <textarea #message formControlName="content" id="content" class="form-control" rows="2" placeholder="Mesajiniz... " maxlength="256"></textarea>
                         </div>
                     </div>
-
                     <div class="row my-0">
                         <p class="col my-0 text-right small text-muted">
                             {{ 256 - message.value.length }} karakter kaldi.
                         </p>
                     </div>
-                    <div class="row mb-4">
+                    <div class="row">
                         <div class="col-12">
-                            <label class="btn btn-info text-center btn-sm" *ngIf="!imageToShow" for="postPictureFile">
+                            <label class="btn btn-info text-center btn-sm mb-0" *ngIf="!imageToShow" for="postPictureFile">
                                 <i class="fa fa-image" aria-hidden="true"></i> Resim sec</label>
-                            <label class="btn btn-danger text-center btn-sm" *ngIf="imageToShow" (click)="deletePostPicture()">
+                            <label class="btn btn-danger text-center btn-sm mb-0" *ngIf="imageToShow" (click)="deletePostPicture()">
                                 <i class="fa fa-trash" aria-hidden="true"></i> Resmi sil</label>
 
                             <input hidden id="postPictureFile" type="file" (change)="fileChangeEvent($event)" />
@@ -55,13 +54,13 @@
                         </div>
                         Resim basari ile yuklendi!
                     </div>
-                    <div class="row justify-content-center">
-                        <button class="btn btn-primary mr-4 btn-sm" type="submit" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
-                            <i class="fa fa-share-square" aria-hidden="true"></i> Paylas</button>
-                        <button type="button" class="btn btn-default btn-sm" (click)="close(false)">
-                            <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
-                    </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
+                    <i class="fa fa-share-square" aria-hidden="true"></i> Paylas</button>
+                <button type="button" class="btn btn-default btn-sm" (click)="close(false)">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>
         </div>
     </div>

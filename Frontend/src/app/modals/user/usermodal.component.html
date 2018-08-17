@@ -11,16 +11,14 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-lg-5 col-6 my-auto" id="profilePicture">
-                                                <img src="{{ global.URL_S3_USERS + user.profilePicture }}" class="rounded-circle" alt="profil" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'"
+                                                <img src="{{ global.URL_S3_USERS + user.profilePicture }}" class="action-icon w-100 rounded-circle" alt="profil" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'"
                                                     (click)="showThisImage(user.profilePicture)">
                                             </div>
                                             <div class="col-lg-7 col-6 align-self-center">
-                                                <span>
-                                                    <h5 class="my-0 py-0 text-primary">
-                                                        <b>
-                                                            <i>@{{ user.nickName }}</i>
-                                                        </b>
-                                                    </h5>
+                                                <span class="my-0 py-0">
+                                                    <b>
+                                                        <i>@{{ user.nickName }}</i>
+                                                    </b>
                                                 </span>
                                                 <hr class="my-2">
                                                 <small>
@@ -100,7 +98,7 @@
 
                                     <div class="col-md-12">
                                         <img src="{{ global.URL_S3_USERS + user?.coverImage }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'"
-                                            class="cover-image" (click)="showThisImage(user?.coverImage)">
+                                            class="action-icon w-100 cover-image" (click)="showThisImage(user?.coverImage)">
                                     </div>
 
                                     <!-- Image Gallery -->
@@ -110,7 +108,7 @@
                                                 <div class="px-2 col" *ngFor="let image of user.images">
                                                     <div class="gallery-thumbnails">
                                                         <img src="{{ global.URL_S3_USERS + image }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'"
-                                                            class="small-image img-thumbnail mb-4" (click)="showThisImage(image)">
+                                                            class="action-icon w-100 small-image img-thumbnail mb-4" (click)="showThisImage(image)">
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,23 +126,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer btn-group p-0">
-                    <button *ngIf="!isFriend && !isInTheFollowList && !isMe" [disabled]="isRequestSent(user) || isInTheFollowList" class="btn btn-primary btn-sm"
-                        (click)="follow(user._id)">
-                        <i class="fa fa-eye" aria-hidden="true"></i> Takip et</button>
-                    <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-success btn-sm" (click)="acceptRequest(user._id)">
-                        <i class="fa fa-check" aria-hidden="true"></i> Kabul</button>
-                    <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-danger btn-sm" (click)="rejectRequest(user.nickName)">
-                        <i class="fa fa-user-times" aria-hidden="true"></i> Iptal</button>
-                    <button *ngIf="!justView && isFriend && !isMe" class="btn btn-danger btn-sm" (click)="unfriend(user.nickName)">
-                        <i class="fa fa-user-times" aria-hidden="true"></i> Ayril</button>
-                    <button *ngIf="!justView && isFriend && !isMe" class="btn btn-warning btn-sm" (click)="creditAskSend(user.nickName)">
-                        <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi</button>
-                    <button class="btn btn-info btn-sm" *ngIf="!isMe" (click)="answerMessage(user.nickName)">
-                        <i class="fa fa-envelope" aria-hidden="true"></i> Konus</button>
-                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                        <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!isFriend && !isInTheFollowList && !isMe" [disabled]="isRequestSent(user) || isInTheFollowList" class="btn btn-primary btn-sm"
+                    (click)="follow(user._id)">
+                    <i class="fa fa-eye" aria-hidden="true"></i> Takip et</button>
+                <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-success btn-sm" (click)="acceptRequest(user._id)">
+                    <i class="fa fa-check" aria-hidden="true"></i> Kabul</button>
+                <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-danger btn-sm" (click)="rejectRequest(user.nickName)">
+                    <i class="fa fa-user-times" aria-hidden="true"></i> Iptal</button>
+                <button *ngIf="!justView && isFriend && !isMe" class="btn btn-danger btn-sm" (click)="unfriend(user.nickName)">
+                    <i class="fa fa-user-times" aria-hidden="true"></i> Ayril</button>
+                <button *ngIf="!justView && isFriend && !isMe" class="btn btn-warning btn-sm" (click)="creditAskSend(user.nickName)">
+                    <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi</button>
+                <button class="btn btn-info btn-sm" *ngIf="!isMe" (click)="answerMessage(user.nickName)">
+                    <i class="fa fa-envelope" aria-hidden="true"></i> Konus</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>
         </div>
     </div>

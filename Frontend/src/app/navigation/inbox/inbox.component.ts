@@ -1,14 +1,5 @@
-import {
-	Component,
-	OnInit,
-	OnDestroy,
-	ViewChild,
-	ElementRef,
-	Input
-} from '@angular/core';
-import { UserService } from 'app/user/user.service';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { InboxService } from './inbox.service';
-import { Subscription } from 'rxjs/Subscription';
 import { GlobalService } from '../../globals.service';
 import * as $ from 'jquery';
 
@@ -17,15 +8,12 @@ import * as $ from 'jquery';
 	templateUrl: './inbox.component.html',
 	styleUrls: ['./inbox.component.css']
 })
-export class InboxComponent implements OnInit, OnDestroy {
+export class InboxComponent implements OnInit {
 	public numbers: Object = {
 		requests: 0,
 		notifications: 0,
 		messages: 0
 	};
-
-	private checkInterval: any = {};
-	private subscription: Subscription;
 
 	public isChatShowing: boolean = false;
 
@@ -44,9 +32,9 @@ export class InboxComponent implements OnInit, OnDestroy {
 	@ViewChild('chatComponentElement') chatComponentElement: ElementRef;
 
 	constructor(private inbox: InboxService, private global: GlobalService) { }
-	// Constantly checks for the numbers
+	// Just checks if one of the dropdowns are closed
 	ngOnInit() {
-		this.checkInterval = window.setInterval(() => {
+		window.setInterval(() => {
 			// Stop actions if they are not shown
 			if (!this.messagesComponentElement.nativeElement.classList.contains('show')) {
 				this.messagesComponent.destroyAll();
@@ -64,12 +52,6 @@ export class InboxComponent implements OnInit, OnDestroy {
 
 	closeDropdown(el) {
 		$(el).parent().hide();
-	}
-
-	// THERE IS NO DESTROY !!! - Replace with hasClass show not!
-	ngOnDestroy() {
-		if (this.subscription) { this.subscription.unsubscribe(); }
-		window.clearInterval(this.checkInterval);
 	}
 
 	// Tells children compoments to show fresh data

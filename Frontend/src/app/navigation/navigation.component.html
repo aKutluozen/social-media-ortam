@@ -5,48 +5,45 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand pl-2" [routerLink]="['/posts/all']">
-            <b>kutatku</b>
-            <small>.com</small>
+            <b>kutatku</b><small> &#07; </small>com
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <app-search *ngIf="username"></app-search>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item" *ngIf="username">
-                    <ul class="list-inline nav-link pt-2" app-inbox [flagObject]="flagObject"></ul>
+                <li *ngIf="username">
+                    <ul class="list-inline nav-link py-0" app-inbox [flagObject]="flagObject"></ul>
                 </li>
-                <li class="nav-item" *ngIf="username">
-                    <ul class="list-inline nav-link">
-                        <li class="list-inline-item" routerLinkActive="active" id="homePageLink">
+                <li *ngIf="username">
+                    <ul class="list-inline nav-link py-0">
+                        <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown text-white" href="#" [routerLink]="['/posts/all']">
-                                <i class="fa fa-home"> </i>
+                                <i class="fa fa-home"></i>
                                 <div class="item-text">Ana sayfa</div>
                             </a>
                         </li>
-                        <li class="list-inline-item" routerLinkActive="active" id="homePageLink">
+                        <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown text-white" href="#" [routerLink]="['/admin']">
-                                <i class="fa fa-question-circle"> </i>
+                                <i class="fa fa-question-circle"></i>
                                 <div class="item-text">Yardim</div>
                             </a>
                         </li>
                         <li class="list-inline-item" routerLinkActive="active">
                             <div class="dropdown">
-                                <a id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a href="javascript:void(0)" class="text-white" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img class="profile-picture" src="{{ global.URL_S3_USERS + global.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                                     <div class="item-text">Profil</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right mt-0 pt-0" aria-labelledby="profileMenu">
                                     <div class="row mx-0">
-                                        <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+                                        <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
                                     </div>
-                                    <div class="list-group-flush">
-                                        <a class="list-group-item">
+                                    <div class="list-group">
+                                        <a class="list-group-item text-dark list-group-item-action list-group-item-light">
                                             <i class="fa fa-credit-card" aria-hidden="true"></i> : {{ global.credit }}
                                         </a>
-                                        <a [routerLink]="['/profile/me']" class="list-group-item list-group-item-action" id="profileLink">
+                                        <a [routerLink]="['/profile/me']" class="list-group-item text-dark list-group-item-action list-group-item-light " id="profileLink">
                                             <i class="fa fa-id-card" aria-hidden="true"></i> Profile git</a>
-                                        <!-- <a [routerLink]="['/admin']" class="list-group-item list-group-item-action">
-                                            <i class="fa fa-cogs" aria-hidden="true"></i> Yonetim</a> -->
-                                        <a (click)="logOut()" class="list-group-item list-group-item-action">
+                                        <a href="javascript:void(0)" (click)="logOut()" class="list-group-item text-dark list-group-item-action list-group-item-light ">
                                             <i class="fa fa-sign-out-alt" aria-hidden="true"></i> Cikis yap</a>
                                     </div>
                                 </div>

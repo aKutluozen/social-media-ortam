@@ -13,7 +13,7 @@ export class GlobalService {
     public URL_EMPTY_PROFILE_PIC: string = "emptyprofile.png";
     public URL_EMPTY_GALLERY_PIC: string = "uploadempty.png";
 
-    public profilePicture: string = '';
+    public profilePicture: string = this.URL_EMPTY_PROFILE_PIC;
     public username: string = '';
     public credit: number = 0;
     public banned: boolean = false;

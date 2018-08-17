@@ -131,7 +131,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row mt-2 position-absolute fixed-bottom mx-auto">
                                 <div class="col-12 mx-auto" *ngIf="isLoggedIn()">
                                     <div class="btn-group justify-content-center btn-group-sm w-100" role="group">
@@ -159,13 +158,13 @@
                 </div>
             </div>
             <div class="modal-footer" *ngIf="belongsToUser() || shareBelongsToUser()">
-                <button *ngIf="belongsToUser()" class="btn btn-primary btn-sm btn-config" (click)="onEdit()">
+                <button *ngIf="belongsToUser()" class="btn btn-primary btn-sm" (click)="onEdit()">
                     <i class="fa fa-edit" aria-hidden="true"></i> Duzenle
                 </button>
-                <button *ngIf="belongsToUser()" class="btn btn-danger btn-sm btn-config" (click)="onDelete()">
+                <button *ngIf="belongsToUser()" class="btn btn-danger btn-sm" (click)="onDelete()">
                     <i class="fa fa-trash" aria-hidden="true"></i> Sil
                 </button>
-                <button *ngIf="shareBelongsToUser()" class="btn btn-warning btn-sm btn-config" (click)="onDeleteShare()">
+                <button *ngIf="shareBelongsToUser()" class="btn btn-warning btn-sm" (click)="onDeleteShare()">
                     <i class="fa fa-trash" aria-hidden="true"></i> Paylasimi sil
                 </button>
             </div>

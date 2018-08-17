@@ -6,7 +6,7 @@
                     <i class="fa fa-question-circle"></i> Yardim
                 </div>
                 <div class="card-body row">
-                    <div class="col-12">
+                    <div class="col-12 mb-4">
                         <form class="card" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
                             <div class="card-body">
                                 <p class="lead">Bu formu doldurarak sitemiz ile ilgili oneri ve sikayetlerinizi bize iletebilirsiniz.</p>
@@ -25,6 +25,19 @@
                                 <button type="submit" class="btn btn-primary" [disabled]="!messageForm.valid">Gonder</button>
                             </div>
                         </form>
+                    </div>
+                    <div class="col-12">
+                        <h4>Sikca Sorulan Sorular</h4>
+                        <ul>
+                            <li>
+                                <h5>Soru 1</h5>
+                                <p>Cevap 1</p>
+                            </li>
+                            <li>
+                                <h5>Soru 2</h5>
+                                <p>Cevap 2</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

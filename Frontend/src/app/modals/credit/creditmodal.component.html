@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <p>
                     <b>Kredi istenen yada gonderilecek kisi:</b> {{ otherUser }}</p>
-                <input type="number" class="form-control mb-4" [(ngModel)]="creditAmount" placeholder="Kredi miktarini buraya giriniz">
+                <input type="number" maxlength="48" class="form-control mb-4" [(ngModel)]="creditAmount" placeholder="Kredi miktarini buraya giriniz">
                 <table class="table table-striped table-hover mb-4">
                     <tr>
                         <td>
@@ -34,14 +34,18 @@
                         </td>
                     </tr>
                 </table>
-                <button type="button" class="btn btn-primary" (click)="askCredit()" [disabled]="creditAmount == 0">
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-credit-card"></i> Kredi iste</button>
-                <button type="button" class="btn btn-secondary" (click)="sendCredit()" [disabled]="creditAmount > global.credit || creditAmount == 0">
-                    <i class="fas fa-credit-card"></i>
-                    <i class="fas fa-arrow-right"></i> <span *ngIf="global.credit - creditAmount >= 0">Kredi gonder</span><span *ngIf="global.credit - creditAmount < 0">Limit asildi</span></button>
+
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" (click)="askCredit()" [disabled]="creditAmount == 0">
+                    <i class="fas fa-arrow-right"></i>
+                    <i class="fas fa-credit-card"></i> Iste</button>
+                <button type="button" class="btn btn-secondary btn-sm" (click)="sendCredit()" [disabled]="creditAmount > global.credit || creditAmount == 0">
+                    <i class="fas fa-credit-card"></i>
+                    <i class="fas fa-arrow-right"></i>
+                    <span *ngIf="global.credit - creditAmount >= 0"> Gonder</span>
+                    <span *ngIf="global.credit - creditAmount < 0"> Limit asildi</span>
+                </button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
             </div>

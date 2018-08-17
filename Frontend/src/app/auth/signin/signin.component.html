@@ -1,10 +1,10 @@
 <div class="row">
     <form class="col-md-12" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <input type="email" id="email" class="form-control" placeholder="E-posta" formControlName="email">
+            <input type="email" id="email" maxlength="48" class="form-control" placeholder="E-posta" formControlName="email">
         </div>
         <div class="form-group">
-            <input type="password" id="password" class="form-control" placeholder="Sifre" formControlName="password">
+            <input type="password" id="password" maxlength="48" class="form-control" placeholder="Sifre" formControlName="password">
         </div>
         <div class="form-group mb-0">
             <div class="row">
@@ -30,7 +30,7 @@
                     <div class="col-6">
                         <label>
                             <b>1)</b> E-mail adresinizi giriniz.</label>
-                        <input type="email" id="email" class="ml-2 form-control" placeholder="E-posta" formControlName="email">
+                        <input type="email" maxlength="48" id="email" class="ml-2 form-control" placeholder="E-posta" formControlName="email">
                     </div>
                     <div class="col align-self-center">
                         <button class="btn btn-warning btn-block btn-sm" type="button" (click)="sendForgotRequest(); $event.stopPropagation()">
@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label>
                     <b>2)</b> E-mail adresinize gonderdigimiz kodu giriniz.</label>
-                <input type="text" id="resetCode" class="ml-2 form-control" placeholder="Sifre" formControlName="resetCode">
+                <input type="text" id="resetCode" maxlength="48" class="ml-2 form-control" placeholder="Sifre" formControlName="resetCode">
             </div>
             <div class="form-row">
                 <div class="col-12 pl-3">
@@ -62,7 +62,7 @@
             <div class="form-group">
                 <label>
                     <b>3)</b> Yeni sifreyi giriniz.</label>
-                <input type="password" id="newPassword" class="ml-2 form-control" placeholder="Yeni sifre" formControlName="newPassword">
+                <input type="password" id="newPassword" maxlength="48" class="ml-2 form-control" placeholder="Yeni sifre" formControlName="newPassword">
             </div>
             <div class="form-group mb-0">
                 <button class="btn btn-primary btn-block btn-sm" type="button" (click)="refreshPassword()" [disabled]="!resetForm.valid">

@@ -1,16 +1,16 @@
-<div class="card">
-    <div class="card-header">
+<div class="card bg-dark">
+    <div class="card-header text-light">
         <i class="fa fa-hashtag" aria-hidden="true"></i> En cok konusulanlar
     </div>
     <div class="card-body">
-        <div class="list-group-flush">
-            <a class="list-group-item list-group-item-action small" (click)="postListRef.loadPosts()">
+        <div class="list-group">
+            <a href="javascript:void(0)" class="list-group-item  list-group-item-action  small" (click)="postListRef.loadPosts()">
                 <b>Butun Paylasimlar</b>
             </a>
-            <a class="list-group-item list-group-item-action small" (click)="postListRef.filterBySubject(auth.getCookie('userId'))">
+            <a href="javascript:void(0)" class="list-group-item  list-group-item-action  small" (click)="postListRef.filterBySubject(auth.getCookie('userId'))">
                 <b>Ozel Paylasimlar</b>
             </a>
-            <a class="list-group-item list-group-item-action small" *ngFor="let subject of subjects" (click)="postListRef.filterBySubject(subject._id)">{{ subject._id }}
+            <a href="javascript:void(0)" class="list-group-item  list-group-item-action  small" *ngFor="let subject of subjects" (click)="postListRef.filterBySubject(subject._id)">{{ subject._id }}
                 <span class="badge bg-info text-light float-right"> {{ subject.count }}</span>
             </a>
         </div>

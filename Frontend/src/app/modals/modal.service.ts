@@ -8,7 +8,16 @@ declare var $: any;
 @Injectable()
 export class ModalService {
 
-    constructor(private auth: AuthService) { }
+    constructor(private auth: AuthService) { 
+        // Handle modal on modal
+		$(document).on('show.bs.modal', '.modal', function (event) {
+			var zIndex = 1040 + (10 * $('.modal:visible').length);
+			$(this).css('z-index', zIndex);
+			setTimeout(function () {
+				$('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+			}, 0);
+		});
+    }
 
     // Emitters
     public errorOccurred = new EventEmitter<Object>();

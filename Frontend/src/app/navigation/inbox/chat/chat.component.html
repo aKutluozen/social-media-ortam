@@ -25,7 +25,7 @@
                     <p class="text-center my-auto text-success" *ngIf="message.complaintStatus">{{ message.complaintStatus }}</p>
                     <div class="row" *ngIf="!message.complaintStatus">
                         <div class="col-12">
-                            <input type="text" class="form-control" [(ngModel)]="reason" placeholder="Sebep (max. 100 karakter)">
+                            <input type="text" maxlength="100" class="form-control" [(ngModel)]="reason" placeholder="Sebep (max. 100 karakter)">
                         </div>
                         <div class="col-12">
                             <button [disabled]="!reason" class="btn btn-danger btn-sm btn-block py-0" (click)="complain(message)">Sikayet et</button>

@@ -1,58 +1,57 @@
-<li class="list-inline-item btn-group">
+<li class="list-inline-item list-inline-item-action btn-group">
     <div class="dropdown">
-        <a (click)="loadNotifications()" id="notificationsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a href="javascript:void(0)" class="text-white text-muted" (click)="loadNotifications()" id="notificationsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-exclamation" aria-hidden="true"></i>
             <span class="badge badge-warning text-right" *ngIf="flagObject.newNotification"> {{ flagObject.numbers['notifications'] }}</span>
             <div class="item-text">Bildirimler</div>
         </a>
         <div #notificationsComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0" aria-labelledby="notificationsMenu">
             <div class="row mx-0">
-                <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+                <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>
             <app-notifications #notificationsComponent></app-notifications>
         </div>
     </div>
 </li>
-<li class="list-inline-item btn-group">
+<li class="list-inline-item list-inline-item-action btn-group">
     <div class="dropdown">
-        <a (click)="loadMessages()" id="messagesMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a href="javascript:void(0)" class="text-white text-muted" (click)="loadMessages()" id="messagesMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-envelope" aria-hidden="true"></i>
             <span class="badge badge-primary text-right" *ngIf="flagObject.newMessage"> {{ flagObject.numbers['messages'] }}</span>
             <div class="item-text">Ozel Mesajlar</div>
         </a>
         <div #messagesComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0">
             <div class="row mx-0">
-                <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+                <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>
             <app-messages #messagesComponent aria-labelledby="messagesMenu"></app-messages>
         </div>
     </div>
 </li>
-<li class="list-inline-item btn-group">
-
+<li class="list-inline-item list-inline-item-action btn-group">
     <div class="dropdown">
-        <a (click)="loadRequests()" id="requestsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a href="javascript:void(0)" class="text-white text-muted" (click)="loadRequests()" id="requestsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-user-plus" aria-hidden="true"></i>
             <span class="badge badge-success text-right" *ngIf="flagObject.newRequest"> {{ flagObject.numbers['requests'] }}</span>
             <div class="item-text">Istekler</div>
         </a>
         <div #requestsComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0">
             <div class="row mx-0">
-                <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+                <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>
             <app-requests #requestsComponent aria-labelledby="requestsMenu"></app-requests>
         </div>
     </div>
 </li>
-<li class="list-inline-item btn-group">
+<li class="list-inline-item list-inline-item-action btn-group">
     <div class="dropdown">
-        <a id="chatMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a href="javascript:void(0)" class="text-white text-muted" id="chatMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-comments" aria-hidden="true"></i>
             <div class="item-text">Canli Sohbet</div>
         </a>
         <div class="dropdown-menu dropdown-menu-right chat mt-0 pt-0">
             <div class="row mx-0">
-                <a (click)="closeDropdown(this)" class="float-right px-2 ml-auto">&times;</a>
+                <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>
             <app-chat #chatComponentElement class="py-0 chat" aria-labelledby="chatMenu"></app-chat>
         </div>

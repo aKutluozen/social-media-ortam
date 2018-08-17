@@ -44,7 +44,7 @@ const APP_ROUTES: Routes = [
 	{ path: 'auth', component: AuthComponent, loadChildren: 'app/auth/auth.module#AuthModule' },
 	{ path: 'profile', loadChildren: 'app/user/user.module#UserModule' },
 	{ path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
-	{ pathMatch: 'full', path: '**', redirectTo: '/posts/all' }
+	{ path: '**', redirectTo: '/posts/all' }
 ];
 
 // Note:

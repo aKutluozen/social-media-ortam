@@ -43,31 +43,10 @@ body {
     align-items: center;
 }
 
-.list-inline-item:hover {
-    cursor: pointer;
-    background: none;
-}
-
-.list-group-item {
-    background: none;
-    color: inherit;
-}
-
-.list-group-item:hover {
-    background: #eee;
-    color: inherit;
-    cursor: pointer;
-}
-
-.bottom-right {
-    position: absolute;
-    right: 16px;
-    bottom: 16px;
-}
-
 .card.border:hover {
     cursor: pointer;
 }
+
 .action-icon:hover {
     cursor: pointer;
 }
@@ -98,38 +77,31 @@ textarea:enabled {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
+.card-header {
+    border: none;
+}
+
 .modal-header {
     color: white;
     font-weight: bold;
 }
 
-.modal-backdrop:nth-child(2n-1) {
-    opacity : 0;
-  }
-
-/* width */
+.modal-footer {
+    background-color: rgba(0,0,0,0.03);
+}
 
 ::-webkit-scrollbar {
     width: 10px;
     display: none;
 }
 
-
-/* Track */
-
 ::-webkit-scrollbar-track {
     background: none;
 }
 
-
-/* Handle */
-
 ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.25);
 }
-
-
-/* Handle on hover */
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.5);

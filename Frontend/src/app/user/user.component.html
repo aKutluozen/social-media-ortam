@@ -19,12 +19,10 @@
                                         (click)="showThisImage(profilePicture)">
                                 </div>
                                 <div class="col-lg-7 col-6 align-self-center">
-                                    <span>
-                                        <h5 class="my-0 py-0 text-primary">
-                                            <b>
-                                                <i>@{{ profile?.nickName }}</i>
-                                            </b>
-                                        </h5>
+                                    <span class="my-0 py-0">
+                                        <b>
+                                            <i>@{{ profile?.nickName }}</i>
+                                        </b>
                                     </span>
                                     <hr class="my-2">
                                     <small>
@@ -104,19 +102,19 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label class="col-form-label" for="firstName">Isim:</label>
-                                            <input type="text" class="form-control" id="firstName" formControlName="firstName">
+                                            <input type="text" class="form-control" maxlength="48" id="firstName" formControlName="firstName">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label class="col-form-label" for="lastName">Soyisim:</label>
-                                            <input type="text" class="form-control" id="lastName" formControlName="lastName">
+                                            <input type="text" class="form-control" maxlength="48" id="lastName" formControlName="lastName">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="birthday">Dogum tarihi:</label>
-                                    <input type="date" class="form-control" id="birthday" formControlName="birthday">
+                                    <input type="date" class="form-control" maxlength="48" id="birthday" formControlName="birthday">
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="bio">Oz gecmis:</label>
@@ -125,11 +123,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="jobStatus">Is durumu:</label>
-                                    <input type="text" class="form-control" id="jobStatus" formControlName="jobStatus">
+                                    <input type="text" class="form-control" maxlength="128" id="jobStatus" formControlName="jobStatus">
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="education">Egitim durumu:</label>
-                                    <input type="text" class="form-control" id="education" formControlName="education">
+                                    <input type="text" class="form-control" maxlength="128" id="education" formControlName="education">
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="socialMedia">Sosyal Medya:</label>
@@ -137,37 +135,37 @@
                                         <span class="col-2 pt-1">
                                             <i class="fab fa-twitter fa-lg"></i>
                                         </span>
-                                        <input type="text" class="form-control col-10" id="twitterLink" formControlName="twitterLink" placeholder="Twitter">
+                                        <input type="text" class="form-control col-10" maxlength="256" id="twitterLink" formControlName="twitterLink" placeholder="Twitter">
                                     </div>
                                     <div class="row mx-auto">
                                         <span class="col-2 pt-1">
                                             <i class="fab fa-instagram fa-lg"></i>
                                         </span>
-                                        <input type="text" class="form-control col-10" id="instagramLink" formControlName="instagramLink" placeholder="Instagram">
+                                        <input type="text" class="form-control col-10" maxlength="256" id="instagramLink" formControlName="instagramLink" placeholder="Instagram">
                                     </div>
                                     <div class="row mx-auto">
                                         <span class="col-2 pt-1">
                                             <i class="fab fa-snapchat fa-lg"></i>
                                         </span>
-                                        <input type="text" class="form-control col-10" id="snapchatLink" formControlName="snapchatLink" placeholder="Snapchat">
+                                        <input type="text" class="form-control col-10" maxlength="256" id="snapchatLink" formControlName="snapchatLink" placeholder="Snapchat">
                                     </div>
                                     <div class="row mx-auto">
                                         <span class="col-2 pt-1">
                                             <i class="fab fa-linkedin fa-lg"></i>
                                         </span>
-                                        <input type="text" class="form-control col-10" id="linkedinLink" formControlName="linkedinLink" placeholder="LinkedIn">
+                                        <input type="text" class="form-control col-10" maxlength="256" id="linkedinLink" formControlName="linkedinLink" placeholder="LinkedIn">
                                     </div>
                                     <div class="row mx-auto">
                                         <span class="col-2 pt-1">
                                             <i class="fab fa-google-plus fa-lg"></i>
                                         </span>
-                                        <input type="text" class="form-control col-10" id="googleplusLink" formControlName="googleplusLink" placeholder="Google Plus">
+                                        <input type="text" class="form-control col-10" maxlength="256" id="googleplusLink" formControlName="googleplusLink" placeholder="Google Plus">
                                     </div>
                                     <div class="row mx-auto">
                                         <span class="col-2 pt-1">
                                             <i class="fab fa-youtube fa-lg"></i>
                                         </span>
-                                        <input type="text" class="form-control col-10" id="youtubeLink" formControlName="youtubeLink" placeholder="YouTube">
+                                        <input type="text" class="form-control col-10" maxlength="256" id="youtubeLink" formControlName="youtubeLink" placeholder="YouTube">
                                     </div>
                                 </div>
                             </div>
@@ -305,9 +303,9 @@
                                             <h5 class="text-center">
                                                 <i class="fas fa-key"></i> Sifre yenile</h5>
                                             <div class="form-group mb-0">
-                                                <input type="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2"
+                                                <input type="password" maxlength="48" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2"
                                                     [(ngModel)]="passwordOld" #passOld="ngModel" placeholder="Eski sifre" />
-                                                <input type="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2"
+                                                <input type="password" maxlength="48" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2"
                                                     [(ngModel)]="passwordNew" #passNew="ngModel" placeholder="Yeni sifre" />
                                                 <div class="small alert alert-warning" *ngIf="passOld.errors || passNew.errors">
                                                     <p>
@@ -334,7 +332,7 @@
                                             <h5 class="text-center">
                                                 <i class="fas fa-power-off"></i> Hesabi Kapat</h5>
                                             <div class="form-group mb-0">
-                                                <input type="password" class="form-control border mb-2" #closePass [(ngModel)]="closePassword" placeholder="Sifrenizi giriniz"
+                                                <input type="password" maxlength="48" class="form-control border mb-2" #closePass [(ngModel)]="closePassword" placeholder="Sifrenizi giriniz"
                                                 />
                                                 <button type="button" [disabled]="!closePass.value" class="btn btn-danger btn-sm float-right" (click)="closeAccount(closePass.value); closePassword = null">
                                                     <i class="fas fa-power-off"></i> Kapat</button>
