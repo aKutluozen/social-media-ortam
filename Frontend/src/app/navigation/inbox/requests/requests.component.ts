@@ -9,8 +9,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-requests',
-	templateUrl: './requests.component.html',
-	styleUrls: ['./requests.component.css']
+	templateUrl: './requests.component.html'
 })
 export class RequestsComponent {
 

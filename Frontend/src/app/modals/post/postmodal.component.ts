@@ -35,7 +35,6 @@ export class PostmodalComponent implements OnInit {
     public group: string = '';
     public postForm: FormGroup;
     public imageToShow: string = '';
-    public isCropping: boolean = false;
     public isRotating: boolean = false;
     public imageRatio: Number = 1;
 
@@ -68,22 +67,6 @@ export class PostmodalComponent implements OnInit {
 
     imageCropped(image: string) {
         this.croppedImage = image;
-
-        // Check vertical proportion here, if too big, stop it.
-        var i = new Image();
-        i.onload = () => {
-            if (i.height > 960) {
-                this.modal.handleError('Resim cok uzun! Yukselik ve genislik orani 3/1\'i gecemez.', {});
-                // Reset the cropper
-                this.cropperSize.x2 = 320;
-            }
-        };
-
-        i.src = this.croppedImage;
-
-        if (!this.isCropping) {
-            $('.cropper').hide();
-        }
     }
 
     rotateImage() {
@@ -121,7 +104,6 @@ export class PostmodalComponent implements OnInit {
         var rotatedImageSrc = canvas.toDataURL();
         this.croppedImage = rotatedImageSrc;
         $('#i1').attr('src', rotatedImageSrc);
-        if (!this.isCropping) this.cropperSize = { x1: 0, y1: 0, x2: '100%', y2: '100%' }
     }
 
     imageLoaded() {
@@ -143,7 +125,6 @@ export class PostmodalComponent implements OnInit {
         this.post = null;
         this.postForm.value.content = '';
         this.imageToShow = '';
-        this.isCropping = false;
         this.pictureMessage = '';
         this.imageChangedEvent = null;
         this.isRotating = false;
@@ -163,7 +144,6 @@ export class PostmodalComponent implements OnInit {
                 this.pictureMessage = '';
                 this.imageChangedEvent = null;
                 this.croppedImage = null;
-                this.isCropping = false;
                 this.isRotating = false;
                 this.imageToShow = response.data;
             },
@@ -175,7 +155,6 @@ export class PostmodalComponent implements OnInit {
         this.croppedImage = '';
         this.imageChangedEvent = null;
         this.imageToShow = '';
-        this.isCropping = false;
         this.isRotating = false;
     }
 
@@ -275,6 +254,7 @@ export class PostmodalComponent implements OnInit {
                         this.close();
                     });
                 try {
+                    this.post.linkContent = this.post.linkContent.replace(/&quot;/g, '\"');
                     this.post.linkContent = JSON.parse(this.post.linkContent);
                 } catch (e) {
                     this.post.linkContent = '';

@@ -11,8 +11,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-notifications',
-    templateUrl: './notifications.component.html',
-    styleUrls: ['./notifications.component.css']
+    templateUrl: './notifications.component.html'
 })
 export class NotificationsComponent {
     constructor(
@@ -167,6 +166,7 @@ export class NotificationsComponent {
                     data.data.profilePicture = data.data.user.profilePicture;
 
                     if (data.data.linkContent) {
+                        data.data.linkContent = data.data.linkContent.replace(/&quot;/g, '\"');
                         data.data.linkContent = JSON.parse(data.data.linkContent);
                     }
 

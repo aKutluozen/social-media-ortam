@@ -6,7 +6,7 @@
                 <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="scrollable mt-2 p-4" id="scrollMessages" *ngIf="!isFirstMessage">
+                <div class="scrollable mt-2 p-4" data-spy="scroll" id="scrollMessages" *ngIf="!isFirstMessage">
                     <div class="row" *ngFor="let message of messageSetup?.messages">
                         <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 mt-2 p-2 alert alert-primary speech-bubble">
                             {{ message.sender }} @ {{ message.date | date: 'short' }} : {{ message.message }}
@@ -39,9 +39,6 @@
             </div>
             <div class="modal-footer">
                 <span *ngIf="!isFriend" class="small">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit }}</span>
-                <button *ngIf="messageSetup.type === 'first'" [disabled]="!isFriend && global.credit < 10" type="button" class="btn btn-primary btn-sm"
-                    (click)="sendFirstMessage()">
-                    <i class="fa fa-envelope" aria-hidden="true"></i> Gonder</button>
                 <button *ngIf="messageSetup.type === 'chat'" type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage($event)"
                     [disabled]="disableSending || (!isFriend && global.credit < 10)">
                     <i class="fa fa-comment" aria-hidden="true"></i> Cevapla</button>

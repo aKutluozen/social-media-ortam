@@ -44,7 +44,10 @@ export class AuthService {
         this.setCookie('userId', null, 0);
         this.setCookie('user', null, 0);
         // window.location.href = './';
-        window.location.reload(true);
+        window.setTimeout(() => {
+            window.location.reload(true);
+        }, 500);
+        
         // navigator['app'].loadUrl('file:///android_asset/www/index.html');
     }
 

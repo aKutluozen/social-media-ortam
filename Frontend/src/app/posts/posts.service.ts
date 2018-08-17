@@ -35,7 +35,8 @@ export class PostService {
                 var linkCont = '';
                 if (result.linkCont != '') {
                     try {
-                        linkCont = JSON.parse(result.linkContent);
+                        linkCont = result.linkContent.replace(/&quot;/g, '\"');
+                        linkCont = JSON.parse(linkCont);
                     } catch (e) {
                         linkCont = '';
                     }
@@ -149,6 +150,7 @@ export class PostService {
                 for (let post of posts) {
                     // Handle link content first
                     if (post.linkContent !== '') {
+                        post.linkContent = post.linkContent.replace(/&quot;/g, '\"');
                         post.linkContent = JSON.parse(post.linkContent);
                     }
 
@@ -225,7 +227,7 @@ export class PostService {
                 
                 return transformedPosts;
             })
-            .catch((error: Response) => Observable.throw(error.json()));
+            .catch((error: Response) => { console.log(error); return Observable.throw(error.json())});
     }
 
     getLoadedPosts() {

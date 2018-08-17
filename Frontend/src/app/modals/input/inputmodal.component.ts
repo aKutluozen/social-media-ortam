@@ -68,7 +68,10 @@ export class InputmodalComponent implements OnInit {
 						this.loadMessages(data.data);
 						this.isFirstMessage = false;
 					},
-					error => console.error(error)
+					error => {
+						this.isFirstMessage = true;
+						console.error(error);
+					}
 				);
 			} else {
 				this.isFirstMessage = true;
@@ -128,10 +131,9 @@ export class InputmodalComponent implements OnInit {
 					if (type !== 'chat') {
 						this.modal.handleWarning('Mesaj basariyla gonderildi!');
 						if (!this.isFriend) {
-							this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { }, err => console.error(err));
+							this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { this.close(); }, err => console.error(err));
 						}
 					}
-					this.close();
 				},
 				error => this.modal.handleError('Mesaj gonderilemedi.', error)
 			);
@@ -162,7 +164,7 @@ export class InputmodalComponent implements OnInit {
 			} else if (!this.isFriend && this.global.credit >= 10) {
 				this.messageService.sendMessage(this.message, this.messageSetup['receiver'], 'chat').subscribe(data => {
 					if (!this.isFriend) {
-						this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { }, err => console.error(err));
+						this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { if (this.isFirstMessage) this.close(); }, err => console.error(err));
 					}
 					this.disableSending = true;
 					this.message = '';
