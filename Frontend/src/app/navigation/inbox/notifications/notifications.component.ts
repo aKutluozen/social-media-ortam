@@ -1,5 +1,6 @@
 // Main modules
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import * as Entities from 'html-entities';
 
 // Services
 import { ModalService } from 'app/modals/modal.service';
@@ -28,6 +29,7 @@ export class NotificationsComponent {
     private notificationSubscription: Subscription;
     private postSubscription: Subscription;
     private userSubscription: Subscription;
+    private entities = new Entities.XmlEntities();
 
     destroyAll() {
         this.notificationOffset = 0;
@@ -52,7 +54,7 @@ export class NotificationsComponent {
         } else if (notification.action == 'received') {
             this.modal.handleWarning('Tebrikler! Biriktirmeye ve harcamaya devam!');
             this.removeComplaint(notification);
-        } else if (notification.action == 'lost') {
+        } else if (notification.action == 'lost' || notification.action == 'accepted') {
             this.removeComplaint(notification);
         } else {
             this.showPost(notification._id, notification.post._id, notification.action, notification.user._id)
@@ -142,9 +144,11 @@ export class NotificationsComponent {
                             item.actionReadable = 'kredi aldiniz!';
                         } else if (item.action === 'lost') {
                             item.actionReadable = 'krediniz gitti';
+                        } else if (item.action === 'accepted') {
+                            item.actionReadable = 'arkadasiniz oldu!';
                         }
 
-                        if (item.post != null || item.action == 'complaint' || item.action.substring(0, 6) == 'credit' || item.action == 'received' || item.action == 'lost') {
+                        if (item.post != null || item.action == 'complaint' || item.action.substring(0, 6) == 'credit' || item.action == 'received' || item.action == 'lost' || item.action == 'accepted') {
                             this.notifications.push(item);
                         }
                     }
@@ -166,7 +170,8 @@ export class NotificationsComponent {
                     data.data.profilePicture = data.data.user.profilePicture;
 
                     if (data.data.linkContent) {
-                        data.data.linkContent = data.data.linkContent.replace(/&quot;/g, '\"');
+                        data.data.linkContent = this.entities.decode(data.data.linkContent);
+                        // data.data.linkContent = data.data.linkContent.replace(/&quot;/g, '\"');
                         data.data.linkContent = JSON.parse(data.data.linkContent);
                     }
 

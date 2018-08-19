@@ -2,6 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import * as Entities from 'html-entities';
 
 // Services
 import { ModalService } from '../modal.service';
@@ -30,7 +31,8 @@ export class PostmodalComponent implements OnInit {
         private auth: AuthService,
         public global: GlobalService
     ) { }
-
+    
+    private entities = new Entities.XmlEntities();
     public content: string = '';
     public group: string = '';
     public postForm: FormGroup;
@@ -254,7 +256,8 @@ export class PostmodalComponent implements OnInit {
                         this.close();
                     });
                 try {
-                    this.post.linkContent = this.post.linkContent.replace(/&quot;/g, '\"');
+                    this.post.linkContent = this.entities.decode(this.post.linkContent);
+                    // this.post.linkContent = this.post.linkContent.replace(/&quot;/g, '\"');
                     this.post.linkContent = JSON.parse(this.post.linkContent);
                 } catch (e) {
                     this.post.linkContent = '';

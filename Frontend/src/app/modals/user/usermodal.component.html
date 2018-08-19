@@ -117,10 +117,15 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <p class="lead mb-0">
+                                    <i class="fa fa-comment" aria-hidden="true"></i> {{ user.shortMessage }}</p>
+                            </div>
+                        </div>
+                        <p class="text-center" *ngIf="user?.posts?.length == 0">Hic bir paylasim bulunamadi!</p>
                         <!-- Posts and activities -->
                         <div class="card-columns">
-                            <p class="col-12 text-center" *ngIf="user?.posts?.length == 0">Hic bir paylasim bulunamadi!</p>
                             <app-post class="mb-4" [mylocation]="'profile'" [inView]="'inView'" [post]="post" *ngFor="let post of user?.posts">
                             </app-post>
                         </div>

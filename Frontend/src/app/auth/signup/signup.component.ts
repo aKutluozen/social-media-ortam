@@ -37,7 +37,8 @@ export class SignupComponent implements OnInit, OnDestroy {
             this.signupForm.value.nickName, 
             this.signupForm.value.chatNickName, '', '', '', '',
             this.signupForm.value.firstName,
-            this.signupForm.value.lastName
+            this.signupForm.value.lastName,
+            this.signupForm.value.shortMessage
         );
 
         if (this.signupForm.value.password == this.signupForm.value.password2) {
@@ -70,7 +71,8 @@ export class SignupComponent implements OnInit, OnDestroy {
             password: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
             password2: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
             firstName: new FormControl(null),
-            lastName: new FormControl(null)
+            lastName: new FormControl(null),
+            shortMessage: new FormControl(null, Validators.required)
         });
     }
 

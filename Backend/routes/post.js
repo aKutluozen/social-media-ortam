@@ -136,7 +136,7 @@ POST_ROUTER.get('/subjects', function (req, res) {
             $sort: { count: -1 }
         },
         {
-            $limit: 10,
+            $limit: 15,
         },
         // Done! We successfully aggregated the top 10 subject names that appeared more than 10 times each!
     ], function (err, subjects) {

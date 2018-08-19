@@ -95,6 +95,13 @@ export class UserService {
             .catch((error: Response) => Observable.throw(error.json()));
     }
 
+    // Get all the users as the search result
+    getNewUsers() {
+        return this.http.get(this.global.URL + 'user/user/new/' + this.auth.getToken())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()));
+    }
+
     // Save the changes in the profile
     updateProfile(user: User) {
         return this.http.patch(this.global.URL + 'user/user' + this.auth.getToken(), JSON.stringify(user), this.auth.getHeaders())

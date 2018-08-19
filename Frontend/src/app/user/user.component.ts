@@ -407,6 +407,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.profileForm = new FormGroup({
 			firstName: new FormControl({ value: '', disabled: true }, Validators.required),
 			lastName: new FormControl({ value: '', disabled: true }, Validators.required),
+			shortMessage: new FormControl({ value: '', disabled: true }),
 			nickName: new FormControl({ value: '', disabled: true }),
 			chatNickName: new FormControl({ value: '', disabled: true }),
 			birthday: new FormControl({ value: '', disabled: true }, Validators.required),
@@ -479,6 +480,7 @@ export class UserComponent implements OnInit, OnDestroy {
 				this.profileForm.patchValue({
 					firstName: this.profile.firstName || '',
 					lastName: this.profile.lastName || '',
+					shortMessage: this.profile.shortMessage || '',
 					nickName: this.profile.nickName || '',
 					chatNickName: this.profile.chatNickName || '',
 					birthday: realBirthday || '',

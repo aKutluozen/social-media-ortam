@@ -8,8 +8,8 @@ import { Routes, RouterModule } from "@angular/router";
 import { PostComponent } from './post/post.component';
 import { PostsComponent } from './posts.component';
 import { SubjectsComponent } from './subjects/subjects.component';
+import { NewpeopleComponent } from './newpeople/newpeople.component';
 import { PostListComponent } from './post-list/post-list.component';
-import { SidebarComponent } from 'app/sidebar/sidebar.component';
 
 // Routes
 const POST_ROUTES: Routes = [
@@ -32,7 +32,7 @@ const POST_ROUTES: Routes = [
 		PostsComponent,
 		SubjectsComponent,
 		PostListComponent,
-		SidebarComponent
+		NewpeopleComponent
 	],
 	providers: [
 		

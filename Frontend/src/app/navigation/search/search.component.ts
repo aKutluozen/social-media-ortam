@@ -91,50 +91,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 		return this.auth.isLoggedIn();
 	}
 
-	// Check if already friend
-	isFriends(name) {
-		for (let i = 0; i < this.friends.length; i++) {
-			if (this.friends[i]['nickName'] == name) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// Returns true when the request is sent but not accepted yet
-	isRequestSent(otherUser) {
-		var currentUser = this.auth.getCookie('user');
-
-		for (let followed of otherUser.following) {
-			if (followed.nickName == currentUser && followed.accepted === false) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	// Add user tot he following list of the other user
-	follow(id) {
-		this.userSubscription = this.user.sendFollowRequest(id).subscribe(
-			data => this.modal.handleWarning('Takip istegi basari ile gonderildi'),
-			error => this.modal.handleError('Istek gonderilemedi ya da onceden zaten gonderildi', error)
-		);
-	}
-
 	viewProfile(name) {
 		this.userSubscription = this.user.viewProfile(name).subscribe(
 			data => this.modal.showUserModal(data.data),
 			error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
 		);
-	}
-
-	// Send a message to the other user
-	sendMessage(name) {
-		this.modal.showInputModal({
-			type: 'first',
-			title: 'Mesaj gonder',
-			receiver: name
-		});
 	}
 }

@@ -9,6 +9,7 @@ export class User {
         public birthday?: string,
         public firstName?: string,
         public lastName?: string,
+        public shortMessage?: string,
         public profilePicture?: string,
         public images?: string[],
         public coverImage?: string,

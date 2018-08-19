@@ -7,6 +7,7 @@ var schema = new Schema({
     chatNickName: { type: String, unique: true },
     firstName: { type: String },
     lastName: { type: String },
+    shortMessage: { type: String },
     bio: { type: String },
     profilePicture: { type: String },
     images: [{ type: String }],
@@ -17,7 +18,7 @@ var schema = new Schema({
     password: { type: String, required: true },
     passwordReset: { type: String },
     email: { type: String, required: true, unique: true },
-    posts: [{ type: Schema.Types.ObjectId, ref: 'Post'}], // An array of message IDs
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }], // An array of message IDs
     following: [{
         friend: { type: Schema.Types.ObjectId, ref: 'User' },
         nickName: String,
@@ -51,7 +52,7 @@ var schema = new Schema({
     googleplusLink: { type: String },
     snapchatLink: { type: String },
     instagramLink: { type: String }
-}, { usePushEach: true} );
+}, { usePushEach: true });
 
 schema.plugin(mongooseUniqueValidator); // makes sure unique is unique
 module.exports = mongoose.model('User', schema);

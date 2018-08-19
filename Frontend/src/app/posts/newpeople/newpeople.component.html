@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-users" aria-hidden="true"></i> Yeni arkadaslar kesfedin
+    </div>
+    <div class="card-body">
+        <div *ngFor="let newUser of people" class="card action-icon mb-2" (click)="viewProfile(newUser.nickName)">
+            <div class="row card-body p-2">
+                <div class="col-3">
+                    <img class="w-100 rounded-circle" src="{{global.URL_S3_USERS + newUser.profilePicture}}">
+                </div>
+                <div class="col-9 pl-0">
+                    <p class="mb-0"><b>@{{ newUser.nickName }}</b></p>
+                    <p><small>{{ newUser.shortMessage }}</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

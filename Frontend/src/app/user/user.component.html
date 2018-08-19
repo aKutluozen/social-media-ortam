@@ -98,6 +98,11 @@
                                     <label class="col-form-label" for="nickName">Rumuz (anonim sohbet):</label>
                                     <input readonly type="text" class="form-control" id="chatNickName" formControlName="chatNickName">
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-form-label" for="shortMessage">Kisa mesaj (aramalar icin):</label>
+                                    <textarea #shortMessage rows="2" type="text" class="form-control" id="shortMessage" formControlName="shortMessage" maxlength="128"></textarea>
+                                    <span *ngIf="!profileForm.disabled" class="text-muted small text-right">{{ 128 - shortMessage.value.length }} karakter kaldi.</span>
+                                </div>
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
@@ -118,8 +123,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="bio">Oz gecmis:</label>
-                                    <textarea #bioText rows="4" type="text" class="form-control" id="bio" formControlName="bio" maxlength="256"></textarea>
-                                    <span *ngIf="!profileForm.disabled" class="text-muted small text-right">{{ 256 - bioText.value.length }} karakter kaldi.</span>
+                                    <textarea #bioText rows="4" type="text" class="form-control" id="bio" formControlName="bio" maxlength="1024"></textarea>
+                                    <span *ngIf="!profileForm.disabled" class="text-muted small text-right">{{ 1024 - bioText.value.length }} karakter kaldi.</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="jobStatus">Is durumu:</label>
@@ -303,10 +308,12 @@
                                             <h5 class="text-center">
                                                 <i class="fas fa-key"></i> Sifre yenile</h5>
                                             <div class="form-group mb-0">
-                                                <input type="password" maxlength="48" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2"
-                                                    [(ngModel)]="passwordOld" #passOld="ngModel" placeholder="Eski sifre" />
-                                                <input type="password" maxlength="48" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}" class="form-control border mb-2"
-                                                    [(ngModel)]="passwordNew" #passNew="ngModel" placeholder="Yeni sifre" />
+                                                <input type="password" maxlength="48" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}"
+                                                    class="form-control border mb-2" [(ngModel)]="passwordOld" #passOld="ngModel"
+                                                    placeholder="Eski sifre" />
+                                                <input type="password" maxlength="48" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}"
+                                                    class="form-control border mb-2" [(ngModel)]="passwordNew" #passNew="ngModel"
+                                                    placeholder="Yeni sifre" />
                                                 <div class="small alert alert-warning" *ngIf="passOld.errors || passNew.errors">
                                                     <p>
                                                         <i class="fa fa-exclamation"></i>

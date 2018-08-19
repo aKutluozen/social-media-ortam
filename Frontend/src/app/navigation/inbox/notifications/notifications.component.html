@@ -14,11 +14,11 @@
             </p>
         </div>
         <div class="col-4 text-right align-self-center pl-0">
-            <button type="button" class="btn btn-success btn-sm px-1" *ngIf="notification.action != 'complaint' && notification.action.substring(0, 6) != 'credit' && notification.action != 'received' && notification.action != 'lost'"
+            <button type="button" class="btn btn-success btn-sm px-1" *ngIf="notification.action != 'accepted' && notification.action != 'complaint' && notification.action.substring(0, 6) != 'credit' && notification.action != 'received' && notification.action != 'lost'"
                 (click)="showPost(notification._id, notification.post._id, notification.action, notification.user._id)">
                 <i class="fa fa-eye" aria-hidden="true"></i>
             </button>
-            <button *ngIf="notification.action == 'received' || notification.action == 'lost'" type="button" class="btn btn-success btn-sm px-1"
+            <button *ngIf="notification.action == 'received' || notification.action == 'lost' || notification.action == 'accepted'" type="button" class="btn btn-success btn-sm px-1"
                 (click)="removeCreditRequest(notification)">
                 <i class="fas fa-check"></i>
             </button>

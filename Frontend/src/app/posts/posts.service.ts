@@ -23,7 +23,6 @@ export class PostService {
     ) { }
 
     public posts: Post[] = [];
-
     public postIsEdit = new EventEmitter<Post>();
 
     addNewPost(post: Post) {
@@ -36,6 +35,7 @@ export class PostService {
                 if (result.linkCont != '') {
                     try {
                         linkCont = result.linkContent.replace(/&quot;/g, '\"');
+                        linkCont = this.global.decodeHTML(linkCont);
                         linkCont = JSON.parse(linkCont);
                     } catch (e) {
                         linkCont = '';
@@ -150,7 +150,7 @@ export class PostService {
                 for (let post of posts) {
                     // Handle link content first
                     if (post.linkContent !== '') {
-                        post.linkContent = post.linkContent.replace(/&quot;/g, '\"');
+                        post.linkContent = this.global.decodeHTML(post.linkContent);
                         post.linkContent = JSON.parse(post.linkContent);
                     }
 

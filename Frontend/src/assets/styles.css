@@ -4,7 +4,7 @@
 }
 
 body {
-    padding-top: 100px;
+    padding-top: 90px;
     margin-bottom: 60px;
     background: rgb(224, 224, 224);
     background-image: url('assets/images/istanbul.png');
@@ -43,11 +43,18 @@ body {
     align-items: center;
 }
 
-.card.border:hover {
-    cursor: pointer;
+@media (min-width: 576px) {
+    .card-columns.cols2 {
+        -webkit-column-count: 2;
+        column-count: 2;
+        -webkit-column-gap: 1.25rem;
+        column-gap: 1.25rem;
+        orphans: 1;
+        widows: 1;
+    }
 }
 
-.action-icon:hover {
+.card.border:hover, .action-icon:hover {
     cursor: pointer;
 }
 
@@ -86,8 +93,20 @@ textarea:enabled {
     font-weight: bold;
 }
 
+.modal-content, .card, .dropdown-menu {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+* {
+    border-radius: 4px;
+}
+
+.navbar {
+    border-radius: 0px !important;
+}
+
 .modal-footer {
-    background-color: rgba(0,0,0,0.03);
+    background-color: rgba(0,0,0,0.05);
 }
 
 ::-webkit-scrollbar {

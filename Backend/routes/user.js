@@ -195,6 +195,7 @@ USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
     });
 });
 
+// Check if a friend is accepted
 USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
     var token = jwt.decode(req.query.token);
     User.findById(token.id, function (err, user) {
@@ -214,6 +215,32 @@ USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
             });
         });
     });
+});
+
+USER_ROUTER.get('/user/new', function (req, res) {
+    var token = jwt.decode(req.query.token);
+    User.aggregate(
+        [
+            { $sort: { created: -1 } },
+            { $limit: 5 },
+            {
+                $project: {
+                    nickName: 1,
+                    profilePicture: 1,
+                    shortMessage: 1
+                }
+            }], function (err, users) {
+                if (err || !users) {
+                    return res.status(400).json({
+                        message: 'Error finding new users',
+                        error: ''
+                    });
+                }
+                return res.status(200).json({
+                    message: 'users',
+                    data: users
+                });
+            });
 });
 
 USER_ROUTER.post('/user/credit/:nickName/:isAsking/:credit', function (req, res) {
@@ -545,6 +572,7 @@ USER_ROUTER.post('/', function (req, res, next) {
         password: bcrypt.hashSync(req.body.password, 10),
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        shortMessage: req.body.shortMessage,
         credit: 100
     });
 
@@ -607,6 +635,7 @@ USER_ROUTER.patch('/user', function (req, res, next) {
             // Make them lower case for easy search purposes
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
+            user.shortMessage = req.body.shortMessage;
             user.birthday = req.body.birthday;
             user.bio = req.body.bio;
             user.education = req.body.education;
@@ -715,6 +744,7 @@ USER_ROUTER.get('/user/all/:name', function (req, res, next) {
             profilePicture: 1,
             nickName: 1,
             bio: 1,
+            shortMessage: 1,
             firstName: 1,
             lastName: 1,
             nickName: 1,
@@ -961,7 +991,7 @@ USER_ROUTER.patch('/user/follow/:id', function (req, res) {
             }
 
             currentUserNickname = user.nickName;
-            currentUser = user;
+            currentUser = user; 
 
             user.save(function (err, result) {
                 if (err) {
@@ -979,6 +1009,14 @@ USER_ROUTER.patch('/user/follow/:id', function (req, res) {
                             accepted: true,
                             message: '',
                             friend: currentUser,
+                            date: Date.now()
+                        });
+
+                        otherUser.inbox.push({
+                            action: 'accepted',
+                            post: null,
+                            data: null,
+                            user: user._id,
                             date: Date.now()
                         });
 
