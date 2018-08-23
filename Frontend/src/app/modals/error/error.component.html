@@ -1,14 +1,15 @@
 <div class="modal fade" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
+            <div class="modal-header py-1 bg-danger">
                 <h4 class="modal-title">
-                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> SORUN</h4>
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> SORUN <button type="button" class="close"
+                       data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body">
                 <p>{{ error?.message }}</p>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer p-2">
                 <button *ngIf="error?.error?.message != 'banned'" type="button" class="btn btn-primary btn-sm" (click)="sendErrorMessage()">
                     <i class="fa fa-share-square" aria-hidden="true"></i> Hata mesaji gonder</button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">

@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="!onComment && !onSharing" class="pb-4">
+                        <div *ngIf="!onComment && !onSharing" class="pb-4 mb-3">
                             <p class="lead text-muted breakable-word">
                                 <i class="fa fa-comment pr-2" aria-hidden="true"></i>{{ post?.content }}</p>
                             <div class="card mb-3" *ngIf="post?.linkContent">
@@ -157,7 +157,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer" *ngIf="belongsToUser() || shareBelongsToUser()">
+            <div class="modal-footer p-2" *ngIf="belongsToUser() || shareBelongsToUser()">
                 <button *ngIf="belongsToUser()" class="btn btn-primary btn-sm" (click)="onEdit()">
                     <i class="fa fa-edit" aria-hidden="true"></i> Duzenle
                 </button>

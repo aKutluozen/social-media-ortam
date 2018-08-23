@@ -1,9 +1,10 @@
 <div class="modal fade" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
-            <div class="modal-header bg-danger">
+            <div class="modal-header py-1 bg-danger">
                 <h4 class="modal-title">
-                    <i class="fa fa-exclamation" aria-hidden="true"></i> SIKAYET</h4>
+                    <i class="fa fa-exclamation" aria-hidden="true"></i> SIKAYET <button type="button" class="close"
+                        data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body" *ngIf="complaint">
                 <p>Mesaj: {{ complaint['message'] }}</p>
@@ -15,7 +16,7 @@
                 <p>Sikayet edilen kisiyi dilediginiz gun sayisi kadar sohbetlerden uzaklastirabilirsiniz.</p>
                 <input class="form-control" min="1" max="30" type="number" placeholder="Gun sayisi" [(ngModel)]="days">
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer p-2">
                 <button class="btn btn-danger btn-sm" (click)="blockFromChat(complaint['name'])">
                     <i class="fa fa-ban"></i> Yasakla</button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">

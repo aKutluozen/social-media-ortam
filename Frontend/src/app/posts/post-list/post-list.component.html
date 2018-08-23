@@ -1,14 +1,14 @@
-<div class="card-columns cols2">
-    <div class="col-12 text-center" *ngIf="postService.posts.length == 0">Hic bir paylasim bulunamadi!</div>
-    <div class="card border action-icon mb-4" (click)="openPostWindow()">
-        <div class="card-body">
-            <div class="row py-4">
-                <div class="col-12">
-                    <h4 class="text-primary text-center">Kutatku'da paylas</h4>
-                </div>
+<div class="card border action-icon mb-4" (click)="openPostWindow()">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="text-primary text-center mb-0"><b>Kutatku'da paylas</b> <i class="fas fa-share"></i></h4>
             </div>
         </div>
     </div>
+</div>
+<div class="card-columns cols2">
+    <div class="col-12 text-center" *ngIf="postService.posts.length == 0">Hic bir paylasim bulunamadi!</div>
     <app-post [post]="post" *ngFor="let post of postService.posts">
     </app-post>
     <div class="col-12 my-2 text-center action-icon" (click)="loadMore()">

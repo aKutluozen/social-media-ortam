@@ -39,26 +39,26 @@ export class CreditmodalComponent implements OnInit {
 
     sendCredit() {
         this.modal.showQuestion({
-            content: 'Bu islemi gerceklestirmek istediginize emin misiniz?',
+            content: '<b><big>' + this.creditAmount + '</big></b> kredi gondermek istiyorsunuz. <br>Gonderdikten sonra <b><big>' + (this.global.credit - this.creditAmount) + '</big></b> krediniz kalacaktir. <br> Bu islemi gerceklestirmek istediginize emin misiniz?',
             approveFunction: () => {
                 this.user.sendCreditRequest(this.otherUser, this.creditAmount, false).subscribe(
-                    data => this.modal.handleWarning('Kredi hediyeniz basari ile gonderilmistir!'),
-                    error => this.modal.handleError('Kredi hediyesi isteginiz gonderilirken bir sorun olustu!', error)
+                    data => this.modal.handleWarning('Kredi hediyeniz basari ile gonderilmistir! <br> Kalan kredi: <b><big>' + (this.global.credit - this.creditAmount) + '</big></b>'),
+                    error => this.modal.handleError('Kredi hediyesi isteginiz gonderilirken bir sorun olustu!', error),
+                    () => this.close()
                 );
-                this.close();
             }
         })
     }
 
     askCredit() {
         this.modal.showQuestion({
-            content: 'Bu islemi gerceklestirmek istediginize emin misiniz?',
+            content: this.otherUser + ' isimli kullanicidan <b><big>' + this.creditAmount + '</big></b> kredi istiyorsunuz. <br> Isteginiz kabul edildikten sonra <b><big>' + (this.global.credit + this.creditAmount) + '</big></b> krediniz olacaktir. <br> Bu islemi gerceklestirmek istediginize emin misiniz?',
             approveFunction: () => {
                 this.user.sendCreditRequest(this.otherUser, this.creditAmount, true).subscribe(
-                    data => this.modal.handleWarning('Isteginiz basari ile gonderilmistir!'),
-                    error => this.modal.handleError('Kredi istegi gonderilirken bir sorun olustu!', error)
+                    data => this.modal.handleWarning(this.otherUser + ' isimli kullaniciya <b><big>' + this.creditAmount + '</big></b> kredi isteginiz basari ile gonderilmistir!'),
+                    error => this.modal.handleError('Kredi istegi gonderilirken bir sorun olustu!', error),
+                    () => this.close()
                 );
-                this.close();
             }
         })
     }

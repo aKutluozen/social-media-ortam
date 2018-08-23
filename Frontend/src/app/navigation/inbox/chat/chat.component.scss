@@ -5,13 +5,6 @@
     overflow-y: scroll;
 }
 
-::ng-deep {
-    textarea {
-        background: #f1f1f1 !important;
-        width: 100% !important;
-    }
-}
-
 .message {
     font-size: 12px;
     width: 100%;

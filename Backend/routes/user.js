@@ -217,6 +217,7 @@ USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
     });
 });
 
+// Get new users
 USER_ROUTER.get('/user/new', function (req, res) {
     var token = jwt.decode(req.query.token);
     User.aggregate(
@@ -227,6 +228,7 @@ USER_ROUTER.get('/user/new', function (req, res) {
                 $project: {
                     nickName: 1,
                     profilePicture: 1,
+                    coverImage: 1,
                     shortMessage: 1
                 }
             }], function (err, users) {

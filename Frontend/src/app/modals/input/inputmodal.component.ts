@@ -108,13 +108,14 @@ export class InputmodalComponent implements OnInit {
 		this.timedCheck = this.messageService.getMessagesOnInterval(id, latestTime, interval).subscribe(data => {
 			for (let newMessage of data.data) {
 				this.messageSetup['messages'].push(newMessage);
+				this.scrollDown();
 			}
 
 			// Update the latest time
 			let lastPos = this.messageSetup['messages'].length - 1;
 			this.latestMessageTime = this.messageSetup['messages'][lastPos].date;
 			this.disableSending = false;
-			this.scrollDown();
+			
 
 			// Stop itself and call it again with the newest parameters
 			this.timedCheck.unsubscribe();

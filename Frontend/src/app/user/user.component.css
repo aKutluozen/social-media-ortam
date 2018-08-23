@@ -109,6 +109,7 @@ img {
     object-fit: cover;
     background: white;
     margin-top: -2px;
+    border-radius: 0px;
 }
 
 .mb-n-80 {
@@ -116,11 +117,6 @@ img {
 }
 
 .form-group input {
-    color: #ddd !important;
-}
-
-textarea {
-    background: none !important;
     color: #ddd !important;
 }
 

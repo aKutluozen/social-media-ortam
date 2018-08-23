@@ -4,8 +4,11 @@
             <div class="row mb-3">
                 <div class="col">
                     <div class="card bg-dark text-white">
-                        <div class="card-body">
-                            <div class="row">
+                        <div class="card-body h-100">
+                            <div class="row h-100">
+                                <div class="card-background-top h-50">
+                                    <img src="{{ global.URL_S3_USERS + coverPicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'">
+                                </div>
                                 <div class="col-lg-5 col-6 my-auto" id="profilePicture">
                                     <div id="image-upload-button">
                                         <label class="profile-image-upload-button btn btn-primary text-center btn-sm px-1 py-0" *ngIf="!profilePicture" for="profilePictureFile">
@@ -24,12 +27,16 @@
                                             <i>@{{ profile?.nickName }}</i>
                                         </b>
                                     </span>
-                                    <hr class="my-2">
-                                    <small>
-                                        <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ profile?.following['length'] }}</small>
                                     <br>
                                     <small>
-                                        <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ profile?.posts['length'] }}</small>
+                                        <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ profile?.following['length']
+                                        }}
+                                    </small>
+                                    <br>
+                                    <small>
+                                        <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ profile?.posts['length']
+                                        }}
+                                    </small>
                                     <br>
                                     <small>
                                         <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi: {{ profile?.credit }}</small>
@@ -71,7 +78,6 @@
                         <div class="card bg-dark text-white info-update-hover">
                             <div class="card-header">
                                 <i class="fas fa-id-card"></i> Bilgiler
-
                                 <span id="info-update-control" class="float-right">
                                     <label *ngIf="profileForm.disabled" class="btn btn-primary mb-0 btn-sm text-center py-0 px-1" (click)="enableInfoUpdate()">
                                         <i class="fa fa-edit" aria-hidden="true"></i>
@@ -83,58 +89,60 @@
                                         <i class="fa fa-ban" aria-hidden="true"></i>
                                     </label>
                                 </span>
-
                             </div>
                             <div class="card-body">
-                                <div class="form-group">
+                                <div class="form-group mb-1">
                                     <label class="col-form-label" for="email">Email:</label>
                                     <input readonly type="text" class="form-control" id="email" formControlName="email">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-1">
                                     <label class="col-form-label" for="nickName">Takma isim:</label>
                                     <input readonly type="text" class="form-control" id="nickName" formControlName="nickName">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-1">
                                     <label class="col-form-label" for="nickName">Rumuz (anonim sohbet):</label>
                                     <input readonly type="text" class="form-control" id="chatNickName" formControlName="chatNickName">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-1">
                                     <label class="col-form-label" for="shortMessage">Kisa mesaj (aramalar icin):</label>
-                                    <textarea #shortMessage rows="2" type="text" class="form-control" id="shortMessage" formControlName="shortMessage" maxlength="128"></textarea>
-                                    <span *ngIf="!profileForm.disabled" class="text-muted small text-right">{{ 128 - shortMessage.value.length }} karakter kaldi.</span>
+                                    <textarea #shortMessage rows="2" type="text" class="form-control text-white" id="shortMessage" formControlName="shortMessage"
+                                        maxlength="128"></textarea>
+                                    <span *ngIf="!profileForm.disabled" class="text-muted small text-right">{{ 128 - shortMessage.value.length
+                                        }} karakter kaldi.</span>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <div class="form-group">
+                                        <div class="form-group mb-1">
                                             <label class="col-form-label" for="firstName">Isim:</label>
                                             <input type="text" class="form-control" maxlength="48" id="firstName" formControlName="firstName">
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="form-group">
+                                        <div class="form-group mb-1">
                                             <label class="col-form-label" for="lastName">Soyisim:</label>
                                             <input type="text" class="form-control" maxlength="48" id="lastName" formControlName="lastName">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-1">
                                     <label class="col-form-label" for="birthday">Dogum tarihi:</label>
                                     <input type="date" class="form-control" maxlength="48" id="birthday" formControlName="birthday">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-1">
                                     <label class="col-form-label" for="bio">Oz gecmis:</label>
-                                    <textarea #bioText rows="4" type="text" class="form-control" id="bio" formControlName="bio" maxlength="1024"></textarea>
-                                    <span *ngIf="!profileForm.disabled" class="text-muted small text-right">{{ 1024 - bioText.value.length }} karakter kaldi.</span>
+                                    <textarea #bioText rows="4" type="text" class="form-control text-white" id="bio" formControlName="bio" maxlength="1024"></textarea>
+                                    <span *ngIf="!profileForm.disabled" class="text-muted small text-right">{{ 1024 - bioText.value.length
+                                        }} karakter kaldi.</span>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-1">
                                     <label class="col-form-label" for="jobStatus">Is durumu:</label>
                                     <input type="text" class="form-control" maxlength="128" id="jobStatus" formControlName="jobStatus">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-1">
                                     <label class="col-form-label" for="education">Egitim durumu:</label>
                                     <input type="text" class="form-control" maxlength="128" id="education" formControlName="education">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-1">
                                     <label class="col-form-label" for="socialMedia">Sosyal Medya:</label>
                                     <div class="row mx-auto">
                                         <span class="col-2 pt-1">
@@ -214,7 +222,6 @@
                                     <img hidden [src]="croppedCoverPicture" />
                                 </div>
                             </div>
-
 
                             <hr *ngIf="croppedCoverPicture">
                             <img *ngIf="!coverPictureChangedEvent" src="{{ global.URL_S3_USERS + coverPicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'"
@@ -361,7 +368,7 @@
         <div class="modal-content">
             <div class="modal-body">
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer p-2">
                 <button type="button" class="btn btn-default btn-sm" (click)="showImage='none'">Kapat</button>
             </div>
         </div>

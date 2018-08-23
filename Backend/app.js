@@ -18,8 +18,8 @@ var appRoutes = require('./routes/app'),
 
 var app = express();
 
-// var URL = "http://127.0.0.1:3000/post/clean";
-var URL = "http://18.217.236.111:3000/post/clean";
+var URL = "http://127.0.0.1:3000/post/clean";
+// var URL = "http://18.217.236.111:3000/post/clean";
 
 // Start database connection
 var mongoUrl = "mongodb://alikutluozen:alikutluozen@socialmediacluster-shard-00-00-u02gh.mongodb.net:27017,socialmediacluster-shard-00-01-u02gh.mongodb.net:27017,socialmediacluster-shard-00-02-u02gh.mongodb.net:27017/SocialMediaDB?ssl=true&replicaSet=SocialMediaCluster-shard-0&authSource=admin";

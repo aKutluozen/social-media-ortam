@@ -1,14 +1,13 @@
-<ul class="row list-inline my-0 py-0">
-    <li class="list-inline-item col-10 pr-0 mr-0">
+<ul class="row mx-auto border-bottom justify-content-center list-inline my-0 py-0">
+    <li class="list-inline-item col-10 px-0 mr-0">
         <input class="form-control search" maxlength="48" type="text" [(ngModel)]="searchTerm" (keypress)="searchWithEnter($event)" [ngModelOptions]="{standalone: true}"
             placeholder="Arkadas ara">
     </li>
-    <li class="list-inline-item btn-group col-1 pl-0 ml-0">
-        <button class="px-4 btn btn-dark btn-sm nav-link" #searchButton type="button" (click)="search()" [disabled]="!searchTerm"
+    <li class="list-inline-item btn-group col-2 pl-0 ml-0">
+        <button class="search-button action-icon" #searchButton type="button" (click)="search()" [disabled]="!searchTerm"
             id="searchMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-search fa-lg" aria-hidden="true"></i>
         </button>
-
         <div class="box p-2 scrollable dropdown-menu dropdown-menu-right mt-0 pt-0" aria-labelledby="searchMenu">
             <div class="row mx-0">
                 <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>

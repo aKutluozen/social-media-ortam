@@ -56,7 +56,7 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer p-2">
                 <button class="btn btn-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
                     <i class="fa fa-share-square" aria-hidden="true"></i> Paylas</button>
                 <button type="button" class="btn btn-default btn-sm" (click)="close(false)">

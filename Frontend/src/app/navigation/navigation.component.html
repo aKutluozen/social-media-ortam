@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" id="navbarButton" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,13 +16,13 @@
                 <li *ngIf="username">
                     <ul class="list-inline nav-link py-0">
                         <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
-                            <a class="dropdown text-white" href="#" [routerLink]="['/posts/all']">
+                            <a class="dropdown" href="#" [routerLink]="['/posts/all']">
                                 <i class="fa fa-home"></i>
                                 <div class="item-text">Ana sayfa</div>
                             </a>
                         </li>
                         <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
-                            <a class="dropdown text-white" href="#" [routerLink]="['/admin']">
+                            <a class="dropdown" href="#" [routerLink]="['/admin']">
                                 <i class="fa fa-question-circle"></i>
                                 <div class="item-text">Yardim</div>
                             </a>

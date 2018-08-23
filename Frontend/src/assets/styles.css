@@ -4,7 +4,7 @@
 }
 
 body {
-    padding-top: 90px;
+    padding-top: 70px;
     margin-bottom: 60px;
     background: rgb(224, 224, 224);
     background-image: url('assets/images/istanbul.png');
@@ -12,18 +12,22 @@ body {
     background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: 0 100%;
-    /* font-size: 90%;
-    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif; */
 }
 
-.search:focus {
-    background: white !important;
+p {
+    margin-bottom: 0;
+}
+
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1240px;
+    }
 }
 
 .close {
-    position: absolute;
-    right:6px;
-    top: 0px;
+    position: absolute  !important;
+    right: 0px !important;
+    top: -5px  !important;
 }
 
 .rotate-image-preview {
@@ -68,33 +72,71 @@ body {
 
 input,
 textarea {
-    background: none !important;
+    background: rgba(0, 0, 0, 0.05) !important;
     border: none !important;
-    border-bottom: 1px solid rgba(184, 184, 184, 0.5) !important;
 }
 
-input:disabled,
-textarea:disabled {
-    border: none !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+.search-button {
+    background: none;
+    border: none;
+}
+
+.search {
+    background: none !important;
+}
+
+textarea {
+    width: 100%;
+}
+
+.card-background-top {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+}
+
+.card-background-top img {
+    object-fit: cover;
+    height: 100% !important;
+    opacity: 0.5;
 }
 
 input:enabled,
 textarea:enabled {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+} 
+
+.credit-input {
+    font-size: 80px;
+    text-align: center;
+    background: none !important;
+    width: 100%;
+    height: 80px;
 }
 
 .card-header {
     border: none;
+    background: none;
 }
 
 .modal-header {
     color: white;
     font-weight: bold;
+    border-radius: 0px;
 }
 
 .modal-content, .card, .dropdown-menu {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn {
+    border-radius: 4px !important;
+}
+
+.modal-content {
+    border: none;
 }
 
 * {
@@ -103,6 +145,7 @@ textarea:enabled {
 
 .navbar {
     border-radius: 0px !important;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
 }
 
 .modal-footer {

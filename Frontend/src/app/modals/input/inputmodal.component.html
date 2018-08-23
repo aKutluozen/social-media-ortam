@@ -1,18 +1,24 @@
 <div class="modal fade" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark text-white">
-                {{ messageSetup.receiver }} ile ozel konusma
-                <button type="button" class="close" (click)="close()" data-dismiss="modal">&times;</button>
+            <div class="modal-header py-1 bg-dark text-white">
+                <h4 class="modal-title"><i class="fa fa-comment" aria-hidden="true"></i> {{ messageSetup.receiver }} ile
+                    ozel konusma <button type="button" class="close" data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body">
                 <div class="scrollable mt-2 p-4" data-spy="scroll" id="scrollMessages" *ngIf="!isFirstMessage">
                     <div class="row" *ngFor="let message of messageSetup?.messages">
-                        <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 mt-2 p-2 alert alert-primary speech-bubble">
-                            {{ message.sender }} @ {{ message.date | date: 'short' }} : {{ message.message }}
+                        <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 mt-2">
+                            <p class="x-small text-muted text-left">{{ message.sender }} @ {{ message.date | date: 'short' }}</p>
+                            <div class="p-2 alert alert-primary">
+                                {{ message.message }}
+                            </div>
                         </div>
-                        <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 col-md-8 mt-2 p-2 alert alert-secondary speech-bubble">
-                            {{ message.sender }} @ {{ message.date | date: 'short' }} : {{ message.message }}
+                        <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 col-md-8 mt-2">
+                            <p class="x-small text-muted text-right">{{ message.sender }} @ {{ message.date | date: 'short' }}</p>
+                            <div class=" p-2 alert alert-secondary">
+                                {{ message.message }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -23,8 +29,8 @@
                         </button>
                     </div>
                     <div class="col-10 h-100">
-                        <emoji-input [popupAnchor]="'bottom'" [(model)]="message" [textArea]="{rows: 2}" [closeAfterSelection]="false"
-                            (click)="openPopup(false)" (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
+                        <emoji-input [popupAnchor]="'bottom'" [(model)]="message" [textArea]="{rows: 2}" [closeAfterSelection]="false" (click)="openPopup(false)"
+                            (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
                         </emoji-input>
                     </div>
                 </div>
@@ -37,8 +43,10 @@
                     </p>
                 </div>
             </div>
-            <div class="modal-footer">
-                <span *ngIf="!isFriend" class="small">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit }}</span>
+            <div class="modal-footer p-2">
+                <span *ngIf="!isFriend" class="small">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit
+                    }}
+                </span>
                 <button *ngIf="messageSetup.type === 'chat'" type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage($event)"
                     [disabled]="disableSending || (!isFriend && global.credit < 10)">
                     <i class="fa fa-comment" aria-hidden="true"></i> Cevapla</button>
