@@ -1,32 +1,40 @@
 <ul class="row mx-auto border-bottom justify-content-center list-inline my-0 py-0">
     <li class="list-inline-item col-10 px-0 mr-0">
-        <input class="form-control search" maxlength="48" type="text" [(ngModel)]="searchTerm" (keypress)="searchWithEnter($event)" [ngModelOptions]="{standalone: true}"
-            placeholder="Arkadas ara">
+        <input class="form-control search" maxlength="48" type="text" [(ngModel)]="searchTerm" (keypress)="searchWithEnter($event)"
+            [ngModelOptions]="{standalone: true}" placeholder="Arkadas ara">
     </li>
     <li class="list-inline-item btn-group col-2 pl-0 ml-0">
-        <button class="search-button action-icon" #searchButton type="button" (click)="search()" [disabled]="!searchTerm"
-            id="searchMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="search-button action-icon" #searchButton type="button" (click)="search()" [disabled]="!searchTerm" id="searchMenu"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-search fa-lg" aria-hidden="true"></i>
         </button>
-        <div class="box p-2 scrollable dropdown-menu dropdown-menu-right mt-0 pt-0" aria-labelledby="searchMenu">
+        <div class="p-2 scrollable-search dropdown-menu dropdown-menu-right mt-0 pt-0" aria-labelledby="searchMenu">
             <div class="row mx-0">
                 <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>
             <div class="col-12 text-center mb-2">
                 {{ usersFound.length }} sonuc bulundu.</div>
-            <div class="col-12 bg-white mb-2 action-icon card" *ngFor="let user of usersFound">
-                <div class="row card-body mx-auto p-2" (click)="viewProfile(user.nickName)">
-                    <div class="col-2 pr-0">
-                        <img class="rounded-circle w-100" src="{{ global.URL_S3_USERS + user.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+            <div class="col-12 mb-2 action-icon card" *ngFor="let user of usersFound">
+                <div class="row card-body bg-dark text-white p-0" (click)="viewProfile(user.nickName)">
+                    <div class="col-12">
+                        <div class="row mx-auto">
+                            <div class="card-background-top h-75 w-100">
+                                <img class="w-100 h-100" src="{{global.URL_S3_USERS + user.coverImage}}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'">
+                            </div>
+                            <div class="col-4 mt-2 px-0 mx-auto">
+                                <img class="w-100 mt-4 rounded-circle img-thumbnail" src="{{global.URL_S3_USERS + user.profilePicture}}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-10">
-                        <p class="mb-0" *ngIf="user.firstName && user.lastName">
-                            <b>{{ user?.firstName + ' ' + user?.lastName }}</b>
-                        </p>
+                    <div class="col-12 mt-2 mb-4">
+                        <h4 class="mb-2 text-center">@{{ user.nickName }}</h4>
                         <p class="mb-0" *ngIf="!user.firstName || !user.lastName">
                             <b>isim yok.</b>
                         </p>
-                        <p><small>{{ user?.shortMessage }}</small></p>
+                        <p class="mb-0" *ngIf="user.firstName && user.lastName">
+                            <b>{{ user?.firstName + ' ' + user?.lastName }}</b>
+                        </p>
+                        <p class="small">{{ user.shortMessage }}</p>
                     </div>
                 </div>
             </div>

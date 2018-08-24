@@ -99,7 +99,7 @@ textarea {
 .card-background-top img {
     object-fit: cover;
     height: 100% !important;
-    opacity: 0.5;
+    /* opacity: 0.65; */
 }
 
 input:enabled,
@@ -117,7 +117,7 @@ textarea:enabled {
 
 .card-header {
     border: none;
-    background: none;
+    /* background: none; */
 }
 
 .modal-header {
@@ -127,12 +127,8 @@ textarea:enabled {
 }
 
 .modal-content, .card, .dropdown-menu {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.1) !important;
-}
-
-.btn {
-    border-radius: 4px !important;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05) !important;
 }
 
 .modal-content {
@@ -140,7 +136,7 @@ textarea:enabled {
 }
 
 * {
-    border-radius: 4px;
+    border-radius: 2px;
 }
 
 .navbar {
@@ -167,6 +163,19 @@ textarea:enabled {
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.5);
+}
+
+.social-icon {
+    background: white;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+}
+
+.social-icon a {
+    display: block;
+    text-align: center;
+    padding-top: 4px;
 }
 
 /* social media colors */

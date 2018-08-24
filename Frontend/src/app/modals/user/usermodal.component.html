@@ -20,12 +20,14 @@
                                                         <i>@{{ user.nickName }}</i>
                                                     </b>
                                                 </span>
-                                                <hr class="my-2">
-                                                <small>
-                                                    <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ user?.following?.length }}</small>
                                                 <br>
                                                 <small>
-                                                    <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ user?.posts?.length }}</small>
+                                                    <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ user?.following?.length
+                                                    }}</small>
+                                                <br>
+                                                <small>
+                                                    <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ user?.posts?.length
+                                                    }}</small>
                                                 <br>
                                             </div>
                                         </div>
@@ -37,36 +39,36 @@
                             <div class="col">
                                 <div class="card bg-dark text-white">
                                     <div class="card-body">
-                                        <p *ngIf="user?.twitterLink || user?.instagramLink || user?.snapchatLink || user?.youtubeLink || user?.linkedinLink || user?.googleplusLink">
+                                        <p class="mb-2" *ngIf="user?.twitterLink || user?.instagramLink || user?.snapchatLink || user?.youtubeLink || user?.linkedinLink || user?.googleplusLink">
                                             <b>Sosyal Medya:</b>
                                         </p>
                                         <ul class="list-inline">
-                                            <li class="list-inline-item" *ngIf="user?.twitterLink">
+                                            <li class="list-inline-item social-icon" *ngIf="user?.twitterLink">
                                                 <a href="{{ user?.twitterLink }}" target="_blank">
                                                     <i class="fab fa-twitter fa-2x"></i>
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item" *ngIf="user?.instagramLink">
+                                            <li class="list-inline-item social-icon" *ngIf="user?.instagramLink">
                                                 <a href="{{ user?.instagramLink }}" target="_blank">
                                                     <i class="fab fa-instagram fa-2x"></i>
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item" *ngIf="user?.snapchatLink">
+                                            <li class="list-inline-item social-icon" *ngIf="user?.snapchatLink">
                                                 <a href="{{ user?.snapchatLink }}" target="_blank">
                                                     <i class="fab fa-snapchat fa-2x"></i>
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item" *ngIf="user?.youtubeLink">
+                                            <li class="list-inline-item social-icon" *ngIf="user?.youtubeLink">
                                                 <a href="{{ user?.youtubeLink }}" target="_blank">
                                                     <i class="fab fa-youtube fa-2x"></i>
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item" *ngIf="user?.linkedinLink">
+                                            <li class="list-inline-item social-icon" *ngIf="user?.linkedinLink">
                                                 <a href="{{ user?.linkedinLink }}" target="_blank">
                                                     <i class="fab fa-linkedin fa-2x"></i>
                                                 </a>
                                             </li>
-                                            <li class="list-inline-item" *ngIf="user?.googleplusLink">
+                                            <li class="list-inline-item social-icon" *ngIf="user?.googleplusLink">
                                                 <a href="{{ user?.googleplusLink }}" target="_blank">
                                                     <i class="fab fa-google-plus fa-2x"></i>
                                                 </a>
@@ -83,7 +85,8 @@
                                             <b>Is durumu:</b> {{ user?.jobStatus}}</p>
                                         <p *ngIf="user?.education">
                                             <b>Egitim durumu:</b> {{ user?.education }}</p>
-                                        <p *ngIf="!user?.birthday && !user?.bio && !user?.jobStatus && !user?.education">Bu kullanici hakkinda pek bir bilgi henuz yok.</p>
+                                        <p *ngIf="!user?.birthday && !user?.bio && !user?.jobStatus && !user?.education">Bu
+                                            kullanici hakkinda pek bir bilgi henuz yok.</p>
                                     </div>
                                 </div>
                             </div>

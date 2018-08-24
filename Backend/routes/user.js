@@ -751,6 +751,7 @@ USER_ROUTER.get('/user/all/:name', function (req, res, next) {
             lastName: 1,
             nickName: 1,
             education: 1,
+            coverImage: 1,
             jobStatus: 1,
             following: 1
         },
