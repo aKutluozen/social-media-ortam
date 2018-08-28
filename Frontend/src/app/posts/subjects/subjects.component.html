@@ -1,21 +1,21 @@
-<div class="card bg-dark">
-    <div class="card-header text-light">
+<div class="card">
+    <div class="card-header">
         <i class="fa fa-hashtag" aria-hidden="true"></i> En cok konusulanlar
     </div>
     <div class="card-body">
         <ul class="list-group">
-            <li>
-                <a href="javascript:void(0)" class="list-group-item bg-dark small border-0 py-1 text-light" (click)="postListRef.loadPosts()">
+            <li  class="list-group-item small border-0 py-1">
+                <a href="javascript:void(0)" (click)="postListRef.loadPosts()">
                     <b>Butun Paylasimlar</b>
                 </a>
             </li>
-            <li>
-                <a href="javascript:void(0)" class="list-group-item bg-dark small border-0 py-1 text-light" (click)="postListRef.filterBySubject(auth.getCookie('userId'))">
+            <li class="list-group-item small border-0 py-1">
+                <a href="javascript:void(0)"  (click)="postListRef.filterBySubject(auth.getCookie('userId'))">
                     <b>Ozel Paylasimlar</b>
                 </a>
             </li>
-            <li *ngFor="let subject of subjects">
-                <a href="javascript:void(0)" class="list-group-item bg-dark small border-0 py-1 text-light" (click)="postListRef.filterBySubject(subject._id)">{{ subject._id
+            <li *ngFor="let subject of subjects" class="list-group-item small border-0 py-1">
+                <a href="javascript:void(0)"  (click)="postListRef.filterBySubject(subject._id)">{{ subject._id
                     }}
                     <span class="badge bg-info text-light float-right"> {{ subject.count }}</span>
                 </a>

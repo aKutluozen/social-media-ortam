@@ -24,6 +24,13 @@ p {
     }
 }
 
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 500px;
+        margin: 5rem auto;
+    }
+}
+
 .close {
     position: absolute  !important;
     right: 0px !important;
@@ -127,17 +134,16 @@ textarea:enabled {
 }
 
 .modal-content, .card, .dropdown-menu {
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.05) !important;
 }
 
 .modal-content {
     border: none;
 }
 
-* {
-    border-radius: 2px;
-}
+/* * {
+    border-radius: 8px;
+} */
 
 .navbar {
     border-radius: 0px !important;
