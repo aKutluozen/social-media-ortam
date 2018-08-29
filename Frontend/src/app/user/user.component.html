@@ -77,7 +77,7 @@
                 <div class="col">
                     <form class="form-horizontal" [formGroup]="profileForm" (ngSubmit)="saveProfile()" id="ngForm">
                         <div class="card bg-dark text-white info-update-hover">
-                            <div class="card-header">
+                            <div class="card-header p-2">
                                 <i class="fas fa-id-card"></i> Bilgiler
                                 <span id="info-update-control" class="float-right">
                                     <label *ngIf="profileForm.disabled" class="btn btn-primary mb-0 btn-sm text-center py-0 px-1" (click)="enableInfoUpdate()">
@@ -191,7 +191,7 @@
 
         <div class="col-xl-9 px-2 col-lg-6 mb-3">
             <div class="card mb-3">
-                <div class="card-header cover-image-control">
+                <div class="card-header p-2 cover-image-control">
                     <i class="fas fa-images"></i> Galeri
                     <div id="cover-upload-button" class="float-right">
                         <label class="cover-image-upload-button btn btn-primary btn-sm text-center px-1 py-0 mb-0" *ngIf="!coverPicture" for="coverPictureFile">
@@ -261,18 +261,18 @@
             <div class="row mb-3">
                 <div class="col-md-12">
                     <div class="card share-hover">
-                        <div class="card-header">
+                        <div class="card-header p-2">
                             <span id="share-control" class="float-right" *ngIf="postService.posts.length < 12">
                                 <label class="btn btn-primary btn-sm text-center py-0 px-1 mb-0" (click)="openPostWindow()">
                                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                                 </label>
                             </span>
-                            <i class="fa fa-map-pin" aria-hidden="true"></i> Panom ({{postService.posts.length}}/12)
+                            <i class="fa fa-map-pin" aria-hidden="true"></i> Duvarim ({{postService.posts.length}}/12)
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-3">
                             <div class="card-columns">
                                 <p class="col-12 text-center" *ngIf="postService.posts.length == 0">Hic bir paylasim bulunamadi!</p>
-                                <app-post class="mb-4" [mylocation]="'profile'" [post]="post" *ngFor="let post of postService.posts">
+                                <app-post class="mb-3" [mylocation]="'profile'" [post]="post" *ngFor="let post of postService.posts">
                                 </app-post>
                             </div>
                         </div>
@@ -282,7 +282,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header p-2">
                             <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar ({{ friends.length }})
                         </div>
                         <div class="card-body">
@@ -305,14 +305,14 @@
             <div class="row mb-3">
                 <div class="col">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header p-2">
                             <i class="fa fa-cogs" aria-hidden="true"></i> Ayarlar
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4 mb-4">
                                     <div class="card">
-                                        <div class="card-body">
+                                        <div class="card-body p-2">
                                             <h5 class="text-center">
                                                 <i class="fas fa-key"></i> Sifre yenile</h5>
                                             <div class="form-group mb-0">
@@ -343,7 +343,7 @@
                                 </div>
                                 <div class="col-md-4 mb-4">
                                     <div class="card">
-                                        <div class="card-body">
+                                        <div class="card-body p-2">
                                             <h5 class="text-center">
                                                 <i class="fas fa-power-off"></i> Hesabi Kapat</h5>
                                             <div class="form-group mb-0">

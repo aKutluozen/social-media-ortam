@@ -23,7 +23,6 @@ import { AuthComponent } from './auth/auth.component';
 import { PostsComponent } from './posts/posts.component';
 import { AdminComponent } from './admin/admin.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { EmojiPickerModule } from 'ng-emoji-picker';
 
 // Services
 import { AuthService } from './auth/auth.service';
@@ -75,8 +74,7 @@ const APP_ROUTES: Routes = [
 		ReactiveFormsModule,
 		PostsModule,
 		ImageCropperModule,
-		InboxModule,
-		EmojiPickerModule
+		InboxModule
 	],
 	exports: [
 		RouterModule

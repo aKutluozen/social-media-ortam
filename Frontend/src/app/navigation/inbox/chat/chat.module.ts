@@ -2,7 +2,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EmojiPickerModule } from 'ng-emoji-picker';
 
 // Components
 import { ChatComponent } from './chat.component';
@@ -14,8 +13,7 @@ import { ChatService } from './chat.service';
 	imports: [
 		CommonModule,
 		FormsModule,
-		ReactiveFormsModule,
-		EmojiPickerModule
+		ReactiveFormsModule
 	],
 	exports: [
 		ChatComponent

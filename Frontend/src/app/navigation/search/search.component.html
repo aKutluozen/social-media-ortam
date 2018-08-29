@@ -14,27 +14,14 @@
             </div>
             <div class="col-12 text-center mb-2">
                 {{ usersFound.length }} sonuc bulundu.</div>
-            <div class="col-12 mb-2 action-icon card" *ngFor="let user of usersFound">
-                <div class="row card-body bg-dark text-white p-0" (click)="viewProfile(user.nickName)">
-                    <div class="col-12">
-                        <div class="row mx-auto">
-                            <div class="card-background-top h-75 w-100">
-                                <img class="w-100 h-100" src="{{global.URL_S3_USERS + user.coverImage}}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'">
-                            </div>
-                            <div class="col-4 mt-2 px-0 mx-auto">
-                                <img class="w-100 mt-4 rounded-circle img-thumbnail" src="{{global.URL_S3_USERS + user.profilePicture}}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
-                            </div>
-                        </div>
+            <div class="card action-icon mb-2" *ngFor="let user of usersFound">
+                <div class="row card-body mx-auto p-2" (click)="viewProfile(user.nickName)">
+                    <div class="col-2 px-0">
+                        <img class="w-100 rounded-circle" src="{{global.URL_S3_USERS + user.profilePicture}}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                     </div>
-                    <div class="col-12 mt-2 mb-4">
-                        <h4 class="mb-2 text-center">@{{ user.nickName }}</h4>
-                        <p class="mb-0" *ngIf="!user.firstName || !user.lastName">
-                            <b>isim yok.</b>
-                        </p>
-                        <p class="mb-0" *ngIf="user.firstName && user.lastName">
-                            <b>{{ user?.firstName + ' ' + user?.lastName }}</b>
-                        </p>
-                        <p class="small">{{ user.shortMessage }}</p>
+                    <div class="col-10">
+                        <h5 class="mb-0">@{{ user.nickName }}</h5>
+                        <p class="text-muted" *ngIf="user.firstName && user.lastName">{{ user.firstName + ' ' + user.lastName}}</p>
                     </div>
                 </div>
             </div>

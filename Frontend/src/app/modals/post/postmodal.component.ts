@@ -309,7 +309,7 @@ export class PostmodalComponent implements OnInit {
                 });
             }
 
-            this.modal.handleModalToggle(this.modalElement.nativeElement, () => { })
+            this.modal.handleModalToggle(this.modalElement.nativeElement, () => { this.close(); })
         });
 
         this.postForm = new FormGroup({

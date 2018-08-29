@@ -1,7 +1,7 @@
 <li class="list-inline-item list-inline-item-action btn-group">
     <div class="dropdown">
         <a href="javascript:void(0)" class="text-white text-muted" (click)="loadNotifications()" id="notificationsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-exclamation" aria-hidden="true"></i>
+            <i class="fa fa-exclamation fa-2x" aria-hidden="true"></i>
             <span class="badge badge-warning text-right" *ngIf="flagObject.newNotification"> {{ flagObject.numbers['notifications'] }}</span>
             <div class="item-text">Bildirimler</div>
         </a>
@@ -16,7 +16,7 @@
 <li class="list-inline-item list-inline-item-action btn-group">
     <div class="dropdown">
         <a href="javascript:void(0)" class="text-white text-muted" (click)="loadMessages()" id="messagesMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
             <span class="badge badge-primary text-right" *ngIf="flagObject.newMessage"> {{ flagObject.numbers['messages'] }}</span>
             <div class="item-text">Ozel Mesajlar</div>
         </a>
@@ -31,7 +31,7 @@
 <li class="list-inline-item list-inline-item-action btn-group">
     <div class="dropdown">
         <a href="javascript:void(0)" class="text-white text-muted" (click)="loadRequests()" id="requestsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user-plus" aria-hidden="true"></i>
+            <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
             <span class="badge badge-success text-right" *ngIf="flagObject.newRequest"> {{ flagObject.numbers['requests'] }}</span>
             <div class="item-text">Istekler</div>
         </a>
@@ -46,7 +46,7 @@
 <li class="list-inline-item list-inline-item-action btn-group">
     <div class="dropdown">
         <a href="javascript:void(0)" class="text-white text-muted" id="chatMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-comments" aria-hidden="true"></i>
+            <i class="fa fa-comments fa-2x" aria-hidden="true"></i>
             <div class="item-text">Canli Sohbet</div>
         </a>
         <div class="dropdown-menu dropdown-menu-right chat mt-0 pt-0">

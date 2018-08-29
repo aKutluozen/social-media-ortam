@@ -228,8 +228,8 @@ USER_ROUTER.get('/user/new', function (req, res) {
                 $project: {
                     nickName: 1,
                     profilePicture: 1,
-                    coverImage: 1,
-                    shortMessage: 1
+                    firstName: 1,
+                    lastName: 1
                 }
             }], function (err, users) {
                 if (err || !users) {

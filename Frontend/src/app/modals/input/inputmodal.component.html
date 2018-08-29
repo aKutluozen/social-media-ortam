@@ -23,15 +23,8 @@
                     </div>
                 </div>
                 <div *ngIf="messageSetup.type === 'chat'" class="row mt-2">
-                    <div class="col-2 h-100 pr-0">
-                        <button type="button" name="button" class="px-0 mx-0 btn btn-warning btn-block btn-sm" (click)="openPopup()">
-                            <i class="far fa-smile"></i>
-                        </button>
-                    </div>
-                    <div class="col-10 h-100">
-                        <emoji-input [popupAnchor]="'bottom'" [(model)]="message" [textArea]="{rows: 2}" [closeAfterSelection]="false" (click)="openPopup(false)"
-                            (keypress)="sendWithEnter($event)" (setPopupAction)="setPopupAction($event)">
-                        </emoji-input>
+                    <div class="col-12">
+                        <textarea class="form-control" [(ngModel)]="message" rows="2" maxlength="256" (keypress)="sendWithEnter($event)"></textarea>
                     </div>
                 </div>
 

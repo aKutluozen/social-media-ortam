@@ -1,7 +1,7 @@
 <div class="col-12 border-bottom text-center mb-2" *ngIf="requests.length == 0">
     Hic bir istek bulunamadi!</div>
-<div class="col-12 border-bottom bg-white mb-2 action-icon" *ngFor="let request of requests">
-    <div class="row my-auto py-2" (click)="viewProfile(request.nickName)">
+<div class="col-12 border-bottom bg-white py-1 action-icon" *ngFor="let request of requests">
+    <div class="row my-auto" (click)="viewProfile(request.nickName)">
         <div class="col-2 my-auto pr-0">
             <img class="rounded-circle w-100" src="{{ global.URL_S3_USERS + request.friend.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
         </div>
