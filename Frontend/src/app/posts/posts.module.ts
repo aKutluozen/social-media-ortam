@@ -6,6 +6,7 @@ import { Routes, RouterModule } from "@angular/router";
 
 // Components
 import { PostComponent } from './post/post.component';
+import { UserCardComponent } from '../user/user-card/user-card.component';
 import { PostsComponent } from './posts.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { NewpeopleComponent } from './newpeople/newpeople.component';
@@ -29,6 +30,7 @@ const POST_ROUTES: Routes = [
 	],
 	declarations: [
 		PostComponent,
+		UserCardComponent,
 		PostsComponent,
 		SubjectsComponent,
 		PostListComponent,

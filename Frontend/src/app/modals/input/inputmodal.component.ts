@@ -61,6 +61,8 @@ export class InputmodalComponent implements OnInit {
 			);
 
 			if (this.messageSetup['type'] === 'chat') {
+				
+				
 				// Somehow, add the message id here if it not already there.
 				var messageId;
 				this.messageService.getMessageIdGivenFriend(this.messageSetup.receiver, this.global.username).subscribe(
@@ -99,6 +101,7 @@ export class InputmodalComponent implements OnInit {
 				let lastPos = this.messageSetup['messages'].length - 1;
 				this.latestMessageTime = this.messageSetup['messages'][lastPos].date;
 				this.checkMessages(id, this.latestMessageTime, this.interval);
+				this.scrollDown();
 			}, error => this.modal.handleError('Mesajlar ve istekler goruntulenirken bir sorun olustu', error)
 		);
 	}
@@ -185,6 +188,7 @@ export class InputmodalComponent implements OnInit {
 			this.timeout = window.setTimeout(() => {
 				var elem = document.getElementById('scrollMessages');
 				elem.scrollBy(0, elem.scrollHeight + 100);
+				console.log('test');
 			}, 100);
 		}
 	}

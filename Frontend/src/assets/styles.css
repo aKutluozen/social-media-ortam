@@ -193,6 +193,10 @@ textarea:enabled {
     padding-top: 4px;
 }
 
+.z-top {
+    z-index: 100;
+}
+
 /* social media colors */
 .fa-facebook {
     color: #3B5998;
