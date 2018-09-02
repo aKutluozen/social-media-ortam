@@ -61,7 +61,7 @@ export class PostmodalComponent implements OnInit {
         fr.onload = () => {
             var img = new Image;
             img.onload = () => this.imageRatio = img.width / img.height;
-            img.src = fr.result;
+            img.src = fr.result.toString();
         };
 
         fr.readAsDataURL(event.target.files[0]); // I'm using a <input type="file"> for demonstrating

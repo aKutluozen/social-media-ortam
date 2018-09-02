@@ -13,25 +13,25 @@ export class CreditmodalComponent implements OnInit {
 
     constructor(private modal: ModalService, private user: UserService, public global: GlobalService) { }
 
-    public otherUser: string;
+    public otherUser: any;
     public creditAmount: number = 0;
 
     @ViewChild('modalElement') modalElement: ElementRef;
 
     // Close the modal
     close() {
-        this.otherUser = '';
+        this.otherUser = {};
         this.creditAmount = 0;
         $(this.modalElement.nativeElement).modal('hide');
     }
 
     // Initialize the modal
     ngOnInit() {
-        this.modal.creditModalActivated.subscribe((otherUser: string) => {
+        this.modal.creditModalActivated.subscribe((otherUser: any) => {
             this.otherUser = otherUser;
 
             this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
-                this.otherUser = '';
+                this.otherUser = {};
                 this.creditAmount = 0;
             });
         });

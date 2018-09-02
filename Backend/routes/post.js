@@ -6,7 +6,7 @@ var POST_ROUTER = express.Router(),
     async = require('async'),
     multer = require('multer'),
     multerS3 = require('multer-s3'),
-    AWS = require('aws-sdk'), 
+    AWS = require('aws-sdk'),
     misc = require('../misc');
 
 // Handling image upload
@@ -521,6 +521,7 @@ POST_ROUTER.post('/', function (req, res, next) {
             }
 
             user.posts.push(postResult.toObject());
+            user.interaction.push(new Date());
             user.save(function (err, result) {
                 if (err) {
                     return res.status(500).json({
@@ -564,6 +565,7 @@ POST_ROUTER.post('/post/:id', function (req, res) {
 
                 // Add the post to user's array like the user shared it
                 user.posts.push(post);
+                user.interaction.push(new Date());
 
                 user.save(function (err, result) {
                     if (err) {
@@ -623,12 +625,21 @@ POST_ROUTER.patch('/answer/:id', (req, res) => {
                 error: err
             });
         }
+        User.findOneAndUpdate({ _id: req.body.user }, { $push: { $position: 0, interaction: new Date() } }, (err, user) => {
+            if (err || !user) {
+                return res.status(500).json({
+                    message: 'problem adding an interaction',
+                    error: err
+                });
+            }
+        });
         misc.notifyUser(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'comment');
     });
 });
 
 // Add a like to a post
 POST_ROUTER.patch('/like/:id', (req, res) => {
+    req.body.user = jwt.decode(req.query.token).id;
     Post.findOneAndUpdate({ _id: req.params.id }, { $push: { $position: 0, likes: req.body.name } }, { new: true }, (err, post) => {
         if (err || !post) {
             return res.status(500).json({
@@ -636,6 +647,14 @@ POST_ROUTER.patch('/like/:id', (req, res) => {
                 error: err
             });
         }
+        User.findOneAndUpdate({ _id: req.body.user }, { $push: { $position: 0, interaction: new Date() } }, (err, user) => {
+            if (err || !user) {
+                return res.status(500).json({
+                    message: 'problem adding an interaction',
+                    error: err
+                });
+            }
+        });
         misc.notifyUser(res, User, jwt.decode(req.query.token).id, post._id, post.nickName, 'like');
     });
 });

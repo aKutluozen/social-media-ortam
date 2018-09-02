@@ -38,18 +38,19 @@
     <hr>
     <div class="row">
         <div class="col-6 h-100">
-            <select class="form-control text-white" [(ngModel)]="color">
-                <option value="" hidden disabled>Renk secin</option>
-                <option style="background:#C0392B" value="#C0392B">Kirmizi</option>
-                <option style="background:#9B59B6" value="#9B59B6">Mor</option>
-                <option style="background:#2980B9" value="#2980B9">Mavi</option>
-                <option style="background:#1ABC9C" value="#1ABC9C">Yesil 1</option>
-                <option style="background:#27AE60" value="#27AE60">Yesil 2</option>
-                <option style="background:#F1C40F" value="#F1C40F">Sari</option>
-                <option style="background:#E67E22" value="#E67E22">Turuncu</option>
-                <option style="background:#BDC3C7" value="#BDC3C7">Acik gri</option>
-                <option style="background:#7F8C8D" value="#7F8C8D">Gri</option>
-                <option style="background:#34495E" value="#34495E">Lacivert</option>
+            <select class="form-control" [ngStyle]="{ 'background': color }" [(ngModel)]="color">
+                <option value="" disabled selected>Renk Secin</option>
+                <option style="background:#000; color: white" value="#000">Siyah</option>
+                <option style="background:#C0392B; color: white" value="#C0392B">Kirmizi</option>
+                <option style="background:#9B59B6; color: white" value="#9B59B6">Mor</option>
+                <option style="background:#2980B9; color: white" value="#2980B9">Mavi</option>
+                <option style="background:#1ABC9C; color: white" value="#1ABC9C">Yesil 1</option>
+                <option style="background:#27AE60; color: white" value="#27AE60">Yesil 2</option>
+                <option style="background:#F1C40F; color: white" value="#F1C40F">Sari</option>
+                <option style="background:#E67E22; color: white" value="#E67E22">Turuncu</option>
+                <option style="background:#BDC3C7; color: white" value="#BDC3C7">Acik gri</option>
+                <option style="background:#7F8C8D; color: white" value="#7F8C8D">Gri</option>
+                <option style="background:#34495E; color: white" value="#34495E">Lacivert</option>
             </select>
         </div>
         <div class="col-6 h-100">

@@ -94,8 +94,8 @@ export class UsermodalComponent implements OnInit {
 		});
 	}
 
-	creditAskSend(nickName) {
-		this.modal.showCreditModal(nickName);
+	creditAskSend(nickName, profilePicture) {
+		this.modal.showCreditModal({nickName: nickName, profilePicture: profilePicture});
 	}
 
 	// Turn on the answering modal

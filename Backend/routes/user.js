@@ -223,7 +223,7 @@ USER_ROUTER.get('/user/new', function (req, res) {
     User.aggregate(
         [
             { $sort: { created: -1 } },
-            { $limit: 5 },
+            { $limit: 10 },
             {
                 $project: {
                     nickName: 1,
@@ -1254,6 +1254,16 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
                         flagObject.newRequest = true;
                         requests++;
                     }
+                }
+            }
+
+             // Also delete from interactions
+             for (let i = 0; i < user.interaction.length; i++) {
+                let interactionDate = new Date(user.interaction[i]), todayDate = new Date();
+                let difference = (todayDate.getTime() - interactionDate.getTime()) / (1000 * 60 * 60 * 24.0)
+                if ( difference > 7) {
+                    user.interaction.splice(i, 1);
+                    i--;
                 }
             }
 

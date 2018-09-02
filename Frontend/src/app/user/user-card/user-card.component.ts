@@ -24,10 +24,6 @@ export class UserCardComponent implements OnInit, OnDestroy {
 
 	public closePassword: string;
 	public profile: User;
-
-	// Profile picture variables
-	public profilePicture: string = '';
-
 	private userSubscription: Subscription;
 
 	ngOnDestroy() {
@@ -39,13 +35,6 @@ export class UserCardComponent implements OnInit, OnDestroy {
 		this.userSubscription = this.user.getProfile().subscribe(
 			data => {
 				this.profile = data.data;
-
-				if (this.profile.profilePicture != '' && this.profile.profilePicture != undefined) {
-					this.profilePicture = this.profile.profilePicture;
-				} else {
-					this.profilePicture = '';
-				}
-
 				this.global.profilePicture = this.profile.profilePicture;
 				this.global.username = this.profile.nickName;
 			},

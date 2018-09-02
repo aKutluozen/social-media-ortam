@@ -1,7 +1,7 @@
 body {
     padding-top: 70px;
     margin-bottom: 60px;
-    background: #f2efeb;
+    background: #e7e4e0;
     /* background-image: url('assets/images/istanbul.png');
     background-attachment: fixed;
     background-size: 100% auto;
@@ -37,8 +37,8 @@ p {
 
 .close {
     position: absolute  !important;
-    right: 0px !important;
-    top: -5px  !important;
+    right: 2px !important;
+    top: -3px  !important;
 }
 
 .rotate-image-preview {

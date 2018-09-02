@@ -3,10 +3,10 @@
         <div class="col-xl-3 px-2 col-lg-6">
             <div class="row mb-3">
                 <div class="col">
-                    <div class="card">
-                        <div class="card-body h-100 p-2">
+                    <div class="card bg-dark text-white">
+                        <div class="card-body h-100 pt-2 pb-0 px-0">
                             <div class="row h-100 mb-2">
-                                <div class="col-6 mx-auto px-0" id="profilePicture">
+                                <div class="col-4 mx-auto px-0" id="profilePicture">
                                     <div id="image-upload-button">
                                         <label class="profile-image-upload-button btn btn-primary text-center btn-sm px-1 py-0" *ngIf="!profilePicture" for="profilePictureFile">
                                             <i class="fa fa-upload" aria-hidden="true"></i>
@@ -19,26 +19,24 @@
                                         (click)="showThisImage(profilePicture)">
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mx-auto">
                                 <div class="col-12  text-center">
-                                    <h4 class="py-0">
-                                        <b>
-                                            <i>@{{ profile?.nickName }}</i>
-                                        </b>
-                                    </h4>
-                                    <small>
-                                        <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar: {{ profile?.following['length']
-                                        }}
-                                    </small>
-                                    <br>
-                                    <small>
-                                        <i class="fa fa-comment" aria-hidden="true"></i> Paylasimlar: {{ profile?.posts['length']
-                                        }}
-                                    </small>
-                                    <br>
-                                    <small>
-                                        <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi: {{ profile?.credit }}</small>
-                                    <br>
+                                    <h5 class="py-0">
+                                        <i>@{{ profile?.nickName }}</i>
+                                    </h5>
+                                    <div class="row py-2 bg-primary">
+                                        <div class="col align-self-center">
+                                            <i class="fas fa-1x fa-pen-alt"></i> <br><span>{{ profile?.posts['length'] }}</span>
+                                        </div>
+                                        <div class="col align-self-center"> <i class="fas fa-2x fa-certificate"></i><br><span>
+                                            {{ profile?.interaction.length }}
+                                            </span>
+                                        </div>
+                                        <div class="col align-self-center"><i class="fas fa-1x fa-users"></i><br><span>{{
+                                                profile?.following['length'] }}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -73,7 +71,7 @@
             <div class="row justify-content-center mb-3">
                 <div class="col">
                     <form class="form-horizontal" [formGroup]="profileForm" (ngSubmit)="saveProfile()" id="ngForm">
-                        <div class="card info-update-hover">
+                        <div class="card bg-dark text-white info-update-hover">
                             <div class="card-header p-2">
                                 <i class="fas fa-id-card"></i> Bilgiler
                                 <span id="info-update-control" class="float-right">
@@ -246,14 +244,18 @@
                 <div class="col-md-12">
                     <div class="card share-hover">
                         <div class="card-header p-2">
-                            <span id="share-control" class="float-right" *ngIf="postService.posts.length < 12">
-                                <label class="btn btn-primary btn-sm text-center py-0 px-1 mb-0" (click)="openPostWindow()">
-                                    <i class="fa fa-plus-square" aria-hidden="true"></i>
-                                </label>
-                            </span>
                             <i class="fa fa-map-pin" aria-hidden="true"></i> Duvarim ({{postService.posts.length}}/12)
                         </div>
                         <div class="card-body p-3">
+                            <div class="card border action-icon mb-3" (click)="openPostWindow()">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4 class="text-primary text-center mb-0"><b>Ozel Kutatku sayfanda paylas</b> <i class="fas fa-plus"></i></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="card-columns">
                                 <p class="col-12 text-center" *ngIf="postService.posts.length == 0">Hic bir paylasim bulunamadi!</p>
                                 <app-post class="mb-3" [mylocation]="'profile'" [post]="post" *ngFor="let post of postService.posts">
@@ -267,7 +269,14 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-header p-2">
-                            <i class="fa fa-users" aria-hidden="true"></i> Arkadaslar ({{ friends.length }})
+                            <div class="row">
+                                <div class="col-9"><i class="fa fa-users" aria-hidden="true"></i> Arkadaslar ({{ friends.length
+                                    }})
+                                </div>
+                                <div class="col-3">
+                                    <app-search></app-search>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">

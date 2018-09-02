@@ -188,7 +188,6 @@ export class InputmodalComponent implements OnInit {
 			this.timeout = window.setTimeout(() => {
 				var elem = document.getElementById('scrollMessages');
 				elem.scrollBy(0, elem.scrollHeight + 100);
-				console.log('test');
 			}, 100);
 		}
 	}

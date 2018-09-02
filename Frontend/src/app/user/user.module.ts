@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from "@angular/router";
+import { SharedModule } from '../shared.module';
 
 // Components
 import { UserComponent } from './user.component';
@@ -24,7 +25,8 @@ const USER_ROUTES: Routes = [
 		ReactiveFormsModule,
 		PostsModule,
 		RouterModule.forChild(USER_ROUTES),
-		ImageCropperModule
+		ImageCropperModule,
+		SharedModule
 	],
 	exports: [
 		RouterModule

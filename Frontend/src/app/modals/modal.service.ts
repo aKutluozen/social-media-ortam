@@ -67,7 +67,7 @@ export class ModalService {
         this.complaintModalActivated.emit(complaint);
     }
 
-    showCreditModal(creditInfo: string) {
+    showCreditModal(creditInfo: Object) {
         this.creditModalActivated.emit(creditInfo);
     }
 

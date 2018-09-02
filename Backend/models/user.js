@@ -51,7 +51,8 @@ var schema = new Schema({
     linkedinLink: { type: String },
     googleplusLink: { type: String },
     snapchatLink: { type: String },
-    instagramLink: { type: String }
+    instagramLink: { type: String },
+    interaction: [{type: Date }]
 }, { usePushEach: true });
 
 schema.plugin(mongooseUniqueValidator); // makes sure unique is unique

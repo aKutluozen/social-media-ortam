@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ErrorComponent } from './modals/error/error.component';
 import { WarningComponent } from './modals/warning/warning.component';
-import { SearchComponent } from './navigation/search/search.component';
 import { ImagemodalComponent } from './modals/image/imagemodal.component';
 import { InputmodalComponent } from './modals/input/inputmodal.component';
 import { CreditmodalComponent } from './modals/credit/creditmodal.component';
@@ -23,6 +22,8 @@ import { AuthComponent } from './auth/auth.component';
 import { PostsComponent } from './posts/posts.component';
 import { AdminComponent } from './admin/admin.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+
+import { SharedModule } from './shared.module';
 
 // Services
 import { AuthService } from './auth/auth.service';
@@ -54,7 +55,6 @@ const APP_ROUTES: Routes = [
 		NavigationComponent,
 		ErrorComponent,
 		WarningComponent,
-		SearchComponent,
 		ImagemodalComponent,
 		InputmodalComponent,
 		UsermodalComponent,
@@ -67,6 +67,7 @@ const APP_ROUTES: Routes = [
 		AdminComponent
 	],
 	imports: [
+		SharedModule,
 		BrowserModule,
 		RouterModule.forRoot(APP_ROUTES),
 		FormsModule,
