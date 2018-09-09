@@ -2,8 +2,13 @@
     <div class="modal-dialog  " role="document">
         <div class="modal-content">
             <div class="modal-header py-1 bg-primary text-white">
-                <h4 class="modal-title"><i class="fa fa-comment" aria-hidden="true"></i> {{ messageSetup.receiver }} ile
-                    ozel konusma <button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+                <h4 class="modal-title">
+                    <span *ngIf="messageSetup.type === 'anonym-chat'">
+                        <i class="fa fa-comment" aria-hidden="true"></i> {{ messageSetup.areceiver }} ile ozel konusma</span>
+                    <span *ngIf="messageSetup.type != 'anonym-chat'">
+                        <i class="fa fa-comment" aria-hidden="true"></i> {{ messageSetup.receiver }} ile ozel konusma</span>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </h4>
             </div>
             <div class="modal-body">
                 <div class="scrollable mt-2 p-4" data-spy="scroll" id="scrollMessages" *ngIf="!isFirstMessage">
@@ -27,6 +32,11 @@
                         <textarea class="form-control" [(ngModel)]="message" rows="2" maxlength="256" (keypress)="sendWithEnter($event)"></textarea>
                     </div>
                 </div>
+                <div *ngIf="messageSetup.type === 'anonym-chat'" class="row mt-2">
+                    <div class="col-12">
+                        <textarea class="form-control" [(ngModel)]="message" rows="2" maxlength="256" (keypress)="sendWithEnter($event)"></textarea>
+                    </div>
+                </div>
 
                 <textarea *ngIf="messageSetup.type === 'first'" maxlength="256" [(ngModel)]="message" class="form-control" (keypress)="sendWithEnter($event)"
                     rows="2"></textarea>
@@ -37,11 +47,9 @@
                 </div>
             </div>
             <div class="modal-footer p-2">
-                <span *ngIf="!isFriend" class="small">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit
-                    }}
+                <span *ngIf="!isFriend" class="small">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit }}
                 </span>
-                <button *ngIf="messageSetup.type === 'chat'" type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage($event)"
-                    [disabled]="disableSending || (!isFriend && global.credit < 10)">
+                <button type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage($event)" [disabled]="disableSending || (!isFriend && global.credit < 10)">
                     <i class="fa fa-comment" aria-hidden="true"></i> Cevapla</button>
                 <button type="button" data-dismiss="modal" class="btn btn-default btn-sm" (click)="close()">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>

@@ -5,7 +5,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand pl-2" [routerLink]="['/posts/all']">
-            <b>kutatku</b><small>.</small>com
+            <b>kutatku</b>
+            <small>.</small>com
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <app-search *ngIf="username"></app-search>
@@ -19,6 +20,12 @@
                             <a class="dropdown" href="#" [routerLink]="['/posts/all']">
                                 <i class="fa fa-2x text-light fa-home"></i>
                                 <div class="item-text">Ana sayfa</div>
+                            </a>
+                        </li>
+                        <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
+                            <a class="dropdown" href="#" [routerLink]="['/ads/all']">
+                                <i class="fas fa-2x text-light fa-newspaper"></i>
+                                <div class="item-text">Ilanlar</div>
                             </a>
                         </li>
                         <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">

@@ -40,7 +40,7 @@ export class InputmodalComponent implements OnInit {
 	ngOnInit() {
 		this.inputService.inputActivated.subscribe((messageSetup: any) => {
 			this.messageSetup = messageSetup;
-
+			console.log(messageSetup);
 			// Limit textarea
 			$('textarea').attr('maxlength', 256);
 
@@ -61,8 +61,6 @@ export class InputmodalComponent implements OnInit {
 			);
 
 			if (this.messageSetup['type'] === 'chat') {
-				
-				
 				// Somehow, add the message id here if it not already there.
 				var messageId;
 				this.messageService.getMessageIdGivenFriend(this.messageSetup.receiver, this.global.username).subscribe(
@@ -75,8 +73,6 @@ export class InputmodalComponent implements OnInit {
 						console.error(error);
 					}
 				);
-			} else {
-				this.isFirstMessage = true;
 			}
 		});
 	}

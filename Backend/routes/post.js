@@ -625,8 +625,8 @@ POST_ROUTER.patch('/answer/:id', (req, res) => {
                 error: err
             });
         }
-        User.findOneAndUpdate({ _id: req.body.user }, { $push: { $position: 0, interaction: new Date() } }, (err, user) => {
-            if (err || !user) {
+        User.updateMany({ _id: { $in: [req.body.user, post.user] } }, { $push: { $position: 0, interaction: new Date() } }, (err) => {
+            if (err) {
                 return res.status(500).json({
                     message: 'problem adding an interaction',
                     error: err
@@ -647,8 +647,8 @@ POST_ROUTER.patch('/like/:id', (req, res) => {
                 error: err
             });
         }
-        User.findOneAndUpdate({ _id: req.body.user }, { $push: { $position: 0, interaction: new Date() } }, (err, user) => {
-            if (err || !user) {
+        User.updateMany({ _id: { $in: [req.body.user, post.user] } }, { $push: { $position: 0, interaction: new Date() } }, (err) => {
+            if (err) {
                 return res.status(500).json({
                     message: 'problem adding an interaction',
                     error: err

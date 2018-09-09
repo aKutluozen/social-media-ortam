@@ -197,6 +197,10 @@ textarea:enabled {
     z-index: 100;
 }
 
+.line-10 {
+    line-height: 12px !important;
+}
+
 /* social media colors */
 .fa-facebook {
     color: #3B5998;

@@ -243,9 +243,9 @@ MESSAGE_ROUTER.get('/all/:offset', function (req, res) {
             // Determine whose picture to get!
             Message.find(
                 { $or: [{ initiator: id }, { initiated: id }] },
-                { created: 1, initiator: 1, initiated: 1, initiatorRead: 1, initiatedRead: 1, messages: { $slice: -1 } })
-                .populate('initiator', ['nickName', 'profilePicture'])
-                .populate('initiated', ['nickName', 'profilePicture'])
+                { created: 1, initiator: 1, initiated: 1, initiatorRead: 1, initiatedRead: 1, isAnonym: 1, messages: { $slice: -1 } })
+                .populate('initiator', ['nickName', 'chatNickName', 'profilePicture'])
+                .populate('initiated', ['nickName', 'chatNickName', 'profilePicture'])
                 .sort({ 'messages.date': -1 })
                 .limit(5)
                 .skip(offset)

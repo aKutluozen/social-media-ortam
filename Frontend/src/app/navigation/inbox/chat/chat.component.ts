@@ -18,9 +18,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 	public room: string = 'genel';
 	public rooms: object[] = [];
 	public reason: string = '';
-	public isExpanded: boolean = false;
 	private name: string = this.auth.getCookie('chatNickName');
-	private picture: string = this.global.profilePicture;
+	private uname: string = this.auth.getCookie('user');
 	private selectedRoom: object = {};
 	private messageTimeout: boolean = false;
 	private timeout: any = 0;
@@ -60,10 +59,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	expandChat() {
-		this.isExpanded = !this.isExpanded;
-	}
-
 	sendMessage() {
 		if (!this.messageTimeout) {
 			if (!this.global.banned) {
@@ -72,8 +67,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 						message: this.message,
 						color: this.color,
 						name: this.name,
-						picture: this.global.profilePicture,
-						date: Date.now(),
+						uname: this.uname,
 						room: this.selectedRoom
 					});
 					this.scrollDown();
@@ -93,6 +87,14 @@ export class ChatComponent implements OnInit, OnDestroy {
 			event.preventDefault();
 			this.sendMessage();
 		}
+	}
+
+	startPrivateConvo(receiver) {
+		this.modal.showInputModal({
+			type: 'anonym-chat',
+			title: 'Mesaj gonder',
+			receiver: receiver
+		});
 	}
 
 	complain(message) {

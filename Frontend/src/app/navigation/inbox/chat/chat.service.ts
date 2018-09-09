@@ -25,6 +25,10 @@ export class ChatService {
         this.socket.emit('add-message', message);
     }
 
+    sendPrivateMessage(message) {
+        // this.socket.emit('add-private-message', message);
+    }
+
     selectRoom(room) {
         this.oldRoom = this.room;
         this.room = room;
@@ -56,6 +60,19 @@ export class ChatService {
         let observable = new Observable(observer => {
             this.socket = io(this.global.URL_CHAT);
             this.socket.on('message', (data) => {
+                observer.next(data);
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        })
+        return observable;
+    }
+
+    getPrivateMessages() {
+        let observable = new Observable(observer => {
+            this.socket = io(this.global.URL_CHAT);
+            this.socket.on('private-message', (data) => {
                 observer.next(data);
             });
             return () => {

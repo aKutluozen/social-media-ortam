@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 // Messaging between 2 users
 var schema = new Schema({
+    isAnonym: { type: Boolean, default: false },
     messages: [],
     created: { type: Date, default: Date.now },
     initiatorRead: { type: Boolean, default: false },

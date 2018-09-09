@@ -55,14 +55,17 @@ export class MessagesComponent {
 						if (item.initiator.nickName === this.auth.getCookie("user")) {
 							item["sender"] = item.initiator.nickName;
 							item["receiver"] = item.initiated.nickName;
+							item['areceiver'] = item.initiated.chatNickName;
 							item["read"] = item.initiatorRead;
 							item["picture"] = item.initiated.profilePicture;
 						} else {
 							item["sender"] = item.initiated.nickName;
 							item["receiver"] = item.initiator.nickName;
+							item['areceiver'] = item.initiator.chatNickName;
 							item["read"] = item.initiatedRead;
 							item["picture"] = item.initiator.profilePicture;
 						}
+						item['isAnonym'] = item.isAnonym;
 						this.messages.push(item);
 					}
 				},
@@ -73,6 +76,16 @@ export class MessagesComponent {
 	loadMore() {
 		this.messageOffset += this.skipNumber;
 		this.load();
+	}
+
+	answerAnonymChat(receiver, areceiver, id) {
+		this.modal.showInputModal({
+			type: "anonym-chat",
+			title: "Anonim gorusme",
+			receiver: receiver,
+			areceiver: areceiver,
+			messageId: id
+		});
 	}
 
 	// Turn on the answering modal

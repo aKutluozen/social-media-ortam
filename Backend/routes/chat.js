@@ -66,6 +66,11 @@ CHAT_ROUTER.get('/rooms', function (req, res) {
     });
 });
 
+CHAT_ROUTER.post('/private', function (req, res) {
+    User.find({ chatNickName: req.body.name }, function (err, user) {
+    });
+});
+
 // Get the number of people in that room
 CHAT_ROUTER.get('/room', function (req, res) {
     return res.status(200).json({
@@ -80,6 +85,10 @@ io.on('connection', (socket) => {
 
     socket.on('add-message', (message) => {
         io.emit('message', { type: 'new-message', text: message });
+    });
+
+    socket.on('add-private-message', (message) => {
+        io.emit('private-message', { type: 'new-private-message', text: message });
     });
 });
 
