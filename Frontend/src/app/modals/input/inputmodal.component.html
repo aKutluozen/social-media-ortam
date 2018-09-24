@@ -11,35 +11,28 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <div class="scrollable mt-2 p-4" data-spy="scroll" id="scrollMessages" *ngIf="!isFirstMessage">
+                <div class="scrollable mt-2 p-4" data-spy="scroll" id="scrollMessages">
                     <div class="row" *ngFor="let message of messageSetup?.messages">
                         <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 mt-2">
-                            <p class="x-small text-muted text-left">{{ message.sender }} @ {{ message.date | date: 'short' }}</p>
+                            <p class="x-small text-muted text-left">{{ messageSetup.type == 'anonym-chat' ? message.asender : message.sender }} @ {{ message.date | date: 'short' }}</p>
                             <div class="p-2 alert alert-primary">
                                 {{ message.message }}
                             </div>
                         </div>
                         <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 col-md-8 mt-2">
-                            <p class="x-small text-muted text-right">{{ message.sender }} @ {{ message.date | date: 'short' }}</p>
+                            <p class="x-small text-muted text-right">{{ messageSetup.type == 'anonym-chat' ? message.asender : message.sender }} @ {{ message.date | date: 'short' }}</p>
                             <div class=" p-2 alert alert-secondary">
                                 {{ message.message }}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div *ngIf="messageSetup.type === 'chat'" class="row mt-2">
-                    <div class="col-12">
-                        <textarea class="form-control" [(ngModel)]="message" rows="2" maxlength="256" (keypress)="sendWithEnter($event)"></textarea>
-                    </div>
-                </div>
-                <div *ngIf="messageSetup.type === 'anonym-chat'" class="row mt-2">
+                <div class="row mt-2">
                     <div class="col-12">
                         <textarea class="form-control" [(ngModel)]="message" rows="2" maxlength="256" (keypress)="sendWithEnter($event)"></textarea>
                     </div>
                 </div>
 
-                <textarea *ngIf="messageSetup.type === 'first'" maxlength="256" [(ngModel)]="message" class="form-control" (keypress)="sendWithEnter($event)"
-                    rows="2"></textarea>
                 <div class="row my-0">
                     <p class="col my-0 text-right small text-muted">
                         {{ 256 - message.length }} karakter kaldi.
@@ -49,7 +42,7 @@
             <div class="modal-footer p-2">
                 <span *ngIf="!isFriend" class="small">Yabanci birine mesaj atmak 10 kredidir. Kalan kredi: {{ global.credit }}
                 </span>
-                <button type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage($event)" [disabled]="disableSending || (!isFriend && global.credit < 10)">
+                <button type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage($event)" [disabled]="disableSending">
                     <i class="fa fa-comment" aria-hidden="true"></i> Cevapla</button>
                 <button type="button" data-dismiss="modal" class="btn btn-default btn-sm" (click)="close()">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>

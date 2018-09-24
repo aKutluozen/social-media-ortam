@@ -56,12 +56,14 @@ export class MessagesComponent {
 							item["sender"] = item.initiator.nickName;
 							item["receiver"] = item.initiated.nickName;
 							item['areceiver'] = item.initiated.chatNickName;
+							item['asender'] = item.initiator.chatNickName;
 							item["read"] = item.initiatorRead;
 							item["picture"] = item.initiated.profilePicture;
 						} else {
 							item["sender"] = item.initiated.nickName;
 							item["receiver"] = item.initiator.nickName;
 							item['areceiver'] = item.initiator.chatNickName;
+							item['asender'] = item.initiated.chatNickName;
 							item["read"] = item.initiatedRead;
 							item["picture"] = item.initiator.profilePicture;
 						}
@@ -78,12 +80,13 @@ export class MessagesComponent {
 		this.load();
 	}
 
-	answerAnonymChat(receiver, areceiver, id) {
+	answerAnonymChat(receiver, areceiver, asender, id) {
 		this.modal.showInputModal({
 			type: "anonym-chat",
 			title: "Anonim gorusme",
 			receiver: receiver,
 			areceiver: areceiver,
+			asender: asender,
 			messageId: id
 		});
 	}

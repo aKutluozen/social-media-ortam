@@ -12,32 +12,32 @@
             <p class="x-small text-muted mb-0">{{ message.messages[0].date | date:'shortDate' }}</p>
         </div>
         <div class="col-4 text-right align-self-center pl-0">
-            <button type="button" class="btn btn-success btn-sm px-1" (click)="answerMessage(message.receiver, message._id)">
+            <button type="button" class="btn btn-success btn-sm px-1 py-0" (click)="answerMessage(message.receiver, message._id)">
                 <i class="fa fa-comments" aria-hidden="true"></i>
             </button>
-            <button type="button" class="btn btn-danger btn-sm px-1" (click)="deleteMessage(message._id)">
+            <button type="button" class="btn btn-danger btn-sm px-1 py-0" (click)="deleteMessage(message._id)">
                 <i class="fa fa-ban" aria-hidden="true"></i>
             </button>
         </div>
     </div>
     <div class="row my-auto" *ngIf="message.isAnonym">
-        <div class="col-8 my-auto pr-0 line-10" (click)="answerAnonymChat(message.receiver, message.areceiver, message._id)">
+        <div class="col-8 my-auto pr-0 line-10" (click)="answerAnonymChat(message.receiver, message.areceiver, message.asender, message._id)">
             <p class="mb-0">
                 <b>{{ message.areceiver }}</b>
             </p>
             <p class="x-small text-muted mb-0">{{ message.messages[0].date | date:'shortDate' }}</p>
         </div>
         <div class="col-4 text-right align-self-center pl-0">
-            <button type="button" class="btn btn-success btn-sm px-1" (click)="answerAnonymChat(message.receiver, message.areceiver, message._id)">
+            <button type="button" class="btn btn-success btn-sm px-1 py-0" (click)="answerAnonymChat(message.receiver, message.areceiver, message.asender, message._id)">
                 <i class="fa fa-comments" aria-hidden="true"></i>
             </button>
-            <button type="button" class="btn btn-danger btn-sm px-1" (click)="deleteMessage(message._id)">
+            <button type="button" class="btn btn-danger btn-sm px-1 py-0" (click)="deleteMessage(message._id)">
                 <i class="fa fa-ban" aria-hidden="true"></i>
             </button>
         </div>
     </div>
 
 </div>
-<p class="text-center mb-0">
+<p class="text-center mb-0 mt-2">
     <button class="btn btn-primary btn-sm" (click)="loadMore(); $event.stopPropagation()">Daha yukle</button>
 </p>

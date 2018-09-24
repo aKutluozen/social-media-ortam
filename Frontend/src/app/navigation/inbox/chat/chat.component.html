@@ -19,7 +19,7 @@
         <div *ngFor="let message of messages" class="row mx-auto message mb-1" [ngStyle]="{ 'color': message.text.color }">
             <div class="col-12 pl-0 message">
                 <b>
-                    <i>{{ message.text.name }}:</i>
+                    <i>{{ message.text.chatNickName }}:</i>
                 </b> {{message.text.message}}
                 <div class="complaint-button bg-light border p-2 ml-2">
                     <p class="text-center my-auto text-success" *ngIf="message.complaintStatus">{{ message.complaintStatus }}</p>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <button class="btn btn-success btn-sm btn-block py-0" (click)="startPrivateConvo(message.text.uname)">Ozel sohbete cagir</button>
+                            <button class="btn btn-success btn-sm btn-block py-0" (click)="startPrivateConvo(message.text.nickName, message.text.chatNickName)">Ozel sohbete cagir</button>
                         </div>
                     </div>
                 </div>

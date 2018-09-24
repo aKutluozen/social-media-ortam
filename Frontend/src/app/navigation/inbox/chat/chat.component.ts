@@ -18,8 +18,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 	public room: string = 'genel';
 	public rooms: object[] = [];
 	public reason: string = '';
-	private name: string = this.auth.getCookie('chatNickName');
-	private uname: string = this.auth.getCookie('user');
+	private chatNickName: string = this.auth.getCookie('chatNickName');
+	private nickName: string = this.auth.getCookie('user');
 	private selectedRoom: object = {};
 	private messageTimeout: boolean = false;
 	private timeout: any = 0;
@@ -66,8 +66,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 					this.chatService.sendMessage({
 						message: this.message,
 						color: this.color,
-						name: this.name,
-						uname: this.uname,
+						nickName: this.nickName,
+						chatNickName: this.chatNickName,
 						room: this.selectedRoom
 					});
 					this.scrollDown();
@@ -89,11 +89,14 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	startPrivateConvo(receiver) {
+	startPrivateConvo(receiver, areceiver) {
 		this.modal.showInputModal({
 			type: 'anonym-chat',
 			title: 'Mesaj gonder',
-			receiver: receiver
+			receiver: receiver,
+			areceiver: areceiver,
+			asender: this.chatNickName,
+			sender: this.nickName
 		});
 	}
 
@@ -121,6 +124,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		this.connection = this.chatService.getMessages().subscribe(message => {
 			if (message['text']['room'].name === this.selectedRoom['name']) {
 				this.messages.push(message);
+				this.messages = this.messages.slice(-100); // Keep only last 100
 			}
 			this.scrollDown();
 		});

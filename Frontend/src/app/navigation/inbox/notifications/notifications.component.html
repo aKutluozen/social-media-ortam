@@ -14,33 +14,33 @@
             </p>
         </div>
         <div class="col-4 text-right align-self-center pl-0">
-            <button type="button" class="btn btn-success btn-sm px-1" *ngIf="notification.action != 'accepted' && notification.action != 'complaint' && notification.action.substring(0, 6) != 'credit' && notification.action != 'received' && notification.action != 'lost'"
+            <button type="button" class="btn btn-success btn-sm px-1 py-0" *ngIf="notification.action != 'accepted' && notification.action != 'complaint' && notification.action.substring(0, 6) != 'credit' && notification.action != 'received' && notification.action != 'lost'"
                 (click)="showPost(notification._id, notification.post._id, notification.action, notification.user._id)">
                 <i class="fa fa-eye" aria-hidden="true"></i>
             </button>
-            <button *ngIf="notification.action == 'received' || notification.action == 'lost' || notification.action == 'accepted'" type="button" class="btn btn-success btn-sm px-1"
+            <button *ngIf="notification.action == 'received' || notification.action == 'lost' || notification.action == 'accepted'" type="button" class="btn btn-success btn-sm px-1 py-0"
                 (click)="removeCreditRequest(notification)">
                 <i class="fas fa-check"></i>
             </button>
             <span *ngIf="notification.action.substring(0, 6) == 'credit'">
-                <button type="button" class="btn btn-success btn-sm px-1" (click)="handleCredit(notification)">
+                <button type="button" class="btn btn-success btn-sm px-1 py-0" (click)="handleCredit(notification)">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </button>
-                <button *ngIf="notification.action.split('_')[1] == 'asking'" type="button" class="btn btn-danger btn-sm px-1" (click)="removeCreditRequest(notification)">
+                <button *ngIf="notification.action.split('_')[1] == 'asking'" type="button" class="btn btn-danger btn-sm px-1 py-0" (click)="removeCreditRequest(notification)">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
             </span>
             <span *ngIf="notification.action == 'complaint'">
-                <button type="button" class="btn btn-success btn-sm px-1" (click)="handleComplaint(notification)">
+                <button type="button" class="btn btn-success btn-sm px-1 py-0" (click)="handleComplaint(notification)">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </button>
-                <button type="button" class="btn btn-danger btn-sm px-1" (click)="removeComplaint(notification)">
+                <button type="button" class="btn btn-danger btn-sm px-1 py-0" (click)="removeComplaint(notification)">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
             </span>
         </div>
     </div>
 </div>
-<p class="text-center mb-0">
+<p class="text-center mb-0 mt-2">
     <button class="btn btn-primary btn-sm" (click)="loadMore(); $event.stopPropagation()">Daha yukle</button>
 </p>

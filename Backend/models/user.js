@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 var mongooseUniqueValidator = require('mongoose-unique-validator');
 
 var schema = new Schema({
+    accountType: { type: String },
     nickName: { type: String, required: true, unique: true },
     chatNickName: { type: String, unique: true },
     firstName: { type: String },

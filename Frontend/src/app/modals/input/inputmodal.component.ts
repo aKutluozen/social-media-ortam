@@ -26,9 +26,9 @@ export class InputmodalComponent implements OnInit {
 	public message: string = '';
 	public messageSetup: any = {};
 	public disableSending: boolean = false;
-	public isFirstMessage: boolean = false;
 	public isFriend: boolean = false;
 
+	private isFirst: boolean = false;
 	private timedCheck: any = 0;
 	private timeout: any = 0;
 	private latestMessageTime: number = 0;
@@ -60,28 +60,29 @@ export class InputmodalComponent implements OnInit {
 				err => this.modal.handleError('Arkadaslik kontrolunde bir sorun olustu', err)
 			);
 
-			if (this.messageSetup['type'] === 'chat') {
-				// Somehow, add the message id here if it not already there.
-				var messageId;
-				this.messageService.getMessageIdGivenFriend(this.messageSetup.receiver, this.global.username).subscribe(
-					data => {
-						this.loadMessages(data.data);
-						this.isFirstMessage = false;
-					},
-					error => {
-						this.isFirstMessage = true;
-						console.error(error);
-					}
-				);
-			}
+			var messageId;
+			this.getMessagesID(this.messageSetup['type']);
 		});
+	}
+
+	getMessagesID(messageType) {
+		this.messageService.getMessageIdGivenFriend(this.messageSetup.receiver, this.global.username, messageType).subscribe(
+			data => {
+				this.isFirst = false;
+				this.loadMessages(data.data);
+			},
+			error => {
+				this.isFirst = true;
+				console.error('NO MESSAGES YET', error);
+			}
+		);
 	}
 
 	// Close the modal, stop the checking
 	close(isFirst?: boolean) {
 		this.message = '';
 
-		if (!this.isFirstMessage && this.timedCheck) {
+		if (this.timedCheck) {
 			this.timedCheck.unsubscribe();
 		}
 
@@ -114,7 +115,6 @@ export class InputmodalComponent implements OnInit {
 			let lastPos = this.messageSetup['messages'].length - 1;
 			this.latestMessageTime = this.messageSetup['messages'][lastPos].date;
 			this.disableSending = false;
-			
 
 			// Stop itself and call it again with the newest parameters
 			this.timedCheck.unsubscribe();
@@ -122,33 +122,11 @@ export class InputmodalComponent implements OnInit {
 		});
 	}
 
-	// Sending a single message the first time
-	sendFirstMessage() {
-		if (this.message.length > 1) {
-			let type = 'first';
-			this.messageService.sendMessage(this.message, this.messageSetup['receiver'], type).subscribe(
-				data => {
-					if (type !== 'chat') {
-						this.modal.handleWarning('Mesaj basariyla gonderildi!');
-						if (!this.isFriend) {
-							this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { this.close(); }, err => console.error(err));
-						}
-					}
-				},
-				error => this.modal.handleError('Mesaj gonderilemedi.', error)
-			);
-		}
-	}
-
 	// Listen for enter button
 	sendWithEnter(event) {
 		if (this.message.length > 1 && !this.disableSending) {
 			if (event.keyCode === 13) {
-				if (!this.isFirstMessage) {
-					this.sendChatMessage();
-				} else if (this.isFriend && this.global.credit >= 10) {
-					this.sendFirstMessage();
-				}
+				this.sendChatMessage();
 			}
 		}
 	}
@@ -156,20 +134,13 @@ export class InputmodalComponent implements OnInit {
 	// Send a single chat message, then clean the input
 	sendChatMessage() {
 		if (this.message.length > 1) {
-			if (this.isFriend) {
-				this.messageService.sendMessage(this.message, this.messageSetup['receiver'], 'chat').subscribe(data => {
-					this.disableSending = true;
-					this.message = '';
-				});
-			} else if (!this.isFriend && this.global.credit >= 10) {
-				this.messageService.sendMessage(this.message, this.messageSetup['receiver'], 'chat').subscribe(data => {
-					if (!this.isFriend) {
-						this.user.adjustCredit(this.global.username, 10, false).subscribe(data => { if (this.isFirstMessage) this.close(); }, err => console.error(err));
-					}
-					this.disableSending = true;
-					this.message = '';
-				});
-			}
+			this.messageService.sendMessage(this.message, this.messageSetup['receiver'], this.messageSetup['areceiver'], this.messageSetup['asender'], this.messageSetup['type']).subscribe(data => {
+				this.disableSending = true;
+				this.message = '';
+				if (this.isFirst) {
+					this.getMessagesID(this.messageSetup['type']);
+				}
+			});
 		}
 	}
 
@@ -180,11 +151,9 @@ export class InputmodalComponent implements OnInit {
 	}
 
 	scrollDown() {
-		if (!this.isFirstMessage) {
-			this.timeout = window.setTimeout(() => {
-				var elem = document.getElementById('scrollMessages');
-				elem.scrollBy(0, elem.scrollHeight + 100);
-			}, 100);
-		}
+		this.timeout = window.setTimeout(() => {
+			var elem = document.getElementById('scrollMessages');
+			elem.scrollBy(0, elem.scrollHeight + 100);
+		}, 100);
 	}
 }

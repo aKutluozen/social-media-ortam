@@ -36,6 +36,7 @@ import { ChatService } from 'app/navigation/inbox/chat/chat.service';
 import { GlobalService } from 'app/globals.service';
 import { PostsModule } from './posts/posts.module';
 import { InboxModule } from './navigation/inbox/inbox.module';
+import { AdsModule } from './ads/ads.module';
 
 // Main routes - Lazily loaded
 const APP_ROUTES: Routes = [
@@ -43,6 +44,7 @@ const APP_ROUTES: Routes = [
 	{ path: 'posts/all', component: PostsComponent, canActivate: [AuthGuard] },
 	{ path: 'auth', component: AuthComponent, loadChildren: 'app/auth/auth.module#AuthModule' },
 	{ path: 'profile', loadChildren: 'app/user/user.module#UserModule' },
+	{ path: 'ads', loadChildren: 'app/ads/ads.module#AdsModule' },
 	{ path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
 	{ path: '**', redirectTo: '/posts/all' }
 ];
@@ -75,7 +77,8 @@ const APP_ROUTES: Routes = [
 		ReactiveFormsModule,
 		PostsModule,
 		ImageCropperModule,
-		InboxModule
+		InboxModule,
+		AdsModule
 	],
 	exports: [
 		RouterModule

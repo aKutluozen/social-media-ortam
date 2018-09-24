@@ -26,12 +26,21 @@ MESSAGE_ROUTER.post('/message/:receiver/', function (req, res) {
     var token = jwt.decode(req.query.token),
         receiver = req.params.receiver,
         sender = token.id,
-        message = req.body.message;
+        asender = req.body.asender,
+        message = req.body.message,
+        areceiver = req.body.areceiver;
+
+    var isItAnonym = false;
+    if (req.body.messageType == 'anonym-chat') {
+        isItAnonym = true;
+    }
 
     // This message will be attached to a messaging object
     var msg = {
         sender: sender,
+        asender: asender,
         receiver: receiver,
+        areceiver: areceiver,
         date: Date.now(),
         message: message
     }
@@ -53,13 +62,14 @@ MESSAGE_ROUTER.post('/message/:receiver/', function (req, res) {
                     // Both users are found! Now create a message referencing them both!
 
                     // Find the message by user pair
-                    Message.findOne({ $or: [{ initiator: senderUser, initiated: otherUser }, { initiator: otherUser, initiated: senderUser }] }, function (err, message) {
+                    Message.findOne({ $and: [{ $or: [{ initiator: senderUser, initiated: otherUser }, { initiator: otherUser, initiated: senderUser }] }, { isAnonym: isItAnonym }] }, function (err, message) {
                         if (err) {
                             return res.status(500).json({
                                 message: 'An error occured finding the message',
                                 error: err
                             });
                         }
+
 
                         // Not found, create it for the first time
                         if (!message) {
@@ -68,7 +78,8 @@ MESSAGE_ROUTER.post('/message/:receiver/', function (req, res) {
                                 created: Date.now(),
                                 // Set up the referencing
                                 initiator: senderUser,
-                                initiated: receiverUser
+                                initiated: receiverUser,
+                                isAnonym: isItAnonym
                             });
 
                             newMessage.save(function (err, result) {
@@ -85,7 +96,11 @@ MESSAGE_ROUTER.post('/message/:receiver/', function (req, res) {
                             });
                             // Found, just attach to it
                         } else {
-                            message.messages = message.messages.slice(-100); // Keep last 100 messages !!!
+                            var chatDeleteAmount = -100;
+                            if (isItAnonym) {
+                                chatDeleteAmount = -10;
+                            }
+                            message.messages = message.messages.slice(chatDeleteAmount); // Keep last 100 messages !!!
                             message.messages.push(msg);
 
                             // other person hasn't read yet!
@@ -137,9 +152,13 @@ MESSAGE_ROUTER.get('/message/:id/', function (req, res) {
     });
 });
 
-// Get messages with a given friend
-MESSAGE_ROUTER.get('/user/:nickNameOther/:nickNameThis', function (req, res) {
-    var thisId, otherId;
+// Get messages ID with a given friend
+MESSAGE_ROUTER.get('/user/:nickNameOther/:nickNameThis/:messageType', function (req, res) {
+    var thisId, otherId, isItAnonym = false;
+
+    if (req.params.messageType == 'anonym-chat') {
+        isItAnonym = true;
+    }
 
     // Get ids from nick names
     var gettingOtherID = new Promise((resolve, reject) => {
@@ -159,7 +178,7 @@ MESSAGE_ROUTER.get('/user/:nickNameOther/:nickNameThis', function (req, res) {
     })
 
     Promise.all([gettingThisID, gettingOtherID]).then(values => {
-        Message.findOne({ $or: [{ initiator: thisId, initiated: otherId }, { initiator: otherId, initiated: thisId }] }, function (err, message) {
+        Message.findOne({ $and: [{ $or: [{ initiator: thisId, initiated: otherId }, { initiator: otherId, initiated: thisId }] }, { isAnonym: isItAnonym }] }, function (err, message) {
             if (err || !message) {
                 return res.status(500).json({
                     message: 'An error occured finding the message',

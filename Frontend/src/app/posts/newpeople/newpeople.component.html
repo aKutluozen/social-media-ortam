@@ -3,12 +3,12 @@
         <i class="fa fa-users" aria-hidden="true"></i> Yeni arkadaslar kesfedin
     </div>
     <div class="card-body p-3">
-        <div *ngFor="let newUser of people" class="card action-icon mb-2" (click)="viewProfile(newUser.nickName)">
-            <div class="row card-body mx-auto p-2">
+        <div *ngFor="let newUser of people" class="action-icon" (click)="viewProfile(newUser.nickName)">
+            <div class="row mx-auto p-2">
                 <div class="col-2 px-0">
                     <img class="w-100 rounded-circle" src="{{global.URL_S3_USERS + newUser.profilePicture}}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                 </div>
-                <div class="col-10">
+                <div class="col-10 align-self-center">
                     <h5 class="mb-0">@{{ newUser.nickName }}</h5>
                     <p class="text-muted small" *ngIf="newUser.firstName && newUser.lastName">{{ newUser.firstName + ' ' + newUser.lastName}}</p>
                 </div>
