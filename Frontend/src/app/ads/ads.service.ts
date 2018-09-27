@@ -13,7 +13,7 @@ import { GlobalService } from "app/globals.service";
 import { UserService } from "../user/user.service";
 
 @Injectable()
-export class AdService {
+export class AdsService {
 
     constructor(
         private http: Http,
@@ -53,12 +53,13 @@ export class AdService {
                 }
 
                 const ad = new Ad(
-                    result.content,
-                    result.user.nickName,
-                    result.subject,
-                    result.created,
                     '',
-                    ''
+                    result.title,
+                    result.content,
+                    result.image,
+                    result.category,
+                    result.created,
+                    result.user.id
                 );
 
                 this.ads.unshift(ad);
@@ -167,12 +168,13 @@ export class AdService {
                         }
 
                         transformedAds.push(new Ad(
+                            '',
+                            ad.title,
                             ad.content,
-                            ad.user.nickName,
-                            ad.subject,
+                            ad.image,
+                            ad.category,
                             ad.created,
-                            ad.likes,
-                            ad.dislikes)
+                            ad.user.id)
                         );
                     } else {
 
@@ -190,12 +192,13 @@ export class AdService {
 
                         // Then add them normally
                         transformedAds.push(new Ad(
-                            ad.id,
-                            ad.user.nickName,
-                            ad.subject,
+                            '',
+                            ad.title,
+                            ad.content,
+                            ad.image,
+                            ad.category,
                             ad.created,
-                            ad.likes,
-                            ad.dislikes)
+                            ad.user.id)
                         );
                     }
                 }

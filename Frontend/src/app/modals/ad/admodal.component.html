@@ -3,10 +3,10 @@
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" (click)="close()">&times;</button>
-                <form [formGroup]="postForm">
+                <form [formGroup]="adForm">
                     <div class="row">
                         <div class="col">
-                            <select formControlName="title" id="title" class="form-control">
+                            <select formControlName="category" id="category" class="form-control">
                                 <option value="Tasit">Tasit</option>
                                 <option value="Tasit">Emlak</option>
                                 <option value="Tasit">Is</option>
@@ -17,29 +17,26 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <input #title formControlName="title" id="title" class="form-control" placeholder="Baslik... "
+                            <input #title formControlName="title" id="title" class="form-control my-2" placeholder="Ilan basligi"
                                 maxlength="256" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <textarea #content formControlName="content" id="content" class="form-control" rows="2"
-                                placeholder="Mesajiniz... " maxlength="256"></textarea>
+
+                            <textarea #content formControlName="content" id="content" class="form-control my-2" rows="5"
+                                placeholder="Ilan yazisi" maxlength="1024"></textarea>
                         </div>
                     </div>
                     <div class="row my-0">
                         <p class="col my-0 text-right small text-muted">
-                            {{ 256 - content.value.length }} karakter kaldi.
+                            {{ 1024 - content.value.length }} karakter kaldi.
                         </p>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <label class="btn btn-info text-center btn-sm mb-0" *ngIf="!imageToShow" for="postPictureFile">
+                            <label class="btn btn-info text-center btn-sm mb-0" *ngIf="!imageToShow" for="adPictureFile">
                                 <i class="fa fa-image" aria-hidden="true"></i> Resim sec</label>
-                            <label class="btn btn-danger text-center btn-sm mb-0" *ngIf="imageToShow" (click)="deletePostPicture()">
+                            <label class="btn btn-danger text-center btn-sm mb-0" *ngIf="imageToShow" (click)="deleteAdPicture()">
                                 <i class="fa fa-trash" aria-hidden="true"></i> Resmi sil</label>
 
-                            <input hidden id="postPictureFile" type="file" (change)="fileChangeEvent($event)" />
+                            <input hidden id="adPictureFile" type="file" (change)="fileChangeEvent($event)" />
 
                             <image-cropper *ngIf="imageChangedEvent" [cropper]="cropperSize" [imageChangedEvent]="imageChangedEvent"
                                 [maintainAspectRatio]="true" [aspectRatio]="1/1" [resizeToWidth]="320" format="jpeg"
@@ -54,10 +51,10 @@
                                 (click)="rotateImage()">
                                 <i class="fas fa-sync-alt"></i> Cevir</button>
                             <button class="btn btn-success text-center btn-sm" *ngIf="croppedImage" type="button"
-                                (click)="addPostImage()">
+                                (click)="addAdImage()">
                                 <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
                             <button class="btn btn-danger text-center btn-sm" *ngIf="croppedImage" type="button"
-                                (click)="emptyPostImage()">
+                                (click)="emptyAdImage()">
                                 <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
                             <img hidden [src]="croppedImage" />
                         </div>
@@ -71,14 +68,14 @@
 
                     <div class="row justify-content-center my-4" *ngIf="imageToShow">
                         <div class="col-9 align-self-center">
-                            <img class="w-100" src="{{global.URL_S3_POSTS + imageToShow}}">
+                            <img class="w-100" src="{{global.URL_S3_ADS + imageToShow}}">
                         </div>
                         Resim basari ile yuklendi!
                     </div>
                 </form>
             </div>
             <div class="modal-footer p-2">
-                <button class="btn btn-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
+                <button class="btn btn-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="adForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
                     <i class="fa fa-share-square" aria-hidden="true"></i> Paylas</button>
                 <button type="button" class="btn btn-default btn-sm" (click)="close(false)">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>

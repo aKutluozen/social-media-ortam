@@ -18,6 +18,7 @@ import { QuestionmodalComponent } from './modals/question/questionmodal.componen
 import { ComplaintmodalComponent } from './modals/complaint/complaintmodal.component';
 import { PostmodalComponent } from './modals/post/postmodal.component';
 import { PostviewmodalComponent } from './modals/postview/postviewmodal.component';
+import { AdmodalComponent } from './modals/ad/admodal.component';
 import { AuthComponent } from './auth/auth.component';
 import { PostsComponent } from './posts/posts.component';
 import { AdminComponent } from './admin/admin.component';
@@ -34,6 +35,7 @@ import { PostService } from 'app/posts/posts.service';
 import { AuthGuard } from './auth/auth.guard';
 import { ChatService } from 'app/navigation/inbox/chat/chat.service';
 import { GlobalService } from 'app/globals.service';
+import { AdsService } from 'app/ads/ads.service';
 import { PostsModule } from './posts/posts.module';
 import { InboxModule } from './navigation/inbox/inbox.module';
 import { AdsModule } from './ads/ads.module';
@@ -62,6 +64,7 @@ const APP_ROUTES: Routes = [
 		UsermodalComponent,
 		ComplaintmodalComponent,
 		QuestionmodalComponent,
+		AdmodalComponent,
 		PostmodalComponent,
 		PostviewmodalComponent,
 		CreditmodalComponent,
@@ -91,6 +94,7 @@ const APP_ROUTES: Routes = [
 		UserService,
 		PostService,
 		ChatService,
+		AdsService,
 		GlobalService
 	],
 	bootstrap: [

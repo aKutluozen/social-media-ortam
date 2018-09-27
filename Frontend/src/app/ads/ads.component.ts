@@ -14,4 +14,8 @@ export class AdsComponent implements OnInit {
     ngOnInit() {
 
     }
+
+    openAdWindow() {
+        this.modal.showNewAdModal();
+    }
 }

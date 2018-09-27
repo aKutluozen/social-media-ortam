@@ -6,10 +6,7 @@ import * as Entities from 'html-entities';
 
 // Services
 import { ModalService } from '../modal.service';
-import { InboxService } from 'app/navigation/inbox/inbox.service';
 import { AdsService } from 'app/ads/ads.service';
-import { UserService } from 'app/user/user.service';
-import { AuthService } from 'app/auth/auth.service';
 import { GlobalService } from 'app/globals.service';
 import * as $ from 'jquery';
 declare var $: any;
@@ -25,13 +22,10 @@ export class AdmodalComponent implements OnInit {
 
     constructor(
         private modal: ModalService,
-        private messageService: InboxService,
         public adService: AdsService,
-        private user: UserService,
-        private auth: AuthService,
         public global: GlobalService
     ) { }
-    
+
     private entities = new Entities.XmlEntities();
     public content: string = '';
     public group: string = '';
@@ -41,7 +35,6 @@ export class AdmodalComponent implements OnInit {
     public imageRatio: Number = 1;
 
     private ad: Ad;
-    private parsedLink: string = '';
     private isEditing: boolean = false;
     private degree: number = 0;
 
@@ -175,133 +168,50 @@ export class AdmodalComponent implements OnInit {
 
     // Create or update based on action
     onSubmit() {
-        // Handle if link parsing if there is one
-        let link = getLink(this.adForm.value.content);
-        if (link) {
-            this.adService.parseLink(link).subscribe(
-                data => {
-                    // If the response isn't empty
-                    if (data.title !== '') {
-                        this.parsedLink = JSON.stringify(data);
-                    } else {
-                        this.parsedLink = '';
-                    }
-                    sendAdToBackEnd.call(this);
-                },
-                err => this.modal.handleError('Linkte bir sorun olustu!', err)
-            );
+        // EDIT
+        if (this.ad) {
+            this.ad.content = this.adForm.value.content;
+            this.ad.picture = this.imageToShow;
+
+            if (this.ad.content === '') {
+                this.modal.handleError('Lutfen butun bilgilerini doldurunuz!', '');
+                return;
+            }
+
+            this.adService.updateAd(this.ad).subscribe(
+                data => this.close(),
+                error => {
+                    this.modal.handleError('Paylasirken bir sorun oldu!', error);
+                    this.close();
+                });
+
+            // CREATE
         } else {
-            this.parsedLink = '';
-            sendAdToBackEnd.call(this);
+            const ad = new Ad(
+                '',
+                this.adForm.value.title,
+                this.adForm.value.content,
+                this.imageToShow,
+                this.adForm.value.category,
+                new Date().toString(),
+                ''
+            );
+
+            this.adService.addNewAd(ad).subscribe(
+                data => this.close(),
+                error => {
+                    this.modal.handleError('Paylasirken bir sorun oldu!', error);
+                    this.close();
+                }
+            );
         }
 
-        function getHashTags(content) {
-            let words = content.split(' ');
-            let hashTags = new Set();
-
-            for (let word of words) {
-                // Get only the hashtagged words
-                if (word.substring(0, 1) === '#') {
-                    let cleanWord = word.substring(1, word.length);
-
-                    // Clean it from non alphanumeric characters, then add it to array
-                    if (cleanWord.match(/[^a-z0-9]+/i) != null) {
-                        let finalWord = cleanWord.substring(0, cleanWord.match(/[^a-z0-9]+/i).index);
-                        if (finalWord.length > 0) {
-                            hashTags.add(finalWord.toLowerCase());
-                        }
-                    } else {
-                        hashTags.add(cleanWord.toLowerCase());
-                    }
-                }
-            }
-
-            return Array.from(hashTags);
-        }
-
-        function getLink(content) {
-            let words = content.split(' ');
-
-            for (let word of words) {
-                if (word.match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)) {
-                    return word;
-                }
-            }
-        }
-
-        function sendAdToBackEnd() {
-            // EDIT
-            if (this.ad) {
-                // Parse hashtags first!
-                let hashTags = getHashTags(this.adForm.value.content);
-                if (hashTags.length === 0) {
-                    hashTags = ['genel'];
-                }
-
-                this.ad.content = this.adForm.value.content;
-                this.ad.subject = hashTags;
-                this.ad.image = this.imageToShow;
-                this.ad.linkContent = this.parsedLink;
-                this.ad.group = this.group;
-
-                if (this.ad.content === '') {
-                    this.modal.handleError('Lutfen butun bilgilerini doldurunuz!', '');
-                    return;
-                }
-
-                this.adService.updateAd(this.ad).subscribe(
-                    data => this.close(),
-                    error => {
-                        this.modal.handleError('Paylasirken bir sorun oldu!', error);
-                        this.close();
-                    });
-                try {
-                    this.ad.linkContent = this.entities.decode(this.ad.linkContent);
-                    // this.ad.linkContent = this.ad.linkContent.replace(/&quot;/g, '\"');
-                    this.ad.linkContent = JSON.parse(this.ad.linkContent);
-                } catch (e) {
-                    this.ad.linkContent = '';
-                }
-
-                // CREATE
-            } else {
-                // Parse hashtags first!
-                let hashTags = getHashTags(this.adForm.value.content);
-                if (hashTags.length === 0) {
-                    hashTags = ['genel'];
-                }
-
-                // Create
-                const ad = new Ad(
-                    this.adForm.value.content,
-                    null,
-                    hashTags,
-                    '', [], [], [], [], '', '', '',
-                    this.imageToShow,
-                    this.parsedLink,
-                    this.group,
-                    false
-                );
-
-                this.adService.addNewAd(ad).subscribe(
-                    data => this.close(),
-                    error => {
-                        this.modal.handleError('Paylasirken bir sorun oldu!', error);
-                        this.close();
-                    }
-                );
-            }
-
-            this.close();
-        }
+        this.close();
     }
 
     // Initialize the reactive form
     ngOnInit() {
-        this.modal.adModalActivated.subscribe((adObject: Object) => {
-            if (adObject['publicity']) {
-                this.group = adObject['publicity'];
-            }
+        this.modal.adNewModalActivated.subscribe((adObject: Object) => {
 
             if (!this.isEditing) {
                 this.adForm.patchValue({
@@ -313,7 +223,9 @@ export class AdmodalComponent implements OnInit {
         });
 
         this.adForm = new FormGroup({
-            content: new FormControl({ value: '', disabled: false }, Validators.required)
+            content: new FormControl({ value: '', disabled: false }, Validators.required),
+            title: new FormControl({ value: '', disabled: false }, Validators.required),
+            category: new FormControl({ value: '', disabled: false }, Validators.required),
         });
 
         // Make sure this happens in update mode
@@ -321,14 +233,16 @@ export class AdmodalComponent implements OnInit {
             (ad: Ad) => {
                 this.ad = ad;
                 this.adForm.patchValue({
-                    content: this.ad.content
+                    content: this.ad.content,
+                    title: this.ad.title,
+                    category: this.ad.category
                 });
 
                 this.isEditing = true;
 
                 // Handle if there is an image
-                if (this.ad.image != '' && this.ad.image != undefined) {
-                    this.imageToShow = this.ad.image;
+                if (this.ad.picture != '' && this.ad.picture != undefined) {
+                    this.imageToShow = this.ad.picture;
                 }
             }
         );

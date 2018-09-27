@@ -31,6 +31,7 @@ export class ModalService {
     public complaintModalActivated = new EventEmitter<Object>();
     public creditModalActivated = new EventEmitter<Object>();
     public adModalActivated = new EventEmitter<Object>();
+    public adNewModalActivated = new EventEmitter<Object>();
 
     handleModalToggle(element, closingAction) {
         // Handle showing
@@ -70,6 +71,10 @@ export class ModalService {
 
     showAdModal(ad: Object) {
         this.adModalActivated.emit(ad);
+    }
+    
+    showNewAdModal() {
+        this.adNewModalActivated.emit();
     }
 
     showCreditModal(creditInfo: Object) {
