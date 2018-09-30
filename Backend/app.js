@@ -11,6 +11,7 @@ var express = require('express'),
 // Load routes
 var appRoutes = require('./routes/app'),
     postRoutes = require('./routes/post'),
+    adRoutes = require('./routes/ad'),
     messageRoutes = require('./routes/message'),
     userRoutes = require('./routes/user'),
     chatRoutes = require('./routes/chat'),
@@ -52,6 +53,7 @@ app.use('/message', messageRoutes);
 app.use('/user', userRoutes);
 app.use('/chat', chatRoutes);
 app.use('/mail', mailRoutes);
+app.use('/ad', adRoutes);
 app.use('/', appRoutes);
 
 // Clean up old posts regularly

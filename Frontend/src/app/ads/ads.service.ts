@@ -28,23 +28,12 @@ export class AdsService {
     addNewAd(ad: Ad) {
         return this.http.post(this.global.URL + 'ad' + this.auth.getToken(), JSON.stringify(ad), this.auth.getHeaders())
             .map((response: Response) => {
+                console.log(response);
                 var result = response.json().data;
 
-                // Handle link parsing view
-                var linkCont = '';
-                if (result.linkCont != '') {
-                    try {
-                        linkCont = result.linkContent.replace(/&quot;/g, '\"');
-                        linkCont = this.global.decodeHTML(linkCont);
-                        linkCont = JSON.parse(linkCont);
-                    } catch (e) {
-                        linkCont = '';
-                    }
-                }
-
                 // Handle image if there is one
-                if (result.image != '' && result.image != undefined) {
-                    result.image = result.image;
+                if (result.picture != '' && result.picture != undefined) {
+                    result.picture = result.picture;
                 }
 
                 // Handle profile picture
@@ -56,7 +45,7 @@ export class AdsService {
                     '',
                     result.title,
                     result.content,
-                    result.image,
+                    result.picture,
                     result.category,
                     result.created,
                     result.user.id

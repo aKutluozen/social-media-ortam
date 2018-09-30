@@ -6,7 +6,7 @@
                 <form [formGroup]="postForm">
                     <div class="row">
                         <div class="col">
-                            <textarea #message formControlName="content" id="content" class="form-control" rows="2" placeholder="Mesajiniz... " maxlength="256"></textarea>
+                            <textarea #message formControlName="content" id="content" class="form-control" rows="3" placeholder="Kutatku'da paylas... " maxlength="256"></textarea>
                         </div>
                     </div>
                     <div class="row my-0">
@@ -16,7 +16,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <label class="btn btn-info text-center btn-sm mb-0" *ngIf="!imageToShow" for="postPictureFile">
+                            <label class="btn btn-warning text-center btn-sm btn-block mb-0" *ngIf="!imageToShow" for="postPictureFile">
                                 <i class="fa fa-image" aria-hidden="true"></i> Resim sec</label>
                             <label class="btn btn-danger text-center btn-sm mb-0" *ngIf="imageToShow" (click)="deletePostPicture()">
                                 <i class="fa fa-trash" aria-hidden="true"></i> Resmi sil</label>

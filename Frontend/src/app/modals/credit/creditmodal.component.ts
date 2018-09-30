@@ -52,7 +52,7 @@ export class CreditmodalComponent implements OnInit {
 
     askCredit() {
         this.modal.showQuestion({
-            content: this.otherUser + ' isimli kullanicidan <b><big>' + this.creditAmount + '</big></b> kredi istiyorsunuz. <br> Isteginiz kabul edildikten sonra <b><big>' + (this.global.credit + this.creditAmount) + '</big></b> krediniz olacaktir. <br> Bu islemi gerceklestirmek istediginize emin misiniz?',
+            content: this.otherUser.nickName + ' isimli kullanicidan <b><big>' + this.creditAmount + '</big></b> kredi istiyorsunuz. <br> Isteginiz kabul edildikten sonra <b><big>' + (this.global.credit + this.creditAmount) + '</big></b> krediniz olacaktir. <br> Bu islemi gerceklestirmek istediginize emin misiniz?',
             approveFunction: () => {
                 this.user.sendCreditRequest(this.otherUser, this.creditAmount, true).subscribe(
                     data => this.modal.handleWarning(this.otherUser + ' isimli kullaniciya <b><big>' + this.creditAmount + '</big></b> kredi isteginiz basari ile gonderilmistir!'),
