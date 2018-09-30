@@ -1,18 +1,38 @@
-<div class="container  animated fadeIn">
+<div class="container animated fadeIn">
     <div class="row">
         <div class="col-xl-12 col-lg-12 mb-4 px-2 mb-3">
             <div class="card">
                 <div class="card-header p-2">
                     <i class="fa fa-newspaper"></i> Seri Ilanlar
                 </div>
-                <div class="card-body row">
-                    <div class="card border action-icon mb-3" (click)="openAdWindow()">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h4 class="text-primary text-center mb-0"><b>Kutatku seri ilanlarda paylas</b> <i class="fas fa-plus"></i></h4>
+                <div class="card-body pt-0 px-3 pb-3">
+                    <div class="card-columns">
+                        <div class="col-12 text-center" *ngIf="adsService.ads.length == 0">Hic bir paylasim bulunamadi!</div>
+                        <div class="card border action-icon mb-3" (click)="openAdWindow()">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-primary text-center mb-0"><b>Kutatku seri ilanlarda paylas</b> <i
+                                                class="fas fa-plus"></i></h4>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="card action-icon" *ngFor="let ad of adsService.ads" (click)="view(ad)">
+                            <div class="card-body p-0 row mx-auto">
+                                <div class="col-6 px-0" *ngIf="ad.picture" ><img src="{{ global.URL_S3_ADS + ad.picture }}"
+                                        onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'"
+                                        class="w-100"></div>
+                                <div class="align-self-center" [ngClass]="{'col-6': ad.picture, 'col-12 p-3': !ad.picture}">
+                                    <h5>{{ ad.title }}</h5>
+                                    <p class="small">Kategori: {{ ad.category }}</p>
+                                    <p class="text-muted small">Yayinlanma: {{ ad.created | date: 'shortDate' }}</p>
+                                    <p>{{ ad.content.length > 80 ? ad.content.substring(0, 80) + ' ...' : ad.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 my-2 text-center action-icon" (click)="loadMore()">
+                            <i class="fa fa-ellipsis-h fa-3x text-primary" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>

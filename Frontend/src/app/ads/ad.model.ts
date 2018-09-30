@@ -6,6 +6,6 @@ export class Ad {
         public picture: string,
         public category: string,
         public created: string,
-        public userId: string
+        public nickName: string
     ) {}
 }

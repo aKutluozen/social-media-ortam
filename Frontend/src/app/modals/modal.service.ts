@@ -30,7 +30,7 @@ export class ModalService {
     public postModalViewActivated = new EventEmitter<Object>();
     public complaintModalActivated = new EventEmitter<Object>();
     public creditModalActivated = new EventEmitter<Object>();
-    public adModalActivated = new EventEmitter<Object>();
+    public adModalViewActivated = new EventEmitter<Object>();
     public adNewModalActivated = new EventEmitter<Object>();
 
     handleModalToggle(element, closingAction) {
@@ -69,8 +69,8 @@ export class ModalService {
         this.complaintModalActivated.emit(complaint);
     }
 
-    showAdModal(ad: Object) {
-        this.adModalActivated.emit(ad);
+    showAdViewModal(ad: Object) {
+        this.adModalViewActivated.emit(ad);
     }
     
     showNewAdModal() {

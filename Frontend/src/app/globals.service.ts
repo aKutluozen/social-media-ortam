@@ -10,7 +10,7 @@ export class GlobalService {
 
     public URL_S3_USERS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/user_images/";
     public URL_S3_POSTS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/post_images/";
-    public URL_S3_ADS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/ad_images/";
+    public URL_S3_ADS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/classified_images/";
     public URL_EMPTY_PROFILE_PIC: string = "emptyprofile.png";
     public URL_EMPTY_GALLERY_PIC: string = "uploadempty.png";
 

@@ -5,13 +5,14 @@
                 <button type="button" class="close" (click)="close()">&times;</button>
                 <form [formGroup]="adForm">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-2 align-self-center">Kategori</div>
+                        <div class="col-10">
                             <select formControlName="category" id="category" class="form-control">
-                                <option value="Tasit">Tasit</option>
-                                <option value="Tasit">Emlak</option>
-                                <option value="Tasit">Is</option>
-                                <option value="Tasit">Servis</option>
-                                <option value="Tasit">Urun</option>
+                                <option value="tasit">Tasit</option>
+                                <option value="emlak">Emlak</option>
+                                <option value="is">Is</option>
+                                <option value="servis">Servis</option>
+                                <option value="urun">Urun</option>
                             </select>
                         </div>
                     </div>

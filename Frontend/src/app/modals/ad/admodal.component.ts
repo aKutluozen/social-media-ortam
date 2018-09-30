@@ -215,7 +215,9 @@ export class AdmodalComponent implements OnInit {
 
             if (!this.isEditing) {
                 this.adForm.patchValue({
-                    content: ''
+                    content: '',
+                    category: '',
+                    title: '',
                 });
             }
 

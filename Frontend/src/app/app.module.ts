@@ -18,6 +18,7 @@ import { QuestionmodalComponent } from './modals/question/questionmodal.componen
 import { ComplaintmodalComponent } from './modals/complaint/complaintmodal.component';
 import { PostmodalComponent } from './modals/post/postmodal.component';
 import { PostviewmodalComponent } from './modals/postview/postviewmodal.component';
+import { AdviewmodalComponent } from './modals/adview/adviewmodal.component';
 import { AdmodalComponent } from './modals/ad/admodal.component';
 import { AuthComponent } from './auth/auth.component';
 import { PostsComponent } from './posts/posts.component';
@@ -68,6 +69,7 @@ const APP_ROUTES: Routes = [
 		PostmodalComponent,
 		PostviewmodalComponent,
 		CreditmodalComponent,
+		AdviewmodalComponent,
 		AuthComponent,
 		AdminComponent
 	],
