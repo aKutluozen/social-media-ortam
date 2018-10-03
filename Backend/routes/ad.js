@@ -116,7 +116,6 @@ AD_ROUTER.patch('/:id', function (req, res) {
 AD_ROUTER.delete('/image', function (req, res) {
 
     var fileToDelete = decodeURI(req.body.pictureToDelete);
-    console.log('here');
     // Also, somehow delete it in the ad too, if exists!!!
     Ad.findOne({ picture: { $eq: fileToDelete } }, function (err, ad) {
         if (err) {
@@ -134,7 +133,7 @@ AD_ROUTER.delete('/image', function (req, res) {
             // post is there, find it by the filename
             filename = ad.picture;
         }
-        console.log('delete this\n\n', filename);
+
         // Either way, delete it
         s3.deleteObject({
             Bucket: 'socialmediaimages2017',

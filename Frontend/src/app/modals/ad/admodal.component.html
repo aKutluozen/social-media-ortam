@@ -12,22 +12,22 @@
                                 <option value="emlak">Emlak</option>
                                 <option value="is">Is</option>
                                 <option value="servis">Servis</option>
-                                <option value="urun">Urun</option>
+                                <option value="satis">Satis</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <input #title formControlName="title" id="title" class="form-control my-2" placeholder="Ilan basligi"
+                            <input #adtitle formControlName="title" id="title" class="form-control my-2" placeholder="Ilan basligi"
                                 maxlength="256" />
 
-                            <textarea #content formControlName="content" id="content" class="form-control my-2" rows="5"
+                            <textarea #adcontent formControlName="content" id="content" class="form-control my-2" rows="5"
                                 placeholder="Ilan yazisi" maxlength="1024"></textarea>
                         </div>
                     </div>
                     <div class="row my-0">
                         <p class="col my-0 text-right small text-muted">
-                            {{ 1024 - content.value.length }} karakter kaldi.
+                            {{ 1024 - adcontent.value.length }} karakter kaldi.
                         </p>
                     </div>
                     <div class="row">
