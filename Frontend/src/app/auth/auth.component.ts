@@ -1,13 +1,14 @@
 import { Component } from "@angular/core";
 import { AuthService } from "./auth.service";
 import { GlobalService } from "../globals.service";
+import { MultiLanguageService } from "../language.service";
 
 @Component({
     selector: 'app-auth',
     templateUrl: './auth.component.html'
 })
 export class AuthComponent {
-    constructor(private auth: AuthService, private global: GlobalService) { }
+    constructor(private auth: AuthService, private global: GlobalService, public lang: MultiLanguageService) { }
 
     // Check if logged in
     isLoggedIn() {

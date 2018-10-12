@@ -8,6 +8,7 @@ import { UserService } from "app/user/user.service";
 import { AuthService } from "app/auth/auth.service";
 import { GlobalService } from "app/globals.service";
 import { Subscription } from "rxjs";
+import { MultiLanguageService } from "../../../language.service";
 
 @Component({
 	selector: "app-messages",
@@ -19,7 +20,8 @@ export class MessagesComponent {
 		private message: InboxService,
 		private user: UserService,
 		private auth: AuthService,
-		public global: GlobalService
+		public global: GlobalService,
+		public lang: MultiLanguageService
 	) { }
 
 	public messages: object[] = [];

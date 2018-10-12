@@ -36,6 +36,7 @@ import { PostService } from 'app/posts/posts.service';
 import { AuthGuard } from './auth/auth.guard';
 import { ChatService } from 'app/navigation/inbox/chat/chat.service';
 import { GlobalService } from 'app/globals.service';
+import { MultiLanguageService } from 'app/language.service';
 import { AdsService } from 'app/ads/ads.service';
 import { PostsModule } from './posts/posts.module';
 import { InboxModule } from './navigation/inbox/inbox.module';
@@ -96,6 +97,7 @@ const APP_ROUTES: Routes = [
 		UserService,
 		PostService,
 		ChatService,
+		MultiLanguageService,
 		AdsService,
 		GlobalService
 	],

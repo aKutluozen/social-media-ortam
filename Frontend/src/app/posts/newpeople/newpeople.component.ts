@@ -4,6 +4,7 @@ import { UserService } from "../../user/user.service";
 import { ModalService } from "../../modals/modal.service";
 import { GlobalService } from "../../globals.service";
 import { AuthService } from "../../auth/auth.service";
+import { MultiLanguageService } from '../../language.service';
 
 @Component({
     selector: 'app-newpeople',
@@ -16,7 +17,8 @@ export class NewpeopleComponent implements OnInit, OnDestroy {
         private user: UserService,
         private modal: ModalService,
         public global: GlobalService,
-        private auth: AuthService
+        private auth: AuthService,
+        public lang: MultiLanguageService
     ) { }
 
     public people: object[] = [];

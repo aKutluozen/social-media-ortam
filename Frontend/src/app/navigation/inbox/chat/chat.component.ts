@@ -4,6 +4,7 @@ import { AuthService } from 'app/auth/auth.service';
 import { GlobalService } from 'app/globals.service';
 import { ModalService } from '../../../modals/modal.service';
 import * as $ from 'jquery';
+import { MultiLanguageService } from '../../../language.service';
 
 @Component({
 	selector: 'app-chat',
@@ -28,7 +29,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 		private chatService: ChatService,
 		private auth: AuthService,
 		public global: GlobalService,
-		private modal: ModalService
+		private modal: ModalService,
+		public lang: MultiLanguageService
 	) { }
 
 	selectRoom(roomName) {

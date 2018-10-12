@@ -9,6 +9,7 @@ import { ModalService } from 'app/modals/modal.service';
 import { GlobalService } from 'app/globals.service';
 import { Subscription } from 'rxjs';
 import * as $ from 'jquery';
+import { MultiLanguageService } from '../language.service';
 
 @Component({
 	selector: 'app-navigation',
@@ -22,7 +23,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
 		private auth: AuthService,
 		private user: UserService,
 		private modal: ModalService,
-		public global: GlobalService
+		public global: GlobalService,
+		public lang: MultiLanguageService
 	) { }
 
 	public username: string = '';

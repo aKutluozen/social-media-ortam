@@ -5,6 +5,7 @@ import { PostService } from "../posts.service";
 import { ModalService } from "app/modals/modal.service";
 import { AuthService } from "app/auth/auth.service";
 import { Subscription } from "rxjs";
+import { MultiLanguageService } from "../../language.service";
 
 @Component({
     selector: 'app-post-list',
@@ -15,7 +16,8 @@ export class PostListComponent implements OnInit, OnDestroy {
     constructor(
         public postService: PostService,
         private modal: ModalService,
-        private auth: AuthService
+        private auth: AuthService,
+        public lang: MultiLanguageService
     ) { }
 
     public postAmount: number = 0;

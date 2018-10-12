@@ -1,5 +1,5 @@
 <div class="col-12 border-bottom text-center mb-2" *ngIf="requests.length == 0">
-    Hic bir istek bulunamadi!</div>
+    {{ lang.text.inbox.noRequestFound }}</div>
 <div class="col-12 border-bottom bg-white py-1 action-icon" *ngFor="let request of requests">
     <div class="row my-auto" (click)="viewProfile(request.nickName)">
         <div class="col-2 my-auto pr-0">
@@ -10,7 +10,7 @@
                 <b>{{ request.nickName }}</b>
             </p>
             <p class="mb-0 small action">
-                takip istegi yolladi
+                {{ lang.text.inbox.sentRequest }}
             </p>
         </div>
         <div class="col-2 text-right align-self-center pl-0">
@@ -21,5 +21,5 @@
     </div>
 </div>
 <p class="text-center mb-0 mt-2">
-    <button class="btn btn-primary btn-sm" (click)="loadMore();  $event.stopPropagation()">Daha yukle</button>
+    <button class="btn btn-primary btn-sm" (click)="loadMore();  $event.stopPropagation()">{{ lang.text.inbox.showMore }}</button>
 </p>

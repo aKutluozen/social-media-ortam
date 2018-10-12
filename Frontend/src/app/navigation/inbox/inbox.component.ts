@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { InboxService } from './inbox.service';
 import { GlobalService } from '../../globals.service';
 import * as $ from 'jquery';
+import { MultiLanguageService } from '../../language.service';
 
 @Component({
 	selector: '[app-inbox]',
@@ -31,7 +32,7 @@ export class InboxComponent implements OnInit {
 
 	@ViewChild('chatComponentElement') chatComponentElement: ElementRef;
 
-	constructor(private inbox: InboxService, private global: GlobalService) { }
+	constructor(private inbox: InboxService, private global: GlobalService, public lang: MultiLanguageService) { }
 	// Just checks if one of the dropdowns are closed
 	ngOnInit() {
 		window.setInterval(() => {

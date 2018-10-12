@@ -11,6 +11,7 @@ import * as $ from 'jquery';
 // Models
 import { User } from 'app/user/user.model';
 import { Subscription } from 'rxjs';
+import { MultiLanguageService } from '../../language.service';
 
 @Component({
 	selector: 'app-search',
@@ -22,7 +23,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 		private auth: AuthService,
 		private user: UserService,
 		private modal: ModalService,
-		public global: GlobalService
+		public global: GlobalService,
+		public lang: MultiLanguageService
 	) { }
 
 	public searchTerm: string = "";

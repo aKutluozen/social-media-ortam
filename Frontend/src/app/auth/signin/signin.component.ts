@@ -11,6 +11,7 @@ import { AuthService } from "../auth.service";
 import { ModalService } from "app/modals/modal.service";
 import { GlobalService } from "app/globals.service";
 import { Subscription } from "rxjs";
+import { MultiLanguageService } from "../../language.service";
 
 @Component({
     selector: 'app-signin',
@@ -22,7 +23,8 @@ export class SigninComponent implements OnInit, OnDestroy {
         private auth: AuthService,
         private router: Router,
         private modal: ModalService,
-        public global: GlobalService
+        public global: GlobalService,
+        public lang: MultiLanguageService
     ) { }
 
     public signinForm: FormGroup;

@@ -1,7 +1,7 @@
 <ul class="row mx-auto border-bottom justify-content-center list-inline my-0 py-0">
     <li class="list-inline-item col-10 px-0 mr-0">
         <input class="form-control search" maxlength="48" type="text" [(ngModel)]="searchTerm" (keypress)="searchWithEnter($event)"
-            [ngModelOptions]="{standalone: true}" placeholder="Arkadas ara">
+            [ngModelOptions]="{standalone: true}" placeholder="{{ lang.text.search.search }}">
     </li>
     <li class="list-inline-item btn-group col-2 pl-0 ml-0">
         <button class="search-button action-icon" #searchButton type="button" (click)="search()" [disabled]="!searchTerm" id="searchMenu"
@@ -13,7 +13,7 @@
                 <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>
             <div class="col-12 text-center mb-2">
-                {{ usersFound.length }} sonuc bulundu.</div>
+                {{ usersFound.length }} {{ lang.text.search.resultsFound }}</div>
             <div class="card action-icon mb-2" *ngFor="let user of usersFound">
                 <div class="row card-body mx-auto p-2" (click)="viewProfile(user.nickName)">
                     <div class="col-2 px-0">

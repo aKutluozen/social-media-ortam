@@ -1,5 +1,5 @@
 <div class="col-12 border-bottom text-center mb-2" *ngIf="messages.length == 0">
-    Hic bir mesaj bulunamadi!</div>
+    {{ lang.text.inbox.noMessageFound }}</div>
 <div class="col-12 border-bottom bg-white py-1 action-icon" *ngFor="let message of messages">
     <div class="row my-auto" *ngIf="!message.isAnonym">
         <div class="col-2 my-auto pr-0" (click)="answerMessage(message.receiver, message._id)">
@@ -39,5 +39,5 @@
 
 </div>
 <p class="text-center mb-0 mt-2">
-    <button class="btn btn-primary btn-sm" (click)="loadMore(); $event.stopPropagation()">Daha yukle</button>
+    <button class="btn btn-primary btn-sm" (click)="loadMore(); $event.stopPropagation()">{{ lang.text.inbox.showMore }}</button>
 </p>

@@ -19,26 +19,26 @@
                         <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/posts/all']">
                                 <i class="fa fa-2x text-light fa-home"></i>
-                                <div class="item-text">Ana sayfa</div>
+                                <div class="item-text">{{ lang.text.navigation.homepage }}</div>
                             </a>
                         </li>
                         <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/ads/all']">
                                 <i class="fas fa-2x text-light fa-newspaper"></i>
-                                <div class="item-text">Ilanlar</div>
+                                <div class="item-text">{{ lang.text.navigation.classifieds }}</div>
                             </a>
                         </li>
                         <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/admin']">
                                 <i class="fa fa-2x text-light fa-question-circle"></i>
-                                <div class="item-text">Yardim</div>
+                                <div class="item-text">{{ lang.text.navigation.help }}</div>
                             </a>
                         </li>
                         <li class="list-inline-item" routerLinkActive="active">
                             <div class="dropdown">
                                 <a href="javascript:void(0)" class="text-white" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img class="profile-picture" src="{{ global.URL_S3_USERS + global.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
-                                    <div class="item-text">Profil</div>
+                                    <div class="item-text">{{ lang.text.navigation.profil }}</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right mt-0 pt-0" aria-labelledby="profileMenu">
                                     <div class="row mx-0">
@@ -49,9 +49,9 @@
                                             <i class="fa fa-credit-card" aria-hidden="true"></i> : {{ global.credit }}
                                         </a>
                                         <a [routerLink]="['/profile/me']" class="list-group-item text-dark list-group-item-action list-group-item-light " id="profileLink">
-                                            <i class="fa fa-id-card" aria-hidden="true"></i> Profile git</a>
+                                            <i class="fa fa-id-card" aria-hidden="true"></i> {{ lang.text.navigation.gotoprofile }}</a>
                                         <a href="javascript:void(0)" (click)="logOut()" class="list-group-item text-dark list-group-item-action list-group-item-light ">
-                                            <i class="fa fa-sign-out-alt" aria-hidden="true"></i> Cikis yap</a>
+                                            <i class="fa fa-sign-out-alt" aria-hidden="true"></i> {{ lang.text.navigation.logout }}</a>
                                     </div>
                                 </div>
                             </div>

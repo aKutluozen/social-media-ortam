@@ -6,6 +6,7 @@ import { ModalService } from 'app/modals/modal.service';
 import { UserService } from 'app/user/user.service';
 import { GlobalService } from 'app/globals.service';
 import { Subscription } from 'rxjs';
+import { MultiLanguageService } from '../../../language.service';
 
 @Component({
 	selector: 'app-requests',
@@ -16,7 +17,8 @@ export class RequestsComponent {
 	constructor(
 		private modal: ModalService,
 		private user: UserService,
-		public global: GlobalService
+		public global: GlobalService,
+		public lang: MultiLanguageService
 	) { }
 	public requests: object[] = [];
 

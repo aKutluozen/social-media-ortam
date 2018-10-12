@@ -1,7 +1,7 @@
 <div class="p-4" (click)="$event.stopPropagation()">
     <div class="row mb-2 border-bottom pb-2">
         <div class="col-md-4 col-6 align-self-center">
-            Oda seciniz:
+            {{ lang.text.inbox.selectRoom }}
         </div>
         <div class="col-md-8 col-6 pl-0">
             <select (change)="selectRoom(room)" (click)="$event.stopPropagation()" [(ngModel)]="room" class="form-control">
@@ -13,7 +13,7 @@
     <div class="scrollable mb-4" id="scrollThis">
         <div class="row mx-auto" *ngIf="messages.length == 0">
             <div class="col-12 pl-0 message">
-                Hic bir mesaj bulunamadi!
+                {{ lang.text.inbox.noMessageFound }}
             </div>
         </div>
         <div *ngFor="let message of messages" class="row mx-auto message mb-1" [ngStyle]="{ 'color': message.text.color }">
@@ -25,15 +25,15 @@
                     <p class="text-center my-auto text-success" *ngIf="message.complaintStatus">{{ message.complaintStatus }}</p>
                     <div class="row" *ngIf="!message.complaintStatus">
                         <div class="col-12">
-                            <input type="text" maxlength="100" class="form-control" [(ngModel)]="reason" placeholder="Sebep (max. 100 karakter)">
+                            <input type="text" maxlength="100" class="form-control" [(ngModel)]="reason" placeholder="{{ lang.text.inbox.complaintReason }}">
                         </div>
                         <div class="col-12">
-                            <button [disabled]="!reason" class="btn btn-danger btn-sm btn-block py-0" (click)="complain(message)">Sikayet et</button>
+                            <button [disabled]="!reason" class="btn btn-danger btn-sm btn-block py-0" (click)="complain(message)">{{ lang.text.inbox.complain }}</button>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <button class="btn btn-success btn-sm btn-block py-0" (click)="startPrivateConvo(message.text.nickName, message.text.chatNickName)">Ozel sohbete cagir</button>
+                            <button class="btn btn-success btn-sm btn-block py-0" (click)="startPrivateConvo(message.text.nickName, message.text.chatNickName)">{{ lang.text.inbox.inviteToPrivate }}</button>
                         </div>
                     </div>
                 </div>
@@ -44,18 +44,18 @@
     <div class="row">
         <div class="col-6 h-100">
             <select class="form-control" [ngStyle]="{ 'background': color }" [(ngModel)]="color">
-                <option value="" disabled selected>Renk Secin</option>
-                <option style="background:#000000; color: white" value="#000">Siyah</option>
-                <option style="background:#C0392B; color: white" value="#C0392B">Kirmizi</option>
-                <option style="background:#9B59B6; color: white" value="#9B59B6">Mor</option>
-                <option style="background:#2980B9; color: white" value="#2980B9">Mavi</option>
-                <option style="background:#1ABC9C; color: white" value="#1ABC9C">Yesil 1</option>
-                <option style="background:#27AE60; color: white" value="#27AE60">Yesil 2</option>
-                <option style="background:#F1C40F; color: white" value="#F1C40F">Sari</option>
-                <option style="background:#E67E22; color: white" value="#E67E22">Turuncu</option>
-                <option style="background:#BDC3C7; color: white" value="#BDC3C7">Acik gri</option>
-                <option style="background:#7F8C8D; color: white" value="#7F8C8D">Gri</option>
-                <option style="background:#34495E; color: white" value="#34495E">Lacivert</option>
+                <option value="" disabled selected>{{ lang.text.inbox.selectColor }}</option>
+                <option style="background:#000000; color: white" value="#000">{{ lang.text.inbox.black }}</option>
+                <option style="background:#C0392B; color: white" value="#C0392B">{{ lang.text.inbox.red }}</option>
+                <option style="background:#9B59B6; color: white" value="#9B59B6">{{ lang.text.inbox.purple }}</option>
+                <option style="background:#2980B9; color: white" value="#2980B9">{{ lang.text.inbox.blue }}</option>
+                <option style="background:#1ABC9C; color: white" value="#1ABC9C">{{ lang.text.inbox.green1 }}</option>
+                <option style="background:#27AE60; color: white" value="#27AE60">{{ lang.text.inbox.green2 }}</option>
+                <option style="background:#F1C40F; color: white" value="#F1C40F">{{ lang.text.inbox.yellow }}</option>
+                <option style="background:#E67E22; color: white" value="#E67E22">{{ lang.text.inbox.orange }}</option>
+                <option style="background:#BDC3C7; color: white" value="#BDC3C7">{{ lang.text.inbox.lightGray }}</option>
+                <option style="background:#7F8C8D; color: white" value="#7F8C8D">{{ lang.text.inbox.gray }}</option>
+                <option style="background:#34495E; color: white" value="#34495E">{{ lang.text.inbox.darkBlue }}</option>
             </select>
         </div>
         <div class="col-6 h-100">

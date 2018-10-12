@@ -9,6 +9,7 @@ import { AuthService } from 'app/auth/auth.service';
 import { GlobalService } from 'app/globals.service';
 import { PostService } from 'app/posts/posts.service';
 import { Subscription } from 'rxjs';
+import { MultiLanguageService } from '../../../language.service';
 
 @Component({
     selector: 'app-notifications',
@@ -20,7 +21,8 @@ export class NotificationsComponent {
         private user: UserService,
         private auth: AuthService,
         public global: GlobalService,
-        private posts: PostService
+        private posts: PostService,
+        public lang: MultiLanguageService
     ) { }
 
     public notifications: object[] = [];

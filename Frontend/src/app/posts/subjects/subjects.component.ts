@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { PostService } from "../posts.service";
 import { AuthService } from "app/auth/auth.service";
 import { Subscription } from "rxjs";
+import { MultiLanguageService } from "../../language.service";
 
 @Component({
     selector: 'app-subjects',
@@ -12,7 +13,8 @@ export class SubjectsComponent implements OnInit, OnDestroy {
 
     constructor(
         public postService: PostService,
-        public auth: AuthService
+        public auth: AuthService,
+        public lang: MultiLanguageService
     ) { }
 
     public subjects: string[];

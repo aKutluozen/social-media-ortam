@@ -10,6 +10,7 @@ import { AuthService } from "../auth.service";
 import { User } from "app/user/user.model";
 import { ModalService } from "app/modals/modal.service";
 import { Subscription } from "rxjs";
+import { MultiLanguageService } from "../../language.service";
 
 @Component({
     selector: 'app-signup',
@@ -20,7 +21,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     constructor(
         private auth: AuthService,
         private router: Router,
-        private modal: ModalService
+        private modal: ModalService,
+        public lang: MultiLanguageService
     ) { }
 
     public signupForm: FormGroup;
