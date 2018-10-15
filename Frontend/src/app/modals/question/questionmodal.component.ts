@@ -5,6 +5,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalService } from '../modal.service';
 import { InboxService } from 'app/navigation/inbox/inbox.service';
 import * as $ from 'jquery';
+import { MultiLanguageService } from '../../language.service';
 declare var $: any;
 
 @Component({
@@ -15,7 +16,8 @@ export class QuestionmodalComponent implements OnInit {
 
 	constructor(
 		private modal: ModalService,
-		private messageService: InboxService
+		private messageService: InboxService,
+		public lang: MultiLanguageService
 	) { }
 
 	public content: string = '';

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header py-1 bg-danger">
                 <h4 class="modal-title">
-                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> SORUN <button type="button" class="close"
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ lang.text.errors.title }} <button type="button" class="close"
                        data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body">
@@ -11,9 +11,9 @@
             </div>
             <div class="modal-footer p-2">
                 <button *ngIf="error?.error?.message != 'banned'" type="button" class="btn btn-primary btn-sm" (click)="sendErrorMessage()">
-                    <i class="fa fa-share-square" aria-hidden="true"></i> Hata mesaji gonder</button>
+                    <i class="fa fa-share-square" aria-hidden="true"></i> {{ lang.text.credit.sendErrorMessage }}</button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>
     </div>

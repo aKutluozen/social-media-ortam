@@ -6,7 +6,86 @@ export class MultiLanguageService {
     // This will be loaded from server when the language is selected
     public text = {
         general: {
-            charsLeft: 'karater kaldi'
+            charsLeft: 'karater kaldi',
+            selectPicture: 'Resim sec',
+            deletePicture: 'Resim sil',
+            upload: 'Yukle',
+            turn: 'Cevir',
+            cancel: 'Iptal',
+            pictureSuccessful: 'Resim basariyla yuklendi!',
+            share: 'Paylas',
+            close: 'Kapat',
+            edit: 'Duzenle',
+            delete: 'Sil',
+            areYouSure: 'Emin misiniz?',
+            approve: 'Onayla',
+            messageTitle: 'Mesaj',
+            refresh: 'Yenile'
+        },
+        post: {
+            shareHere: 'Kutatku\'da paylas',
+            sharedDate: 'tarihinde paylasildi',
+            seeAllWhoShared: 'Tum paylasanlari gor',
+            placeHolderComment: 'Yorumunuz',
+            openLink: 'Linke git',
+            noCommentsYet: 'Henuz bu paylasim ile ilgili hic bir yorum yapilmamis.',
+            deleteShare: 'Paylasimi sil',
+            whoShared: 'En son paylasan',
+            top10: 'En cok konusulanlar',
+            allPosts: 'Butun paylasimlar',
+            privatePosts: 'Ozel paylasimlar'
+        },
+        admin: {
+            help: 'Yardim',
+            fillOutForm: 'Bu formu doldurarak sitemiz ile ilgili oneri ve sikayetlerinizi bize iletebilirsiniz.',
+            subject: 'Konu',
+            suggestion: 'Oneri',
+            request: 'Istek',
+            complaint: 'Sikayet',
+            bug: 'Ariza',
+            send: 'Gonder',
+            placeHolder: 'Mesajinizi buraya yazin',
+            adText: 'Ilan yazisi',
+            adTitle: 'Ilan basligi'
+        },
+        messaging: {
+            privateChatWith: 'ile ozel konusma',
+            creditWarning: 'Yabanci birine mesaj atmak 10 kredidir. Kalan kredi',
+            answer: 'Cevapla'
+        },
+        complaint: {
+            title: 'Sikayet',
+            message: 'Mesaj',
+            owner: 'Sahibi',
+            date: 'Paylasilma tarihi',
+            complanier: 'Sikayet eden',
+            process: 'Islem',
+            processText: 'Sikayet edilen kisiyi dilediginiz gun sayisi kadar sohbetlerden uzaklastirabilirsiniz.',
+            ban: 'Yasakla',
+            placeHolderDays: 'Gun sayisi'
+        },
+        credit: {
+            title: 'Kredi Islemleri',
+            who: 'Kredi istenen yada gonderilecek kisi',
+            avaiable: 'Mevcut kredi bakiyeniz',
+            amount: 'Gonderilecek ya da istenecek kredi miktarini giriniz',
+            placeHolderAmount: 'Kredi miktarini buraya giriniz',
+            send: 'Gonder',
+            ask: 'Iste',
+            limit: 'Limit asildi',
+
+        },
+        classifieds: {
+            title: 'Seri Ilanlar',
+            vehicle: 'Tasit',
+            service: 'Servis',
+            jobs: 'Is',
+            realEstate: 'Emlak',
+            buySell: 'Alim/Satim',
+            noClassifieds: 'Hic bir ilan bulunamadi',
+            shareHere: 'Kutatku seri ilanlarda paylas',
+            category: 'Kategori',
+            date: 'Yayinlanma',
         },
         auth: {
             login: 'Giris yap',
@@ -28,6 +107,7 @@ export class MultiLanguageService {
             placeHolderPassword: 'Sifre',
             placeHolderNewPassword: 'Yeni sifre',
             placeHolderNickname: 'Takma isim',
+            placeHolderCode: 'Kod',
             placeHolderChatNickname: 'Rumuz (anonim sohbet)',
             placeHolderName: 'Isim',
             placeHolderLastname: 'Soy isim',
@@ -75,16 +155,48 @@ export class MultiLanguageService {
             orange: 'turuncu',
             complaintReason: 'Sebep (max. 100 karakter)'
         },
+        user: {
+            newPeople: 'Yeni arkadaslar kesfedin',
+            nameLastname: 'Isim, soyisim',
+            birthday: 'Dogum gunu',
+            jobStatus: 'Is durumu',
+            educationStatus: 'Egitim durumu',
+            bio: 'Oz gecmis',
+            socialMedia: 'Sosyal medya',
+            follow: 'Takip et',
+            accept: 'Kabul',
+            leave: 'Ayril',
+            askCredit: 'Kredi',
+            talk: 'Konus',
+            noPosts: 'Hic bir paylasim bulunamadi!',
+            noInfo: 'Bu kullanici hakkinda henuz pek bir bilgi yok.',
+            info: 'Bilgiler',
+            email: 'E-mail',
+            nickName: 'Takma isim',
+            chatNickname: 'Rumuz (anonim sohbet)',
+            shortMessage: 'Kisa mesaj (aramalar icin)',
+            name: 'Isim',
+            lastName: 'Soyisim',
+            friends: 'Arkadaslar',
+            noFriends: 'Hic bir arkadas bulunamadi',
+            myWall: 'Duvarim',
+            accountSettings: 'Hesap ayarlari',
+            newPassword: 'Sifre yenile',
+            closeAccount: 'Hesabi kapat',
+            placeHolderOldPassword: 'Eski sifre',
+            placeHolderNewPassword: 'Yeni sifre',
+            placeHolderEnterPassword: 'Sifrenizi giriniz'
+        },
         errors: {
-            inbox: {
-                problem: 'Mesajlar ve istekler goruntulenirken bir sorun olustu',
-            },
-            user: {
-                problem: 'Profil yuklenirken bir sorun olustu',
-            },
-            post: {
-                problem: 'Gonderi yuklenirken bir sorun olustu'
-            }
+            title: 'Sorun',
+            sendErrorMessage: 'Hata raporu gonder',
+            problemInbox: 'Mesajlar ve istekler goruntulenirken bir sorun olustu',
+            problemUser: 'Profil yuklenirken bir sorun olustu',
+            problemPost: 'Gonderi yuklenirken bir sorun olustu',
+            problemSendingMessage: 'Mesajinizi gonderirken bir hata olustu',
+        },
+        success: {
+            messageSent: 'Mesajiniz basariyla gonderildi!'
         }
     }
 }

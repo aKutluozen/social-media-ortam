@@ -3,6 +3,7 @@ import { ModalService } from "../modal.service";
 import { GlobalService } from "../../globals.service";
 import { UserService } from '../../user/user.service';
 import * as $ from 'jquery';
+import { MultiLanguageService } from '../../language.service';
 declare var $: any;
 
 @Component({
@@ -11,7 +12,7 @@ declare var $: any;
 })
 export class CreditmodalComponent implements OnInit {
 
-    constructor(private modal: ModalService, private user: UserService, public global: GlobalService) { }
+    constructor(private modal: ModalService, private user: UserService, public global: GlobalService, public lang: MultiLanguageService) { }
 
     public otherUser: any;
     public creditAmount: number = 0;

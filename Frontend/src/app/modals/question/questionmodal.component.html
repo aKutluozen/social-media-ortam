@@ -2,7 +2,7 @@
     <div class="modal-dialog  " role="document">
         <div class="modal-content">
             <div class="modal-header py-1 bg-success">
-                <h4 class="modal-title"><i class="fa fa-question-circle" aria-hidden="true"></i> Emin misiniz? <button type="button"
+                <h4 class="modal-title"><i class="fa fa-question-circle" aria-hidden="true"></i> {{ lang.text.general.areYouSure }} <button type="button"
                         class="close" data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body">
@@ -10,9 +10,9 @@
             </div>
             <div class="modal-footer p-2">
                 <button type="button" class="btn btn-primary btn-sm" (click)="approve()"><i class="fa fa-check-square" aria-hidden="true"></i>
-                    Onayla</button>
+                    {{ lang.text.general.approve }}</button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i>
-                    Kapat</button>
+                    {{ lang.text.general.close }}</button>
             </div>
         </div>
     </div>

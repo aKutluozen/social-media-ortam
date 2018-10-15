@@ -10,6 +10,7 @@ import { PostService } from "app/posts/posts.service";
 import { Subscription } from 'rxjs/Subscription';
 import { Post } from '../posts/post.model';
 import * as $ from 'jquery';
+import { MultiLanguageService } from "../language.service";
 declare var $: any;
 
 @Component({
@@ -23,6 +24,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		private auth: AuthService,
 		private modal: ModalService,
 		private user: UserService,
+		public lang: MultiLanguageService,
 		private router: Router,
 		public postService: PostService,
 		public global: GlobalService

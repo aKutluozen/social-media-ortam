@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalService } from "../modal.service";
 import * as $ from 'jquery';
+import { MultiLanguageService } from '../../language.service';
 declare var $: any;
 
 @Component({
@@ -9,7 +10,7 @@ declare var $: any;
 })
 export class WarningComponent implements OnInit {
 
-    constructor(private modal: ModalService) { }
+    constructor(private modal: ModalService, public lang: MultiLanguageService) { }
 
     public warning: string = '';
 

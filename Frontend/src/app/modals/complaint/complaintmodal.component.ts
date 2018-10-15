@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalService } from "../modal.service";
 import { UserService } from '../../user/user.service';
 import * as $ from 'jquery';
+import { MultiLanguageService } from '../../language.service';
 declare var $: any;
 
 @Component({
@@ -10,7 +11,7 @@ declare var $: any;
 })
 export class ComplaintmodalComponent implements OnInit {
 
-    constructor(private modal: ModalService, private user: UserService) { }
+    constructor(private modal: ModalService, private user: UserService, public lang: MultiLanguageService) { }
 
     public complaint: object;
     public days: number = 0;

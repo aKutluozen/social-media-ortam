@@ -3,24 +3,24 @@
         <div class="modal-content">
             <div class="modal-header py-1 bg-danger">
                 <h4 class="modal-title">
-                    <i class="fa fa-exclamation" aria-hidden="true"></i> SIKAYET <button type="button" class="close"
+                    <i class="fa fa-exclamation" aria-hidden="true"></i> {{ lang.text.complaint.title }} <button type="button" class="close"
                         data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body" *ngIf="complaint">
-                <p>Mesaj: {{ complaint['message'] }}</p>
-                <p>Sahibi: {{ complaint['name'] }}</p>
-                <p>Paylasilma tarihi: {{ complaint['date'] | date: 'long' }} </p>
-                <p>Sikayet eden: {{ complaint['complainer'] }} </p>
+                <p>{{ lang.text.complaint.message }}: {{ complaint['message'] }}</p>
+                <p>{{ lang.text.complaint.owner }}: {{ complaint['name'] }}</p>
+                <p>{{ lang.text.complaint.date }}: {{ complaint['date'] | date: 'long' }} </p>
+                <p>{{ lang.text.complaint.complainer }}: {{ complaint['complainer'] }} </p>
                 <hr>
-                <h3>Islem:</h3>
-                <p>Sikayet edilen kisiyi dilediginiz gun sayisi kadar sohbetlerden uzaklastirabilirsiniz.</p>
-                <input class="form-control" min="1" max="30" type="number" placeholder="Gun sayisi" [(ngModel)]="days">
+                <h3>{{ lang.text.complaint.process }}:</h3>
+                <p>{{ lang.text.complaint.processText }}</p>
+                <input class="form-control" min="1" max="30" type="number" placeholder="{{ lang.text.complaint.placeHolderDays }}" [(ngModel)]="days">
             </div>
             <div class="modal-footer p-2">
                 <button class="btn btn-danger btn-sm" (click)="blockFromChat(complaint['name'])">
-                    <i class="fa fa-ban"></i> Yasakla</button>
+                    <i class="fa fa-ban"></i> {{ lang.text.complaint.ban }}</button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>
     </div>

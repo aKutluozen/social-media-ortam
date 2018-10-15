@@ -2,7 +2,7 @@
     <div class="row mx-auto my-4">
         <div class="col-12">
             <h4 class="text-primary text-center mb-0">
-                <b>Kutatku'da paylas</b>
+                <b>{{ lang.text.post.shareHere}}</b>
                 <i class="fas fa-plus"></i>
             </h4>
         </div>
@@ -10,7 +10,7 @@
 </div>
 
 <div class="card-columns cols2">
-    <div class="col-12 text-center" *ngIf="postService.posts.length == 0">Hic bir paylasim bulunamadi!</div>
+    <div class="col-12 text-center" *ngIf="postService.posts.length == 0">{{ lang.text.user.noPosts}}</div>
     <app-post [post]="post" *ngFor="let post of postService.posts">
     </app-post>
     <div class="col-12 my-2 text-center action-icon" (click)="loadMore()">

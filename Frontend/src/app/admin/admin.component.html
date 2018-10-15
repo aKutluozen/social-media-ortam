@@ -3,26 +3,26 @@
         <div class="col-xl-12 col-lg-12 mb-4 px-2 mb-3">
             <div class="card">
                 <div class="card-header p-2">
-                    <i class="fa fa-question-circle"></i> Yardim
+                    <i class="fa fa-question-circle"></i> {{ lang.text.admin.help }}
                 </div>
                 <div class="card-body row">
                     <div class="col-12 mb-4">
                         <form class="card" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
                             <div class="card-body">
-                                <p class="lead">Bu formu doldurarak sitemiz ile ilgili oneri ve sikayetlerinizi bize iletebilirsiniz.</p>
+                                <p class="lead">{{ lang.text.admin.fillOutForm }}</p>
                                 <div class="form-group row mx-auto">
-                                    <label for="messagetype" class="col-md-1 my-auto">Konu</label>
+                                    <label for="messagetype" class="col-md-1 my-auto">{{ lang.text.admin.subject }}</label>
                                     <select class="form-control col-md-3" id="messagetype" formControlName="messageType">
-                                        <option value="suggestion" selected>Oneri</option>
-                                        <option value="request">Istek</option>
-                                        <option value="complaint">Sikayet</option>
-                                        <option value="bug">Ariza</option>
+                                        <option value="suggestion" selected>{{ lang.text.admin.suggestion }}</option>
+                                        <option value="request">{{ lang.text.admin.request }}</option>
+                                        <option value="complaint">{{ lang.text.admin.complaint }}</option>
+                                        <option value="bug">{{ lang.text.admin.bug }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <textarea type="text" formControlName="message" class="form-control" maxlength="1024" minlength="16" rows="5" placeholder="Mesajinizi buraya yaziniz"></textarea>
+                                    <textarea type="text" formControlName="message" class="form-control" maxlength="1024" minlength="16" rows="5" placeholder="{{ lang.text.admin.placeHolder }}"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary" [disabled]="!messageForm.valid">Gonder</button>
+                                <button type="submit" class="btn btn-primary" [disabled]="!messageForm.valid">{{ lang.text.admin.send }}</button>
                             </div>
                         </form>
                     </div>

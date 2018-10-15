@@ -5,37 +5,37 @@
                 <button type="button" class="close" (click)="close()">&times;</button>
                 <form [formGroup]="adForm">
                     <div class="row">
-                        <div class="col-2 align-self-center">Kategori</div>
+                        <div class="col-2 align-self-center">{{ lang.text.classifieds.category }}</div>
                         <div class="col-10">
                             <select formControlName="category" id="category" class="form-control">
-                                <option value="tasit">Tasit</option>
-                                <option value="emlak">Emlak</option>
-                                <option value="is">Is</option>
-                                <option value="servis">Servis</option>
-                                <option value="satis">Satis</option>
+                                <option value="tasit">{{ lang.text.classifieds.vehicle }}</option>
+                                <option value="emlak">{{ lang.text.classifieds.realEstate }}</option>
+                                <option value="is">{{ lang.text.classifieds.jobs }}</option>
+                                <option value="servis">{{ lang.text.classifieds.service }}</option>
+                                <option value="satis">{{ lang.text.classifieds.buySell }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <input #adtitle formControlName="title" id="title" class="form-control my-2" placeholder="Ilan basligi"
+                            <input #adtitle formControlName="title" id="title" class="form-control my-2" placeholder="{{ lang.text.classifieds.adTitle }}"
                                 maxlength="256" />
 
                             <textarea #adcontent formControlName="content" id="content" class="form-control my-2" rows="5"
-                                placeholder="Ilan yazisi" maxlength="1024"></textarea>
+                                placeholder="{{ lang.text.classifieds.adText }}" maxlength="1024"></textarea>
                         </div>
                     </div>
                     <div class="row my-0">
                         <p class="col my-0 text-right small text-muted">
-                            {{ 1024 - adcontent.value.length }} karakter kaldi.
+                            {{ 1024 - adcontent.value.length }} {{ lang.text.general.charsLeft }}
                         </p>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label class="btn btn-info text-center btn-sm mb-0" *ngIf="!imageToShow" for="adPictureFile">
-                                <i class="fa fa-image" aria-hidden="true"></i> Resim sec</label>
+                                <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.selectPicture }}</label>
                             <label class="btn btn-danger text-center btn-sm mb-0" *ngIf="imageToShow" (click)="deleteAdPicture()">
-                                <i class="fa fa-trash" aria-hidden="true"></i> Resmi sil</label>
+                                <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.general.deletePicture }}</label>
 
                             <input hidden id="adPictureFile" type="file" (change)="fileChangeEvent($event)" />
 
@@ -50,13 +50,13 @@
                         <div class="row col justify-content-center mx-auto">
                             <button class="btn btn-warning text-center btn-sm" *ngIf="croppedImage" type="button"
                                 (click)="rotateImage()">
-                                <i class="fas fa-sync-alt"></i> Cevir</button>
+                                <i class="fas fa-sync-alt"></i> {{ lang.text.general.turn }}</button>
                             <button class="btn btn-success text-center btn-sm" *ngIf="croppedImage" type="button"
                                 (click)="addAdImage()">
-                                <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
+                                <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.upload }}</button>
                             <button class="btn btn-danger text-center btn-sm" *ngIf="croppedImage" type="button"
                                 (click)="emptyAdImage()">
-                                <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
+                                <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.cancel }}</button>
                             <img hidden [src]="croppedImage" />
                         </div>
                     </div>
@@ -71,15 +71,15 @@
                         <div class="col-9 align-self-center">
                             <img class="w-100" src="{{global.URL_S3_ADS + imageToShow}}">
                         </div>
-                        Resim basari ile yuklendi!
+                        {{ lang.text.general.pictureSuccessful }}
                     </div>
                 </form>
             </div>
             <div class="modal-footer p-2">
                 <button class="btn btn-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="adForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
-                    <i class="fa fa-share-square" aria-hidden="true"></i> Paylas</button>
+                    <i class="fa fa-share-square" aria-hidden="true"></i> {{ lang.text.general.share }}</button>
                 <button type="button" class="btn btn-default btn-sm" (click)="close(false)">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>
     </div>

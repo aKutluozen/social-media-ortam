@@ -7,6 +7,7 @@ import { InboxService } from 'app/navigation/inbox/inbox.service';
 import { GlobalService } from '../../globals.service';
 import { UserService } from '../../user/user.service';
 import * as $ from 'jquery';
+import { MultiLanguageService } from '../../language.service';
 declare var $: any;
 declare var SimplePeer: any;
 @Component({
@@ -21,7 +22,8 @@ export class InputmodalComponent implements OnInit {
 		private messageService: InboxService,
 		private modal: ModalService,
 		private global: GlobalService,
-		private user: UserService
+		private user: UserService,
+		public lang: MultiLanguageService
 	) { }
 	public message: string = '';
 	public messageSetup: any = {};

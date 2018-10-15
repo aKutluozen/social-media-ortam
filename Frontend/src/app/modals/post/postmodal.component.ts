@@ -16,6 +16,7 @@ declare var $: any;
 
 // Models
 import { Post } from "../../posts/post.model";
+import { MultiLanguageService } from '../../language.service';
 
 @Component({
     selector: 'app-postmodal',
@@ -29,7 +30,8 @@ export class PostmodalComponent implements OnInit {
         public postService: PostService,
         private user: UserService,
         private auth: AuthService,
-        public global: GlobalService
+        public global: GlobalService,
+        public lang: MultiLanguageService
     ) { }
     
     private entities = new Entities.XmlEntities();

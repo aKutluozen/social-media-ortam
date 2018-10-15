@@ -15,14 +15,14 @@
                                     onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                             </div>
                             <div class="col-10 small align-self-center">{{ post?.shares[post?.shares.length - 1].user.nickName
-                                }}, {{ post?.shares[post?.shares.length - 1].date | date:'short' }} tarihinde paylasti.</div>
+                                }}, {{ post?.shares[post?.shares.length - 1].date | date:'short' }} {{ lang.text.post.sharedDate}}.</div>
                             <div class="col-12 lead text-muted">
                                 <i class="fas fa-comment pr-2" aria-hidden="true"></i>{{ post?.shares[post?.shares.length
                                 - 1].comment }}
                             </div>
                             <div class="dropdown" *ngIf="post?.shares.length > 0">
                                 <a class="action-icon" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Tum paylasanlari gor
+                                    {{ lang.text.post.seeAllWhoShared}}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <li *ngFor="let sharedUser of post?.shares" class="dropdown-item">{{ sharedUser.user.nickName
@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="col-10">
                                     <div class="form-group mb-0">
-                                        <textarea type="text" rows="1" maxlength="256" id="content" class="form-control mb-0" [(ngModel)]="shareComment" placeholder="Yorumunuz ..."
+                                        <textarea type="text" rows="1" maxlength="256" id="content" class="form-control mb-0" [(ngModel)]="shareComment" placeholder="{{ lang.text.post.placeHolderComment}}"
                                             required></textarea>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@
                                     </button>
                                 </div>
                                 <div class="col-12 my-0 text-right small text-muted">
-                                    {{ 256 - shareComment.length }} karakter kaldi.
+                                    {{ 256 - shareComment.length }} {{ lang.text.general.charsLeft}}.
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                                 <small>{{ post?.linkContent.description }}</small>
                                             </p>
                                             <a class="btn  btn-sm btn-info float-right" href="{{ post?.linkContent.url }}" target="_blank">
-                                                <i class="fa fa-link" aria-hidden="true"></i> Linke git</a>
+                                                <i class="fa fa-link" aria-hidden="true"></i> {{ lang.text.post.openLink}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
                                     <div class="col-10">
                                         <div class="form-group mb-0">
                                             <textarea #commentText type="text" rows="1" maxlength="256" id="content" class="form-control mb-0" [(ngModel)]="answer" (keypress)="answerWithEnter($event)"
-                                                placeholder="Yorumunuz ..." required></textarea>
+                                                placeholder="{{ lang.text.post.placeHolderComment}}" required></textarea>
                                         </div>
                                     </div>
                                     <div class="col-2 pl-0">
@@ -109,13 +109,13 @@
                                         </button>
                                     </div>
                                     <div class="col-12 text-right small text-muted">
-                                        {{ 256 - commentText.value.length }} karakter kaldi.
+                                        {{ 256 - commentText.value.length }} {{ lang.text.general.charsLeft}}.
                                     </div>
                                 </div>
                                 <div class="row p-2 mx-0 scrollable">
                                     <div class="col p-2">
                                         <div class="row p-2 comment-row" *ngIf="post?.comments.length == 0">
-                                            <p class="text-muted">Henuz bu paylasim ile ilgili hic bir yorum yapilmamis.</p>
+                                            <p class="text-muted"> {{ lang.text.post.noCommentsYet }}</p>
                                         </div>
                                         <div class="row p-2 comment-row" *ngFor="let comment of post?.comments">
                                             <div class="col-2 pr-1">
@@ -159,13 +159,13 @@
             </div>
             <div class="modal-footer p-2" *ngIf="belongsToUser() || shareBelongsToUser()">
                 <button *ngIf="belongsToUser()" class="btn btn-primary btn-sm" (click)="onEdit()">
-                    <i class="fa fa-edit" aria-hidden="true"></i> Duzenle
+                    <i class="fa fa-edit" aria-hidden="true"></i> {{ lang.text.general.edit}}
                 </button>
                 <button *ngIf="belongsToUser()" class="btn btn-danger btn-sm" (click)="onDelete()">
-                    <i class="fa fa-trash" aria-hidden="true"></i> Sil
+                    <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.general.delete}}
                 </button>
                 <button *ngIf="shareBelongsToUser()" class="btn btn-warning btn-sm" (click)="onDeleteShare()">
-                    <i class="fa fa-trash" aria-hidden="true"></i> Paylasimi sil
+                    <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.post.deleteShare}}
                 </button>
             </div>
         </div>

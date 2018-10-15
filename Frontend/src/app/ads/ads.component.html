@@ -3,39 +3,39 @@
         <div class="col-xl-12 col-lg-12 mb-4 px-2 mb-3">
             <div class="card">
                 <div class="card-header p-2">
-                    <i class="fa fa-newspaper"></i> Seri Ilanlar
+                    <i class="fa fa-newspaper"></i> {{ lang.text.classifieds.title }}
                 </div>
                 <div class="card-body pt-0 px-3 pb-3">
                     <div class="row">
                         <div class="col">
                             <ul class="nav nav-pills">
                                 <li class="nav-item">
-                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'tasit'}" (click)="filterByCategory('tasit')">Tasit</a>
+                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'tasit'}" (click)="filterByCategory('tasit')">{{ lang.text.classifieds.vehicle }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'emlak'}" (click)="filterByCategory('emlak')">Emlak</a>
+                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'emlak'}" (click)="filterByCategory('emlak')">{{ lang.text.classifieds.realEstate }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'is'}" (click)="filterByCategory('is')">Is</a>
+                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'is'}" (click)="filterByCategory('is')">{{ lang.text.classifieds.jobs }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'servis'}" (click)="filterByCategory('servis')">Servis</a>
+                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'servis'}" (click)="filterByCategory('servis')">{{ lang.text.classifieds.service }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'urun'}" (click)="filterByCategory('urun')">Alim/Satim</a>
+                                    <a class="nav-link action-icon" [ngClass]="{'active': category == 'urun'}" (click)="filterByCategory('urun')">{{ lang.text.classifieds.buySell }}</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <hr>
                     <div class="card-columns">
-                        <div class="col-12 text-center" *ngIf="adsService.ads.length == 0">Hic bir paylasim bulunamadi!</div>
+                        <div class="col-12 text-center" *ngIf="adsService.ads.length == 0">{{ lang.text.classifieds.noClassifieds }}</div>
                         <div class="card border action-icon mb-3" (click)="openAdWindow()">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
                                         <h4 class="text-primary text-center mb-0">
-                                            <b>Kutatku seri ilanlarda paylas</b>
+                                            <b>{{ lang.text.classifieds.shareHere }}</b>
                                             <i class="fas fa-plus"></i>
                                         </h4>
                                     </div>
@@ -50,8 +50,8 @@
                                 </div>
                                 <div class="align-self-center" [ngClass]="{'col-6': ad.picture, 'col-12 p-3': !ad.picture}">
                                     <h5>{{ ad.title }}</h5>
-                                    <p class="small">Kategori: {{ ad.category }}</p>
-                                    <p class="text-muted small">Yayinlanma: {{ ad.created | date: 'shortDate' }}</p>
+                                    <p class="small">{{ lang.text.classifieds.category }}: {{ ad.category }}</p>
+                                    <p class="text-muted small">{{ lang.text.classifieds.date }}: {{ ad.created | date: 'shortDate' }}</p>
                                     <p>{{ ad.content.length > 80 ? ad.content.substring(0, 80) + ' ...' : ad.content }}</p>
                                 </div>
                             </div>

@@ -6,20 +6,20 @@
                 <form [formGroup]="postForm">
                     <div class="row">
                         <div class="col">
-                            <textarea #message formControlName="content" id="content" class="form-control" rows="3" placeholder="Kutatku'da paylas... " maxlength="256"></textarea>
+                            <textarea #message formControlName="content" id="content" class="form-control" rows="3" placeholder="{{ lang.text.post.shareHere }}" maxlength="256"></textarea>
                         </div>
                     </div>
                     <div class="row my-0">
                         <p class="col my-0 text-right small text-muted">
-                            {{ 256 - message.value.length }} karakter kaldi.
+                            {{ 256 - message.value.length }} {{ lang.text.general.charsLeft }}
                         </p>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label class="btn btn-warning text-center btn-sm btn-block mb-0" *ngIf="!imageToShow" for="postPictureFile">
-                                <i class="fa fa-image" aria-hidden="true"></i> Resim sec</label>
+                                <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.selectPicture }}</label>
                             <label class="btn btn-danger text-center btn-sm mb-0" *ngIf="imageToShow" (click)="deletePostPicture()">
-                                <i class="fa fa-trash" aria-hidden="true"></i> Resmi sil</label>
+                                <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.general.deletePicture }}</label>
 
                             <input hidden id="postPictureFile" type="file" (change)="fileChangeEvent($event)" />
 
@@ -33,11 +33,11 @@
                         </div>
                         <div class="row col justify-content-center mx-auto">
                             <button class="btn btn-warning text-center btn-sm" *ngIf="croppedImage" type="button" (click)="rotateImage()">
-                                <i class="fas fa-sync-alt"></i> Cevir</button>
+                                <i class="fas fa-sync-alt"></i> {{ lang.text.general.turn }}</button>
                             <button class="btn btn-success text-center btn-sm" *ngIf="croppedImage" type="button" (click)="addPostImage()">
-                                <i class="fa fa-image" aria-hidden="true"></i> Yukle</button>
+                                <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.upload }}</button>
                             <button class="btn btn-danger text-center btn-sm" *ngIf="croppedImage" type="button" (click)="emptyPostImage()">
-                                <i class="fa fa-image" aria-hidden="true"></i> Iptal et</button>
+                                <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.cancel }}</button>
                             <img hidden [src]="croppedImage" />
                         </div>
                     </div>
@@ -52,15 +52,15 @@
                         <div class="col-9 align-self-center">
                             <img class="w-100" src="{{global.URL_S3_POSTS + imageToShow}}">
                         </div>
-                        Resim basari ile yuklendi!
+                        {{ lang.text.general.pictureSuccessful }}
                     </div>
                 </form>
             </div>
             <div class="modal-footer p-2">
                 <button class="btn btn-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
-                    <i class="fa fa-share-square" aria-hidden="true"></i> Paylas</button>
+                    <i class="fa fa-share-square" aria-hidden="true"></i> {{ lang.text.general.share }}</button>
                 <button type="button" class="btn btn-default btn-sm" (click)="close(false)">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>
     </div>

@@ -3,13 +3,19 @@ import { GlobalService } from '../globals.service';
 import { AuthService } from '../auth/auth.service';
 import { ModalService } from '../modals/modal.service';
 import { NgForm, FormGroup, FormControl, Validators } from "@angular/forms";
+import { MultiLanguageService } from '../language.service';
 
 @Component({
     selector: 'app-admin',
     templateUrl: './admin.component.html'
 })
 export class AdminComponent implements OnInit {
-    constructor(private global: GlobalService, private auth: AuthService, private modal: ModalService) { }
+    constructor(
+        private global: GlobalService, 
+        private auth: AuthService, 
+        private modal: ModalService, 
+        public lang: MultiLanguageService
+    ) { }
 
     public complaints: object[] = [];
     public messageForm: FormGroup;

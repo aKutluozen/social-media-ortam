@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { ModalService } from "../modal.service";
 import * as $ from 'jquery';
 import { AuthService } from "../../auth/auth.service";
+import { MultiLanguageService } from "../../language.service";
 declare var $: any;
 
 @Component({
@@ -10,7 +11,7 @@ declare var $: any;
 })
 export class ErrorComponent implements OnInit {
 
-    constructor(private modal: ModalService, private auth: AuthService) { }
+    constructor(private modal: ModalService, private auth: AuthService, public lang: MultiLanguageService) { }
 
     public error: any;
 

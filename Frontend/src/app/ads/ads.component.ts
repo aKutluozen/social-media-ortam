@@ -6,6 +6,7 @@ import { ModalService } from "app/modals/modal.service";
 import { AuthService } from "app/auth/auth.service";
 import { Subscription } from "rxjs";
 import { GlobalService } from "../globals.service";
+import { MultiLanguageService } from "../language.service";
 
 @Component({
     selector: 'app-ads',
@@ -17,7 +18,8 @@ export class AdsComponent implements OnInit, OnDestroy {
         public adsService: AdsService,
         private modal: ModalService,
         private auth: AuthService,
-        public global: GlobalService
+        public global: GlobalService,
+        public lang: MultiLanguageService
     ) { }
 
     public adAmount: number = 0;

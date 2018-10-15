@@ -3,31 +3,31 @@
         <div class="modal-content">
             <div class="modal-header py-1 bg-warning">
                 <h4 class="modal-title">
-                    <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi Islemleri <button type="button" class="close"
+                    <i class="fa fa-credit-card" aria-hidden="true"></i> {{ lang.text.credit.title }} <button type="button" class="close"
                         data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body text-center">
                 <img class="w-25 rounded-circle img-thumbnail mx-auto mb-2"
                  src="{{ global.URL_S3_USERS + otherUser?.profilePicture }}" 
                  onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
-                <p><b>Kredi istenen yada gonderilecek kisi:</b> {{ otherUser?.nickName }}</p>
-                <h3>Mevcut kredi bakiyeniz: <b>{{ global.credit }} kkr</b></h3>
+                <p><b>{{ lang.text.credit.who }}:</b> {{ otherUser?.nickName }}</p>
+                <h3>{{ lang.text.credit.available }}: <b>{{ global.credit }} kkr</b></h3>
                 <hr>
-                <p>Gonderilecek ya da istenecek kredi miktarini giriniz</p>
-                <input type="number" maxlength="3" min="1" max="1000" class="credit-input mb-4" [(ngModel)]="creditAmount" placeholder="Kredi miktarini buraya giriniz">
+                <p>{{ lang.text.credit.amount }}</p>
+                <input type="number" maxlength="3" min="1" max="1000" class="credit-input mb-4" [(ngModel)]="creditAmount" placeholder="{{ lang.text.credit.placeHolderAmount }}">
             </div>
             <div class="modal-footer p-2">
                 <button type="button" class="btn btn-primary btn-sm" (click)="askCredit()" [disabled]="creditAmount == 0">
                     <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-credit-card"></i> Iste</button>
+                    <i class="fas fa-credit-card"></i> {{ lang.text.credit.ask }}</button>
                 <button type="button" class="btn btn-secondary btn-sm" (click)="sendCredit()" [disabled]="creditAmount > global.credit || creditAmount == 0">
                     <i class="fas fa-credit-card"></i>
                     <i class="fas fa-arrow-right"></i>
-                    <span *ngIf="global.credit - creditAmount >= 0"> Gonder</span>
-                    <span *ngIf="global.credit - creditAmount < 0"> Limit asildi</span>
+                    <span *ngIf="global.credit - creditAmount >= 0"> {{ lang.text.credit.send }}</span>
+                    <span *ngIf="global.credit - creditAmount < 0"> {{ lang.text.credit.limit }}</span>
                 </button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>
     </div>

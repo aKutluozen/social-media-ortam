@@ -13,6 +13,7 @@ declare var $: any;
 
 // Models
 import { Ad } from "../../ads/ad.model";
+import { MultiLanguageService } from '../../language.service';
 
 @Component({
     selector: 'app-admodal',
@@ -23,7 +24,8 @@ export class AdmodalComponent implements OnInit {
     constructor(
         private modal: ModalService,
         public adService: AdsService,
-        public global: GlobalService
+        public global: GlobalService,
+        public lang: MultiLanguageService
     ) { }
 
     private entities = new Entities.XmlEntities();

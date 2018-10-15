@@ -7,6 +7,7 @@ import { AuthService } from 'app/auth/auth.service';
 import { GlobalService } from 'app/globals.service';
 import { PostService } from 'app/posts/posts.service';
 import * as $ from 'jquery';
+import { MultiLanguageService } from '../../language.service';
 declare var $: any;
 
 @Component({
@@ -21,7 +22,8 @@ export class UsermodalComponent implements OnInit {
 		private userService: UserService,
 		private auth: AuthService,
 		public global: GlobalService,
-		public postService: PostService
+		public postService: PostService,
+		public lang: MultiLanguageService
 	) { }
 
 	@ViewChild('modalElement') modalElement: ElementRef;

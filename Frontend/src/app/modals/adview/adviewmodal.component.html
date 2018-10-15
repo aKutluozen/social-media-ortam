@@ -10,8 +10,8 @@
                     </div>
                     <div class="col my-3">
                         <h4>{{ ad?.title }} </h4>
-                        <p>Kategori: {{ ad?.category }}</p>
-                        <p class="text-muted small">Yayinlanma: {{ ad?.created | date: 'shortDate' }}</p>
+                        <p>{{ lang.text.classifieds.category }}: {{ ad?.category }}</p>
+                        <p class="text-muted small">{{ lang.text.classifieds.date }}: {{ ad?.created | date: 'shortDate' }}</p>
                         <hr>
                         <p class="lead text-muted breakable-word">
                             {{ ad?.content }}</p>
@@ -20,10 +20,10 @@
             </div>
             <div class="modal-footer p-2" *ngIf="belongsToUser()">
                 <button class="btn btn-primary btn-sm" (click)="onEdit()">
-                    <i class="fa fa-edit" aria-hidden="true"></i> Duzenle
+                    <i class="fa fa-edit" aria-hidden="true"></i> {{ lang.text.general.edit }}
                 </button>
                 <button class="btn btn-danger btn-sm" (click)="onDelete()">
-                    <i class="fa fa-trash" aria-hidden="true"></i> Sil
+                    <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.general.delete }}
                 </button>
             </div>
         </div>

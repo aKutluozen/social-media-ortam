@@ -1,25 +1,24 @@
 <div class="row">
     <form class="col-md-12" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <input type="text" id="nickName" maxlength="48" class="form-control" placeholder="Takma isim" formControlName="nickName">
+            <input type="text" id="nickName" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderNickname }}" formControlName="nickName">
         </div>
         <div class="form-group">
-            <input type="text" id="chatNickName" maxlength="48" class="form-control" placeholder="Rumuz (anonim sohbet)" formControlName="chatNickName">
+            <input type="text" id="chatNickName" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderChatNickname }}" formControlName="chatNickName">
         </div>
         <div class="form-group">
-            <input type="email" id="email" maxlength="48" class="form-control" placeholder="E-posta" formControlName="email">
+            <input type="email" id="email" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderEmail }}" formControlName="email">
         </div>
         <div class="form-row mb-3">
             <div class="col-12 pl-3">
                 <p class="small alert alert-warning">
-                    <i class="fa fa-exclamation"></i> Isim ve soyismi doldurmak, arkadas aramalarinda kolay bulunabilmeniz icin tavsiye olunur. Kalan
-                    bilgileri hesabinizi actiktan sonra doldurabilirsiniz.</p>
+                    <i class="fa fa-exclamation"></i> {{ lang.text.classifieds.whyNameLastnameMessage }}</p>
             </div>
             <div class="col-6">
-                <input type="text" id="firstname" maxlength="48" class="form-control" placeholder="Isim" formControlName="firstName">
+                <input type="text" id="firstname" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderName }}" formControlName="firstName">
             </div>
             <div class="col-6">
-                <input type="text" id="lastname" maxlength="48" class="form-control" placeholder="Soyisim" formControlName="lastName">
+                <input type="text" id="lastname" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderLastname }}" formControlName="lastName">
             </div>
         </div>
         <div class="form-row">
@@ -27,13 +26,13 @@
                 <div class="small alert alert-warning">
                     <p>
                         <i class="fa fa-exclamation"></i>
-                        Sifreniz asagidaki kurallara uygun olmalidir:</p>
+                        {{ lang.text.classifieds.passwordRules }}:</p>
                     <ul>
-                        <li>En az 8 karakter</li>
-                        <li>En az 1 kucuk harf</li>
-                        <li>En az 1 buyuk harf</li>
-                        <li>En az 1 sayi</li>
-                        <li>En az 1 ozel karakter (!@#$%^&*) icermelidir</li>
+                        <li>{{ lang.text.classifieds.passwordRule1 }}</li>
+                        <li>{{ lang.text.classifieds.passwordRule2 }}</li>
+                        <li>{{ lang.text.classifieds.passwordRule3 }}</li>
+                        <li>{{ lang.text.classifieds.passwordRule4 }}</li>
+                        <li>{{ lang.text.classifieds.passwordRule5 }}</li>
                     </ul>
                 </div>
             </div>
@@ -49,17 +48,17 @@
                 <div class="small alert alert-info">
                     <p>
                         <i class="fa fa-thumbs-up"></i>
-                        Son olarak, nereden katildiginizi ve kim oldugunuzu anlatan kisa bir mesaj ile Kutatku'ya merhaba deyin! Dilerseniz, daha sonra bu mesaji dilediginiz gibi degistirebilirsiniz. <i>(Max 256 karakter)</i></p>
+                        {{ lang.text.classifieds.shortMessageMessage }}</p>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <textarea type="text" #shortMessage id="shortMessage" rows="3" maxlength="128" class="form-control" placeholder="Ben Ali, Istanbul'da ogrenciyim. Buraya arkadaslik ve is ilanlari icin geldim..." formControlName="shortMessage"></textarea>
+            <textarea type="text" #shortMessage id="shortMessage" rows="3" maxlength="128" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderShortMessage }}" formControlName="shortMessage"></textarea>
             <span class="text-muted small text-right">{{ 128 - shortMessage.value.length }} karakter kaldi.</span>
         </div>
         <div class="form-group mb-0">
             <button class="btn btn-primary btn-sm btn-block" type="submit" [disabled]="!signupForm.valid">
-                <i class="fa fa-file" aria-hidden="true"></i> Kayit ol</button>
+                <i class="fa fa-file" aria-hidden="true"></i> {{ lang.text.classifieds.signup }}</button>
         </div>
     </form>
 </div>

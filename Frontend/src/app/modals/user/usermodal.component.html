@@ -44,20 +44,19 @@
                                     <div class="card-body p-2">
 
                                         <p *ngIf="user?.firstName && user?.lastName">
-                                            <b>Isim, soyisim:</b> {{ user?.firstName + ' ' + user?.lastName }}</p>
+                                            <b>{{ lang.text.user.nameLastname}}:</b> {{ user?.firstName + ' ' + user?.lastName }}</p>
 
                                         <p *ngIf="user?.birthday">
-                                            <b>Dogum tarihi:</b> {{ user?.birthday | date:'short' }}</p>
+                                            <b>{{ lang.text.user.birthday}}:</b> {{ user?.birthday | date:'short' }}</p>
                                         <p *ngIf="user?.bio">
-                                            <b>Oz gecmis:</b> {{ user?.bio }}</p>
+                                            <b>{{ lang.text.user.bio}}:</b> {{ user?.bio }}</p>
                                         <p *ngIf="user?.jobStatus">
-                                            <b>Is durumu:</b> {{ user?.jobStatus}}</p>
+                                            <b>{{ lang.text.user.jobStatus}}:</b> {{ user?.jobStatus}}</p>
                                         <p *ngIf="user?.education">
-                                            <b>Egitim durumu:</b> {{ user?.education }}</p>
-                                        <p *ngIf="!user?.birthday && !user?.bio && !user?.jobStatus && !user?.education">Bu
-                                            kullanici hakkinda pek bir bilgi henuz yok.</p>
+                                            <b>{{ lang.text.user.educationStatus}}:</b> {{ user?.education }}</p>
+                                        <p *ngIf="!user?.birthday && !user?.bio && !user?.jobStatus && !user?.education">{{ lang.text.user.noInfo}}</p>
                                         <p class="mb-2" *ngIf="user?.twitterLink || user?.instagramLink || user?.snapchatLink || user?.youtubeLink || user?.linkedinLink || user?.googleplusLink">
-                                            <b>Sosyal Medya:</b>
+                                            <b>{{ lang.text.user.socialMedia}}:</b>
                                         </p>
                                         <ul class="list-inline">
                                             <li class="list-inline-item social-icon" *ngIf="user?.instagramLink">
@@ -118,7 +117,7 @@
                                     <i class="fa fa-comment" aria-hidden="true"></i> {{ user.shortMessage }}</p>
                             </div>
                         </div>
-                        <p class="text-center" *ngIf="user?.posts?.length == 0">Hic bir paylasim bulunamadi!</p>
+                        <p class="text-center" *ngIf="user?.posts?.length == 0">{{ lang.text.user.noPosts}}</p>
                         <!-- Posts and activities -->
                         <div class="card-columns">
                             <app-post class="mb-4" [mylocation]="'profile'" [inView]="'inView'" [post]="post" *ngFor="let post of user?.posts">
@@ -130,19 +129,19 @@
             <div class="modal-footer p-2">
                 <button *ngIf="!isFriend && !isInTheFollowList && !isMe" [disabled]="isRequestSent(user) || isInTheFollowList" class="btn btn-primary btn-sm"
                     (click)="follow(user._id)">
-                    <i class="fa fa-eye" aria-hidden="true"></i> Takip et</button>
+                    <i class="fa fa-eye" aria-hidden="true"></i> {{ lang.text.user.follow}}</button>
                 <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-success btn-sm" (click)="acceptRequest(user._id)">
-                    <i class="fa fa-check" aria-hidden="true"></i> Kabul</button>
+                    <i class="fa fa-check" aria-hidden="true"></i> {{ lang.text.user.accept}}</button>
                 <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-danger btn-sm" (click)="rejectRequest(user.nickName)">
-                    <i class="fa fa-user-times" aria-hidden="true"></i> Iptal</button>
+                    <i class="fa fa-user-times" aria-hidden="true"></i> {{ lang.text.general.cancel}}</button>
                 <button *ngIf="!justView && isFriend && !isMe" class="btn btn-danger btn-sm" (click)="unfriend(user.nickName)">
-                    <i class="fa fa-user-times" aria-hidden="true"></i> Ayril</button>
+                    <i class="fa fa-user-times" aria-hidden="true"></i> {{ lang.text.user.leave}}</button>
                 <button *ngIf="!justView && isFriend && !isMe" class="btn btn-warning btn-sm" (click)="creditAskSend(user.nickName, user.profilePicture)">
-                    <i class="fa fa-credit-card" aria-hidden="true"></i> Kredi</button>
+                    <i class="fa fa-credit-card" aria-hidden="true"></i> {{ lang.text.user.askCredit}}</button>
                 <button class="btn btn-info btn-sm" *ngIf="!isMe" (click)="answerMessage(user.nickName)">
-                    <i class="fa fa-envelope" aria-hidden="true"></i> Konus</button>
+                    <i class="fa fa-envelope" aria-hidden="true"></i> {{ lang.text.user.talk}}</button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> Kapat</button>
+                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close}}</button>
             </div>
         </div>
     </div>

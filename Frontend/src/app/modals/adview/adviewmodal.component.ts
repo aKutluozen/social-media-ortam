@@ -14,6 +14,7 @@ declare var $: any;
 // Models
 import { Ad } from "../../ads/ad.model";
 import { AdsService } from '../../ads/ads.service';
+import { MultiLanguageService } from '../../language.service';
 
 @Component({
     selector: 'app-adviewmodal',
@@ -26,7 +27,8 @@ export class AdviewmodalComponent implements OnInit {
         private user: UserService,
         private adsService: AdsService,
         private auth: AuthService,
-        public global: GlobalService
+        public global: GlobalService,
+        public lang: MultiLanguageService
     ) { }
 
     public content: string = '';
