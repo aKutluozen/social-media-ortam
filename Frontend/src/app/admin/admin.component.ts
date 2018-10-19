@@ -30,10 +30,10 @@ export class AdminComponent implements OnInit {
     sendMessage() {
         this.auth.sendAdminMessage(this.messageForm.value.message, this.messageForm.value.messageType, this.global.username).subscribe(
             data => { 
-                this.modal.handleWarning('Mesajiniz basariyla gonderildi!'); 
+                this.modal.handleWarning(this.lang.text.success.messageSent); 
                 this.messageForm.reset(); 
             },
-            error => this.modal.handleError('Mesajinizi gonderirken bir hata olustu', error)
+            error => this.modal.handleError(this.lang.text.errors.sendingMessage, error)
         );
     }
 }

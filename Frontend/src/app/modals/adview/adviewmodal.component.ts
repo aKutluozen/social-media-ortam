@@ -63,11 +63,11 @@ export class AdviewmodalComponent implements OnInit {
     // Handle deleting
     onDelete() {
         this.modal.showQuestion({
-            content: 'Bu mesaji silmek istediginize emin misiniz?',
+            content: this.lang.text.question.deleteMessage,
             approveFunction: () => {
                 this.adsService.deleteAd(this.ad).subscribe(
                     result => this.close(),
-                    error => this.modal.handleError('Paylasim silinirken bir sorun olustu', error)
+                    error => this.modal.handleError(this.lang.text.errors.deletingAd, error)
                 );
             }
         });

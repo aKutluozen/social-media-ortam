@@ -52,7 +52,7 @@ export class AdsComponent implements OnInit, OnDestroy {
                 this.adsService.ads = ads.slice();
             }, error => {
                 this.adSubscription.unsubscribe();
-                this.modal.handleError('Paylasimlari goruntulerken bir sorun olustu', error);
+                this.modal.handleError(this.lang.text.errors.showingAds, error);
             });
     }
 
@@ -71,7 +71,7 @@ export class AdsComponent implements OnInit, OnDestroy {
             this.adsService.ads = ads.slice();
         }, error => {
             this.adSubscriptionCategories.unsubscribe();
-            this.modal.handleError('Konulari goruntulerken bir sorun olustu', error);
+            this.modal.handleError(this.lang.text.errors.showingAds, error);
         });
     }
 
@@ -86,7 +86,7 @@ export class AdsComponent implements OnInit, OnDestroy {
         }, error => {
             this.adSubscriptionWithInterval.unsubscribe();
             window.clearInterval(this.adLoadInterval);
-            this.modal.handleError('Konulari goruntulerken bir sorun olustu 123', error);
+            this.modal.handleError(this.lang.text.errors.showingAds, error);
         });
     }
 

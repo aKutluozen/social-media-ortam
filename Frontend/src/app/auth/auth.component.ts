@@ -8,7 +8,11 @@ import { MultiLanguageService } from "../language.service";
     templateUrl: './auth.component.html'
 })
 export class AuthComponent {
-    constructor(private auth: AuthService, private global: GlobalService, public lang: MultiLanguageService) { }
+    constructor(
+        private auth: AuthService, 
+        private global: GlobalService, 
+        public lang: MultiLanguageService
+    ) { }
 
     // Check if logged in
     isLoggedIn() {

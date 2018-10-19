@@ -73,7 +73,7 @@ export class MessagesComponent {
 						this.messages.push(item);
 					}
 				},
-				error => this.modal.handleError("Mesajlar ve istekler goruntulenirken bir sorun olustu", error)
+				error => this.modal.handleError(this.lang.text.errors.inbox, error)
 			);
 	}
 
@@ -85,7 +85,7 @@ export class MessagesComponent {
 	answerAnonymChat(receiver, areceiver, asender, id) {
 		this.modal.showInputModal({
 			type: "anonym-chat",
-			title: "Anonim gorusme",
+			title: this.lang.text.general.anonymChat,
 			receiver: receiver,
 			areceiver: areceiver,
 			asender: asender,
@@ -97,14 +97,14 @@ export class MessagesComponent {
 	answerMessage(receiver, id) {
 		this.modal.showInputModal({
 			type: "chat",
-			title: "Mesaj gonder",
+			title: this.lang.text.general.sendMessage,
 			receiver: receiver,
 			messageId: id
 		});
 
 		this.inboxSubscription = this.user.markInbox(id).subscribe(
 			data => { },
-			error => this.modal.handleError("Mesajlar ve istekler goruntulenirken bir sorun olustu", error)
+			error => this.modal.handleError(this.lang.text.errors.inbox, error)
 		);
 
 		// Mark it in the front end for class to disappear
@@ -118,7 +118,7 @@ export class MessagesComponent {
 	// Deletes it only for the rejecting person for now
 	deleteMessage(id) {
 		this.modal.showQuestion({
-			content: "Bu mesaji silmek istediginize emin misiniz?",
+			content: this.lang.text.question.deleteMessage,
 			approveFunction: () => {
 				this.messageSubscription = this.message.deleteMessage(id).subscribe(
 					data => {
@@ -128,7 +128,7 @@ export class MessagesComponent {
 							}
 						}
 					},
-					error => this.modal.handleError("Mesaj silinemedi", error)
+					error => this.modal.handleError(this.lang.text.errors.deletingAnswer, error)
 				);
 			}
 		});

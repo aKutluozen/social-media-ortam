@@ -30,9 +30,9 @@ export class ErrorComponent implements OnInit {
     sendErrorMessage() {
         this.auth.sendErrorMessage(this.error.error.message).subscribe(
             data => {
-                this.modal.handleWarning('Hata raporu basariyla gonderildi!');
+                this.modal.handleWarning(this.lang.text.success.reportSent);
                 $(this.modalElement.nativeElement).modal('hide');
-            }, error => this.modal.handleError('Hata raporu gonderilemedi', error)
+            }, error => this.modal.handleError(this.lang.text.errors.reportSent, error)
         );
     }
 }

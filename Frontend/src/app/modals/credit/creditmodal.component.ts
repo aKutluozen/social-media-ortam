@@ -44,7 +44,7 @@ export class CreditmodalComponent implements OnInit {
             approveFunction: () => {
                 this.user.sendCreditRequest(this.otherUser, this.creditAmount, false).subscribe(
                     data => this.modal.handleWarning('Kredi hediyeniz basari ile gonderilmistir! <br> Kalan kredi: <b><big>' + (this.global.credit - this.creditAmount) + '</big></b>'),
-                    error => this.modal.handleError('Kredi hediyesi isteginiz gonderilirken bir sorun olustu!', error),
+                    error => this.modal.handleError(this.lang.text.errors.creditGiftSending, error),
                     () => this.close()
                 );
             }
@@ -57,7 +57,7 @@ export class CreditmodalComponent implements OnInit {
             approveFunction: () => {
                 this.user.sendCreditRequest(this.otherUser, this.creditAmount, true).subscribe(
                     data => this.modal.handleWarning(this.otherUser + ' isimli kullaniciya <b><big>' + this.creditAmount + '</big></b> kredi isteginiz basari ile gonderilmistir!'),
-                    error => this.modal.handleError('Kredi istegi gonderilirken bir sorun olustu!', error),
+                    error => this.modal.handleError(this.lang.text.errors.creditRequestSending, error),
                     () => this.close()
                 );
             }

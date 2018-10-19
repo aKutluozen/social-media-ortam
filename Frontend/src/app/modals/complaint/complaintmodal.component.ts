@@ -40,13 +40,13 @@ export class ComplaintmodalComponent implements OnInit {
             .subscribe(
                 (res) => {
                     if (res.message == 'success') {
-                        this.modal.handleWarning('Kullanici basari ile yasaklandi.');
+                        this.modal.handleWarning(this.lang.text.success.banned);
                         this.close();
                     } else {
-                        this.modal.handleError('Yasaklarken sorun olustu', res);
+                        this.modal.handleError(this.lang.text.errors.banning, res);
                     }
                 },
-                (err) => this.modal.handleError('Yasaklarken sorun olustu', err)
+                (err) => this.modal.handleError(this.lang.text.errors.banning, err)
             );
     }
 }

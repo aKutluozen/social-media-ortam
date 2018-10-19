@@ -46,14 +46,14 @@ export class SignupComponent implements OnInit, OnDestroy {
         if (this.signupForm.value.password == this.signupForm.value.password2) {
             this.subscription = this.auth.signup(user).subscribe(
                 data => {
-                    this.modal.handleWarning('Kayit oldugunuz icin tesekkurler! Artik siteye giris yapabilirsiniz.');
+                    this.modal.handleWarning(this.lang.text.success.signup);
                     this.router.navigateByUrl('/auth/signin');
                 },
-                error => this.modal.handleError('Kayit olurken bir problem olustu!', error)
+                error => this.modal.handleError(this.lang.text.errors.signup, error)
             );
             this.signupForm.reset();
         } else {
-            this.modal.handleError('Iki sifrenin de ayni oldugundan emin olun!', {});
+            this.modal.handleError(this.lang.text.errors.passwords, {});
         }
     }
 

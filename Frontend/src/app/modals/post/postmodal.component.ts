@@ -151,7 +151,7 @@ export class PostmodalComponent implements OnInit {
                 this.isRotating = false;
                 this.imageToShow = response.data;
             },
-            err => this.modal.handleError('Resim eklenirken bir sorun olustu', err)
+            err => this.modal.handleError(this.lang.text.errors.pictureUpload, err)
         );
     }
 
@@ -171,7 +171,7 @@ export class PostmodalComponent implements OnInit {
                     this.post.image = '';
                 }
             },
-            err => this.modal.handleError('Gonderi resmi silinirken bir sorun olustu', err)
+            err => this.modal.handleError(this.lang.text.errors.pictureDelete, err)
         );
     }
 
@@ -190,7 +190,7 @@ export class PostmodalComponent implements OnInit {
                     }
                     sendPostToBackEnd.call(this);
                 },
-                err => this.modal.handleError('Linkte bir sorun olustu!', err)
+                err => this.modal.handleError(this.lang.text.errors.link, err)
             );
         } else {
             this.parsedLink = '';
@@ -247,14 +247,14 @@ export class PostmodalComponent implements OnInit {
                 this.post.group = this.group;
 
                 if (this.post.content === '') {
-                    this.modal.handleError('Lutfen butun bilgilerini doldurunuz!', '');
+                    this.modal.handleError(this.lang.text.errors.fillOutAll, '');
                     return;
                 }
 
                 this.postService.updatePost(this.post).subscribe(
                     data => this.close(),
                     error => {
-                        this.modal.handleError('Paylasirken bir sorun oldu!', error);
+                        this.modal.handleError(this.lang.text.errors.updatePost, error);
                         this.close();
                     });
                 try {
@@ -288,7 +288,7 @@ export class PostmodalComponent implements OnInit {
                 this.postService.addNewPost(post).subscribe(
                     data => this.close(),
                     error => {
-                        this.modal.handleError('Paylasirken bir sorun oldu!', error);
+                        this.modal.handleError(this.lang.text.errors.sharingPost, error);
                         this.close();
                     }
                 );

@@ -59,7 +59,7 @@ export class InputmodalComponent implements OnInit {
 						this.close();
 					})
 				},
-				err => this.modal.handleError('Arkadaslik kontrolunde bir sorun olustu', err)
+				err => this.modal.handleError(this.lang.text.errors.checkingFriendship, err)
 			);
 
 			var messageId;
@@ -101,7 +101,7 @@ export class InputmodalComponent implements OnInit {
 				this.latestMessageTime = this.messageSetup['messages'][lastPos].date;
 				this.checkMessages(id, this.latestMessageTime, this.interval);
 				this.scrollDown();
-			}, error => this.modal.handleError('Mesajlar ve istekler goruntulenirken bir sorun olustu', error)
+			}, error => this.modal.handleError(this.lang.text.errors.inbox, error)
 		);
 	}
 

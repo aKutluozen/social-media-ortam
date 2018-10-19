@@ -144,7 +144,7 @@ export class AdmodalComponent implements OnInit {
                 this.isRotating = false;
                 this.imageToShow = response.data;
             },
-            err => this.modal.handleError('Resim eklenirken bir sorun olustu', err)
+            err => this.modal.handleError(this.lang.text.errors.pictureUpload, err)
         );
     }
 
@@ -164,7 +164,7 @@ export class AdmodalComponent implements OnInit {
                     this.ad.picture = '';
                 }
             },
-            err => this.modal.handleError('Gonderi resmi silinirken bir sorun olustu', err)
+            err => this.modal.handleError(this.lang.text.errors.pictureDelete, err)
         );
     }
 
@@ -176,14 +176,14 @@ export class AdmodalComponent implements OnInit {
             this.ad.picture = this.imageToShow;
 
             if (this.ad.content === '') {
-                this.modal.handleError('Lutfen butun bilgilerini doldurunuz!', '');
+                this.modal.handleError(this.lang.text.errors.fillOutAll, '');
                 return;
             }
 
             this.adService.updateAd(this.ad).subscribe(
                 data => this.close(),
                 error => {
-                    this.modal.handleError('Paylasirken bir sorun oldu!', error);
+                    this.modal.handleError(this.lang.text.errors.sharingAd, error);
                     this.close();
                 });
 
@@ -202,7 +202,7 @@ export class AdmodalComponent implements OnInit {
             this.adService.addNewAd(ad).subscribe(
                 data => this.close(),
                 error => {
-                    this.modal.handleError('Paylasirken bir sorun oldu!', error);
+                    this.modal.handleError(this.lang.text.errors.sharingAd, error);
                     this.close();
                 }
             );

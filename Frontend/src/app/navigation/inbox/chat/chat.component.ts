@@ -43,7 +43,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 
 		this.modal.showQuestion({
-			content: 'Bu odaya girmeden once asagidaki kurallari kabul etmelisiniz: <br>' + this.selectedRoom['rules'],
+			content: this.lang.text.chat.acceptRoomRules + '<br>' + this.selectedRoom['rules'],
 			approveFunction: () => {
 				this.selectedRoom['canEnter'] = true;
 				this.chatService.selectRoom(this.selectedRoom).subscribe(
@@ -79,7 +79,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 					this.timeout = window.setTimeout(() => { this.messageTimeout = false; }, 2000);
 				}
 			} else {
-				this.modal.handleError('Sohbetten kovuldunuz!', { error: '', message: 'banned' });
+				this.modal.handleError(this.lang.text.chat.youAreBanned, { error: '', message: 'banned' });
 			}
 		}
 	}
@@ -111,11 +111,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 			res => {
 				for (let msg of this.messages) {
 					if (msg['text']['message'] == message.text.message) {
-						msg['complaintStatus'] = 'Sikayet gonderildi';
+						msg['complaintStatus'] = this.lang.text.chat.complaintSent;
 					}
 				}
 			},
-			err => this.modal.handleError('Sikayet gonderilirken bir sorun olustu', err)
+			err => this.modal.handleError(this.lang.text.errors.sendComplaint, err)
 		);
 
 		this.reason = '';
@@ -133,7 +133,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 		this.chatService.selectRoom(this.room).subscribe(
 			data => $('textarea').attr('maxlength', 256),
-			error => this.modal.handleError('Odaya girilirken bir sorun olustu', error)
+			error => this.modal.handleError(this.lang.text.errors.enteringChatRoom, error)
 		);
 
 		this.chatService.getRooms().subscribe(

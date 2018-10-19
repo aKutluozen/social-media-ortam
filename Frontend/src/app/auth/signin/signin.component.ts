@@ -48,7 +48,7 @@ export class SigninComponent implements OnInit, OnDestroy {
                 this.global.username = data.data.name;
                 this.global.credit = data.data.credit;
 
-                this.modal.handleWarning('Hosgeldin ' + this.auth.getCookie('user') + '! Simdi ana sayfaya yonlendiriliyorsunuz!'); // Show this only when first logged in
+                this.modal.handleWarning(this.lang.text.success.welcome + ' ' + this.auth.getCookie('user') + '!'); // Show this only when first logged in
 
                 this.timeoutLogin = window.setTimeout(function () {
 
@@ -59,7 +59,7 @@ export class SigninComponent implements OnInit, OnDestroy {
                 }, 500);
 
             },
-            error => this.modal.handleError('Giris yapilamadi, lutfen bilgilerinizi kontrol ediniz!', error)
+            error => this.modal.handleError(this.lang.text.errors.login, error)
         );
         this.signinForm.reset();
     }
@@ -94,18 +94,18 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     sendForgotRequest() {
         this.auth.sendResetRequest(this.resetForm.value.email).subscribe(
-            data => this.modal.handleWarning('Girdiginiz emaile bir sifre yolladik, lutfen kontrol ediniz.'),
-            error => this.modal.handleError('Bir sorun olustu', error)
+            data => this.modal.handleWarning(this.lang.text.success.sentCodeToEmail),
+            error => this.modal.handleError(this.lang.text.errors.unexplanied, error)
         );
     }
 
     refreshPassword() {
         this.auth.refreshPassword(this.resetForm.value.email, this.resetForm.value.resetCode, this.resetForm.value.newPassword).subscribe(
             data => {
-                this.modal.handleWarning('Sifreniz basari ile yenilenmistir! Lutfen tekrar giris yapmayi deneyiniz.');
+                this.modal.handleWarning(this.lang.text.success.passwordReset);
                 this.isResetting = false;
             },
-            error => this.modal.handleError('Yanlis kod girdiniz. Lutfen butun formu gerektigi gibi doldurunuz.', error)
+            error => this.modal.handleError(this.lang.text.errors.wrongCode, error)
         );
     }
 

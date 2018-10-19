@@ -134,9 +134,9 @@ export class UsermodalComponent implements OnInit {
 	follow(id) {
 		this.userService.sendFollowRequest(id).subscribe(
 			data => {
-				this.modal.handleWarning('Takip istegi basari ile gonderildi');
+				this.modal.handleWarning(this.lang.text.success.followRequestSent);
 				this.close();
-			}, error => this.modal.handleError('Istek gonderilemedi', error)
+			}, error => this.modal.handleError(this.lang.text.errors.followRequestSent, error)
 		);
 	}
 
@@ -144,22 +144,22 @@ export class UsermodalComponent implements OnInit {
 	acceptRequest(id) {
 		this.userService.addToFollowing(id).subscribe(
 			data => {
-				this.modal.handleWarning('Takip istegi kabul edildi!');
+				this.modal.handleWarning(this.lang.text.success.requestAccepted);
 				this.close();
-			}, error => this.modal.handleError('Kabul edilemedi', error)
+			}, error => this.modal.handleError(this.lang.text.errors.requestAccepted, error)
 		);
 	}
 
 	// Reject friendship, remove it from the list if successfull
 	rejectRequest(name) {
 		this.modal.showQuestion({
-			content: 'Bu istegi geri cevirmek istediginize emin misiniz?',
+			content: this.lang.text.question.cancelRequest,
 			approveFunction: () => {
 				this.userService.rejectFollowing(name).subscribe(
 					data => {
-						this.modal.handleWarning('Takip istegi iptal edildi!');
+						this.modal.handleWarning(this.lang.text.success.requestCancelled);
 						this.close();
-					}, error => this.modal.handleError('Takip istegi iptal edilirken bir sorun olustu', error)
+					}, error => this.modal.handleError(this.lang.text.errors.requestCancelled, error)
 				);
 			}
 		});
@@ -168,14 +168,14 @@ export class UsermodalComponent implements OnInit {
 	// Delete a friend
 	unfriend(name) {
 		this.modal.showQuestion({
-			content: 'Bu kisiyi arkadasliktan cikarmak istediginize emin misiniz?',
+			content: this.lang.text.question.unfriend,
 			approveFunction: () => {
 				this.userService.deleteFriend(name).subscribe(
 					data => {
 						this.isFriend = false;
-						this.modal.handleWarning('Arkadasliktan cikarildi!');
+						this.modal.handleWarning(this.lang.text.success.unfriended);
 						this.close();
-					}, error => this.modal.handleError('Arkadaslik iptal edilirken bir sorun olustu', error)
+					}, error => this.modal.handleError(this.lang.text.errors.unfriend, error)
 				);
 			}
 		});

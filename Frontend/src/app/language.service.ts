@@ -20,7 +20,9 @@ export class MultiLanguageService {
             areYouSure: 'Emin misiniz?',
             approve: 'Onayla',
             messageTitle: 'Mesaj',
-            refresh: 'Yenile'
+            refresh: 'Yenile',
+            sendMessage: 'Mesaj Gonder',
+            anonymChat: 'Anonim Gorusme'
         },
         post: {
             shareHere: 'Kutatku\'da paylas',
@@ -187,16 +189,68 @@ export class MultiLanguageService {
             placeHolderNewPassword: 'Yeni sifre',
             placeHolderEnterPassword: 'Sifrenizi giriniz'
         },
+        chat: {
+            acceptRoomRules: 'Bu odaya girmeden once asagidaki kurallari kabul etmelisiniz:',
+            youAreBanned: 'Sohbetten kovuldunuz!',
+            complaintSent: 'Sikayet gonderildi'
+        },
         errors: {
             title: 'Sorun',
+            showingPost: 'Paylasimi gosterirken bir sorun olustu',
+            deletingNotification: 'Bildirim silinirken bir sorun olustu',
+            checkingFriendship: 'Arkadaslik kontrolunde bir sorun olustu!',
             sendErrorMessage: 'Hata raporu gonder',
-            problemInbox: 'Mesajlar ve istekler goruntulenirken bir sorun olustu',
-            problemUser: 'Profil yuklenirken bir sorun olustu',
-            problemPost: 'Gonderi yuklenirken bir sorun olustu',
-            problemSendingMessage: 'Mesajinizi gonderirken bir hata olustu',
+            inbox: 'Mesajlar ve istekler goruntulenirken bir sorun olustu',
+            user: 'Profil yuklenirken bir sorun olustu',
+            post: 'Gonderi yuklenirken bir sorun olustu',
+            sendingMessage: 'Mesajinizi gonderirken bir hata olustu',
+            showingAds: 'Ilanlari goruntulerken bir sorun olustu',
+            showingPosts: 'Paylasimlari goruntulerken bir sorun olustu',
+            login: 'Giris yapilamadi, lutfen bilgilerinizi kontrol ediniz',
+            wrongCode: 'Yanlis kod girdiniz, lutfen tekrar deneyiniz',
+            unexplanied: 'Bilinmeyen bir sorun olustu',
+            signup: 'Kayit olurken bir problem olustu',
+            passwords: 'Iki sifrenin ayni oldugundan emin olun!',
+            sharingAd: 'Ilani paylasirken bir sorun olustu',
+            fillOutAll: 'Lutfen butun bilgileri doldurunuz',
+            pictureUpload: 'Resim yuklenirken bir sorun olustu',
+            pictureDelete: 'Resim silinirken bir sorun olustu',
+            deletingAd: 'Ilan silinirken bir sorun olustu',
+            banning: 'Kullanici yasaklanirken bir sorun olustu.',
+            creditRequestSending: 'Kredi isteginiz gonderilirken bir sorun olustu!',
+            creditGiftSending: 'Kredi hediyesi gonderilirken bir sorun olustu!',
+            reportSent: 'Hata raporu gonderilemedi!',
+            updatingPost: 'Gonderi guncellenirken bir sorun olustu!',
+            sharingPost: 'Gonderi paylasilirken bir sorun olustu!',
+            deletingPost: 'Gonderi silinirken bir sorun olustu!',
+            answerPost: 'Paylasima cevap verilirken bir sorun olustu',
+            deletingAnswer: 'Cevap silinirken bir sorun olustu',
+            link: 'Linkte bir sorun olustu',
+            liking: 'Paylasim begenilirken bir sorun olustu!',
+            followRequestSent: 'Takip istegi yollarken bir sorun olustu!',
+            requestAccepted: 'Takip istegi kabul edilirken bir sorun olustu!',
+            requestCancelled: 'Takip istegi iptal edilirken bir sorun olustu!',
+            unfriend: 'Arkadasliktan cikarilirken bir sorun olustu!',
+            sendComplaint: 'Sikayet gonderilirken bir sorun olustu',
+            enteringChatRoom: 'Odaya girilirken bir sorun olustu'
         },
         success: {
-            messageSent: 'Mesajiniz basariyla gonderildi!'
+            messageSent: 'Mesajiniz basariyla gonderildi!',
+            welcome: 'Hosgeldin',
+            sentCodeToEmail: 'Girdiginiz adrese bir sifre yolladik, lutfen kontrol ediniz',
+            passwordReset: 'Sifreniz basari ile yenilenmistir! Lutfen tekrar giris yapiniz',
+            signup: 'Kayit oldugunuz icin tesekkurler! Artik siteye giris yapabilirsiniz.',
+            banned: 'Kullanici basari ile yasaklandi.',
+            reportSent: 'Hata raporu basariyla gonderildi',
+            followRequestSent: 'Takip istegi basari ile yollandi!',
+            requestAccepted: 'Takip istegi kabul edildi!',
+            requestCancelled: 'Takip istegi iptal edildi',
+            unfriended: 'Arkadasliktan cikarildi!'
+        },
+        question: {
+            deleteMessage: 'Bu mesaji silmek istediginizden emin misiniz?',
+            cancelRequest: 'Bu istegi geri cevirmek istediginizden emin misiniz?',
+            unfriend: 'Bu kisiyi arkadasliktan cikarmak istediginize emin misiniz?'
         }
     }
 }

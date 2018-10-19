@@ -115,7 +115,7 @@ export class NotificationsComponent {
                         }
                     }
                 },
-                error => this.modal.handleError('Bildirim silinemedi!', error)
+                error => this.modal.handleError(this.lang.text.errors.deletingNotification, error)
             );
     }
 
@@ -155,7 +155,7 @@ export class NotificationsComponent {
                         }
                     }
                 },
-                error => this.modal.handleError('Mesajlar ve istekler goruntulenirken bir sorun olustu', error)
+                error => this.modal.handleError(this.lang.text.errors.inbox, error)
             );
     }
 
@@ -190,10 +190,10 @@ export class NotificationsComponent {
                                     }
                                 }
                             },
-                            error => this.modal.handleError('Silemedik!', error)
+                            error => this.modal.handleError(this.lang.text.errors.deletingNotification, error)
                         );
                 },
-                error => this.modal.handleError('Paylasimi gosterirken bir sorun olustu', error)
+                error => this.modal.handleError(this.lang.text.errors.showingPost, error)
             );
         }
     }

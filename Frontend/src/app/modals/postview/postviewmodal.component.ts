@@ -75,11 +75,11 @@ export class PostviewmodalComponent implements OnInit {
     // Handle deleting
     onDelete() {
         this.modal.showQuestion({
-            content: 'Bu mesaji silmek istediginize emin misiniz?',
+            content: this.lang.text.question.deleteMessage,
             approveFunction: () => {
                 this.postService.deletePost(this.post).subscribe(
                     result => this.close(),
-                    error => this.modal.handleError('Paylasim silinirken bir sorun olustu', error)
+                    error => this.modal.handleError(this.lang.text.errors.deletingPost, error)
                 );
             }
         });
@@ -88,11 +88,11 @@ export class PostviewmodalComponent implements OnInit {
     // Handle deleting
     onDeleteShare() {
         this.modal.showQuestion({
-            content: 'Bu paylasimi silmek istediginize emin misiniz?',
+            content: this.lang.text.question.deleteMessage,
             approveFunction: () => {
                 this.postService.deletePostShared(this.post).subscribe(
                     result => this.close(),
-                    error => this.modal.handleError('Paylasim silinirken bir sorun olustu', error)
+                    error => this.modal.handleError(this.lang.text.errors.deletingPost, error)
                 );
             }
         });
@@ -101,7 +101,7 @@ export class PostviewmodalComponent implements OnInit {
     viewProfile(name) {
         this.user.viewProfile(name).subscribe(
             data => this.modal.showUserModal(data.data),
-            error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+            error => this.modal.handleError(this.lang.text.errors.user, error)
         );
     }
 
@@ -109,7 +109,7 @@ export class PostviewmodalComponent implements OnInit {
     likeThis() {
         if (!this.post.dislikes.includes(this.auth.getCookie('user')) && this.post.nickName != this.global.username) {
             this.postService.likePost(this.post).subscribe(data => { },
-                error => this.modal.handleError('Paylasim begenilirken bir sorun olustu.', error)
+                error => this.modal.handleError(this.lang.text.errors.liking, error)
             );
         }
     }
@@ -118,7 +118,7 @@ export class PostviewmodalComponent implements OnInit {
     dislikeThis() {
         if (!this.post.likes.includes(this.auth.getCookie('user')) && this.post.nickName != this.global.username) {
             this.postService.dislikePost(this.post).subscribe(data => { },
-                error => this.modal.handleError('Paylasim begenilemedi.', error)
+                error => this.modal.handleError(this.lang.text.errors.liking, error)
             );
         }
     }
@@ -141,7 +141,7 @@ export class PostviewmodalComponent implements OnInit {
             result => {
                 this.shareComment = '';
                 this.onSharing = false;
-            }, error => this.modal.handleError('Paylasim paylasilirken bir sorun olustu', error)
+            }, error => this.modal.handleError(this.lang.text.errors.sharingPost, error)
         );
     }
 
@@ -149,7 +149,7 @@ export class PostviewmodalComponent implements OnInit {
     sendAnswer() {
         this.postService.answerPost(this.answer, this.post).subscribe(
             result => this.answer = '',
-            error => this.modal.handleError('Paylasima cevap verilirken bir sorun olustu', error)
+            error => this.modal.handleError(this.lang.text.errors.answerPost, error)
         );
     }
 
@@ -162,7 +162,7 @@ export class PostviewmodalComponent implements OnInit {
     // Delete an answer
     deleteAnswer(id) {
         this.modal.showQuestion({
-            content: 'Bu mesaji silmek istediginize emin misiniz?',
+            content: this.lang.text.question.deleteMessage,
             approveFunction: () => {
                 this.postService.deleteAnswer(id, this.post).subscribe(
                     result => {
@@ -171,7 +171,7 @@ export class PostviewmodalComponent implements OnInit {
                                 this.post.comments.splice(i, 1);
                             }
                         }
-                    }, error => this.modal.handleError('Cevap silinirken bir sorun olustu.', error)
+                    }, error => this.modal.handleError(this.lang.text.errors.deletingAnswer, error)
                 );
             }
         });
