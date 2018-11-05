@@ -1,24 +1,24 @@
 <div class="row">
     <form class="col-md-12" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <input type="text" id="nickName" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderNickname }}" formControlName="nickName">
+            <input type="text" id="nickName" maxlength="48" class="form-control" placeholder="{{ lang.text.auth.placeHolderNickname }}" formControlName="nickName">
         </div>
         <div class="form-group">
-            <input type="text" id="chatNickName" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderChatNickname }}" formControlName="chatNickName">
+            <input type="text" id="chatNickName" maxlength="48" class="form-control" placeholder="{{ lang.text.auth.placeHolderChatNickname }}" formControlName="chatNickName">
         </div>
         <div class="form-group">
-            <input type="email" id="email" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderEmail }}" formControlName="email">
+            <input type="email" id="email" maxlength="48" class="form-control" placeholder="{{ lang.text.auth.placeHolderEmail }}" formControlName="email">
         </div>
         <div class="form-row mb-3">
             <div class="col-12 pl-3">
                 <p class="small alert alert-warning">
-                    <i class="fa fa-exclamation"></i> {{ lang.text.classifieds.whyNameLastnameMessage }}</p>
+                    <i class="fa fa-exclamation"></i> {{ lang.text.auth.whyNameLastnameMessage }}</p>
             </div>
             <div class="col-6">
-                <input type="text" id="firstname" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderName }}" formControlName="firstName">
+                <input type="text" id="firstname" maxlength="48" class="form-control" placeholder="{{ lang.text.auth.placeHolderName }}" formControlName="firstName">
             </div>
             <div class="col-6">
-                <input type="text" id="lastname" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderLastname }}" formControlName="lastName">
+                <input type="text" id="lastname" maxlength="48" class="form-control" placeholder="{{ lang.text.auth.placeHolderLastname }}" formControlName="lastName">
             </div>
         </div>
         <div class="form-row">
@@ -26,13 +26,13 @@
                 <div class="small alert alert-warning">
                     <p>
                         <i class="fa fa-exclamation"></i>
-                        {{ lang.text.classifieds.passwordRules }}:</p>
+                        {{ lang.text.auth.passwordRules }}:</p>
                     <ul>
-                        <li>{{ lang.text.classifieds.passwordRule1 }}</li>
-                        <li>{{ lang.text.classifieds.passwordRule2 }}</li>
-                        <li>{{ lang.text.classifieds.passwordRule3 }}</li>
-                        <li>{{ lang.text.classifieds.passwordRule4 }}</li>
-                        <li>{{ lang.text.classifieds.passwordRule5 }}</li>
+                        <li>{{ lang.text.auth.passwordRule1 }}</li>
+                        <li>{{ lang.text.auth.passwordRule2 }}</li>
+                        <li>{{ lang.text.auth.passwordRule3 }}</li>
+                        <li>{{ lang.text.auth.passwordRule4 }}</li>
+                        <li>{{ lang.text.auth.passwordRule5 }}</li>
                     </ul>
                 </div>
             </div>
@@ -48,17 +48,17 @@
                 <div class="small alert alert-info">
                     <p>
                         <i class="fa fa-thumbs-up"></i>
-                        {{ lang.text.classifieds.shortMessageMessage }}</p>
+                        {{ lang.text.auth.shortMessageMessage }}</p>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <textarea type="text" #shortMessage id="shortMessage" rows="3" maxlength="128" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderShortMessage }}" formControlName="shortMessage"></textarea>
+            <textarea type="text" #shortMessage id="shortMessage" rows="3" maxlength="128" class="form-control" placeholder="{{ lang.text.auth.placeHolderShortMessage }}" formControlName="shortMessage"></textarea>
             <span class="text-muted small text-right">{{ 128 - shortMessage.value.length }} karakter kaldi.</span>
         </div>
         <div class="form-group mb-0">
             <button class="btn btn-primary btn-sm btn-block" type="submit" [disabled]="!signupForm.valid">
-                <i class="fa fa-file" aria-hidden="true"></i> {{ lang.text.classifieds.signup }}</button>
+                <i class="fa fa-file" aria-hidden="true"></i> {{ lang.text.auth.signup }}</button>
         </div>
     </form>
 </div>

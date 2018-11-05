@@ -156,6 +156,60 @@ POST_ROUTER.get('/subjects', function (req, res) {
     });
 });
 
+// Get only one post with all the info.
+POST_ROUTER.get('/post/:id', function (req, res) {
+    Post.findById(req.params.id)
+        .populate([{
+            path: 'user',
+            model: User,
+            select: 'nickName profilePicture'
+        }, {
+            path: 'shares.user',
+            model: User,
+            select: 'nickName profilePicture'
+        }, {
+            path: 'comments.user',
+            model: User,
+            select: 'nickName profilePicture'
+        }]).exec((err, post) => {
+            if (err || !post) {
+                return res.status(500).json({
+                    message: 'problem getting post',
+                    error: err
+                });
+            }
+            return res.status(200).json({
+                message: 'post',
+                data: post
+            });
+        });
+});
+
+POST_ROUTER.get('/:id', function (req, res) {
+    Post.findById(req.params.id)
+        .populate([{
+            path: 'user',
+            model: User,
+            select: 'nickName profilePicture'
+        }, {
+            path: 'shares.user',
+            model: User,
+            select: 'nickName profilePicture'
+        }, {
+            path: 'comments.user',
+            model: User,
+            select: 'nickName profilePicture'
+        }]).exec((err, post) => {
+            if (err || !post) {
+                return res.status(500).json({
+                    message: 'problem getting post',
+                    error: err
+                });
+            }
+            return res.render('post', { user: post.nickName, message: post.content, picture: post.image });
+        });
+});
+
 // Protect the routes
 // Each request this will execute
 POST_ROUTER.use('/', function (req, res, next) {
@@ -268,35 +322,6 @@ POST_ROUTER.get('/friends/:subject/:amount', function (req, res) {
             }
         });
     });
-});
-
-// Get only one post with all the info.
-POST_ROUTER.get('/post/:id', function (req, res) {
-    Post.findById(req.params.id)
-        .populate([{
-            path: 'user',
-            model: User,
-            select: 'nickName profilePicture'
-        }, {
-            path: 'shares.user',
-            model: User,
-            select: 'nickName profilePicture'
-        }, {
-            path: 'comments.user',
-            model: User,
-            select: 'nickName profilePicture'
-        }]).exec((err, post) => {
-            if (err || !post) {
-                return res.status(500).json({
-                    message: 'problem getting post',
-                    error: err
-                });
-            }
-            return res.status(200).json({
-                message: 'post',
-                data: post
-            });
-        });
 });
 
 // Get private posts

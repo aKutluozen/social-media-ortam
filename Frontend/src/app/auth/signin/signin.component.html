@@ -1,10 +1,10 @@
 <div class="row">
     <form class="col-md-12" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <input type="email" id="email" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderEmail }}" formControlName="email">
+            <input type="email" id="email" maxlength="48" class="form-control" placeholder="{{ lang.text.auth.placeHolderEmail }}" formControlName="email">
         </div>
         <div class="form-group">
-            <input type="password" id="password" maxlength="48" class="form-control" placeholder="{{ lang.text.classifieds.placeHolderPassword }}" formControlName="password">
+            <input type="password" id="password" maxlength="48" class="form-control" placeholder="{{ lang.text.auth.placeHolderPassword }}" formControlName="password">
         </div>
         <div class="form-group mb-0">
             <div class="row">
@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-6">
                     <button class="btn btn-info btn-block btn-sm" type="button" (click)="forgot()">
-                        <i class="fa fa-question" aria-hidden="true"></i> {{ lang.text.classifieds.forgotPassword }}</button>
+                        <i class="fa fa-question" aria-hidden="true"></i> {{ lang.text.auth.forgotPassword }}</button>
                 </div>
             </div>
         </div>
@@ -24,49 +24,49 @@
     <hr>
     <div class="row">
         <form class="col" [formGroup]="resetForm">
-            <h4 class="text-center">{{ lang.text.classifieds.forgotPasswordMessage }}</h4>
+            <h4 class="text-center">{{ lang.text.auth.forgotPasswordMessage }}</h4>
             <div class="form-group">
                 <div class="row">
                     <div class="col-6">
                         <label>
-                            <b>1)</b> {{ lang.text.classifieds.enterEmail }}</label>
-                        <input type="email" maxlength="48" id="email" class="ml-2 form-control" placeholder="{{ lang.text.classifieds.placeHolderEmail }}" formControlName="email">
+                            <b>1)</b> {{ lang.text.auth.enterEmail }}</label>
+                        <input type="email" maxlength="48" id="email" class="ml-2 form-control" placeholder="{{ lang.text.auth.placeHolderEmail }}" formControlName="email">
                     </div>
                     <div class="col align-self-center">
                         <button class="btn btn-warning btn-block btn-sm" type="button" (click)="sendForgotRequest(); $event.stopPropagation()">
-                            <i class="fas fa-envelope" aria-hidden="true"></i> {{ lang.text.classifieds.sendCode }}</button>
+                            <i class="fas fa-envelope" aria-hidden="true"></i> {{ lang.text.auth.sendCode }}</button>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label>
-                    <b>2)</b> {{ lang.text.classifieds.enterCode }}</label>
-                <input type="text" id="resetCode" maxlength="48" class="ml-2 form-control" placeholder="{{ lang.text.classifieds.placeHolderCode }}" formControlName="resetCode">
+                    <b>2)</b> {{ lang.text.auth.enterCode }}</label>
+                <input type="text" id="resetCode" maxlength="48" class="ml-2 form-control" placeholder="{{ lang.text.auth.placeHolderCode }}" formControlName="resetCode">
             </div>
             <div class="form-row">
                 <div class="col-12 pl-3">
                     <div class="small alert alert-warning">
                         <p>
                             <i class="fa fa-exclamation"></i>
-                            {{ lang.text.classifieds.passwordRules }}:</p>
+                            {{ lang.text.auth.passwordRules }}:</p>
                         <ul>
-                            <li>{{ lang.text.classifieds.passwordRule1 }}</li>
-                            <li>{{ lang.text.classifieds.passwordRule2 }}</li>
-                            <li>{{ lang.text.classifieds.passwordRule3 }}</li>
-                            <li>{{ lang.text.classifieds.passwordRule4 }}</li>
-                            <li>{{ lang.text.classifieds.passwordRule5 }}</li>
+                            <li>{{ lang.text.auth.passwordRule1 }}</li>
+                            <li>{{ lang.text.auth.passwordRule2 }}</li>
+                            <li>{{ lang.text.auth.passwordRule3 }}</li>
+                            <li>{{ lang.text.auth.passwordRule4 }}</li>
+                            <li>{{ lang.text.auth.passwordRule5 }}</li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label>
-                    <b>3)</b> {{ lang.text.classifieds.enterNewPassword }}</label>
-                <input type="password" id="newPassword" maxlength="48" class="ml-2 form-control" placeholder="{{ lang.text.classifieds.placeHolderNewPassword }}" formControlName="newPassword">
+                    <b>3)</b> {{ lang.text.auth.enterNewPassword }}</label>
+                <input type="password" id="newPassword" maxlength="48" class="ml-2 form-control" placeholder="{{ lang.text.auth.placeHolderNewPassword }}" formControlName="newPassword">
             </div>
             <div class="form-group mb-0">
                 <button class="btn btn-primary btn-block btn-sm" type="button" (click)="refreshPassword()" [disabled]="!resetForm.valid">
-                    <i class="fa fa-check-square" aria-hidden="true"></i> {{ lang.text.classifieds.changePassword }}</button>
+                    <i class="fa fa-check-square" aria-hidden="true"></i> {{ lang.text.auth.changePassword }}</button>
             </div>
         </form>
     </div>

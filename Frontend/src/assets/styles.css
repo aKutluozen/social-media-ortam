@@ -2,11 +2,11 @@ body {
     padding-top: 70px;
     margin-bottom: 60px;
     background: #e7e4e0;
-    /* background-image: url('assets/images/istanbul.png');
+    background-image: url('https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/istanbul.png');
     background-attachment: fixed;
     background-size: 100% auto;
     background-repeat: no-repeat;
-    background-position: 0 100%; */
+    background-position: 0 100%;
 }
 
 * {
