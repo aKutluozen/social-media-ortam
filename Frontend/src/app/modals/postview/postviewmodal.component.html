@@ -14,19 +14,17 @@
                                 <img class="w-100 rounded-circle" src="{{ global.URL_S3_USERS + post?.shares[post?.shares.length - 1].user.profilePicture }}"
                                     onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                             </div>
-                            <div class="col-10 small align-self-center">{{ post?.shares[post?.shares.length - 1].user.nickName
-                                }}, {{ post?.shares[post?.shares.length - 1].date | date:'short' }} {{ lang.text.post.sharedDate}}.</div>
+                            <div class="col-10 small align-self-center">{{ post?.shares[post?.shares.length - 1].user.nickName }}, {{ post?.shares[post?.shares.length
+                                - 1].date | date:'short' }} {{ lang.text.post.sharedDate}}.</div>
                             <div class="col-12 lead text-muted">
-                                <i class="fas fa-comment pr-2" aria-hidden="true"></i>{{ post?.shares[post?.shares.length
-                                - 1].comment }}
+                                <i class="fas fa-comment pr-2" aria-hidden="true"></i>{{ post?.shares[post?.shares.length - 1].comment }}
                             </div>
                             <div class="dropdown" *ngIf="post?.shares.length > 0">
                                 <a class="action-icon" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ lang.text.post.seeAllWhoShared}}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li *ngFor="let sharedUser of post?.shares" class="dropdown-item">{{ sharedUser.user.nickName
-                                        }}
+                                    <li *ngFor="let sharedUser of post?.shares" class="dropdown-item">{{ sharedUser.user.nickName }}
                                     </li>
                                 </ul>
                             </div>
@@ -40,8 +38,8 @@
                                 <div class="row">
                                     <div class="col-12 align-items-start">
                                         <small class="text-primary">
-                                            <i class="fa fa-hashtag" aria-hidden="true"></i>{{ post?.subject[0].length >=
-                                            16 ? post?.subject[0].substring(0, 16) + ' ...' : post?.subject[0] }}</small>
+                                            <i class="fa fa-hashtag" aria-hidden="true"></i>{{ post?.subject[0].length >= 16 ? post?.subject[0].substring(0, 16) + '
+                                            ...' : post?.subject[0] }}</small>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -141,6 +139,10 @@
                             <div class="row mt-4 pt-4 position-absolute fixed-bottom mx-auto" *ngIf="post?.nickName != global.username">
                                 <div class="col-12 mx-auto" *ngIf="isLoggedIn()">
                                     <div class="btn-group justify-content-center btn-group-sm w-100" role="group">
+                                        <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn border-0 btn-sm w-25 btn-outline-warning"
+                                            (click)="getLink()">
+                                            <i class="fas fa-link"></i>
+                                        </button>
                                         <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn border-0 btn-sm w-25 btn-outline-info"
                                             (click)="onShare()">
                                             <i class="fa fa-share-alt" aria-hidden="true"></i>

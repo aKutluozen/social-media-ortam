@@ -185,6 +185,7 @@ POST_ROUTER.get('/post/:id', function (req, res) {
         });
 });
 
+// Get shareable link
 POST_ROUTER.get('/:id', function (req, res) {
     Post.findById(req.params.id)
         .populate([{
