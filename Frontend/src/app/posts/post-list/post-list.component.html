@@ -11,7 +11,7 @@
 
 <div class="card-columns cols2">
     <div class="col-12 text-center" *ngIf="postService.posts.length == 0">{{ lang.text.user.noPosts}}</div>
-    <app-post [post]="post" *ngFor="let post of postService.posts">
+    <app-post [post]="post" *ngFor="let post of postService.posts" class="animated fadeIn">
     </app-post>
     <div class="col-12 my-2 text-center action-icon" (click)="loadMore()">
         <i class="fa fa-ellipsis-h fa-3x text-primary" aria-hidden="true"></i>

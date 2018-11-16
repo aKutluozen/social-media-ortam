@@ -211,11 +211,6 @@ export class AdmodalComponent implements OnInit {
         this.close();
     }
 
-    getLink() {
-        alert('Link: ' + this.global.URL + 'ad/' + this.ad.adId);
-        var link = this.global.URL + 'ad/' + this.ad.adId;
-    }
-
     // Initialize the reactive form
     ngOnInit() {
         this.modal.adNewModalActivated.subscribe((adObject: Object) => {

@@ -14,7 +14,7 @@
                     <b>{{ lang.text.post.privatePosts }}</b>
                 </a>
             </li>
-            <li *ngFor="let subject of subjects" class="list-group-item small border-0 py-1">
+            <li *ngFor="let subject of subjects" class="list-group-item small border-0 py-1 animated fadeIn">
                 <a href="javascript:void(0)" class="text-dark" (click)="postListRef.filterBySubject(subject._id)">{{ subject._id }}
                 </a>
             </li>

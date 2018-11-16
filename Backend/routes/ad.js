@@ -31,27 +31,14 @@ var upload = multer({
 
 // Get shareable link
 AD_ROUTER.get('/:id', function (req, res) {
-    Post.findById(req.params.id)
-        .populate([{
-            path: 'user',
-            model: User,
-            select: 'nickName profilePicture'
-        }, {
-            path: 'shares.user',
-            model: User,
-            select: 'nickName profilePicture'
-        }, {
-            path: 'comments.user',
-            model: User,
-            select: 'nickName profilePicture'
-        }]).exec((err, post) => {
-            if (err || !post) {
+    Ad.findById(req.params.id).exec((err, ad) => {
+            if (err || !ad) {
                 return res.status(500).json({
-                    message: 'problem getting post',
+                    message: 'problem getting ad',
                     error: err
                 });
             }
-            return res.render('post', { user: post.nickName, message: post.content, picture: post.image });
+            return res.render('ad', { user: ad.nickName, content: ad.content, picture: ad.picture, title: ad.title, category: ad.category, date: ad.created });
         });
 });
 
@@ -114,9 +101,8 @@ AD_ROUTER.post('/', function (req, res, next) {
     });
 });
 
-// Update a post
+// Update an ad
 AD_ROUTER.patch('/:id', function (req, res) {
-    console.log('hereee', req);
     Ad.updateOne({ _id: req.params.id }, {
         $set: {
             content: req.body.content,
@@ -195,7 +181,6 @@ AD_ROUTER.delete('/image', function (req, res) {
         });
     });
 });
-
 
 // Remove an ad
 AD_ROUTER.delete('/:id', (req, res) => {
