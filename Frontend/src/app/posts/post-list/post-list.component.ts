@@ -46,7 +46,7 @@ export class PostListComponent implements OnInit, OnDestroy {
                 this.postService.posts = posts.slice();
             }, error => {
                 this.postSubscription.unsubscribe();
-                this.modal.handleError('Paylasimlari goruntulerken bir sorun olustu', error);
+                this.modal.handleError(this.lang.text.errors.showingPosts, error);
             });
     }
 
@@ -66,7 +66,7 @@ export class PostListComponent implements OnInit, OnDestroy {
             this.postService.posts = posts.slice();
         }, error => {
             this.postSubscriptionSubjects.unsubscribe();
-            this.modal.handleError('Konulari goruntulerken bir sorun olustu', error);
+            this.modal.handleError(this.lang.text.errors.subjects, error);
         });
     }
 
@@ -81,7 +81,7 @@ export class PostListComponent implements OnInit, OnDestroy {
         }, error => {
             this.postSubscriptionWithInterval.unsubscribe();
             window.clearInterval(this.postLoadInterval);
-            this.modal.handleError('Konulari goruntulerken bir sorun olustu 123', error);
+            this.modal.handleError(this.lang.text.errors.subjects, error);
         });
     }
 

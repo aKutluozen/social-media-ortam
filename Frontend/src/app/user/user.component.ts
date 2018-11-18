@@ -67,22 +67,22 @@ export class UserComponent implements OnInit, OnDestroy {
 
 	resetPassword(oldPass, newPass) {
 		this.user.resetPassword(oldPass, newPass).subscribe(
-			data => this.modal.handleWarning('Sifreniz basari ile degismistir!'),
-			error => this.modal.handleError('Sifrenizi degistirirken bir sorun olustu', error)
+			data => this.modal.handleWarning(this.lang.text.user.passwordReset),
+			error => this.modal.handleError(this.lang.text.errors.passwordReset, error)
 		);
 	}
 
 	closeAccount(oldPass) {
 		this.modal.showQuestion({
-			content: 'Bu hesabi kapatmak istediginizden emin misiniz?',
+			content: this.lang.text.user.areYouSureCloseAccount,
 			approveFunction: () => {
 				this.user.closeAccount(oldPass, this.auth.getCookie('user')).subscribe(
 					data => {
-						this.modal.handleWarning('Hesap basariyla kapanmistir ve alakali her sey silinmistir. Gule gule!');
+						this.modal.handleWarning(this.lang.text.user.accountClosed);
 						this.auth.logout();
 						this.router.navigateByUrl('/auth/signin');
 					},
-					error => this.modal.handleError('Hesap kapatilirken bir sorun olustu', error)
+					error => this.modal.handleError(this.lang.text.errors.closingAccount, error)
 				);
 			}
 		});
@@ -182,9 +182,9 @@ export class UserComponent implements OnInit, OnDestroy {
 		this.userSubscription = this.user.updateProfile(this.profileForm.value).subscribe(
 			result => {
 				this.profileForm.disable();
-				this.modal.handleWarning('Profiliniz basari ile guncellenmistir!');
+				this.modal.handleWarning(this.lang.text.user.profileUpdated);
 			},
-			error => this.modal.handleError('Profil guncellenirken bir hata olustu!', error)
+			error => this.modal.handleError(this.lang.text.errors.profileUpdated, error)
 		);
 	}
 
@@ -194,7 +194,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		// Don't delete empty images
 		if (image) {
 			this.modal.showQuestion({
-				content: 'Bu resmi istediginizden emin misiniz?',
+				content: this.lang.text.general.areSureDeletePicture,
 				approveFunction: () => {
 					this.user.deleteGalleryPicture(
 						image,
@@ -203,7 +203,7 @@ export class UserComponent implements OnInit, OnDestroy {
 							this.images.splice(pos, 1);
 							this.fillEmptyImages();
 						},
-						err => this.modal.handleError('Resimler yuklenirken bir sorun oldu', err)
+						err => this.modal.handleError(this.lang.text.errors.picturesUpload, err)
 					);
 				}
 			});
@@ -215,7 +215,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
 		for (let file of files) {
 			if (file.size > 1000000) {
-				this.modal.handleWarning('Resimler 1 MB\'den buyuk olmamalidir. 1 MB\'den buyuk resimler yuklenmedi.');
+				this.modal.handleWarning(this.lang.text.errors.pictureSize);
 			}
 		}
 
@@ -228,7 +228,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
 		if (files) {
 			if (files.length > emptyImagesCount) {
-				this.modal.handleWarning('Maksimum 6 resim hakkini doldurdunuz. Bazi resimleri silerek yeni resimlere yer acabilirsiniz.');
+				this.modal.handleWarning(this.lang.text.errors.pictureLimit);
 			} else {
 				this.user.updateGalleryPictures(
 					files,
@@ -239,7 +239,7 @@ export class UserComponent implements OnInit, OnDestroy {
 						}
 						this.fillEmptyImages();
 					},
-					err => this.modal.handleError('Galeriye resimler yuklenirken bir sorun olustu', err)
+					err => this.modal.handleError(this.lang.text.errors.picturesUpload, err)
 				);
 			}
 		}
@@ -265,14 +265,14 @@ export class UserComponent implements OnInit, OnDestroy {
 
 	deleteProfilePicture() {
 		this.modal.showQuestion({
-			content: 'Profile resmini istediginizden emin misiniz?',
+			content: this.lang.text.general.areSureDeletePicture,
 			approveFunction: () => {
 				this.user.deleteProfilePicture(
 					response => {
 						this.profilePicture = '';
 						this.global.profilePicture = '';
 					},
-					err => this.modal.handleError('Profil resmi yuklenirken bir sorun olustu', err)
+					err => this.modal.handleError(this.lang.text.errors.pictureUpload, err)
 				);
 			}
 		});
@@ -301,7 +301,7 @@ export class UserComponent implements OnInit, OnDestroy {
 					this.profilePicture = '';
 				}
 			},
-			err => this.modal.handleError('Profil yuklenirken bir sorun olustu', err)
+			err => this.modal.handleError(this.lang.text.errors.user, err)
 		);
 	}
 
@@ -318,7 +318,7 @@ export class UserComponent implements OnInit, OnDestroy {
 		var i = new Image();
 		i.onload = () => {
 			if (i.height > 960) {
-				this.modal.handleError('Resim cok uzun! Yukselik ve genislik orani 3/1\'i gecemez.', {});
+				this.modal.handleError(this.lang.text.errors.pictureRatio, {});
 				// Reset the cropper
 				this.coverCropperSize.x2 = 320;
 			}
@@ -357,17 +357,17 @@ export class UserComponent implements OnInit, OnDestroy {
 					this.coverPicture = '';
 				}
 			},
-			err => this.modal.handleError('Kapak resmi yuklenirken bir sorun olustu', err)
+			err => this.modal.handleError(this.lang.text.errors.pictureUpload, err)
 		);
 	}
 
 	deleteCoverImage() {
 		this.modal.showQuestion({
-			content: 'Kapak resmini istediginizden emin misiniz?',
+			content: this.lang.text.general.areSureDeletePicture,
 			approveFunction: () => {
 				this.user.deleteCoverImage(
 					response => this.coverPicture = '',
-					err => this.modal.handleError('Kapak resmi guncellenemedi', err)
+					err => this.modal.handleError(this.lang.text.errors.pictureUpload, err)
 				);
 			}
 		});
@@ -377,7 +377,7 @@ export class UserComponent implements OnInit, OnDestroy {
 	showFriend(name) {
 		this.userSubscription = this.user.viewProfile(name).subscribe(
 			data => this.modal.showUserModal(data.data),
-			error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+			error => this.modal.handleError(this.lang.text.errors.user, error)
 		);
 	}
 
@@ -498,7 +498,7 @@ export class UserComponent implements OnInit, OnDestroy {
 					instagramLink: this.profile.instagramLink || ''
 				});
 			},
-			error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+			error => this.modal.handleError(this.lang.text.errors.user, error)
 		);
 	}
 }

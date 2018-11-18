@@ -25,7 +25,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 		private modal: ModalService,
 		public global: GlobalService,
 		public lang: MultiLanguageService
-	) { }
+	) {}
 
 	public username: string = '';
 	public searchString: string = '';
@@ -48,7 +48,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
 				this.global.username = data.data.nickName;
 			},
 			error => console.error(error)
-
 		);
 
 		if (this.username) {
@@ -59,7 +58,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 				this.global.credit = data.data.numbers.credit;
 			}, error => {
 				this.inboxSubscription.unsubscribe();
-				this.modal.handleError('Mesajlar ve istekler kontrol edilirken bir sorun olustu', error);
+				this.modal.handleError(this.lang.text.errors.inbox, error);
 			});
 		}
 
@@ -82,7 +81,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
 	logOut() {
 		this.modal.showQuestion({
-			content: 'Cikis yapmak istediginize emin misiniz?',
+			content: this.lang.text.auth.areYouSureLogout,
 			approveFunction: () => {
 				this.auth.logout();
 			}

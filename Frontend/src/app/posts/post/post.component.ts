@@ -63,7 +63,7 @@ export class PostComponent implements OnInit, OnDestroy {
     viewProfile(name) {
         this.subscription = this.user.viewProfile(name).subscribe(
             data => this.modal.showUserModal(data.data), 
-            error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+            error => this.modal.handleError(this.lang.text.errors.user, error)
         );
     }
 

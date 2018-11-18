@@ -6,6 +6,7 @@ import { UserService } from '../user.service';
 import { GlobalService } from "app/globals.service";
 import { PostService } from "app/posts/posts.service";
 import { Subscription } from 'rxjs/Subscription';
+import { MultiLanguageService } from "../../language.service";
 
 @Component({
 	selector: 'app-usercard',
@@ -18,7 +19,8 @@ export class UserCardComponent implements OnInit, OnDestroy {
 		private modal: ModalService,
 		private user: UserService,
 		public postService: PostService,
-		public global: GlobalService
+		public global: GlobalService,
+		public lang: MultiLanguageService
 	) {
 	}
 
@@ -38,7 +40,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
 				this.global.profilePicture = this.profile.profilePicture;
 				this.global.username = this.profile.nickName;
 			},
-			error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+			error => this.modal.handleError(this.lang.text.errors.user, error)
 		);
 	}
 }

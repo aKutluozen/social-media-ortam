@@ -40,10 +40,10 @@ export class CreditmodalComponent implements OnInit {
 
     sendCredit() {
         this.modal.showQuestion({
-            content: '<b><big>' + this.creditAmount + '</big></b> kredi gondermek istiyorsunuz. <br>Gonderdikten sonra <b><big>' + (this.global.credit - this.creditAmount) + '</big></b> krediniz kalacaktir. <br> Bu islemi gerceklestirmek istediginize emin misiniz?',
+            content: this.lang.text.credit.sendSentenceIntro + this.creditAmount + this.lang.text.credit.sendSentenceMiddle + (this.global.credit - this.creditAmount) + this.lang.text.credit.sendSentenceEnd,
             approveFunction: () => {
                 this.user.sendCreditRequest(this.otherUser, this.creditAmount, false).subscribe(
-                    data => this.modal.handleWarning('Kredi hediyeniz basari ile gonderilmistir! <br> Kalan kredi: <b><big>' + (this.global.credit - this.creditAmount) + '</big></b>'),
+                    data => this.modal.handleWarning(this.lang.text.credit.sendSuccessSentenceIntro + (this.global.credit - this.creditAmount) + this.lang.text.credit.sendSuccessSentenceEnd),
                     error => this.modal.handleError(this.lang.text.errors.creditGiftSending, error),
                     () => this.close()
                 );
@@ -53,10 +53,10 @@ export class CreditmodalComponent implements OnInit {
 
     askCredit() {
         this.modal.showQuestion({
-            content: this.otherUser.nickName + ' isimli kullanicidan <b><big>' + this.creditAmount + '</big></b> kredi istiyorsunuz. <br> Isteginiz kabul edildikten sonra <b><big>' + (this.global.credit + this.creditAmount) + '</big></b> krediniz olacaktir. <br> Bu islemi gerceklestirmek istediginize emin misiniz?',
+            content: this.otherUser.nickName + this.lang.text.credit.askSentenceIntro + this.creditAmount + this.lang.text.credit.askSentenceMiddle + (this.global.credit + this.creditAmount) + this.lang.text.credit.askSentenceEnd,
             approveFunction: () => {
                 this.user.sendCreditRequest(this.otherUser, this.creditAmount, true).subscribe(
-                    data => this.modal.handleWarning(this.otherUser + ' isimli kullaniciya <b><big>' + this.creditAmount + '</big></b> kredi isteginiz basari ile gonderilmistir!'),
+                    data => this.modal.handleWarning(this.otherUser + this.lang.text.credit.askSuccessSentenceIntro + this.creditAmount + this.lang.text.credit.askSuccessSentenceEnd),
                     error => this.modal.handleError(this.lang.text.errors.creditRequestSending, error),
                     () => this.close()
                 );

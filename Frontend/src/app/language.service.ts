@@ -22,7 +22,8 @@ export class MultiLanguageService {
             messageTitle: 'Mesaj',
             refresh: 'Yenile',
             sendMessage: 'Mesaj Gonder',
-            anonymChat: 'Anonim Gorusme'
+            anonymChat: 'Anonim Gorusme',
+            areSureDeletePicture: 'Bu resmi silmek istediginizden emin misiniz?'
         },
         post: {
             shareHere: 'Kutatku\'da paylas',
@@ -75,6 +76,16 @@ export class MultiLanguageService {
             send: 'Gonder',
             ask: 'Iste',
             limit: 'Limit asildi',
+            sendSentenceIntro: '<b><big>',
+            sendSentenceMiddle: '</big></b> kredi gondermek istiyorsunuz. <br>Gonderdikten sonra <b><big>',
+            sendSentenceEnd: '</big></b> krediniz kalacaktir. <br> Bu islemi gerceklestirmek istediginize emin misiniz?',
+            sendSuccessSentenceIntro: 'Kredi hediyeniz basari ile gonderilmistir! <br> Kalan kredi: <b><big>',
+            sendSuccessSentenceEnd: '</big></b>',
+            askSentenceIntro: ' isimli kullanicidan <b><big>',
+            askSentenceMiddle: '</big></b> kredi istiyorsunuz. <br> Isteginiz kabul edildikten sonra <b><big>',
+            askSentenceEnd: '</big></b> krediniz olacaktir. <br> Bu islemi gerceklestirmek istediginize emin misiniz?',
+            askSuccessSentenceIntro: ' isimli kullaniciya <b><big>',
+            askSuccessSentenceEnd: '</big></b> kredi isteginiz basari ile gonderilmistir!'
 
         },
         classifieds: {
@@ -113,6 +124,7 @@ export class MultiLanguageService {
             placeHolderChatNickname: 'Rumuz (anonim sohbet)',
             placeHolderName: 'Isim',
             placeHolderLastname: 'Soy isim',
+            areYouSureLogout: 'Cikis yapmak istediginizden emin misiniz?',
             placeHolderPasswordAgain: 'Sifreyi tekrar giriniz',
             placeHolderShortMessage: 'Kisa bir mesaj yaziniz (max. 128 karakter)',
             shortMessageMessage: 'Son olarak, nereden katildiginizi ve kim oldugunuzu anlatan kisa bir mesaj ile Kutatku\'ya merhaba deyin! Dilerseniz, daha sonra bu mesaji dilediginiz gibi degistirebilirsiniz. <i>(Max 256 karakter)</i>',
@@ -158,6 +170,13 @@ export class MultiLanguageService {
             complaintReason: 'Sebep (max. 100 karakter)'
         },
         user: {
+            areYouSureCloseAccount: 'Bu hesabi tamamen kapatmak istediginizden emin misiniz?',
+            profileUpdated: 'Profiliniz basari ile guncellenmistir',
+            accountClosed: 'Hesap basariyla kapanmistir ve alakali her sey silinmistir. Gule gule!',
+            passwordReset: 'Sifreniz basari ile degismistir!',
+            sharePrivate: 'Ozel Kutatku duvarinda paylas',
+            addCoverPicture: 'Kapak resmi ekle',
+            deleteCoverPicture: 'Kapak resmi sil',
             newPeople: 'Yeni arkadaslar kesfedin',
             nameLastname: 'Isim, soyisim',
             birthday: 'Dogum gunu',
@@ -196,6 +215,11 @@ export class MultiLanguageService {
         },
         errors: {
             title: 'Sorun',
+            closingAccount: 'Hesabi kapatirken bir sorun olustu',
+            passwordReset: 'Sifrenizi degistirirken bir sorun olustu',
+            subjects: 'Konulari gosterirken bir sorun olustu',
+            friendList: 'Arkadas listesini yuklerken bir sorun olustu',
+            findingUsers: 'Kullanicilar bulunurken bir sorun olustu',
             showingPost: 'Paylasimi gosterirken bir sorun olustu',
             deletingNotification: 'Bildirim silinirken bir sorun olustu',
             checkingFriendship: 'Arkadaslik kontrolunde bir sorun olustu!',
@@ -214,7 +238,11 @@ export class MultiLanguageService {
             sharingAd: 'Ilani paylasirken bir sorun olustu',
             fillOutAll: 'Lutfen butun bilgileri doldurunuz',
             pictureUpload: 'Resim yuklenirken bir sorun olustu',
+            picturesUpload: 'Resimler yuklenirken bir sorun olustu',
+            pictureSize: 'Resimler 1 MB\'den buyuk olmamalidir. 1 MB\'den buyuk resimler yuklenmedi.',
+            pictureLimit: 'Maksimum 6 resim hakkini doldurdunuz. Bazi resimleri silerek yeni resimlere yer acabilirsiniz.',
             pictureDelete: 'Resim silinirken bir sorun olustu',
+            pictureRatio: 'Resim cok uzun! Yukselik ve genislik orani 3/1\'i gecemez.',
             deletingAd: 'Ilan silinirken bir sorun olustu',
             banning: 'Kullanici yasaklanirken bir sorun olustu.',
             creditRequestSending: 'Kredi isteginiz gonderilirken bir sorun olustu!',
@@ -232,7 +260,8 @@ export class MultiLanguageService {
             requestCancelled: 'Takip istegi iptal edilirken bir sorun olustu!',
             unfriend: 'Arkadasliktan cikarilirken bir sorun olustu!',
             sendComplaint: 'Sikayet gonderilirken bir sorun olustu',
-            enteringChatRoom: 'Odaya girilirken bir sorun olustu'
+            enteringChatRoom: 'Odaya girilirken bir sorun olustu',
+            profileUpdated: 'Profiliniz guncellenirken bir sorun olustu'
         },
         success: {
             messageSent: 'Mesajiniz basariyla gonderildi!',

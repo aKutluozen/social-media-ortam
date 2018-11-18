@@ -177,10 +177,10 @@
                 <div class="card-header p-2 cover-image-control position-absolute w-100 z-top">
                     <div id="cover-upload-button" class="float-right">
                         <label class="cover-image-upload-button btn btn-primary btn-sm text-center px-1 py-0 mb-0" *ngIf="!coverPicture" for="coverPictureFile">
-                            <i class="fa fa-upload" aria-hidden="true"></i> Kapak resmi ekle
+                            <i class="fa fa-upload" aria-hidden="true"></i> {{ lang.text.user.addCoverImage }}
                         </label>
                         <label class="cover-image-upload-button btn btn-danger btn-sm text-center px-1 py-0 mb-0" *ngIf="coverPicture" (click)="deleteCoverImage()">
-                            <i class="fa fa-trash" aria-hidden="true"></i> Kapak resmi sil
+                            <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.user.deleteCoverImage }}
                         </label>
                     </div>
                 </div>
@@ -251,7 +251,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <h4 class="text-primary text-center mb-0"><b>Ozel Kutatku sayfanda paylas</b> <i class="fas fa-plus"></i></h4>
+                                            <h4 class="text-primary text-center mb-0"><b>{{ lang.text.user.sharePrivate }}</b> <i class="fas fa-plus"></i></h4>
                                         </div>
                                     </div>
                                 </div>

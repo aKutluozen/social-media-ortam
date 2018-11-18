@@ -52,7 +52,7 @@ export class RequestsComponent {
 						this.requests.push(item);
 					}
 				}
-			}, error => this.modal.handleError('Mesajlar ve istekler goruntulenirken bir sorun olustu', error)
+			}, error => this.modal.handleError(this.lang.text.errors.inbox, error)
 		);
 	}
 
@@ -67,7 +67,7 @@ export class RequestsComponent {
 			data => {
 				data.data.viewType = 'just-view';
 				this.modal.showUserModal(data.data);
-			}, error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+			}, error => this.modal.handleError(this.lang.text.errors.user, error)
 		);
 	}
 }

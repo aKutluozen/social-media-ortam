@@ -42,7 +42,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 		if (this.global.username !== '') {
 			this.friendSubscription = this.user.getFriendsList().subscribe(
 				data => this.friends = data,
-				error => this.modal.handleError('Arkadas listesini getirirken bir sorun olustu!', error)
+				error => this.modal.handleError(this.lang.text.errors.friendList, error)
 			);
 		}
 	}
@@ -76,7 +76,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 				}
 				this.searchTerm = '';
 				this.userSubscription.unsubscribe();
-			}, error => this.modal.handleError('Kullanicilar bulunurken bir sorun olustu!', error)
+			}, error => this.modal.handleError(this.lang.text.errors.findingUsers, error)
 		);
 	}
 
@@ -96,7 +96,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 	viewProfile(name) {
 		this.userSubscription = this.user.viewProfile(name).subscribe(
 			data => this.modal.showUserModal(data.data),
-			error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+			error => this.modal.handleError(this.lang.text.errors.user, error)
 		);
 	}
 }

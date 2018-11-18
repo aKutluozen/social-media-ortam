@@ -38,14 +38,14 @@ export class NewpeopleComponent implements OnInit, OnDestroy {
                     }
                 }
             },
-            error => this.modal.handleError('Yeni kullanicilar bulunurken hata olustu', error)
+            error => this.modal.handleError(this.lang.text.errors.findingUsers, error)
         )
     }
 
     viewProfile(name) {
         this.userSubscription = this.user.viewProfile(name).subscribe(
             data => this.modal.showUserModal(data.data),
-            error => this.modal.handleError('Profil yuklenirken bir sorun olustu!', error)
+            error => this.modal.handleError(this.lang.text.errors.user, error)
         );
     }
 
