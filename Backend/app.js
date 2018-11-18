@@ -36,6 +36,7 @@ var limiter = new RateLimit({
 
 app.use(limiter);
 app.use(helmet());
+app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(compression());
 app.use(bodyParser.json());

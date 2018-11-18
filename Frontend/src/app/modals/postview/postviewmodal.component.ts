@@ -85,6 +85,11 @@ export class PostviewmodalComponent implements OnInit {
         });
     }
 
+    getLink() {
+        alert('Link: ' + this.global.URL + 'post/' + this.post.postId);
+        var link = this.global.URL + 'post/' + this.post.postId;
+    }
+
     // Handle deleting
     onDeleteShare() {
         this.modal.showQuestion({

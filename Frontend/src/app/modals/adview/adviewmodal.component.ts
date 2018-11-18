@@ -60,6 +60,11 @@ export class AdviewmodalComponent implements OnInit {
         this.close();
     }
 
+    getLink() {
+        alert('Link: ' + this.global.URL + 'ad/' + this.ad.adId);
+        var link = this.global.URL + 'ad/' + this.ad.adId;
+    }
+
     // Handle deleting
     onDelete() {
         this.modal.showQuestion({

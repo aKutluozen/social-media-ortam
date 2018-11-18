@@ -29,6 +29,19 @@ var upload = multer({
     })
 });
 
+// Get shareable link
+AD_ROUTER.get('/:id', function (req, res) {
+    Ad.findById(req.params.id).exec((err, ad) => {
+            if (err || !ad) {
+                return res.status(500).json({
+                    message: 'problem getting ad',
+                    error: err
+                });
+            }
+            return res.render('ad', { user: ad.nickName, content: ad.content, picture: ad.picture, title: ad.title, category: ad.category, date: ad.created });
+        });
+});
+
 // Protect the routes
 // Each request this will execute
 AD_ROUTER.use('/', function (req, res, next) {
@@ -88,9 +101,8 @@ AD_ROUTER.post('/', function (req, res, next) {
     });
 });
 
-// Update a post
+// Update an ad
 AD_ROUTER.patch('/:id', function (req, res) {
-    console.log('hereee', req);
     Ad.updateOne({ _id: req.params.id }, {
         $set: {
             content: req.body.content,
@@ -169,7 +181,6 @@ AD_ROUTER.delete('/image', function (req, res) {
         });
     });
 });
-
 
 // Remove an ad
 AD_ROUTER.delete('/:id', (req, res) => {

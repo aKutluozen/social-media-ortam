@@ -5,7 +5,7 @@
             <span class="ml--8 badge badge-warning text-right" *ngIf="flagObject.newNotification"> {{ flagObject.numbers['notifications'] }}</span>
             <div class="item-text">{{ lang.text.inbox.notifications }}</div>
         </a>
-        <div #notificationsComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0" aria-labelledby="notificationsMenu">
+        <div #notificationsComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0 animated fadeIn" aria-labelledby="notificationsMenu">
             <div class="row mx-0">
                 <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>
@@ -20,7 +20,7 @@
             <span class="ml--8 badge badge-primary text-right" *ngIf="flagObject.newMessage"> {{ flagObject.numbers['messages'] }}</span>
             <div class="item-text">{{ lang.text.inbox.privateMessages }}</div>
         </a>
-        <div #messagesComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0">
+        <div #messagesComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0 animated fadeIn">
             <div class="row mx-0">
                 <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>
@@ -35,7 +35,7 @@
             <span class="ml--8 badge badge-success text-right" *ngIf="flagObject.newRequest"> {{ flagObject.numbers['requests'] }}</span>
             <div class="item-text">{{ lang.text.inbox.requests }}</div>
         </a>
-        <div #requestsComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0">
+        <div #requestsComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0 animated fadeIn">
             <div class="row mx-0">
                 <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>
@@ -49,7 +49,7 @@
             <i class="fa fa-comments fa-2x" aria-hidden="true"></i>
             <div class="item-text">{{ lang.text.inbox.chat }}</div>
         </a>
-        <div class="dropdown-menu dropdown-menu-right chat mt-0 pt-0">
+        <div class="dropdown-menu dropdown-menu-right chat mt-0 pt-0 animated fadeIn">
             <div class="row mx-0">
                 <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
             </div>

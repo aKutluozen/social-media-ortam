@@ -136,8 +136,8 @@
                     <i class="fa fa-user-times" aria-hidden="true"></i> {{ lang.text.general.cancel}}</button>
                 <button *ngIf="!justView && isFriend && !isMe" class="btn btn-danger btn-sm" (click)="unfriend(user.nickName)">
                     <i class="fa fa-user-times" aria-hidden="true"></i> {{ lang.text.user.leave}}</button>
-                <button *ngIf="!justView && isFriend && !isMe" class="btn btn-warning btn-sm" (click)="creditAskSend(user.nickName, user.profilePicture)">
-                    <i class="fa fa-credit-card" aria-hidden="true"></i> {{ lang.text.user.askCredit}}</button>
+                <!-- <button *ngIf="!justView && isFriend && !isMe" class="btn btn-warning btn-sm" (click)="creditAskSend(user.nickName, user.profilePicture)">
+                    <i class="fa fa-credit-card" aria-hidden="true"></i> {{ lang.text.user.askCredit}}</button> -->
                 <button class="btn btn-info btn-sm" *ngIf="!isMe" (click)="answerMessage(user.nickName)">
                     <i class="fa fa-envelope" aria-hidden="true"></i> {{ lang.text.user.talk}}</button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">

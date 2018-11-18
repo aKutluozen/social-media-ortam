@@ -88,7 +88,7 @@ export class AdsService {
         ajax.send(JSON.stringify({ pictureToDelete: picture }));
 
         ajax.onload = function (response) {
-            console.log('hereee', response);
+            // console.log('hereee', response);
             switch (response.srcElement['status']) {
                 case 200: callbackSuccess(JSON.parse(ajax.response)); break;
                 case 404: console.error('image to delete was not found!'); break;

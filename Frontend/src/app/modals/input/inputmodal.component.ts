@@ -42,7 +42,7 @@ export class InputmodalComponent implements OnInit {
 	ngOnInit() {
 		this.inputService.inputActivated.subscribe((messageSetup: any) => {
 			this.messageSetup = messageSetup;
-			console.log(messageSetup);
+			// console.log(messageSetup);
 			// Limit textarea
 			$('textarea').attr('maxlength', 256);
 
