@@ -116,6 +116,10 @@ img {
     margin-bottom: -60px;
 }
 
+.z-top {
+    z-index: 100;
+}
+
 .form-group input {
     color: #ddd !important;
 }

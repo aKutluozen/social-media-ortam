@@ -1,20 +1,58 @@
 body {
     padding-top: 70px;
     margin-bottom: 60px;
-    background: #e7e4e0;
-    background-image: url('https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/istanbul.png');
+    background: #f6f0df;
+    background-image: url('https://s3.us-east-2.amazonaws.com/kutatku/visuals/background.png');
     background-attachment: fixed;
-    background-size: 100% auto;
+    background-size: 400px 400px;
+    /* background-size: 100% auto;
     background-repeat: no-repeat;
-    background-position: 0 100%;
+    background-position: 0 100%; */
 }
 
 * {
     text-transform: none;
+    border-radius: 2px !important;
+}
+
+.modal-body {
+    padding: 0.7rem !important;
+}
+
+.text-primary {
+    color: #a65a5a !important;
+}
+
+.add-button-adjustment-bottom {
+    margin-top: -50px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    border-radius: 100% !important;
+}
+
+.add-button-adjustment-top {
+    margin-top: 50px;
 }
 
 p {
     margin-bottom: 0;
+}
+
+.img-thumbnail {
+    padding: 0px !important;
+    border: none !important;
+}
+/* 
+.bg-primary {
+    background: #a65a5a !important;
+} */
+
+.mt-n-25 {
+    margin-top: -25px !important;
+}
+
+.bg-light {
+    background: #fff !important;
 }
 
 @media (min-width: 1280px) {
@@ -32,6 +70,29 @@ p {
     .modal-lg {
         max-width: 800px;
         margin: 5rem auto;
+    }
+
+}
+
+@media (max-width: 576px) {
+    
+    .add-button-adjustment-bottom {
+        position: fixed; 
+        right: 10px;
+        bottom: 10px;
+        width: 64px;
+        height: 64px;
+    }
+
+    .logo {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 6px;
+    }
+
+    .add-button-adjustment-top {
+        margin-top: 0px;
     }
 }
 
@@ -196,26 +257,35 @@ textarea:enabled,
 
 .social-icon {
     background: white;
-    border-radius: 100%;
+    /* border-radius: 100%; */
     width: 40px;
     height: 40px;
+}
+
+.stats-icon {
+    color: #1f2b36;
 }
 
 .social-icon a {
     display: block;
     text-align: center;
     padding-top: 4px;
+    color: #1f2b36;
 }
 
 .z-top {
-    z-index: 100;
+    z-index: 100 !important;
 }
 
 .line-10 {
     line-height: 12px !important;
 }
 
-/* social media colors */
+.navbar-nav .list-inline-item:not(:last-child) {
+    margin-right: 2rem;
+}
+
+/* social media colors
 .fa-facebook {
     color: #3B5998;
 }
@@ -242,4 +312,4 @@ textarea:enabled,
 
 .fa-snapchat {
     color: #fffc00;
-}
+} */

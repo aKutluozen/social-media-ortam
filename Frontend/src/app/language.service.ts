@@ -140,7 +140,7 @@ export class MultiLanguageService {
         },
         search: {
             resultsFound: 'sonuc bulundu',
-            search: 'Arkadas ara'
+            search: 'Ara'
         },
         inbox: {
             privateMessages: 'Ozel Mesajlar',
@@ -180,8 +180,8 @@ export class MultiLanguageService {
             newPeople: 'Yeni arkadaslar kesfedin',
             nameLastname: 'Isim, soyisim',
             birthday: 'Dogum gunu',
-            jobStatus: 'Is durumu',
-            educationStatus: 'Egitim durumu',
+            jobStatus: 'Is',
+            educationStatus: 'Okul',
             bio: 'Oz gecmis',
             socialMedia: 'Sosyal medya',
             follow: 'Takip et',

@@ -3,15 +3,15 @@
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <div class="row px-2">
+                <div class="row px-1">
                     <div class="col-xl-3 col-md-3 px-2 col-lg-6">
                         <div class="row mb-3">
                             <div class="col">
-                                <div class="card bg-dark text-white">
+                                <div class="card">
                                     <div class="card-body pt-2 pb-0 px-0">
                                         <div class="row h-100 mb-2">
                                             <div class="col-4 mx-auto px-0 action-icon" id="profilePicture">
-                                                <img src="{{ global.URL_S3_USERS + user?.profilePicture }}" class="rounded-circle img-thumbnail" alt="profil" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                                                <img src="{{ global.URL_S3_USERS + user?.profilePicture }}" class="img-thumbnail" alt="profil" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                                             </div>
                                         </div>
                                         <div class="row mx-auto">
@@ -19,15 +19,16 @@
                                                 <h5 class="py-0">
                                                     <i>@{{ user?.nickName }}</i>
                                                 </h5>
-                                                <div class="row  py-2 bg-primary">
+                                                <p class="text-muted">{{ user.shortMessage }}</p>
+                                                <div class="row  py-2 border-top mt-2">
                                                     <div class="col align-self-center">
-                                                        <i class="fas fa-1x fa-pen-alt"></i> <br><span>{{ user?.posts?.length}}</span>
+                                                        <i class="fas fa-1x fa-pen-alt stats-icon"></i> <br><span>{{ user?.posts?.length}}</span>
                                                     </div>
-                                                    <div class="col align-self-center"> <i class="fas fa-2x fa-certificate"></i><br><span>
+                                                    <div class="col align-self-center"> <i class="fas fa-2x fa-certificate stats-icon"></i><br><span>
                                                             {{ user?.interaction?.length }}
                                                         </span>
                                                     </div>
-                                                    <div class="col align-self-center"><i class="fas fa-1x fa-users"></i><br><span>{{
+                                                    <div class="col align-self-center"><i class="fas fa-1x fa-users stats-icon"></i><br><span>{{
                                                             user?.following?.length }}
                                                         </span>
                                                     </div>
@@ -40,11 +41,11 @@
                         </div>
                         <div class="row justify-content-center mb-3">
                             <div class="col">
-                                <div class="card bg-primary text-white">
+                                <div class="card">
                                     <div class="card-body p-2">
 
-                                        <p *ngIf="user?.firstName && user?.lastName">
-                                            <b>{{ lang.text.user.nameLastname}}:</b> {{ user?.firstName + ' ' + user?.lastName }}</p>
+                                        <h5 *ngIf="user?.firstName && user?.lastName" class="text-center">
+                                        {{ user?.firstName + ' ' + user?.lastName }}</h5>
 
                                         <p *ngIf="user?.birthday">
                                             <b>{{ lang.text.user.birthday}}:</b> {{ user?.birthday | date:'short' }}</p>
@@ -56,9 +57,9 @@
                                             <b>{{ lang.text.user.educationStatus}}:</b> {{ user?.education }}</p>
                                         <p *ngIf="!user?.birthday && !user?.bio && !user?.jobStatus && !user?.education">{{ lang.text.user.noInfo}}</p>
                                         <p class="mb-2" *ngIf="user?.twitterLink || user?.instagramLink || user?.snapchatLink || user?.youtubeLink || user?.linkedinLink || user?.googleplusLink">
-                                            <b>{{ lang.text.user.socialMedia}}:</b>
+                                        
                                         </p>
-                                        <ul class="list-inline">
+                                        <ul class="list-inline border-top pt-2 mb-0">
                                             <li class="list-inline-item social-icon" *ngIf="user?.instagramLink">
                                                 <a href="{{ user?.instagramLink }}" target="_blank">
                                                     <i class="fab fa-instagram fa-2x"></i>
@@ -111,12 +112,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-3">
+                        <!-- <div class="card mb-3">
                             <div class="card-body">
                                 <p class="lead mb-0">
                                     <i class="fa fa-comment" aria-hidden="true"></i> {{ user.shortMessage }}</p>
                             </div>
-                        </div>
+                        </div> -->
                         <p class="text-center" *ngIf="user?.posts?.length == 0">{{ lang.text.user.noPosts}}</p>
                         <!-- Posts and activities -->
                         <div class="card-columns">
