@@ -22,7 +22,7 @@
                     <i>{{ message.text.chatNickName }}:</i>
                 </b> {{message.text.message}}
                 <div class="complaint-button bg-light border p-2 ml-2">
-                    <p class="text-center my-auto text-success" *ngIf="message.complaintStatus">{{ message.complaintStatus }}</p>
+                    <!-- <p class="text-center my-auto text-success" *ngIf="message.complaintStatus">{{ message.complaintStatus }}</p>
                     <div class="row" *ngIf="!message.complaintStatus">
                         <div class="col-12">
                             <input type="text" maxlength="100" class="form-control" [(ngModel)]="reason" placeholder="{{ lang.text.inbox.complaintReason }}">
@@ -30,8 +30,8 @@
                         <div class="col-12">
                             <button [disabled]="!reason" class="btn btn-danger btn-sm btn-block py-0" (click)="complain(message)">{{ lang.text.inbox.complain }}</button>
                         </div>
-                    </div>
-                    <div class="row mt-3">
+                    </div> -->
+                    <div class="row">
                         <div class="col-12">
                             <button class="btn btn-success btn-sm btn-block py-0" (click)="startPrivateConvo(message.text.nickName, message.text.chatNickName)">{{ lang.text.inbox.inviteToPrivate }}</button>
                         </div>

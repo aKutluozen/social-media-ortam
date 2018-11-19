@@ -4,7 +4,7 @@ body {
     background: #f6f0df;
     background-image: url('https://s3.us-east-2.amazonaws.com/kutatku/visuals/background.png');
     background-attachment: fixed;
-    background-size: 100% 100%;
+    background-size: auto 100%;
     /* background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: 0 100%; */
@@ -13,6 +13,11 @@ body {
 * {
     text-transform: none;
     border-radius: 2px !important;
+}
+
+.alert-warning {
+    background: #D4B670 !important;
+    border: none !important;
 }
 
 /* .modal-body {

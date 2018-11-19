@@ -45,7 +45,7 @@
         </div>
         <div class="form-row">
             <div class="col-12 pl-3">
-                <div class="small alert alert-info">
+                <div class="small alert alert-warning">
                     <p>
                         <i class="fa fa-thumbs-up"></i>
                         {{ lang.text.auth.shortMessageMessage }}</p>
@@ -57,7 +57,7 @@
             <span class="text-muted small text-right">{{ 128 - shortMessage.value.length }} karakter kaldi.</span>
         </div>
         <div class="form-group mb-0">
-            <button class="btn btn-primary btn-sm btn-block" type="submit" [disabled]="!signupForm.valid">
+            <button class="btn btn-outline-primary btn-sm btn-block" type="submit" [disabled]="!signupForm.valid">
                 <i class="fa fa-file" aria-hidden="true"></i> {{ lang.text.auth.signup }}</button>
         </div>
     </form>
