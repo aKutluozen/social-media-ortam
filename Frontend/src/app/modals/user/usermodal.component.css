@@ -8,6 +8,8 @@
 .small-image {
     height: 100px;
     object-fit: cover;
+    border: 4px solid white !important;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .cover-image {

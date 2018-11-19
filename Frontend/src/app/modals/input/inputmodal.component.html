@@ -42,10 +42,10 @@
             <div class="modal-footer p-2">
                 <!-- <span *ngIf="!isFriend" class="small">{{ lang.text.messaging.creditWarning }}: {{ global.credit }}
                 </span> -->
-                <button type="submit" class="btn btn-primary btn-sm" (click)="sendChatMessage()" [disabled]="disableSending">
-                    <i class="fa fa-comment" aria-hidden="true"></i> {{ lang.text.messaging.answer }}</button>
-                <button type="button" data-dismiss="modal" class="btn btn-default btn-sm" (click)="close()">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
+                <button type="submit" class="btn btn-outline-primary btn-sm" (click)="sendChatMessage()" [disabled]="disableSending">
+                    <i class="fa fa-comment" aria-hidden="true"></i></button>
+                <!-- <button type="button" data-dismiss="modal" class="btn btn-outline-primary btn-sm" (click)="close()">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i></button> -->
             </div>
         </div>
     </div>

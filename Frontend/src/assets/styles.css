@@ -4,7 +4,7 @@ body {
     background: #f6f0df;
     background-image: url('https://s3.us-east-2.amazonaws.com/kutatku/visuals/background.png');
     background-attachment: fixed;
-    background-size: 400px 400px;
+    background-size: 100% 100%;
     /* background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: 0 100%; */
@@ -15,8 +15,16 @@ body {
     border-radius: 2px !important;
 }
 
-.modal-body {
+/* .modal-body {
     padding: 0.7rem !important;
+} */
+
+.btn {
+    line-height: 18px !important;
+}
+
+.btn-outline-primary {
+    opacity: 0.75 !important;
 }
 
 .text-primary {
@@ -103,8 +111,9 @@ p {
 .close {
     position: absolute  !important;
     right: 5px !important;
-    top: -5px  !important;
+    top: -6px  !important;
     font-size: 2.5em;
+    z-index: 100;
 }
 
 .ml--8 {

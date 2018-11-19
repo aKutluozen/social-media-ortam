@@ -101,6 +101,8 @@ img {
     width: 100%;
     height: 100px;
     object-fit: cover;
+    border: 4px solid white !important;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .cover-image {
@@ -120,9 +122,9 @@ img {
     z-index: 100;
 }
 
-.form-group input {
+/* .form-group input {
     color: #ddd !important;
-}
+} */
 
 .friend-image {
     width: 48px;
