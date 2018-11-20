@@ -33,7 +33,7 @@
                     </div> -->
                     <div class="row">
                         <div class="col-12">
-                            <button class="btn btn-success btn-sm btn-block py-0" (click)="startPrivateConvo(message.text.nickName, message.text.chatNickName)">{{ lang.text.inbox.inviteToPrivate }}</button>
+                            <button class="btn btn-outline-primary btn-sm btn-block py-0" (click)="startPrivateConvo(message.text.nickName, message.text.chatNickName)">{{ lang.text.inbox.inviteToPrivate }}</button>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
             </select>
         </div>
         <div class="col-6 h-100">
-            <button class="btn btn-success btn-block" (click)="sendMessage(); $event.stopPropagation()">
+            <button class="btn btn-outline-primary btn-block" (click)="sendMessage(); $event.stopPropagation()">
                 <i class="fa fa-share-square" aria-hidden="true"></i>
             </button>
         </div>

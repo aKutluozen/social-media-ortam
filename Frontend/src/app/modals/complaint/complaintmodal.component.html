@@ -3,8 +3,8 @@
         <div class="modal-content">
             <div class="modal-header py-1 bg-danger">
                 <h4 class="modal-title">
-                    <i class="fa fa-exclamation" aria-hidden="true"></i> {{ lang.text.complaint.title }} <button type="button" class="close"
-                        data-dismiss="modal">&times;</button></h4>
+                    <i class="fa fa-exclamation" aria-hidden="true"></i> {{ lang.text.complaint.title }} <button type="button"
+                        class="close" data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body" *ngIf="complaint">
                 <p>{{ lang.text.complaint.message }}: {{ complaint['message'] }}</p>
@@ -17,9 +17,9 @@
                 <input class="form-control" min="1" max="30" type="number" placeholder="{{ lang.text.complaint.placeHolderDays }}" [(ngModel)]="days">
             </div>
             <div class="modal-footer p-2">
-                <button class="btn btn-danger btn-sm" (click)="blockFromChat(complaint['name'])">
+                <button class="btn btn-outline-primary btn-sm" (click)="blockFromChat(complaint['name'])">
                     <i class="fa fa-ban"></i> {{ lang.text.complaint.ban }}</button>
-                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>

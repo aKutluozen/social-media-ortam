@@ -2,7 +2,7 @@
     <div class="modal-dialog  " role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" (click)="close()">&times;</button>
+                <!-- <button type="button" class="close" (click)="close()">&times;</button> -->
                 <form [formGroup]="postForm">
                     <div class="row">
                         <div class="col">
@@ -16,9 +16,9 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <label class="btn btn-warning text-center btn-sm btn-block mb-0" *ngIf="!imageToShow" for="postPictureFile">
+                            <label class="btn btn-outline-primary text-center btn-sm btn-block mb-0" *ngIf="!imageToShow" for="postPictureFile">
                                 <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.selectPicture }}</label>
-                            <label class="btn btn-danger text-center btn-sm mb-0" *ngIf="imageToShow" (click)="deletePostPicture()">
+                            <label class="btn btn-outline-primary text-center btn-sm mb-0" *ngIf="imageToShow" (click)="deletePostPicture()">
                                 <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.general.deletePicture }}</label>
 
                             <input hidden id="postPictureFile" type="file" (change)="fileChangeEvent($event)" />
@@ -32,11 +32,11 @@
                             </div>
                         </div>
                         <div class="row col justify-content-center mx-auto">
-                            <button class="btn btn-warning text-center btn-sm" *ngIf="croppedImage" type="button" (click)="rotateImage()">
+                            <button class="btn btn-outline-primary text-center btn-sm" *ngIf="croppedImage" type="button" (click)="rotateImage()">
                                 <i class="fas fa-sync-alt"></i> {{ lang.text.general.turn }}</button>
-                            <button class="btn btn-success text-center btn-sm" *ngIf="croppedImage" type="button" (click)="addPostImage()">
+                            <button class="btn btn-outline-primary text-center btn-sm" *ngIf="croppedImage" type="button" (click)="addPostImage()">
                                 <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.upload }}</button>
-                            <button class="btn btn-danger text-center btn-sm" *ngIf="croppedImage" type="button" (click)="emptyPostImage()">
+                            <button class="btn btn-outline-primary text-center btn-sm" *ngIf="croppedImage" type="button" (click)="emptyPostImage()">
                                 <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.cancel }}</button>
                             <img hidden [src]="croppedImage" />
                         </div>
@@ -57,9 +57,9 @@
                 </form>
             </div>
             <div class="modal-footer p-2">
-                <button class="btn btn-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
+                <button class="btn btn-outline-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
                     <i class="fa fa-share-square" aria-hidden="true"></i> {{ lang.text.general.share }}</button>
-                <button type="button" class="btn btn-default btn-sm" (click)="close(false)">
+                <button type="button" class="btn btn-outline-primary btn-sm" (click)="close(false)">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>

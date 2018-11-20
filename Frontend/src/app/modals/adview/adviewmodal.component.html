@@ -19,15 +19,15 @@
                 </div>
             </div>
             <div class="modal-footer p-2" *ngIf="belongsToUser()">
-                <button class="btn btn-primary btn-sm" (click)="onEdit()">
-                    <i class="fa fa-edit" aria-hidden="true"></i> {{ lang.text.general.edit }}
+                <button class="btn btn-outline-primary btn-sm" (click)="onEdit()">
+                    <i class="fa fa-edit" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-danger btn-sm" (click)="onDelete()">
-                    <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.general.delete }}
+                <button class="btn btn-outline-primary btn-sm" (click)="onDelete()">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="modal-footer p-2" *ngIf="!belongsToUser()">
-                <button class="btn border-0 btn-sm w-25 btn-outline-warning"
+                <button class="btn border-0 btn-sm w-25 btn-outline-primary"
                     (click)="getLink()"> Link
                     <i class="fas fa-link"></i>
                 </button>

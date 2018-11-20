@@ -1,9 +1,9 @@
 .profile-picture {
-    height: 32px;
-    width: 32px;
+    height: 24px;
+    width: 24px;
     object-fit: cover;
-    // border-radius: 100% !important;
-    margin-top: -10px;
+    border-radius: 100% !important;
+    margin-top: -8px;
 }
 
 ::ng-deep {
@@ -78,7 +78,7 @@
     }
 
     .dropdown-menu {
-        top: 42px;
+        top: 41px;
         width: 240px;
         box-shadow: 4px 8px 32px rgba(0, 0, 0, 0.25);
         border: none;

@@ -33,7 +33,7 @@
                         <input type="email" maxlength="48" id="email" class="ml-2 form-control" placeholder="{{ lang.text.auth.placeHolderEmail }}" formControlName="email">
                     </div>
                     <div class="col align-self-center">
-                        <button class="btn btn-warning btn-block btn-sm" type="button" (click)="sendForgotRequest(); $event.stopPropagation()">
+                        <button class="btn btn-outline-primary btn-block btn-sm" type="button" (click)="sendForgotRequest(); $event.stopPropagation()">
                             <i class="fas fa-envelope" aria-hidden="true"></i> {{ lang.text.auth.sendCode }}</button>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         <p>
                             <i class="fa fa-exclamation"></i>
                             {{ lang.text.auth.passwordRules }}:</p>
-                        <ul>
+                        <ul class="mb-0">
                             <li>{{ lang.text.auth.passwordRule1 }}</li>
                             <li>{{ lang.text.auth.passwordRule2 }}</li>
                             <li>{{ lang.text.auth.passwordRule3 }}</li>
@@ -65,7 +65,7 @@
                 <input type="password" id="newPassword" maxlength="48" class="ml-2 form-control" placeholder="{{ lang.text.auth.placeHolderNewPassword }}" formControlName="newPassword">
             </div>
             <div class="form-group mb-0">
-                <button class="btn btn-primary btn-block btn-sm" type="button" (click)="refreshPassword()" [disabled]="!resetForm.valid">
+                <button class="btn btn-outline-primary btn-block btn-sm" type="button" (click)="refreshPassword()" [disabled]="!resetForm.valid">
                     <i class="fa fa-check-square" aria-hidden="true"></i> {{ lang.text.auth.changePassword }}</button>
             </div>
         </form>

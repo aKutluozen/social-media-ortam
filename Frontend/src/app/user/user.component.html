@@ -4,19 +4,34 @@
             <div class="row mb-3">
                 <div class="col">
                     <div class="card">
-                        <div class="card-body h-100 pt-2 pb-0 px-0">
-                            <div class="row h-100 mb-2">
-                                <div class="col-4 mx-auto px-0" id="profilePicture">
+                        <div class="card-body h-100 pb-0 px-0">
+                            <div class="row h-100 mb-2 mx-3">
+                                <div class="col-4 px-0" id="profilePicture">
                                     <div id="image-upload-button">
-                                        <label class="profile-image-upload-button btn btn-primary text-center btn-sm px-1 py-0" *ngIf="!profilePicture" for="profilePictureFile">
+                                        <label class="profile-image-upload-button btn btn-outline-primary text-center btn-sm px-1 py-0" *ngIf="!profilePicture" for="profilePictureFile">
                                             <i class="fa fa-upload" aria-hidden="true"></i>
                                         </label>
-                                        <label class="profile-image-upload-button btn btn-danger text-center btn-sm  px-1 py-0" *ngIf="profilePicture" (click)="deleteProfilePicture()">
+                                        <label class="profile-image-upload-button btn btn-outline-primary text-center btn-sm  px-1 py-0" *ngIf="profilePicture" (click)="deleteProfilePicture()">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </label>
                                     </div>
                                     <img src="{{ global.URL_S3_USERS + profilePicture }}" class="img-thumbnail" alt="profil" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'"
                                         (click)="showThisImage(profilePicture)">
+                                </div>
+                                <div class="col-8 pr-2">
+                                    <div class="row pt-3 pb-0">
+                                        <div class="col align-self-center text-center">
+                                            <i class="fas fa-1x fa-pen-alt"></i> <br><span>{{ profile?.posts['length'] }}</span>
+                                        </div>
+                                        <div class="col align-self-center text-center"> <i class="fas fa-2x fa-certificate"></i><br><span>
+                                                {{ profile?.interaction.length }}
+                                            </span>
+                                        </div>
+                                        <div class="col align-self-center text-center"><i class="fas fa-1x fa-users"></i><br><span>{{
+                                                profile?.following['length'] }}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mx-auto">
@@ -24,19 +39,6 @@
                                     <h5 class="py-0">
                                         <i>@{{ profile?.nickName }}</i>
                                     </h5>
-                                    <div class="row py-2">
-                                        <div class="col align-self-center">
-                                            <i class="fas fa-1x fa-pen-alt"></i> <br><span>{{ profile?.posts['length'] }}</span>
-                                        </div>
-                                        <div class="col align-self-center"> <i class="fas fa-2x fa-certificate"></i><br><span>
-                                            {{ profile?.interaction.length }}
-                                            </span>
-                                        </div>
-                                        <div class="col align-self-center"><i class="fas fa-1x fa-users"></i><br><span>{{
-                                                profile?.following['length'] }}
-                                            </span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -52,12 +54,12 @@
                                     <div class="rotate-preview-wrapper mx-auto m-2" *ngIf="isRotating">
                                         <img id="i1p" class="rotate-image-preview" src="" alt="" />
                                     </div>
-                                    <div class="row col justify-content-center mx-auto px-0">
-                                        <button class="btn btn-warning text-center btn-sm" *ngIf="croppedProfilePicture" type="button" (click)="rotateProfileImage()">
+                                    <div class="row col justify-content-center mx-auto px-0 mb-2">
+                                        <button class="btn btn-outline-primary text-center btn-sm" *ngIf="croppedProfilePicture" type="button" (click)="rotateProfileImage()">
                                             <i class="fas fa-sync-alt"></i> {{ lang.text.general.turn }}</button>
-                                        <button class="btn btn-success btn-sm text-center" *ngIf="croppedProfilePicture" type="button" (click)="addProfileImage()">
+                                        <button class="btn btn-outline-primary btn-sm text-center" *ngIf="croppedProfilePicture" type="button" (click)="addProfileImage()">
                                             <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.upload }}</button>
-                                        <button class="btn btn-danger btn-sm text-center" *ngIf="croppedProfilePicture" type="button" (click)="emptyProfilePicture()">
+                                        <button class="btn btn-outline-primary btn-sm text-center" *ngIf="croppedProfilePicture" type="button" (click)="emptyProfilePicture()">
                                             <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.cancel }}</button>
                                         <img hidden [src]="croppedProfilePicture" />
                                     </div>
@@ -75,13 +77,13 @@
                             <div class="card-header p-2">
                                 <i class="fas fa-id-card"></i> {{ lang.text.user.info }}
                                 <span id="info-update-control" class="float-right">
-                                    <label *ngIf="profileForm.disabled" class="btn btn-primary mb-0 btn-sm text-center py-0 px-1" (click)="enableInfoUpdate()">
+                                    <label *ngIf="profileForm.disabled" class="btn btn-outline-primary mb-0 btn-sm text-center py-0 px-1" (click)="enableInfoUpdate()">
                                         <i class="fa fa-edit" aria-hidden="true"></i>
                                     </label>
-                                    <label *ngIf="!profileForm.disabled" class="btn btn-success mb-0 btn-sm text-center py-0 px-1" (click)="saveProfile()">
+                                    <label *ngIf="!profileForm.disabled" class="btn btn-outline-primary mb-0 btn-sm text-center py-0 px-1" (click)="saveProfile()">
                                         <i class="fa fa-save" aria-hidden="true"></i>
                                     </label>
-                                    <label *ngIf="!profileForm.disabled" class="btn btn-danger mb-0 btn-sm text-center py-0 px-1" (click)="disableInfoUpdate()">
+                                    <label *ngIf="!profileForm.disabled" class="btn btn-outline-primary mb-0 btn-sm text-center py-0 px-1" (click)="disableInfoUpdate()">
                                         <i class="fa fa-ban" aria-hidden="true"></i>
                                     </label>
                                 </span>
@@ -101,8 +103,7 @@
                                 </div>
                                 <div class="form-group mb-1">
                                     <label class="col-form-label" for="shortMessage">{{ lang.text.user.shortMessage }}:</label>
-                                    <textarea #shortMessage rows="2" type="text" class="form-control" id="shortMessage" formControlName="shortMessage"
-                                        maxlength="128"></textarea>
+                                    <textarea #shortMessage rows="2" type="text" class="form-control" id="shortMessage" formControlName="shortMessage" maxlength="128"></textarea>
                                     <span *ngIf="!profileForm.disabled" class="text-muted small text-right">{{ 128 - shortMessage.value.length
                                         }} {{ lang.text.general.charsLeft }}</span>
                                 </div>
@@ -176,10 +177,11 @@
             <div class="card mb-3">
                 <div class="card-header p-2 cover-image-control position-absolute w-100 z-top">
                     <div id="cover-upload-button" class="float-right">
-                        <label class="cover-image-upload-button btn btn-primary btn-sm text-center px-1 py-0 mb-0" *ngIf="!coverPicture" for="coverPictureFile">
+                        <label class="cover-image-upload-button btn btn-outline-primary btn-sm text-center px-1 py-0 mb-0" *ngIf="!coverPicture"
+                            for="coverPictureFile">
                             <i class="fa fa-upload" aria-hidden="true"></i> {{ lang.text.user.addCoverImage }}
                         </label>
-                        <label class="cover-image-upload-button btn btn-danger btn-sm text-center px-1 py-0 mb-0" *ngIf="coverPicture" (click)="deleteCoverImage()">
+                        <label class="cover-image-upload-button btn btn-outline-primary btn-sm text-center px-1 py-0 mb-0" *ngIf="coverPicture" (click)="deleteCoverImage()">
                             <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.user.deleteCoverImage }}
                         </label>
                     </div>
@@ -198,9 +200,9 @@
                                     <img id="i1c" class="rotate-image-preview" src="" alt="" />
                                 </div>
                                 <div class="row col justify-content-center mx-auto px-0">
-                                    <button class="btn btn-success btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="addCoverImage()">
+                                    <button class="btn btn-outline-primary btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="addCoverImage()">
                                         <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.upload }}</button>
-                                    <button class="btn btn-danger btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="emptyCoverPicture()">
+                                    <button class="btn btn-outline-primary btn-sm text-center" *ngIf="croppedCoverPicture" type="button" (click)="emptyCoverPicture()">
                                         <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.cancel }}</button>
                                     <img hidden [src]="croppedCoverPicture" />
                                 </div>
@@ -219,7 +221,7 @@
                                             <div class="gallery-thumbnails">
                                                 <img src="{{ global.URL_S3_USERS + image }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/uploadempty.png'"
                                                     class="small-image img-thumbnail mb-4" (click)="showThisImage(image)">
-                                                <button type="button" (click)="deleteThisImage(image)" class="image-delete-button btn btn-danger btn-sm px-1 py-0">
+                                                <button type="button" (click)="deleteThisImage(image)" class="image-delete-button btn btn-outline-primary btn-sm px-1 py-0">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </button>
                                             </div>
@@ -228,7 +230,7 @@
                                 </div>
                                 <div class="col-11 mt-4 pt-2">
                                     <div class="float-right" *ngIf="images.includes('')">
-                                        <label class="btn btn-primary btn-sm text-center add-images mb-0 px-1 py-0" for="pictureFiles">
+                                        <label class="btn btn-outline-primary btn-sm text-center add-images mb-0 px-1 py-0" for="pictureFiles">
                                             <i class="fa fa-upload" aria-hidden="true"></i>
                                         </label>
                                         <input hidden id="pictureFiles" type="file" (change)="addGalleryImages()" accept=".jpg, .jpeg, .png" maxlength="256" multiple>
@@ -242,22 +244,22 @@
             <!-- Posts and activities -->
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <div class="card share-hover">
-                        <div class="card-header p-2">
+                    <div class="card add-button-adjustment-top">
+                        <!-- <div class="card-header p-2">
                             <i class="fa fa-map-pin" aria-hidden="true"></i> {{ lang.text.user.myWall }} ({{postService.posts.length}}/12)
-                        </div>
-                        <div class="card-body p-3">
-                            <div class="card border action-icon mb-3" (click)="openPostWindow()">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h4 class="text-primary text-center mb-0"><b>{{ lang.text.user.sharePrivate }}</b> <i class="fas fa-plus"></i></h4>
-                                        </div>
-                                    </div>
+                        </div> -->
+                        <div class="row action-icon mb-3 border-bottom" (click)="openPostWindow()">
+                            <div class="row mx-auto my-0">
+                                <div class="col-2 px-0 mx-auto align-self-center">
+                                    <img class="img-thumbnail add-button-adjustment-bottom" src="{{ URL_S3_VISUALS + 'Kutatku-Add-Private.png'}}">
                                 </div>
                             </div>
+                        </div>
+                        <div class="card-body p-3">
                             <div class="card-columns">
-                                <p class="col-12 text-center" *ngIf="postService.posts.length == 0">{{ lang.text.user.noPosts }}</p>
+                                <p class="col-12 text-center" *ngIf="postService.posts.length == 0">{{ lang.text.user.noPosts
+                                    }}
+                                </p>
                                 <app-post class="mb-3" [mylocation]="'profile'" [post]="post" *ngFor="let post of postService.posts">
                                 </app-post>
                             </div>
@@ -270,8 +272,8 @@
                     <div class="card">
                         <div class="card-header p-2">
                             <div class="row">
-                                <div class="col-9"><i class="fa fa-users" aria-hidden="true"></i> {{ lang.text.user.friends }} ({{ friends.length
-                                    }})
+                                <div class="col-9"><i class="fa fa-users" aria-hidden="true"></i> {{ lang.text.user.friends
+                                    }} ({{ friends.length }})
                                 </div>
                                 <div class="col-3">
                                     <app-search></app-search>
@@ -284,8 +286,7 @@
                                 <div class="col">
                                     <div *ngFor="let friend of friends" (friendDeleteEvent)="test()">
                                         <div class="friend-image text-center m-1">
-                                            <img (click)="showFriend(friend.nickName)" class="w-100" src="{{ global.URL_S3_USERS + friend.friend.profilePicture }}"
-                                                onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                                            <img (click)="showFriend(friend.nickName)" class="w-100" src="{{ global.URL_S3_USERS + friend.friend.profilePicture }}" onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
                                             <small>{{ friend.nickName }}</small>
                                         </div>
                                     </div>
@@ -319,7 +320,7 @@
                                                     <p>
                                                         <i class="fa fa-exclamation"></i>
                                                         {{ lang.text.auth.passwordRules }}</p>
-                                                    <ul>
+                                                    <ul class="mb-0">
                                                         <li>{{ lang.text.auth.passwordRule1 }}</li>
                                                         <li>{{ lang.text.auth.passwordRule2 }}</li>
                                                         <li>{{ lang.text.auth.passwordRule3 }}</li>
@@ -342,7 +343,7 @@
                                             <div class="form-group mb-0">
                                                 <input type="password" maxlength="48" class="form-control border mb-2" #closePass [(ngModel)]="closePassword" placeholder="{{ lang.text.user.placeHolderEnterPassword }}"
                                                 />
-                                                <button type="button" [disabled]="!closePass.value" class="btn btn-outline-danger btn-sm float-right" (click)="closeAccount(closePass.value); closePassword = null">
+                                                <button type="button" [disabled]="!closePass.value" class="btn btn-outline-primary btn-sm float-right" (click)="closeAccount(closePass.value); closePassword = null">
                                                     <i class="fas fa-power-off"></i> {{ lang.text.general.close }}</button>
                                             </div>
                                         </div>
@@ -363,7 +364,9 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer p-2">
-                <button type="button" class="btn btn-default btn-sm" (click)="showImage='none'">{{ lang.text.general.close }}</button>
+                <button type="button" class="btn btn-outline-primary btn-sm" (click)="showImage='none'">{{ lang.text.general.close
+                    }}
+                </button>
             </div>
         </div>
     </div>

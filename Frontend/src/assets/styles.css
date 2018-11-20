@@ -16,8 +16,9 @@ body {
 }
 
 .alert-warning {
-    background: #D4B670 !important;
+    background: #a65a5a !important;
     border: none !important;
+    opacity: 0.75 !important;
 }
 
 /* .modal-body {
@@ -55,10 +56,10 @@ p {
     padding: 0px !important;
     border: none !important;
 }
-/* 
+
 .bg-primary {
     background: #a65a5a !important;
-} */
+}
 
 .mt-n-25 {
     margin-top: -25px !important;
@@ -90,11 +91,11 @@ p {
 @media (max-width: 576px) {
     
     .add-button-adjustment-bottom {
-        position: fixed; 
-        right: 10px;
-        bottom: 10px;
-        width: 64px;
-        height: 64px;
+        position: fixed !important; 
+        right: 10px !important;
+        bottom: 10px !important;
+        width: 64px !important;
+        height: 64px !important;
     }
 
     .logo {
@@ -113,12 +114,28 @@ p {
     opacity: 0.5;
 }
 
-.close {
-    position: absolute  !important;
+button.close {
+    position: absolute !important;
     right: 5px !important;
-    top: -6px  !important;
-    font-size: 2.5em;
+    top: 5px  !important;
     z-index: 100;
+    padding: 0px !important;
+    margin: 0px !important;
+    background: white !important;
+    color: #444 !important;
+    border-radius: 100% !important;
+}
+
+.alert-primary {
+    background: none !important;
+    border: 1px solid #a65a5a !important;
+    color: #a65a5a !important;
+}
+
+.alert-secondary {
+    background: none !important;
+    border: 1px solid #1f2b36 !important;
+    color: #1f2b36 !important;
 }
 
 .ml--8 {

@@ -7,19 +7,19 @@
                         <i class="fa fa-comment" aria-hidden="true"></i> {{ messageSetup.areceiver }} {{ lang.text.messaging.privateChatWith }}</span>
                     <span *ngIf="messageSetup.type != 'anonym-chat'">
                         <i class="fa fa-comment" aria-hidden="true"></i> {{ messageSetup.receiver }} {{ lang.text.messaging.privateChatWith }}</span>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"></i></button>
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="scrollable mt-2 p-4" data-spy="scroll" id="scrollMessages">
                     <div class="row" *ngFor="let message of messageSetup?.messages">
-                        <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 mt-2">
+                        <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 my-0">
                             <p class="x-small text-muted text-left">{{ messageSetup.type == 'anonym-chat' ? message.asender : message.sender }} @ {{ message.date | date: 'short' }}</p>
                             <div class="p-2 alert alert-primary">
                                 {{ message.message }}
                             </div>
                         </div>
-                        <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 col-md-8 mt-2">
+                        <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 col-md-8 my-0">
                             <p class="x-small text-muted text-right">{{ messageSetup.type == 'anonym-chat' ? message.asender : message.sender }} @ {{ message.date | date: 'short' }}</p>
                             <div class=" p-2 alert alert-secondary">
                                 {{ message.message }}
