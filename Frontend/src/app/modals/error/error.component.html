@@ -11,9 +11,9 @@
                 <p>{{ error?.message }}</p>
             </div>
             <div class="modal-footer p-2">
-                <button *ngIf="error?.error?.message != 'banned'" type="button" class="btn btn-primary btn-sm" (click)="sendErrorMessage()">
+                <button *ngIf="error?.error?.message != 'banned'" type="button" class="btn btn-outline-primary btn-sm" (click)="sendErrorMessage()">
                     <i class="fa fa-share-square" aria-hidden="true"></i> {{ lang.text.errors.sendErrorMessage }}</button>
-                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal">
                     <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>

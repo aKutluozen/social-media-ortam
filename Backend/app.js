@@ -19,11 +19,13 @@ var appRoutes = require('./routes/app'),
 
 var app = express();
 
-var URL = "http://127.0.0.1:3000/post/clean";
-// var URL = "http://18.217.236.111:3000/post/clean";
+// var URL = "http://127.0.0.1:3000/post/clean";
+var URL = "https://18.220.81.102:3000/post/clean";
 
 // Start database connection
-var mongoUrl = "mongodb://alikutluozen:alikutluozen@socialmediacluster-shard-00-00-u02gh.mongodb.net:27017,socialmediacluster-shard-00-01-u02gh.mongodb.net:27017,socialmediacluster-shard-00-02-u02gh.mongodb.net:27017/SocialMediaDB?ssl=true&replicaSet=SocialMediaCluster-shard-0&authSource=admin";
+// var mongoUrl = "mongodb://alikutluozen:alikutluozen@socialmediacluster-shard-00-00-u02gh.mongodb.net:27017,socialmediacluster-shard-00-01-u02gh.mongodb.net:27017,socialmediacluster-shard-00-02-u02gh.mongodb.net:27017/SocialMediaDB?ssl=true&replicaSet=SocialMediaCluster-shard-0&authSource=admin";
+var mongoUrl = "mongodb://" + process.env.MONGOUSER + ":" + process.env.MONGOPASS + "@kutatku-shard-00-00-5i6jt.mongodb.net:27017,kutatku-shard-00-01-5i6jt.mongodb.net:27017,kutatku-shard-00-02-5i6jt.mongodb.net:27017/test?ssl=true&replicaSet=kutatku-shard-0&authSource=admin&retryWrites=true";
+
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoUrl, { useMongoClient: true });
 
@@ -43,7 +45,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(expressSanitized.middleware());
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://18.220.81.102');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
     next();

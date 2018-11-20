@@ -10,7 +10,7 @@ import { MultiLanguageService } from "../language.service";
 export class AuthComponent {
     constructor(
         private auth: AuthService, 
-        private global: GlobalService, 
+        public global: GlobalService, 
         public lang: MultiLanguageService
     ) { }
 

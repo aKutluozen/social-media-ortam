@@ -22,6 +22,7 @@ var limiter = new RateLimit({
     message: "IP rate limit exceeded!"
 });
 
+var IP_PORT = "https://18.220.81.102:3000/";
 USER_ROUTER.use('/signin', limiter);
 
 // Handling image upload
@@ -45,7 +46,7 @@ USER_ROUTER.use('/user', function (req, res, next) {
 var upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'socialmediaimages2017/user_images',
+        bucket: 'kutatku/user_images',
         metadata: function (req, file, cb) {
             cb(null, {
                 fieldName: file.fieldname
@@ -94,11 +95,11 @@ USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
                     error: 'Invalid credentials'
                 });
             }
-
+            
             var removePosts = new Promise((resolve, reject) => {
                 async.forEachOf(user.posts, (value, key, callback) => {
                     request({
-                        url: "http://127.0.0.1:3000/post/" + value + "?token=" + req.query.token,
+                        url: IP_PORT + "post/" + value + "?token=" + req.query.token,
                         method: "DELETE",
                         timeout: 10000,
                         followRedirect: true,
@@ -135,7 +136,7 @@ USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
 
                 async.forEachOf(allImagesArray, (value, key, callback) => {
                     s3.deleteObject({
-                        Bucket: 'socialmediaimages2017',
+                        Bucket: 'kutatku',
                         Key: 'user_images/' + value
                     }, function (err, data) {
                         if (err) {
@@ -384,7 +385,7 @@ USER_ROUTER.delete('/user/profilePicture', function (req, res) {
         misc.checkUserErrors(err, res, user, token, () => {
             // Delete it from S3 first!
             s3.deleteObject({
-                Bucket: 'socialmediaimages2017',
+                Bucket: 'kutatku',
                 Key: 'user_images/' + user.profilePicture
             }, function (err, data) {
                 if (err) {
@@ -464,7 +465,7 @@ USER_ROUTER.delete('/user/coverImage', function (req, res) {
         misc.checkUserErrors(err, res, user, token, () => {
             // Delete it from S3 first!
             s3.deleteObject({
-                Bucket: 'socialmediaimages2017',
+                Bucket: 'kutatku',
                 Key: 'user_images/' + user.coverImage
             }, function (err, data) {
                 if (err) {
@@ -532,7 +533,7 @@ USER_ROUTER.delete('/user/images', function (req, res) {
 
             // Delete it from S3 first!
             s3.deleteObject({
-                Bucket: 'socialmediaimages2017',
+                Bucket: 'kutatku',
                 Key: 'user_images/' + fileToDelete
             }, function (err, data) {
                 // console.log(err, data);

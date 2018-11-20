@@ -14,7 +14,7 @@ var s3 = new AWS.S3();
 var upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'socialmediaimages2017/post_images',
+        bucket: 'kutatku/post_images',
         metadata: function (req, file, cb) {
             cb(null, {
                 fieldName: file.fieldname

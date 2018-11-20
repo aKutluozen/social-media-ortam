@@ -3,15 +3,15 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class GlobalService {
-    // public URL: string = "http://18.217.236.111:3000/";
-    // public URL_CHAT: string = "http://18.217.236.111:5000";
-    public URL: string = "http://localhost:3000/";
-    public URL_CHAT: string = "http://localhost:5000";
+    public URL: string = "https://18.220.81.102:3000/";
+    public URL_CHAT: string = "https://18.220.81.102:5000";
+    // public URL: string = "http://localhost:3000/";
+    // public URL_CHAT: string = "http://localhost:5000";
 
-    public URL_S3_USERS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/user_images/";
-    public URL_S3_POSTS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/post_images/";
-    public URL_S3_ADS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/classified_images/";
-    public URL_S3_VISUALS: string = "https://s3.us-east-2.amazonaws.com/socialmediaimages2017/visuals/";
+    public URL_S3_USERS: string = "https://s3.us-east-2.amazonaws.com/kutatku/user_images/";
+    public URL_S3_POSTS: string = "https://s3.us-east-2.amazonaws.com/kutatku/post_images/";
+    public URL_S3_ADS: string = "https://s3.us-east-2.amazonaws.com/kutatku/classified_images/";
+    public URL_S3_VISUALS: string = "https://s3.us-east-2.amazonaws.com/kutatku/visuals/";
     public URL_EMPTY_PROFILE_PIC: string = "emptyprofile.png";
     public URL_EMPTY_GALLERY_PIC: string = "uploadempty.png";
 

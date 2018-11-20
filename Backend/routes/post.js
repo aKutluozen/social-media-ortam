@@ -17,7 +17,7 @@ var s3 = new AWS.S3();
 var upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'socialmediaimages2017/post_images',
+        bucket: 'kutatku/post_images',
         metadata: function (req, file, cb) {
             cb(null, {
                 fieldName: file.fieldname
@@ -78,7 +78,7 @@ POST_ROUTER.get('/clean', (req, res) => {
                     // Handle the post picture too
                     if (post.image != '' && post.image != undefined) {
                         s3.deleteObject({
-                            Bucket: 'socialmediaimages2017',
+                            Bucket: 'kutatku',
                             Key: 'post_images/' + post.image
                         }, function (err, data) {
                             if (err) {
@@ -469,7 +469,7 @@ POST_ROUTER.delete('/image', function (req, res) {
 
         // Either way, delete it
         s3.deleteObject({
-            Bucket: 'socialmediaimages2017',
+            Bucket: 'kutatku',
             Key: 'post_images/' + filename
         }, function (err, data) {
             if (err) {
@@ -801,7 +801,7 @@ POST_ROUTER.delete('/:id', (req, res) => {
         // Handle the post picture too
         if (post.image != '' && post.image != undefined) {
             s3.deleteObject({
-                Bucket: 'socialmediaimages2017',
+                Bucket: 'kutatku',
                 Key: 'post_images/' + post.image
             }, function (err, data) {
                 if (err) {

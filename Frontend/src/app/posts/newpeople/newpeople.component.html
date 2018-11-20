@@ -6,7 +6,7 @@
         <div *ngFor="let newUser of people" class="action-icon animated fadeIn" (click)="viewProfile(newUser.nickName)">
             <div class="row mx-auto p-2">
                 <div class="col-2 px-0">
-                    <img class="w-100" src="{{global.URL_S3_USERS + newUser.profilePicture}}" onerror="this.src='https://s3.us-east-2.amazonaws.com/socialmediaimages2017/app_images/emptyprofile.png'">
+                    <img class="w-100" src="{{global.URL_S3_USERS + newUser.profilePicture}}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'">
                 </div>
                 <div class="col-10 align-self-center">
                     <h5 class="mb-0">@{{ newUser.nickName }}</h5>
