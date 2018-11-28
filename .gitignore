@@ -1,3 +1,4 @@
 node_modules/
 .vscode/
 s3_config.json
+ses_config.json
