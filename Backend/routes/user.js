@@ -12,6 +12,7 @@ var USER_ROUTER = express.Router(),
     multerS3 = require('multer-s3'),
     AWS = require('aws-sdk'),
     misc = require('../misc'),
+    cache = require('express-redis-cache')({ expire: 300 }),
     RateLimit = require('express-rate-limit');
 
 // Handle limit
@@ -22,7 +23,7 @@ var limiter = new RateLimit({
     message: "IP rate limit exceeded!"
 });
 
-var IP_PORT = "https://18.220.81.102:3000/";
+var IP_PORT = "https://kutatku.com:3000/";
 USER_ROUTER.use('/signin', limiter);
 
 // Handling image upload
@@ -95,7 +96,7 @@ USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
                     error: 'Invalid credentials'
                 });
             }
-            
+
             var removePosts = new Promise((resolve, reject) => {
                 async.forEachOf(user.posts, (value, key, callback) => {
                     request({
@@ -219,7 +220,7 @@ USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
 });
 
 // Get new users
-USER_ROUTER.get('/user/new', function (req, res) {
+USER_ROUTER.get('/user/new', cache.route(), function (req, res) {
     var token = jwt.decode(req.query.token);
     User.aggregate(
         [
@@ -365,7 +366,7 @@ USER_ROUTER.post('/user/complaint', function (req, res) {
     });
 });
 
-USER_ROUTER.get('/user/complaints', (req, res) => {
+USER_ROUTER.get('/user/complaints', cache.route(), (req, res) => {
     var token = jwt.decode(req.query.token);
 
     User.findById(token.id, (err, user) => {
@@ -723,7 +724,7 @@ USER_ROUTER.get('/user/requests/:name', function (req, res, next) {
 });
 
 // Search all users by name
-USER_ROUTER.get('/user/all/:name', function (req, res, next) {
+USER_ROUTER.get('/user/all/:name', cache.route(), function (req, res, next) {
     User.find({
         $or: [
             {
@@ -898,7 +899,7 @@ USER_ROUTER.post('/user/groups/:name', function (req, res) {
 });
 
 // Gets all the user groups for a given user
-USER_ROUTER.get('/user/groups/', function (req, res) {
+USER_ROUTER.get('/user/groups/', cache.route(), function (req, res) {
     var token = jwt.decode(req.query.token);
 
     // Find this user first
@@ -995,7 +996,7 @@ USER_ROUTER.patch('/user/follow/:id', function (req, res) {
             }
 
             currentUserNickname = user.nickName;
-            currentUser = user; 
+            currentUser = user;
 
             user.save(function (err, result) {
                 if (err) {
@@ -1258,11 +1259,11 @@ USER_ROUTER.get('/user/inbox', function (req, res) {
                 }
             }
 
-             // Also delete from interactions
-             for (let i = 0; i < user.interaction.length; i++) {
+            // Also delete from interactions
+            for (let i = 0; i < user.interaction.length; i++) {
                 let interactionDate = new Date(user.interaction[i]), todayDate = new Date();
                 let difference = (todayDate.getTime() - interactionDate.getTime()) / (1000 * 60 * 60 * 24.0)
-                if ( difference > 7) {
+                if (difference > 7) {
                     user.interaction.splice(i, 1);
                     i--;
                 }

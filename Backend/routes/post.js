@@ -7,6 +7,7 @@ var POST_ROUTER = express.Router(),
     multer = require('multer'),
     multerS3 = require('multer-s3'),
     AWS = require('aws-sdk'),
+    cache = require('express-redis-cache')({ expire: 60 }),
     misc = require('../misc');
 
 // Handling image upload
@@ -107,7 +108,7 @@ POST_ROUTER.get('/clean', (req, res) => {
 });
 
 // Get all subjects and group them
-POST_ROUTER.get('/subjects', function (req, res) {
+POST_ROUTER.get('/subjects', cache.route(), function (req, res) {
     Post.aggregate([
         {
             $match: {
@@ -157,7 +158,7 @@ POST_ROUTER.get('/subjects', function (req, res) {
 });
 
 // Get only one post with all the info.
-POST_ROUTER.get('/post/:id', function (req, res) {
+POST_ROUTER.get('/post/:id', cache.route(), function (req, res) {
     Post.findById(req.params.id)
         .populate([{
             path: 'user',
@@ -226,7 +227,7 @@ POST_ROUTER.use('/', function (req, res, next) {
 });
 
 // Get all posts with a given subject
-POST_ROUTER.get('/friends/:subject/:amount', function (req, res) {
+POST_ROUTER.get('/friends/:subject/:amount', cache.route(), function (req, res) {
     var token = jwt.decode(req.query.token);
 
     var amount = parseInt(req.params.amount);
@@ -326,7 +327,7 @@ POST_ROUTER.get('/friends/:subject/:amount', function (req, res) {
 });
 
 // Get private posts
-POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', function (req, res) {
+POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', cache.route(), function (req, res) {
     var token = jwt.decode(req.query.token);
 
     var amount = parseInt(req.params.amount);
@@ -372,7 +373,7 @@ POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', function (req, r
 });
 
 // Get posts of friends
-POST_ROUTER.get('/friends/:amount', function (req, res) {
+POST_ROUTER.get('/friends/:amount', cache.route(), function (req, res) {
     var token = jwt.decode(req.query.token);
     var amount = parseInt(req.params.amount);
 

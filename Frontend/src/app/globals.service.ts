@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class GlobalService {
-    public URL: string = "https://18.220.81.102:3000/";
-    public URL_CHAT: string = "https://18.220.81.102:5000";
+    public URL: string = "https://kutatku.com:3000/";
+    public URL_CHAT: string = "https://kutatku.com:5000";
     // public URL: string = "http://localhost:3000/";
     // public URL_CHAT: string = "http://localhost:5000";
 
@@ -19,6 +19,7 @@ export class GlobalService {
     public username: string = '';
     public credit: number = 0;
     public banned: boolean = false;
+    public languageSelected: string = '';
 
     dataURLtoFile(dataurl, filename) {
         var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
@@ -33,5 +34,18 @@ export class GlobalService {
         var txt = document.createElement('textarea');
         txt.innerHTML = html;
         return txt.value;
-    };
+    }
+
+    parseLanguageJSON(langArr, langNum) {
+        let obj = {};
+
+        for (let row of langArr) {
+            if (!obj[row[0]]) {
+                obj[row[0]] = {}
+            }
+            obj[row[0]][row[1]] = row[langNum + 1];
+        }
+
+        return obj;
+    }
 }

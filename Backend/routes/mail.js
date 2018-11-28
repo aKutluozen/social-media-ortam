@@ -3,8 +3,11 @@ var express = require('express'),
     nodemailer = require('nodemailer'),
     User = require('../models/user'),
     bcrypt = require('bcryptjs'),
-    misc = require('../misc')
-RateLimit = require('express-rate-limit');
+    misc = require('../misc'),
+    aws = require('aws-sdk'),
+    RateLimit = require('express-rate-limit');
+
+aws.config.loadFromPath('./ses_config.json');
 
 // Handle limit
 var limiter = new RateLimit({
@@ -20,7 +23,10 @@ var EMAIL_ROUTER = express.Router();
 EMAIL_ROUTER.use('/', limiter);
 
 var transporter = nodemailer.createTransport({
-    service: 'gmail',
+    SES: new aws.SES({
+        apiVersion: '2010-12-01'
+    }),
+    // service: 'gmail',
     auth: {
         user: process.env.USER,
         pass: process.env.PASS
@@ -150,6 +156,29 @@ EMAIL_ROUTER.post('/message', function (req, res) {
             });
         });
     })
+});
+
+EMAIL_ROUTER.get('/test', function (req, res) {
+    var mailOptions = {
+        from: 'admin@kutatku.com',
+        to: 'ali_kutluozen@hotmail.com',
+        subject: 'Test from Kutatku',
+        text: 'Test mail!'
+    };
+
+    transporter.sendMail(mailOptions, function (err, info) {
+        if (err) {
+            return res.status(400).json({
+                message: 'problem',
+                error: err
+            });
+        } else {
+            return res.status(200).json({
+                message: 'success',
+                data: info
+            });
+        }
+    });
 });
 
 module.exports = EMAIL_ROUTER;

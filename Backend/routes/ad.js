@@ -7,6 +7,7 @@ var AD_ROUTER = express.Router(),
     multer = require('multer'),
     multerS3 = require('multer-s3'),
     AWS = require('aws-sdk'),
+    cache = require('express-redis-cache')({ expire: 300 }),
     misc = require('../misc');
 
 // Handling image upload
@@ -216,7 +217,7 @@ AD_ROUTER.delete('/:id', (req, res) => {
 
 
 // Get ads
-AD_ROUTER.get('/:amount/:category', function (req, res) {
+AD_ROUTER.get('/:amount/:category', cache.route(), function (req, res) {
     var token = jwt.decode(req.query.token);
 
     var amount = parseInt(req.params.amount);

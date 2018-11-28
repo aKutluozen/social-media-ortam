@@ -2,8 +2,10 @@ var express = require('express');
 var CHAT_ROUTER = express.Router();
 var app = express();
 var jwt = require('jsonwebtoken');
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+//var http = require('http').Server(app);
+var https = require('https');
+var fs = require('fs');
+var io = require('socket.io')(https);
 var Room = require('../models/room');
 var User = require('../models/user');
 var misc = require('../misc');
@@ -92,8 +94,20 @@ io.on('connection', (socket) => {
     });
 });
 
-http.listen(5000, () => {
-    console.log('Chat started on port 5000');
+var privateKey = fs.readFileSync('/etc/ssl/kutatku.key', 'utf-8', function (err) {
+    console.log('error loading private key');
+});
+var certificate = fs.readFileSync('/etc/ssl/kutatku_com.crt', 'utf-8', function (err) {
+    console.log('error loading certificate');
+});
+
+var options = {
+    key: privateKey,
+    cert: certificate
+}
+
+https.createServer(options, app).listen(5000, function (conn) {
+    console.log('Chat is listening on port 5000');
 });
 
 module.exports = CHAT_ROUTER;

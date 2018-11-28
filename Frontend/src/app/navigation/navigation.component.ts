@@ -36,12 +36,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
 	// Show the username if there is one
 	ngOnInit() {
-		// for (let item in this.lang.text_EN) {
-		// 	for (let text in this.lang.text_EN[item]) {
-		// 		console.log(item, text)
-		// 	}
-		// }
-
 		this.messageSubscription = this.auth.currentMessage.subscribe(message => {
 			this.username = message;
 		});
@@ -73,6 +67,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
 				$('.collapse').removeClass('show');
 			}
 		});
+
+		let chosenLang = localStorage.getItem('lang');
+		if (chosenLang == 'en') {
+			this.switchLanguage('english');
+		} else {
+			this.switchLanguage('turkish');
+		}
 	}
 
 	closeDropdown(el) {
@@ -82,8 +83,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
 	switchLanguage(language) {
 		if (language == 'english') {
 			this.lang.text = this.lang.text_EN;
+			localStorage.setItem('lang', 'en');
 		} else {
 			this.lang.text = this.lang.text_TR;
+			localStorage.setItem('lang', 'tr');
 		}
 	}
 
