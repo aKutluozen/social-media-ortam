@@ -12,7 +12,7 @@ aws.config.loadFromPath('./ses_config.json');
 // Handle limit
 var limiter = new RateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
-    max: 10, // limit each IP to 1000 requests per windowMs
+    max: 50, // limit each IP to 1000 requests per windowMs
     delayMs: 0, // disable delaying - full speed until the max limit is reached
     message: "IP rate limit exceeded!"
 });
@@ -28,8 +28,8 @@ var transporter = nodemailer.createTransport({
     }),
     // service: 'gmail',
     auth: {
-        user: process.env.USER,
-        pass: process.env.PASS
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 
@@ -53,10 +53,10 @@ EMAIL_ROUTER.post('/reset', function (req, res) {
                 }
 
                 var mailOptions = {
-                    from: process.env.USER,
+                    from: process.env.EMAIL_USER,
                     to: req.body.email,
-                    subject: 'Sifre yenileme - Ortam Online',
-                    text: 'Sifreyi yenilemek icin lutfen bu kodu giriniz: ' + randomCode
+                    subject: 'Password Reset - Kutatku',
+                    text: 'Please enter the code to reset your password: ' + randomCode
                 };
 
                 transporter.sendMail(mailOptions, function (err, info) {
@@ -65,12 +65,11 @@ EMAIL_ROUTER.post('/reset', function (req, res) {
                             message: 'problem',
                             error: err
                         });
-                    } else {
-                        return res.status(200).json({
-                            message: 'success',
-                            data: info
-                        });
                     }
+                    return res.status(200).json({
+                        message: 'success',
+                        data: info
+                    });
                 });
             });
         });
@@ -93,10 +92,10 @@ EMAIL_ROUTER.post('/reset/new', function (req, res) {
                     }
 
                     var mailOptions = {
-                        from: process.env.USER,
+                        from: process.env.EMAIL_USER,
                         to: req.body.email,
-                        subject: 'Sifre yenileme - Ortam Online',
-                        text: 'Sifreniz yenilenmistir!'
+                        subject: 'Password Reset - Kutatku',
+                        text: 'Your password has been reset!'
                     };
 
                     transporter.sendMail(mailOptions, function (err, info) {
@@ -135,8 +134,8 @@ EMAIL_ROUTER.post('/message', function (req, res) {
     User.find({ nickName: req.body.nickName }, { email: 1 }, function (err, user) {
         misc.checkUserErrors(err, res, user, null, () => {
             var mailOptions = {
-                from: process.env.USER,
-                to: 'ali_kutluozen@hotmail.com',
+                from: process.env.EMAIL_USER,
+                to: 'support@kutatku.com',
                 subject: req.body.messageType + ' from ' + req.body.nickName,
                 text: req.body.message + '\n\n Contact ID: ' + user
             };
@@ -160,8 +159,8 @@ EMAIL_ROUTER.post('/message', function (req, res) {
 
 EMAIL_ROUTER.get('/test', function (req, res) {
     var mailOptions = {
-        from: 'admin@kutatku.com',
-        to: 'ali_kutluozen@hotmail.com',
+        from: 'support@kutatku.com',
+        to: 'kutluozen.ali@gmail.com',
         subject: 'Test from Kutatku',
         text: 'Test mail!'
     };

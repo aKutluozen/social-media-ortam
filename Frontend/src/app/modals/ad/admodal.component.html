@@ -1,8 +1,8 @@
-<div class="modal fade" #modalElement tabindex="-1" role="dialog">
+<div class="modal animated fadeIn" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog  " role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"></i></button>
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times-circle"></i></button>
                 <form [formGroup]="adForm">
                     <div class="row">
                         <div class="col-2 align-self-center">{{ lang.text.classifieds.category }}</div>
@@ -33,9 +33,9 @@
                     <div class="row">
                         <div class="col-12">
                             <label class="btn btn-outline-primary text-center btn-sm mb-0" *ngIf="!imageToShow" for="adPictureFile">
-                                <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.selectPicture }}</label>
+                                <i class="fal fa-image" aria-hidden="true"></i> {{ lang.text.general.selectPicture }}</label>
                             <label class="btn btn-outline-primary text-center btn-sm mb-0" *ngIf="imageToShow" (click)="deleteAdPicture()">
-                                <i class="fa fa-trash" aria-hidden="true"></i> {{ lang.text.general.deletePicture }}</label>
+                                <i class="fal fa-trash" aria-hidden="true"></i> {{ lang.text.general.deletePicture }}</label>
 
                             <input hidden id="adPictureFile" type="file" (change)="fileChangeEvent($event)" />
 
@@ -50,13 +50,13 @@
                         <div class="row col justify-content-center mx-auto">
                             <button class="btn btn-outline-primary text-center btn-sm" *ngIf="croppedImage" type="button"
                                 (click)="rotateImage()">
-                                <i class="fas fa-sync-alt"></i> {{ lang.text.general.turn }}</button>
+                                <i class="fal fa-sync-alt"></i> {{ lang.text.general.turn }}</button>
                             <button class="btn btn-outline-primary text-center btn-sm" *ngIf="croppedImage" type="button"
                                 (click)="addAdImage()">
-                                <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.upload }}</button>
+                                <i class="fal fa-image" aria-hidden="true"></i> {{ lang.text.general.upload }}</button>
                             <button class="btn btn-outline-primary text-center btn-sm" *ngIf="croppedImage" type="button"
                                 (click)="emptyAdImage()">
-                                <i class="fa fa-image" aria-hidden="true"></i> {{ lang.text.general.cancel }}</button>
+                                <i class="fal fa-image" aria-hidden="true"></i> {{ lang.text.general.cancel }}</button>
                             <img hidden [src]="croppedImage" />
                         </div>
                     </div>
@@ -77,9 +77,9 @@
             </div>
             <div class="modal-footer p-2">
                 <button class="btn btn-outline-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="adForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
-                    <i class="fa fa-share-square" aria-hidden="true"></i> {{ lang.text.general.share }}</button>
+                    <i class="fal fa-share-square" aria-hidden="true"></i> {{ lang.text.general.share }}</button>
                 <button type="button" class="btn btn-outline-primary btn-sm" (click)="close(false)">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
+                    <i class="fal fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>
     </div>

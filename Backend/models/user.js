@@ -3,6 +3,10 @@ var Schema = mongoose.Schema;
 var mongooseUniqueValidator = require('mongoose-unique-validator');
 
 var schema = new Schema({
+    activated: {
+        type: Boolean,
+        default: false
+    },
     accountType: { type: String },
     nickName: { type: String, required: true, unique: true },
     chatNickName: { type: String, unique: true },
@@ -46,14 +50,13 @@ var schema = new Schema({
         complaint: { type: Object }
     }],
     credit: { type: Number },
-    status: { type: String }, // admin, etc.
     twitterLink: { type: String },
     youtubeLink: { type: String },
     linkedinLink: { type: String },
     googleplusLink: { type: String },
     snapchatLink: { type: String },
     instagramLink: { type: String },
-    interaction: [{type: Date }]
+    interaction: [{ type: Date }]
 }, { usePushEach: true });
 
 schema.plugin(mongooseUniqueValidator); // makes sure unique is unique

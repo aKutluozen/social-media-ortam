@@ -63,13 +63,7 @@ export class UsermodalComponent implements OnInit {
 					}
 				}
 			}
-
 			this.user.posts = [];
-			var postSubscription = this.postService.getPosts(this.user._id, 0, 'private', this.user._id).subscribe(
-				data => this.user.posts = data,
-				error => { postSubscription.unsubscribe(); console.error(error) }
-			);
-
 			this.isInTheFollowList = false;
 			// Check if a friend!
 			this.userService.getFriendsList().subscribe(
@@ -82,6 +76,12 @@ export class UsermodalComponent implements OnInit {
 
 						if (friend.nickName == this.user.nickName && friend.accepted == true) {
 							this.isFriend = true;
+							
+							
+							var postSubscription = this.postService.getPosts(this.user._id, 0, 'private', this.user._id).subscribe(
+								data => this.user.posts = data,
+								error => { postSubscription.unsubscribe(); console.error(error) }
+							);
 							break;
 						} else {
 							this.isFriend = false;
@@ -97,7 +97,7 @@ export class UsermodalComponent implements OnInit {
 	}
 
 	creditAskSend(nickName, profilePicture) {
-		this.modal.showCreditModal({nickName: nickName, profilePicture: profilePicture});
+		this.modal.showCreditModal({ nickName: nickName, profilePicture: profilePicture });
 	}
 
 	// Turn on the answering modal

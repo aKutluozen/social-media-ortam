@@ -69,10 +69,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
 		});
 
 		let chosenLang = localStorage.getItem('lang');
-		if (chosenLang == 'en') {
-			this.switchLanguage('english');
-		} else {
+		if (chosenLang == 'tr') {
 			this.switchLanguage('turkish');
+		} else {
+			this.switchLanguage('english');
 		}
 	}
 

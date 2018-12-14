@@ -1,9 +1,9 @@
-<div class="modal fade" #modalElement tabindex="-1" role="dialog">
+<div class="modal animated fadeIn" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog  " role="document">
         <div class="modal-content">
             <div class="modal-header py-1 bg-warning">
                 <h4 class="modal-title">
-                    <i class="fa fa-credit-card" aria-hidden="true"></i> {{ lang.text.credit.title }} <button type="button" class="close"
+                    <i class="fal fa-credit-card" aria-hidden="true"></i> {{ lang.text.credit.title }} <button type="button" class="close"
                         data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body text-center">
@@ -18,16 +18,16 @@
             </div>
             <div class="modal-footer p-2">
                 <button type="button" class="btn btn-primary btn-sm" (click)="askCredit()" [disabled]="creditAmount == 0">
-                    <i class="fas fa-arrow-right"></i>
-                    <i class="fas fa-credit-card"></i> {{ lang.text.credit.ask }}</button>
+                    <i class="fal fa-arrow-right"></i>
+                    <i class="fal fa-credit-card"></i> {{ lang.text.credit.ask }}</button>
                 <button type="button" class="btn btn-secondary btn-sm" (click)="sendCredit()" [disabled]="creditAmount > global.credit || creditAmount == 0">
-                    <i class="fas fa-credit-card"></i>
-                    <i class="fas fa-arrow-right"></i>
+                    <i class="fal fa-credit-card"></i>
+                    <i class="fal fa-arrow-right"></i>
                     <span *ngIf="global.credit - creditAmount >= 0"> {{ lang.text.credit.send }}</span>
                     <span *ngIf="global.credit - creditAmount < 0"> {{ lang.text.credit.limit }}</span>
                 </button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
+                    <i class="fal fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>
     </div>

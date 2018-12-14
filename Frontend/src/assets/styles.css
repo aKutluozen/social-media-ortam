@@ -1,7 +1,7 @@
 body {
     padding-top: 70px;
     margin-bottom: 60px;
-    background: #faf9f6;
+    background: #f8f7f5;
     /* background-image: url('https://s3.us-east-2.amazonaws.com/kutatku/visuals/background.png');
     background-attachment: fixed;
     background-size: auto 100%; */
@@ -39,7 +39,7 @@ body {
 
 .add-button-adjustment-bottom {
     margin-top: -50px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     border-radius: 100% !important;
 }
@@ -114,6 +114,15 @@ p {
     opacity: 0.5;
 }
 
+.modal {
+    overflow-y:auto !important;
+  }
+
+
+  .sandstone, .navbar .nav-link, .btn, .nav-tabs .nav-link, .nav-pills .nav-link, .breadcrumb, .pagination, .dropdown-menu .dropdown-item, .tooltip {
+    text-transform: none !important;
+}
+
 button.close {
     position: absolute !important;
     right: 5px !important;
@@ -121,8 +130,9 @@ button.close {
     z-index: 100;
     padding: 0px !important;
     margin: 0px !important;
-    background: white !important;
+    /* background: rgba(255, 255, 255, 0.5) !important; */
     color: #444 !important;
+    /* color: #444 !important; */
     border-radius: 100% !important;
 }
 
@@ -188,18 +198,19 @@ button.close {
 }
 
 .breakable-word {
-    word-break: break-all;
+    /* word-break: break-all; */
 }
 
 input,
 textarea {
-    background: rgba(0, 0, 0, 0.05) !important;
-    border: none !important;
+    background: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 
 .search-button {
     background: none;
     border: none;
+    /* margin-left: -32px; */
 }
 
 .search {
@@ -223,11 +234,10 @@ textarea {
     /* opacity: 0.65; */
 }
 
-input:enabled,
-textarea:enabled,
-.border-bottom {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-} 
+/* input:enabled,
+textarea:enabled{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.33) !important;
+}  */
 
 .credit-input {
     font-size: 80px;
@@ -249,11 +259,12 @@ textarea:enabled,
 }
 
 .card {
-    box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
 
 .animated {
-    animation-duration: 0.75s !important;
+    animation-duration: 0.5s !important;
 }
 
 .modal-content {

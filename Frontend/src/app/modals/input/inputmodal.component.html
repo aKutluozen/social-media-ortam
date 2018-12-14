@@ -1,27 +1,27 @@
-<div class="modal fade" #modalElement tabindex="-1" role="dialog">
+<div class="modal animated fadeIn" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog  " role="document">
         <div class="modal-content">
-            <div class="modal-header py-1 bg-primary text-white">
-                <h4 class="modal-title">
+            <div class="modal-header py-1 text-dark">
+                <h5 class="modal-title">
                     <span *ngIf="messageSetup.type === 'anonym-chat'">
-                        <i class="fa fa-comment" aria-hidden="true"></i> {{ messageSetup.areceiver }} {{ lang.text.messaging.privateChatWith }}</span>
+                        <i class="fal fa-comment" aria-hidden="true"></i> {{ messageSetup.areceiver }} - {{ lang.text.messaging.privateChatWith }}</span>
                     <span *ngIf="messageSetup.type != 'anonym-chat'">
-                        <i class="fa fa-comment" aria-hidden="true"></i> {{ messageSetup.receiver }} {{ lang.text.messaging.privateChatWith }}</span>
-                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"></i></button>
-                </h4>
+                        <i class="fal fa-comment" aria-hidden="true"></i> {{ messageSetup.receiver }} - {{ lang.text.messaging.privateChatWith }}</span>
+                    <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times-circle"></i></button>
+                </h5>
             </div>
             <div class="modal-body">
-                <div class="scrollable mt-2 p-4" data-spy="scroll" id="scrollMessages">
+                <div class="scrollable p-4" data-spy="scroll" id="scrollMessages">
                     <div class="row" *ngFor="let message of messageSetup?.messages">
                         <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 my-0">
                             <p class="x-small text-muted text-left">{{ messageSetup.type == 'anonym-chat' ? message.asender : message.sender }} @ {{ message.date | date: 'short' }}</p>
-                            <div class="p-2 alert alert-primary">
+                            <div class="p-2 alert alert-primary mb-1">
                                 {{ message.message }}
                             </div>
                         </div>
                         <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 col-md-8 my-0">
                             <p class="x-small text-muted text-right">{{ messageSetup.type == 'anonym-chat' ? message.asender : message.sender }} @ {{ message.date | date: 'short' }}</p>
-                            <div class=" p-2 alert alert-secondary">
+                            <div class="p-2 alert alert-secondary mb-1">
                                 {{ message.message }}
                             </div>
                         </div>
@@ -43,9 +43,9 @@
                 <!-- <span *ngIf="!isFriend" class="small">{{ lang.text.messaging.creditWarning }}: {{ global.credit }}
                 </span> -->
                 <button type="submit" class="btn btn-outline-primary btn-sm" (click)="sendChatMessage()" [disabled]="disableSending">
-                    <i class="fa fa-comment" aria-hidden="true"></i></button>
+                    <i class="fal fa-comment" aria-hidden="true"></i></button>
                 <!-- <button type="button" data-dismiss="modal" class="btn btn-outline-primary btn-sm" (click)="close()">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i></button> -->
+                    <i class="fal fa-times-circle" aria-hidden="true"></i></button> -->
             </div>
         </div>
     </div>

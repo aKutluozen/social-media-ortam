@@ -58,7 +58,9 @@ export class ChatService {
 
     getMessages() {
         let observable = new Observable(observer => {
-            this.socket = io(this.global.URL_CHAT);
+            this.socket = io(this.global.URL_CHAT, {
+                secure: true, rejectUnauthorized: false
+            });
             this.socket.on('message', (data) => {
                 observer.next(data);
             });
@@ -71,7 +73,9 @@ export class ChatService {
 
     getPrivateMessages() {
         let observable = new Observable(observer => {
-            this.socket = io(this.global.URL_CHAT);
+            this.socket = io(this.global.URL_CHAT, {
+                secure: true, rejectUnauthorized: false
+            });
             this.socket.on('private-message', (data) => {
                 observer.next(data);
             });

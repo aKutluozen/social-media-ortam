@@ -3,6 +3,8 @@ var USER_ROUTER = express.Router(),
     User = require('../models/user'),
     Post = require('../models/post'),
     Room = require('../models/room'),
+    nodemailer = require('nodemailer'),
+    Ad = require('../models/ad'),
     Message = require('../models/message'),
     bcrypt = require('bcryptjs'),
     request = require('request'),
@@ -12,23 +14,37 @@ var USER_ROUTER = express.Router(),
     multerS3 = require('multer-s3'),
     AWS = require('aws-sdk'),
     misc = require('../misc'),
-    cache = require('express-redis-cache')({ expire: 300 }),
+    cache = require('express-redis-cache')({ expire: 60 }),
     RateLimit = require('express-rate-limit');
 
 // Handle limit
 var limiter = new RateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
-    max: 5, // limit each IP to 1000 requests per windowMs
+    max: 10, // limit each IP to 1000 requests per windowMs
     delayMs: 0, // disable delaying - full speed until the max limit is reached
     message: "IP rate limit exceeded!"
+});
+
+AWS.config.loadFromPath('./ses_config.json');
+require("dotenv").config();
+
+var transporter = nodemailer.createTransport({
+    SES: new AWS.SES({
+        apiVersion: '2010-12-01'
+    }),
+    // service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
 });
 
 var IP_PORT = "https://kutatku.com:3000/";
 USER_ROUTER.use('/signin', limiter);
 
-// Handling image upload
 AWS.config.loadFromPath('./s3_config.json');
 var s3 = new AWS.S3();
+
 
 // Protect all the rest of the requests starting with "/user" if the user doesn't have a token
 USER_ROUTER.use('/user', function (req, res, next) {
@@ -132,6 +148,28 @@ USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
                 });
             });
 
+            var removeFromClassifieds = new Promise((resolve, reject) => {
+                Ad.findOneAndRemove({ nickName: req.params.nickName }, (err, ad) => {
+                    if (err || !ad) {
+                        reject({ message: 'problem deleting from ads' });
+                    }
+
+                    // Handle the post picture too
+                    if (ad.picture != '' && ad.picture != undefined) {
+                        s3.deleteObject({
+                            Bucket: 'kutatku',
+                            Key: 'classified_images/' + ad.picture
+                        }, function (err, data) {
+                            if (err) {
+                                reject({ message: 'problem deleting user image from ads' });
+                            }
+                        });
+                    }
+
+                    resolve({ message: 'done deleting from ads' });
+                });
+            });
+
             var removeUserFiles = new Promise((resolve, reject) => {
                 var allImagesArray = [].concat(user.images, user.coverImage, user.profilePicture);
 
@@ -182,7 +220,8 @@ USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
                 })
             });
 
-            Promise.all([removePosts, removeFromOtherPeople, removeUserFiles, removeFromMessages, removeFromChat, removeUser]).then((values) => {
+            Promise.all([removePosts, removeFromOtherPeople, removeFromClassifieds, removeUserFiles, removeFromMessages, removeFromChat, removeUser]).then((values) => {
+                // console.log(values);
                 return res.status(200).json({
                     message: 'profile deleted',
                     data: ''
@@ -582,16 +621,54 @@ USER_ROUTER.post('/', function (req, res, next) {
 
     user.save(function (err, result) {
         if (err) {
+            console.log(err);
             return res.status(500).json({
                 message: 'An error occured',
                 error: err
             });
         }
 
-        return res.status(201).json({
-            message: 'User created!',
-            obj: result
+        var mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: req.body.email,
+            subject: 'Welcome! - Kutatku Activation',
+            html: `
+                <img src="https://s3.us-east-2.amazonaws.com/kutatku/visuals/Kutatku-Full-Logo.png" style="width: 200px; margin: auto; display: block;">
+                <h2>Welcome to Kutatku!</h2>
+                <p>Please click this following link to activate your Kutatku account: </p>
+                <p><a target="_blank" href="https://kutatku.com:3000/user/activate/${result._id}">Activate it</a></p>
+            `
+        };
+
+        transporter.sendMail(mailOptions, function (err, info) {
+            if (err) {
+                return res.status(400).json({
+                    message: 'problem',
+                    error: err
+                });
+            }
+            return res.status(201).json({
+                message: 'User created - Email sent!',
+                obj: result
+            });
         });
+    });
+});
+
+USER_ROUTER.get('/activate/:id', function (req, res) {
+    User.updateOne({ _id: req.params.id }, { $set: { activated: true } }, function (err, result) {
+        if (err) {
+            return res.status(400).json({
+                message: 'Problem activating a user',
+                error: err
+            });
+        }
+
+        return res.send(`
+            <script type="text/javascript">
+                location.href = "https://kutatku.com/auth/signin";
+            </script>
+        `);
     });
 });
 
@@ -605,6 +682,13 @@ USER_ROUTER.post('/signin', function (req, res) {
                 return res.status(401).json({
                     message: 'Login failed',
                     error: 'Invalid credentials'
+                });
+            }
+
+            if (user.activated == false) {
+                return res.status(402).json({
+                    message: 'Login failed',
+                    error: 'User has not been activated!'
                 });
             }
 
@@ -685,40 +769,65 @@ USER_ROUTER.get('/user', function (req, res, next) {
 
 // Get a selected user profile to view
 USER_ROUTER.get('/user/requests/:name', function (req, res, next) {
+    var token = jwt.decode(req.query.token);
+
     User.findOne({
         nickName: req.params.name
-    }, {
-            inbox: 0,
-            groups: 0
-        }, function (err, user) {
+    }, { password: 0, credit: 0, inbox: 0, chatNickName: 0, groups: 0 },
+        function (err, user) {
             misc.checkUserErrors(err, res, user, null, () => {
                 // Get posts now - private, belongs to user, not shared
-                Post.find({ group: 'private', nickName: req.params.name }).populate([{
-                    path: 'user',
-                    model: User,
-                    select: 'nickName profilePicture'
-                }, {
-                    path: 'shares.user',
-                    model: User,
-                    select: 'nickName profilePicture'
-                }, {
-                    path: 'comments.user',
-                    model: User,
-                    select: 'nickName profilePicture'
-                }]).exec(function (err, posts) {
-                    if (err) {
-                        return res.status(500).json({
-                            message: 'error getting posts of profile',
-                            error: err
-                        });
-                    }
-                    user.posts = posts;
 
+                var isFriends = false;
+                for (let auser of user.following) {
+                    if (auser.friend == token.id && auser.accepted) {
+                        isFriends = true;
+                    }
+                }
+
+                if (isFriends || user._id == token.id) {
+                    Post.find({ group: 'private', nickName: req.params.name }).populate([{
+                        path: 'user',
+                        model: User,
+                        select: 'nickName profilePicture'
+                    }, {
+                        path: 'shares.user',
+                        model: User,
+                        select: 'nickName profilePicture'
+                    }, {
+                        path: 'comments.user',
+                        model: User,
+                        select: 'nickName profilePicture'
+                    }]).exec(function (err, posts) {
+                        if (err) {
+                            return res.status(500).json({
+                                message: 'error getting posts of profile',
+                                error: err
+                            });
+                        }
+                        user.posts = posts;
+
+                        return res.status(200).json({
+                            message: 'a user profile',
+                            data: user
+                        });
+                    });
+                } else {
+                    user.posts = [];
+                    user.twitterLink = '';
+                    user.youtubeLink = '';
+                    user.linkedinLink = '';
+                    user.googleplusLink = '';
+                    user.snapchatLink = '';
+                    user.instagramLink = '';
+                    user.bio = '';
+                    user.jobStatus = '';
+                    user.education = '';
                     return res.status(200).json({
-                        message: 'a user profile',
+                        message: 'private',
                         data: user
                     });
-                });
+                }
             });
         });
 });

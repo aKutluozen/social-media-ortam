@@ -3,7 +3,7 @@
         <div class="col-xl-12 col-lg-12 mb-4 px-2 mb-3">
             <div class="card">
                 <div class="card-header p-2">
-                    <i class="fa fa-question-circle"></i> {{ lang.text.admin.help }}
+                    <i class="fal fa-question-circle"></i> {{ lang.text.admin.help }}
                 </div>
                 <div class="card-body row">
                     <div class="col-12 mb-4">
@@ -22,12 +22,27 @@
                                 <div class="form-group">
                                     <textarea type="text" formControlName="message" class="form-control" maxlength="1024" minlength="16" rows="5" placeholder="{{ lang.text.admin.placeHolder }}"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary" [disabled]="!messageForm.valid">{{ lang.text.admin.send }}</button>
+                                <button type="submit" class="btn btn-primary" [disabled]="!messageForm.valid">{{ lang.text.admin.send
+                                    }}</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-auto align-self-center mx-auto my-2 text-center">
+        <img class="img-responsive" src="https://kutatku.com/comodo_secure_seal_76x26_transp.png">
+        <script language="JavaScript" type="text/javascript">
+            TrustLogo("https://kutatku.com/comodo_secure_seal_76x26_transp.png", "CL1", "none");
+        </script>
+        <a href="https://ssl.comodo.com" id="comodoTL">Comodo SSL</a>
+    </div>
+    <div class="col-12 my-0 text-muted text-center">
+        <span class="action-icon" [routerLink]="['/legal']">Terms</span> -
+        <span class="action-icon" [routerLink]="['/gdpr']">GDPR Privacy</span>
+    </div>
+    <div class="col-12 my-0 text-muted">
+        <p class="text-center">Copyright &copy; 2018 Kutatku </p>
     </div>
 </div>

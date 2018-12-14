@@ -1,16 +1,24 @@
 <div class="p-4" (click)="$event.stopPropagation()">
     <div class="row mb-2 border-bottom pb-2">
-        <div class="col-md-4 col-6 align-self-center">
+        <div class="col-3 align-self-center">
             {{ lang.text.inbox.selectRoom }}
         </div>
-        <div class="col-md-8 col-6 pl-0">
-            <select (change)="selectRoom(room)" (click)="$event.stopPropagation()" [(ngModel)]="room" class="form-control">
+        <div class="col-5 align-self-center">
+            <select (click)="$event.stopPropagation()" [(ngModel)]="roomToBeEntered" class="form-control">
                 <option *ngFor="let room of rooms" value="{{ room.name }}">{{ room.name }}</option>
             </select>
         </div>
+        <div class="col-4 align-self-center">
+            <button [disabled]="!roomToBeEntered" class="btn btn-outline-primary btn-block" (click)="selectRoom(roomToBeEntered)">{{
+                lang.text.chat.enterRoom }} </button>
+        </div>
     </div>
-
-    <div class="scrollable mb-4" id="scrollThis">
+    <div class="row mx-2" *ngIf="room">
+        <div class="col align-self-center">
+            <h5 class="text-center">{{ lang.text.chat.current + ': ' + room }}</h5>
+        </div>
+    </div>
+    <div class="scrollable mb-4" id="scrollThis" *ngIf="room">
         <div class="row mx-auto" *ngIf="messages.length == 0">
             <div class="col-12 pl-0 message">
                 {{ lang.text.inbox.noMessageFound }}
@@ -33,15 +41,16 @@
                     </div> -->
                     <div class="row">
                         <div class="col-12">
-                            <button class="btn btn-outline-primary btn-sm btn-block py-0" (click)="startPrivateConvo(message.text.nickName, message.text.chatNickName)">{{ lang.text.inbox.inviteToPrivate }}</button>
+                            <button class="btn btn-outline-primary btn-sm btn-block py-0" (click)="startPrivateConvo(message.text.nickName, message.text.chatNickName)">{{
+                                lang.text.inbox.inviteToPrivate }}</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <hr>
-    <div class="row">
+    <hr *ngIf="room">
+    <div class="row" *ngIf="room">
         <div class="col-6 h-100">
             <select class="form-control" [ngStyle]="{ 'background': color }" [(ngModel)]="color">
                 <option value="" disabled selected>{{ lang.text.inbox.selectColor }}</option>
@@ -60,11 +69,11 @@
         </div>
         <div class="col-6 h-100">
             <button class="btn btn-outline-primary btn-block" (click)="sendMessage(); $event.stopPropagation()">
-                <i class="fa fa-share-square" aria-hidden="true"></i>
+                <i class="fal fa-share-square" aria-hidden="true"></i>
             </button>
         </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-4" *ngIf="room">
         <div class="col-12">
             <textarea class="form-control" [(ngModel)]="message" rows="2" maxlength="256" (keypress)="sendWithEnter($event)"></textarea>
         </div>

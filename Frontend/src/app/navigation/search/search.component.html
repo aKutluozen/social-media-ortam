@@ -1,12 +1,12 @@
 <ul class="row mx-auto search-box justify-content-center list-inline my-0 py-0">
-    <li class="list-inline-item col-10 px-0 mr-0">
+    <li class="list-inline-item col-11 px-0 mr-0">
         <input class="form-control search" maxlength="48" type="text" [(ngModel)]="searchTerm" (keypress)="searchWithEnter($event)"
             [ngModelOptions]="{standalone: true}" placeholder="{{ lang.text.search.search }}">
     </li>
-    <li class="list-inline-item btn-group col-2 pl-0 ml-0">
-        <button class="search-button action-icon" #searchButton type="button" (click)="search()" [disabled]="!searchTerm" id="searchMenu"
+    <li class="list-inline-item btn-group col-1 pl-0 ml-0">
+        <button class="search-button action-icon h-100" #searchButton type="button" (click)="search()" [disabled]="!searchTerm" id="searchMenu"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-search fa-lg" aria-hidden="true"></i>
+            <i class="fal fa-search fa-lg" aria-hidden="true"></i>
         </button>
         <div class="p-2 scrollable-search dropdown-menu dropdown-menu-right mt-0 pt-0  animated fadeIn" aria-labelledby="searchMenu">
             <div class="row mx-0">

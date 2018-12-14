@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 //var http = require('http').Server(app);
 var https = require('https');
 var fs = require('fs');
-var io = require('socket.io')(https);
+
 var Room = require('../models/room');
 var User = require('../models/user');
 var misc = require('../misc');
@@ -81,18 +81,7 @@ CHAT_ROUTER.get('/room', function (req, res) {
     });
 });
 
-io.on('connection', (socket) => {
-    socket.on('disconnect', function () {
-    });
-
-    socket.on('add-message', (message) => {
-        io.emit('message', { type: 'new-message', text: message });
-    });
-
-    socket.on('add-private-message', (message) => {
-        io.emit('private-message', { type: 'new-private-message', text: message });
-    });
-});
+// Server
 
 var privateKey = fs.readFileSync('/etc/ssl/kutatku.key', 'utf-8', function (err) {
     console.log('error loading private key');
@@ -106,7 +95,36 @@ var options = {
     cert: certificate
 }
 
-https.createServer(options, app).listen(5000, function (conn) {
+var server = https.createServer(options, app)
+var io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+    socket.on('disconnect', function () {
+    });
+
+    socket.on('add-message', (message) => {
+        io.emit('message', { type: 'new-message', text: message });
+    });
+
+    socket.on('add-private-message', (message) => {
+        io.emit('private-message', { type: 'new-private-message', text: message });
+    });
+});
+
+app.all('/*', function (req, res, next) {
+	var allowedOrigins = ['https://kutatku.com', 'https://www.kutatku.com'];
+	var origin = req.headers.origin;
+	if (allowedOrigins.indexOf(origin) > -1) {
+		res.header('Access-Control-Allow-Origin', origin);
+    }
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE,OPTIONS');
+	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, *');
+	next();
+});
+
+
+server.listen(5000, function (conn) {
     console.log('Chat is listening on port 5000');
 });
 

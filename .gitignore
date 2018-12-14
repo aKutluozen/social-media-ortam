@@ -3,3 +3,4 @@ node_modules/
 s3_config.json
 ses_config.json
 .env
+.htaccess

@@ -54,7 +54,7 @@ POST_ROUTER.get('/clean', (req, res) => {
                     callback(err);
                 } else {
                     // Delete it from everybody
-                    User.find({ posts: { $in: [post._id] } }, { nickName: 1, posts: 1, inbox: 1 }, (err, users) => {
+                    User.find({ posts: { $in: [post._id] }, nickName: { $ne: 'kutbot' } }, { nickName: 1, posts: 1, inbox: 1 }, (err, users) => {
                         for (let user of users) {
                             user.posts.pull(post._id);
                             // Also delete from inbox
@@ -108,7 +108,7 @@ POST_ROUTER.get('/clean', (req, res) => {
 });
 
 // Get all subjects and group them
-POST_ROUTER.get('/subjects', cache.route(), function (req, res) {
+POST_ROUTER.get('/subjects', function (req, res) {
     Post.aggregate([
         {
             $match: {
@@ -227,107 +227,132 @@ POST_ROUTER.use('/', function (req, res, next) {
 });
 
 // Get all posts with a given subject
-POST_ROUTER.get('/friends/:subject/:amount', cache.route(), function (req, res) {
+POST_ROUTER.get('/friends/:subject/:amount', function (req, res) {
     var token = jwt.decode(req.query.token);
 
     var amount = parseInt(req.params.amount);
     var theSubject = req.params.subject.toLowerCase();
 
-    // Get the user first
-    User.findById(token.id, function (err, user) {
-        var finalResponse = misc.checkResultErrors(err, res, 'user', user);
-        if (finalResponse) {
-            return finalResponse;
+    Post.find({ group: 'public', subject: theSubject }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
+        path: 'user',
+        model: User,
+        select: 'nickName profilePicture'
+    }, {
+        path: 'shares.user',
+        model: User,
+        select: 'nickName profilePicture'
+    }, {
+        path: 'comments.user',
+        model: User,
+        select: 'nickName profilePicture'
+    }]).exec(function (err, posts) {
+        if (err || !posts) {
+            return res.status(500).json({
+                message: 'problem finding subjects',
+                error: err
+            });
         }
-        // Temporary friends array
-        var friends = [];
-
-        // Put the user too so he/she can their own posts too
-        if (req.params.subject.toString() === user._id.toString()) {
-            friends.push(user.nickName);
-            theSubject = '';
-        } else {
-            friends.push(user.nickName);
-            for (friend of user.following) {
-                if (friend.accepted == true) {
-                    friends.push(friend.nickName);
-                }
-            }
-        }
-
-        // Find all the friends
-        User.aggregate([
-            { $match: { nickName: { $in: friends } } }, // Get all the friends
-            { $project: { posts: 1, _id: 0 } }
-        ]).exec(function (err, posts) {
-
-            // List all the post ids
-            var postIdArray = [];
-            for (let inPosts of posts) {
-                if (inPosts.posts.length > 0) {
-                    for (let i = 0; i < inPosts.posts.length; i++) {
-                        postIdArray.push(inPosts.posts[i]);
-                    }
-                }
-            }
-
-            if (theSubject != '') {
-                Post.find({ group: 'public', subject: theSubject, _id: { $in: postIdArray } }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
-                    path: 'user',
-                    model: User,
-                    select: 'nickName profilePicture'
-                }, {
-                    path: 'shares.user',
-                    model: User,
-                    select: 'nickName profilePicture'
-                }, {
-                    path: 'comments.user',
-                    model: User,
-                    select: 'nickName profilePicture'
-                }]).exec(function (err, posts) {
-                    if (err || !posts) {
-                        return res.status(500).json({
-                            message: 'problem finding subjects',
-                            error: err
-                        });
-                    }
-                    return res.status(200).json({
-                        message: 'posts',
-                        data: posts
-                    });
-                });
-            } else {
-                Post.find({ group: 'public', _id: { $in: postIdArray } }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
-                    path: 'user',
-                    model: User,
-                    select: 'nickName profilePicture'
-                }, {
-                    path: 'shares.user',
-                    model: User,
-                    select: 'nickName profilePicture'
-                }, {
-                    path: 'comments.user',
-                    model: User,
-                    select: 'nickName profilePicture'
-                }]).exec(function (err, posts) {
-                    if (err || !posts) {
-                        return res.status(500).json({
-                            message: 'problem finding subjects',
-                            error: err
-                        });
-                    }
-                    return res.status(200).json({
-                        message: 'posts',
-                        data: posts
-                    });
-                });
-            }
+        return res.status(200).json({
+            message: 'posts',
+            data: posts
         });
     });
+
+    // // Get the user first
+    // User.findById(token.id, function (err, user) {
+    //     var finalResponse = misc.checkResultErrors(err, res, 'user', user);
+    //     if (finalResponse) {
+    //         return finalResponse;
+    //     }
+    //     // Temporary friends array
+    //     var friends = [];
+
+    //     // Put the user too so he/she can their own posts too
+    //     if (req.params.subject.toString() === user._id.toString()) {
+    //         friends.push(user.nickName);
+    //         theSubject = '';
+    //     } else {
+    //         friends.push(user.nickName);
+    //         for (friend of user.following) {
+    //             if (friend.accepted == true) {
+    //                 friends.push(friend.nickName);
+    //             }
+    //         }
+    //     }
+
+    //     // Find all the friends
+    //     User.aggregate([
+    //         { $match: { nickName: { $in: friends } } }, // Get all the friends
+    //         { $project: { posts: 1, _id: 0 } }
+    //     ]).exec(function (err, posts) {
+
+    //         // List all the post ids
+    //         var postIdArray = [];
+    //         for (let inPosts of posts) {
+    //             if (inPosts.posts.length > 0) {
+    //                 for (let i = 0; i < inPosts.posts.length; i++) {
+    //                     postIdArray.push(inPosts.posts[i]);
+    //                 }
+    //             }
+    //         }
+
+    //         if (theSubject != '') {
+    //             Post.find({ group: 'public', subject: theSubject, _id: { $in: postIdArray } }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
+    //                 path: 'user',
+    //                 model: User,
+    //                 select: 'nickName profilePicture'
+    //             }, {
+    //                 path: 'shares.user',
+    //                 model: User,
+    //                 select: 'nickName profilePicture'
+    //             }, {
+    //                 path: 'comments.user',
+    //                 model: User,
+    //                 select: 'nickName profilePicture'
+    //             }]).exec(function (err, posts) {
+    //                 if (err || !posts) {
+    //                     return res.status(500).json({
+    //                         message: 'problem finding subjects',
+    //                         error: err
+    //                     });
+    //                 }
+    //                 return res.status(200).json({
+    //                     message: 'posts',
+    //                     data: posts
+    //                 });
+    //             });
+    //         } else {
+    //             Post.find({ group: 'public', _id: { $in: postIdArray } }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
+    //                 path: 'user',
+    //                 model: User,
+    //                 select: 'nickName profilePicture'
+    //             }, {
+    //                 path: 'shares.user',
+    //                 model: User,
+    //                 select: 'nickName profilePicture'
+    //             }, {
+    //                 path: 'comments.user',
+    //                 model: User,
+    //                 select: 'nickName profilePicture'
+    //             }]).exec(function (err, posts) {
+    //                 if (err || !posts) {
+    //                     return res.status(500).json({
+    //                         message: 'problem finding subjects',
+    //                         error: err
+    //                     });
+    //                 }
+    //                 return res.status(200).json({
+    //                     message: 'posts',
+    //                     data: posts
+    //                 });
+    //             });
+    //         }
+    //     });
+    // });
 });
 
 // Get private posts
-POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', cache.route(), function (req, res) {
+POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', function (req, res) {
     var token = jwt.decode(req.query.token);
 
     var amount = parseInt(req.params.amount);
@@ -373,69 +398,94 @@ POST_ROUTER.get('/friends/:subject/:publicity/:amount/:person', cache.route(), f
 });
 
 // Get posts of friends
-POST_ROUTER.get('/friends/:amount', cache.route(), function (req, res) {
+POST_ROUTER.get('/friends/:amount', function (req, res) {
     var token = jwt.decode(req.query.token);
     var amount = parseInt(req.params.amount);
 
-    // Get the user first
-    User.findById(token.id, function (err, user) {
-        var finalResponse = misc.checkResultErrors(err, res, 'user', user);
-        if (finalResponse) {
-            return finalResponse;
-        }
-
-        // Temporary friends array
-        var friends = [];
-
-        // Put the user too so he/she can their own posts too
-        friends.push(user.nickName);
-        for (friend of user.following) {
-            if (friend.accepted == true) {
-                friends.push(friend.nickName);
-            }
-        }
-
-        // Find all the friends
-        User.aggregate([
-            { $match: { nickName: { $in: friends } } }, // Get all the friends
-            { $project: { posts: 1, _id: 0 } }
-        ]).exec(function (err, posts) {
-
-            var postIdArray = [];
-            for (let inPosts of posts) {
-                if (inPosts.posts.length > 0) {
-                    for (let i = 0; i < inPosts.posts.length; i++) {
-                        postIdArray.push(inPosts.posts[i]);
-                    }
-                }
-            }
-
-            Post.find({ group: 'public', _id: { $in: postIdArray } }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
-                path: 'user',
-                model: User,
-                select: 'nickName profilePicture'
-            }, {
-                path: 'shares.user',
-                model: User,
-                select: 'nickName profilePicture'
-            }, {
-                path: 'comments.user',
-                model: User,
-                select: 'nickName profilePicture'
-            }]).exec(function (err, posts) {
-                if (err || !posts) {
-                    return res.status(500).json({
-                        message: 'problem getting posts of friends',
-                        error: err
-                    });
-                }
-                return res.status(200).json({
-                    message: 'posts',
-                    data: posts
-                });
+    Post.find({ group: 'public' }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
+        path: 'user',
+        model: User,
+        select: 'nickName profilePicture'
+    }, {
+        path: 'shares.user',
+        model: User,
+        select: 'nickName profilePicture'
+    }, {
+        path: 'comments.user',
+        model: User,
+        select: 'nickName profilePicture'
+    }]).exec(function (err, posts) {
+        if (err || !posts) {
+            return res.status(500).json({
+                message: 'problem finding subjects',
+                error: err
             });
+        }
+        return res.status(200).json({
+            message: 'posts',
+            data: posts
         });
     });
+
+    // // Get the user first
+    // User.findById(token.id, function (err, user) {
+    //     var finalResponse = misc.checkResultErrors(err, res, 'user', user);
+    //     if (finalResponse) {
+    //         return finalResponse;
+    //     }
+
+    //     // Temporary friends array
+    //     var friends = [];
+
+    //     // Put the user too so he/she can their own posts too
+    //     friends.push(user.nickName);
+    //     for (friend of user.following) {
+    //         if (friend.accepted == true) {
+    //             friends.push(friend.nickName);
+    //         }
+    //     }
+
+    //     // Find all the friends
+    //     User.aggregate([
+    //         { $match: { nickName: { $in: friends } } }, // Get all the friends
+    //         { $project: { posts: 1, _id: 0 } }
+    //     ]).exec(function (err, posts) {
+
+    //         var postIdArray = [];
+    //         for (let inPosts of posts) {
+    //             if (inPosts.posts.length > 0) {
+    //                 for (let i = 0; i < inPosts.posts.length; i++) {
+    //                     postIdArray.push(inPosts.posts[i]);
+    //                 }
+    //             }
+    //         }
+
+    //         Post.find({ group: 'public', _id: { $in: postIdArray } }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
+    //             path: 'user',
+    //             model: User,
+    //             select: 'nickName profilePicture'
+    //         }, {
+    //             path: 'shares.user',
+    //             model: User,
+    //             select: 'nickName profilePicture'
+    //         }, {
+    //             path: 'comments.user',
+    //             model: User,
+    //             select: 'nickName profilePicture'
+    //         }]).exec(function (err, posts) {
+    //             if (err || !posts) {
+    //                 return res.status(500).json({
+    //                     message: 'problem getting posts of friends',
+    //                     error: err
+    //                 });
+    //             }
+    //             return res.status(200).json({
+    //                 message: 'posts',
+    //                 data: posts
+    //             });
+    //         });
+    //     });
+    // });
 });
 
 // Upload a post image

@@ -46,7 +46,7 @@ export class AuthService {
         // window.location.href = './';
         window.setTimeout(() => {
             window.location.reload(true);
-        }, 500);
+        }, 1000);
         
         // navigator['app'].loadUrl('file:///android_asset/www/index.html');
     }

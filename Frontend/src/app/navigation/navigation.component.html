@@ -19,19 +19,19 @@
                     <ul class="list-inline nav-link py-0">
                         <!-- <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/posts/all']">
-                                <i class="fa fa-2x text-dark fa-home"></i>
+                                <i class="fal fa-2x text-dark fa-home"></i>
                                 <div class="item-text">{{ lang.text.navigation.homepage }}</div>
                             </a>
                         </li> -->
                         <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/ads/all']">
-                                <i class="fas fa-2x text-dark fa-newspaper"></i>
+                                <i class="fal fa-2x text-muted fa-newspaper"></i>
                                 <div class="item-text">{{ lang.text.navigation.classifieds }}</div>
                             </a>
                         </li>
                         <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/admin']">
-                                <i class="fa fa-2x text-dark fa-question-circle"></i>
+                                <i class="fal fa-2x text-muted fa-question-circle"></i>
                                 <div class="item-text">{{ lang.text.navigation.help }}</div>
                             </a>
                         </li>
@@ -47,17 +47,16 @@
                                     </div>
                                     <div class="list-group">
                                         <!-- <a class="list-group-item text-dark list-group-item-action list-group-item-light">
-                                            <i class="fa fa-credit-card" aria-hidden="true"></i> : {{ global.credit }}
+                                            <i class="fal fa-credit-card" aria-hidden="true"></i> : {{ global.credit }}
                                         </a> -->
-                                        <a [routerLink]="['/profile/me']" class="py-1 list-group-item text-dark list-group-item-action list-group-item-light " id="profileLink">
-                                            <i class="fa fa-id-card" aria-hidden="true"></i> {{ lang.text.navigation.gotoprofile }}</a>
-                                        <div class="py-1 list-group-item text-dark list-group-item-action list-group-item-light">
-                                            <i class="fas fa-language"></i> 
-                                            <button class="btn btn-primary btn-sm mx-2" (click)="switchLanguage('turkish')">Turkce</button>
-                                            <button class="btn btn-primary btn-sm" (click)="switchLanguage('english')">English</button>
+                                        <a [routerLink]="['/profile/me']" class="py-1 list-group-item text-muted list-group-item-action list-group-item-light " id="profileLink">
+                                            <i class="fal fa-id-card" aria-hidden="true"></i> {{ lang.text.navigation.gotoprofile }}</a>
+                                        <div class="py-1 list-group-item text-muted list-group-item-action list-group-item-light">
+                                            <span class="action-icon" (click)="switchLanguage('turkish')">Türkçe</span> - 
+                                            <span class="action-icon" (click)="switchLanguage('english')">English</span> 
                                         </div>
-                                        <a href="javascript:void(0)" (click)="logOut()" class="py-1 list-group-item text-dark list-group-item-action list-group-item-light ">
-                                            <i class="fa fa-sign-out-alt" aria-hidden="true"></i> {{ lang.text.navigation.logout }}</a>
+                                        <a href="javascript:void(0)" (click)="logOut()" class="py-1 list-group-item text-muted list-group-item-action list-group-item-light ">
+                                            <i class="fal fa-sign-out-alt" aria-hidden="true"></i> {{ lang.text.navigation.logout }}</a>
                                     </div>
                                 </div>
                             </div>

@@ -41,10 +41,14 @@ import { AdsService } from 'app/ads/ads.service';
 import { PostsModule } from './posts/posts.module';
 import { InboxModule } from './navigation/inbox/inbox.module';
 import { AdsModule } from './ads/ads.module';
+import { LegalComponent } from './legal/legal.component';
+import { GdprComponent } from './gdpr/gdpr.component';
 
 // Main routes - Lazily loaded
 const APP_ROUTES: Routes = [
 	{ pathMatch: 'full', path: '', redirectTo: '/posts/all' },
+	{ path: 'legal', component: LegalComponent },
+	{ path: 'gdpr', component: GdprComponent },
 	{ path: 'posts/all', component: PostsComponent, canActivate: [AuthGuard] },
 	{ path: 'auth', component: AuthComponent, loadChildren: 'app/auth/auth.module#AuthModule' },
 	{ path: 'profile', loadChildren: 'app/user/user.module#UserModule' },
@@ -67,6 +71,8 @@ const APP_ROUTES: Routes = [
 		ComplaintmodalComponent,
 		QuestionmodalComponent,
 		AdmodalComponent,
+		LegalComponent,
+		GdprComponent,
 		PostmodalComponent,
 		PostviewmodalComponent,
 		CreditmodalComponent,

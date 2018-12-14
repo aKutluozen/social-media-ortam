@@ -1,9 +1,9 @@
-<div class="modal fade" #modalElement tabindex="-1" role="dialog">
+<div class="modal animated fadeIn" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog  " role="document">
         <div class="modal-content">
             <div class="modal-header py-1 bg-danger">
                 <h4 class="modal-title">
-                    <i class="fa fa-exclamation" aria-hidden="true"></i> {{ lang.text.complaint.title }} <button type="button"
+                    <i class="fal fa-exclamation" aria-hidden="true"></i> {{ lang.text.complaint.title }} <button type="button"
                         class="close" data-dismiss="modal">&times;</button></h4>
             </div>
             <div class="modal-body" *ngIf="complaint">
@@ -18,9 +18,9 @@
             </div>
             <div class="modal-footer p-2">
                 <button class="btn btn-outline-primary btn-sm" (click)="blockFromChat(complaint['name'])">
-                    <i class="fa fa-ban"></i> {{ lang.text.complaint.ban }}</button>
+                    <i class="fal fa-ban"></i> {{ lang.text.complaint.ban }}</button>
                 <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal">
-                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
+                    <i class="fal fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
             </div>
         </div>
     </div>

@@ -3,18 +3,18 @@
         <img src="{{ global.URL_S3_VISUALS + 'Kutatku-Full-Logo.png'}}" class="img-fluid my-4">
     </div>
 </div>
-<div class="row justify-content-center align-self-center mt-4 animated fadeIn" *ngIf="!isLoggedIn()">
+<div class="row justify-content-center align-self-center mt-2 animated fadeIn" *ngIf="!isLoggedIn()">
     <div class="col-md-5 col-12">
         <div class="card">
-            <div class="card-header">
-                <ul class="nav nav-pills nav-fill">
+            <div class="card-header px-3">
+                <ul class="nav nav-tabs nav-fill">
                     <li class="nav-item text-center">
                         <a class="nav-link" [routerLink]="['signin']" routerLinkActive="active">
-                            <i class="fa fa-sign-in-alt" aria-hidden="true"></i> {{ lang.text.auth.login }}</a>
+                            <i class="fal fa-sign-in-alt" aria-hidden="true"></i> {{ lang.text.auth.login }}</a>
                     </li>
                     <li class="nav-item text-center">
                         <a class="nav-link" [routerLink]="['signup']" routerLinkActive="active">
-                            <i class="fa fa-file" aria-hidden="true"></i> {{ lang.text.auth.signup }}</a>
+                            <i class="fal fa-user-plus" aria-hidden="true"></i> {{ lang.text.auth.signup }}</a>
                     </li>
                 </ul>
             </div>
@@ -30,8 +30,18 @@
                 </script>
                 <a href="https://ssl.comodo.com" id="comodoTL">Comodo SSL</a>
             </div>
-            <div class="col-12 my-2">
-                <p class="text-center">Kutatku &copy;2018</p>
+            <div class="col-12">
+                <div class="py-1 text-center text-muted">
+                    <span class="action-icon" (click)="switchLanguage('turkish')">Türkçe</span> -
+                    <span class="action-icon" (click)="switchLanguage('english')">English</span>
+                </div>
+            </div>
+            <div class="col-12 my-0 text-muted text-center">
+                <span class="action-icon" [routerLink]="['/legal']">Terms</span> -
+                <span class="action-icon" [routerLink]="['/gdpr']">GDPR Privacy</span>
+            </div>
+            <div class="col-12 my-0 text-muted">
+                <p class="text-center">Copyright &copy; 2018 Kutatku </p>
             </div>
         </div>
     </div>

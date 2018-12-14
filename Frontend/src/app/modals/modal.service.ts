@@ -55,14 +55,12 @@ export class ModalService {
         if (errorResponse.error) {
             if (errorResponse.error.name == 'TokenExpiredError' || errorResponse.error.name == 'JsonWebTokenError') {
                 this.auth.logout();
-                // location.reload();
             }
         }
         
-        if (this.auth.getCookie('token') == '' || this.auth.getCookie('token') == 'undefined') {
-            this.auth.logout();
-            // location.reload();
-        }
+        // if (this.auth.getCookie('token') == '' || this.auth.getCookie('token') == 'undefined') {
+        //     this.auth.logout();
+        // }
     }
 
     showComplaintModal(complaint: Object) {

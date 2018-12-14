@@ -7,7 +7,7 @@ var AD_ROUTER = express.Router(),
     multer = require('multer'),
     multerS3 = require('multer-s3'),
     AWS = require('aws-sdk'),
-    cache = require('express-redis-cache')({ expire: 300 }),
+    cache = require('express-redis-cache')({ expire: 60 }),
     misc = require('../misc');
 
 // Handling image upload

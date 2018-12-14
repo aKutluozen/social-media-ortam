@@ -30,17 +30,13 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     // Sign up, create a new user and send it
     onSubmit() {
-        if (this.signupForm.value.password) {
-
-        }
         const user = new User(
             this.signupForm.value.email,
             this.signupForm.value.password,
             this.signupForm.value.nickName, 
             this.signupForm.value.chatNickName, '', '', '', '',
-            this.signupForm.value.firstName,
-            this.signupForm.value.lastName,
-            this.signupForm.value.shortMessage
+            // this.signupForm.value.firstName,
+            // this.signupForm.value.lastName
         );
 
         if (this.signupForm.value.password == this.signupForm.value.password2) {
@@ -66,15 +62,13 @@ export class SignupComponent implements OnInit, OnDestroy {
         this.signupForm = new FormGroup({
             nickName: new FormControl(null, Validators.required),
             chatNickName: new FormControl(null, Validators.required),
-            email: new FormControl(null, [
-                Validators.required,
-                Validators.pattern("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$")
-            ]),
-            password: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
-            password2: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
-            firstName: new FormControl(null),
-            lastName: new FormControl(null),
-            shortMessage: new FormControl(null, Validators.required)
+            email: new FormControl(null,
+                [Validators.required, Validators.pattern("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$")]
+            ),
+            password: new FormControl(null, Validators.required),
+            password2: new FormControl(null, Validators.required),
+            // firstName: new FormControl(null),
+            // lastName: new FormControl(null)
         });
     }
 

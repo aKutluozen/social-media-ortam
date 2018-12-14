@@ -1,7 +1,7 @@
-<div class="row action-icon mb-3 border-bottom" (click)="openPostWindow()">
+<div class="row action-icon mb-3" (click)="openPostWindow()">
     <div class="row mx-auto my-0">
         <div class="col-2 px-0 mx-auto align-self-center">
-                <img class="img-thumbnail add-button-adjustment-bottom" src="{{ global.URL_S3_VISUALS + 'Kutatku-Add-Public.png'}}">
+                <img class="img-thumbnail add-button-adjustment-bottom" src="{{ global.URL_S3_VISUALS + 'Kutatku-Add-Circle.png'}}">
         </div>
     </div>
 </div>
@@ -11,6 +11,6 @@
     <app-post [post]="post" *ngFor="let post of postService.posts" class="animated fadeIn">
     </app-post>
     <div class="col-12 my-2 text-center action-icon" (click)="loadMore()">
-        <i class="fa fa-ellipsis-h fa-3x text-primary" aria-hidden="true"></i>
+        <i class="fal fa-ellipsis-h fa-3x text-primary" aria-hidden="true"></i>
     </div>
 </div>

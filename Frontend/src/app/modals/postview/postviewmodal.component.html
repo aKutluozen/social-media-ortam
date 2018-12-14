@@ -1,8 +1,8 @@
-<div class="modal fade" #modalElement tabindex="-1" role="dialog">
+<div class="modal animated fadeIn" #modalElement tabindex="-1" role="dialog">
     <div class="modal-dialog " [ngClass]="{'modal-lg': post?.image}" role="document">
         <div class="modal-content">
             <div class="modal-body p-0">
-                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times-circle"></i></button>
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times-circle"></i></button>
                 <div class="row mx-auto">
                     <div class="col-md-6 px-0" *ngIf="post?.image">
                         <img src="{{ global.URL_S3_POSTS + post?.image }}" onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/uploadempty.png'"
@@ -17,7 +17,7 @@
                             <div class="col-10 small align-self-center">{{ post?.shares[post?.shares.length - 1].user.nickName }}, {{ post?.shares[post?.shares.length
                                 - 1].date | date:'short' }} {{ lang.text.post.sharedDate}}.</div>
                             <div class="col-12 lead text-muted">
-                                <i class="fas fa-comment pr-2" aria-hidden="true"></i>{{ post?.shares[post?.shares.length - 1].comment }}
+                                <i class="fal fa-comment pr-2" aria-hidden="true"></i>{{ post?.shares[post?.shares.length - 1].comment }}
                             </div>
                             <div class="dropdown" *ngIf="post?.shares.length > 0">
                                 <a class="action-icon" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -29,7 +29,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="row py-2 border-bottom mb-2">
+                        <div class="row pb-2 pt-0 border-bottom mb-2">
                             <div class="col-2">
                                 <img onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'" src="{{ global.URL_S3_USERS + post?.profilePicture || global.URL_S3_USERS + post['user']['profilePicture'] }}"
                                     class="rounded-circle w-100" alt="profil" (click)="viewProfile(post?.nickName)">
@@ -38,7 +38,7 @@
                                 <div class="row">
                                     <div class="col-12 align-items-start">
                                         <small class="text-primary">
-                                            <i class="fa fa-hashtag" aria-hidden="true"></i>{{ post?.subject[0].length >= 16 ? post?.subject[0].substring(0, 16) + '
+                                            <i class="fal fa-hashtag" aria-hidden="true"></i>{{ post?.subject[0].length >= 16 ? post?.subject[0].substring(0, 16) + '
                                             ...' : post?.subject[0] }}</small>
                                     </div>
                                 </div>
@@ -52,9 +52,9 @@
                         <div *ngIf="onSharing" class="card">
                             <div class="row card-body">
                                 <div class="col">
-                                    <h4>Paylasim Yorumu
+                                    <h5>Paylasim Yorumu
                                         <button class="btn btn-sm btn-default float-right" (click)="onShare()">x</button>
-                                    </h4>
+                                    </h5>
                                 </div>
                                 <div class="col-10">
                                     <div class="form-group mb-0">
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="col-2 pl-0">
                                     <button [disabled]="!shareComment" class="btn btn-outline-primary btn-block btn-sm" (click)="shareThis()">
-                                        <i class="fa fa-comment" aria-hidden="true"></i>
+                                        <i class="fal fa-comment" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div class="col-12 my-0 text-right small text-muted">
@@ -74,8 +74,8 @@
                         </div>
 
                         <div *ngIf="!onComment && !onSharing" [ngClass]="{'pb-4 mb-3': post?.nickName != global.username}">
-                            <p class="lead text-muted breakable-word">
-                                <i class="fa fa-comment pr-2" aria-hidden="true"></i>{{ post?.content }}</p>
+                            <p class="lead text-muted">
+                                <i class="fal fa-comment pr-2" aria-hidden="true"></i>{{ post?.content }}</p>
                             <div class="card mb-3" *ngIf="post?.linkContent">
                                 <div class="card-body">
                                     <div class="row">
@@ -83,12 +83,12 @@
                                             <img class="w-100" src="{{ post?.linkContent.image }}" alt="Resim yok" onerror="this.onerror=null; this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'">
                                         </div>
                                         <div class="col-8">
-                                            <h4>{{ post?.linkContent.title }}</h4>
+                                            <h5>{{ post?.linkContent.title }}</h5>
                                             <p>
                                                 <small>{{ post?.linkContent.description }}</small>
                                             </p>
                                             <a class="btn  btn-sm btn-outline-primary float-right" href="{{ post?.linkContent.url }}" target="_blank">
-                                                <i class="fa fa-link" aria-hidden="true"></i> {{ lang.text.post.openLink}}</a>
+                                                <i class="fal fa-link" aria-hidden="true"></i> {{ lang.text.post.openLink}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@
                                     </div>
                                     <div class="col-2 pl-0">
                                         <button [disabled]="!answer" class="btn btn-outline-primary btn-block btn-sm" (click)="sendAnswer()">
-                                            <i class="fa fa-comment" aria-hidden="true"></i>
+                                            <i class="fal fa-comment" aria-hidden="true"></i>
                                         </button>
                                     </div>
                                     <div class="col-12 text-right small text-muted">
@@ -123,13 +123,13 @@
                                                 'col-8': answerBelongsToUser(comment.user.nickName), 
                                                 'col-10': !answerBelongsToUser(comment.user.nickName)
                                             }">
-                                                <b>{{ comment.user.nickName }} @ {{ comment.date | date: 'shortTime'}} </b>
+                                                <b><small>{{ comment.user.nickName }} @ {{ comment.date | date: 'shortTime'}}:</small> </b><br>
                                                 <span class="breakable-word">{{ comment.answer }}
                                                 </span>
                                             </div>
                                             <div class="col-2" *ngIf="answerBelongsToUser(comment.user.nickName)">
                                                 <button class="btn btn-outline-primary btn-sm" (click)="deleteAnswer(comment.id)">
-                                                    <i class="fa fa-small fa-trash" aria-hidden="true"></i>
+                                                    <i class="fal fa-small fa-trash" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -141,15 +141,15 @@
                                     <div class="btn-group justify-content-center btn-group-sm w-100" role="group">
                                         <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn border-0 btn-sm w-25 btn-outline-primary"
                                             (click)="getLink()">
-                                            <i class="fas fa-link"></i>
+                                            <i class="fal fa-link"></i>
                                         </button>
                                         <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn border-0 btn-sm w-25 btn-outline-primary"
                                             (click)="onShare()">
-                                            <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                            <i class="fal fa-share-alt" aria-hidden="true"></i>
                                             <span class="badge">{{ post?.shares.length }}</span>
                                         </button>
                                         <button class="border-0 btn btn-sm w-25 btn-outline-primary" (click)="likeThis()">
-                                            <i class="fa fa-smile" aria-hidden="true"></i>
+                                            <i class="fal fa-smile" aria-hidden="true"></i>
                                             <span class="badge">{{ post?.likes.length }}</span>
                                         </button>
                                     </div>
@@ -161,13 +161,13 @@
             </div>
             <div class="modal-footer p-2" *ngIf="belongsToUser() || shareBelongsToUser()">
                 <button *ngIf="belongsToUser()" class="btn btn-outline-primary btn-sm" (click)="onEdit()">
-                    <i class="fa fa-edit" aria-hidden="true"></i>
+                    <i class="fal fa-edit" aria-hidden="true"></i>
                 </button>
                 <button *ngIf="belongsToUser()" class="btn btn-outline-primary btn-sm" (click)="onDelete()">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <i class="fal fa-trash" aria-hidden="true"></i>
                 </button>
                 <button *ngIf="shareBelongsToUser()" class="btn btn-outline-primary btn-sm" (click)="onDeleteShare()">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <i class="fal fa-trash" aria-hidden="true"></i>
                 </button>
             </div>
         </div>

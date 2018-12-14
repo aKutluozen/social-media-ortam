@@ -34,7 +34,6 @@
   "devDependencies": {
     "@angular/cli": "^1.7.4",
     "@angular/compiler-cli": "5.2.8",
-    "@fortawesome/fontawesome-free": "^5.2.0",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
     "codelyzer": "~2.0.0",

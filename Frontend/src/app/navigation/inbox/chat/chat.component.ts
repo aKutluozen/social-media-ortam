@@ -16,7 +16,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 	private connection: any;
 	public message: any = '';
 	public color: string = '';
-	public room: string = 'genel';
+	public room: string = '';
+	public roomToBeEntered: string = '';
 	public rooms: object[] = [];
 	public reason: string = '';
 	private chatNickName: string = this.auth.getCookie('chatNickName');
@@ -51,6 +52,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 						window['$']('#navbarButton').click();
 						window['$']('#chatMenu').click();
 						this.messages = [];
+						this.room = roomName;
 					},
 					error => {
 						this.modal.handleError('Yasak!', error);
