@@ -37,7 +37,7 @@
                         <div class="col-12 text-center" *ngIf="adsService.ads.length == 0">{{ lang.text.classifieds.noClassifieds
                             }}
                         </div>
-                        <div class="card border action-icon mb-3" (click)="openAdWindow()">
+                        <div class="card border action-icon mb-3" (click)="openAdWindow()" *ngIf="auth.isLoggedIn()">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">

@@ -17,7 +17,7 @@ export class AdsComponent implements OnInit, OnDestroy {
     constructor(
         public adsService: AdsService,
         private modal: ModalService,
-        private auth: AuthService,
+        public auth: AuthService,
         public global: GlobalService,
         public lang: MultiLanguageService
     ) { }

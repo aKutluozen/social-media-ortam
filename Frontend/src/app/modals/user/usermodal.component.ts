@@ -20,7 +20,7 @@ export class UsermodalComponent implements OnInit {
 	constructor(
 		private modal: ModalService,
 		private userService: UserService,
-		private auth: AuthService,
+		public auth: AuthService,
 		public global: GlobalService,
 		public postService: PostService,
 		public lang: MultiLanguageService
@@ -66,33 +66,39 @@ export class UsermodalComponent implements OnInit {
 			this.user.posts = [];
 			this.isInTheFollowList = false;
 			// Check if a friend!
-			this.userService.getFriendsList().subscribe(
-				data => {
-					this.friends = data;
-					for (let friend of data) {
-						if (friend.nickName == this.user.nickName) {
-							this.isInTheFollowList = true;
+
+			if (this.auth.isLoggedIn()) {
+				this.userService.getFriendsList().subscribe(
+					data => {
+						this.friends = data;
+
+						for (let friend of data) {
+							if (friend.nickName == this.user.nickName) {
+								this.isInTheFollowList = true;
+							}
+
+							if (friend.nickName == this.user.nickName && friend.accepted == true) {
+								this.isFriend = true;
+								var postSubscription = this.postService.getPosts(this.user._id, 0, 'private', this.user._id).subscribe(
+									data => this.user.posts = data,
+									error => { postSubscription.unsubscribe(); console.error(error) }
+								);
+								break;
+							} else {
+								this.isFriend = false;
+							}
 						}
 
-						if (friend.nickName == this.user.nickName && friend.accepted == true) {
-							this.isFriend = true;
-							
-							
-							var postSubscription = this.postService.getPosts(this.user._id, 0, 'private', this.user._id).subscribe(
-								data => this.user.posts = data,
-								error => { postSubscription.unsubscribe(); console.error(error) }
-							);
-							break;
-						} else {
-							this.isFriend = false;
-						}
-					}
-
-					this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
-						this.user = {};
-					});
-				}, error => { }
-			);
+						this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
+							this.user = {};
+						});
+					}, error => { }
+				);
+			} else {
+				this.modal.handleModalToggle(this.modalElement.nativeElement, () => {
+					this.user = {};
+				});
+			}
 		});
 	}
 

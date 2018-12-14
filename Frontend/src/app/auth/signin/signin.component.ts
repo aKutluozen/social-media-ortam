@@ -83,13 +83,13 @@ export class SigninComponent implements OnInit, OnDestroy {
                 Validators.pattern("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$")
             ]),
             resetCode: new FormControl(null, Validators.required),
-            newPassword: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')])
+            newPassword: new FormControl(null, Validators.required)
         });
-        if (this.auth.isLoggedIn()) {
-            this.router.navigateByUrl('/auth/signin');
-        } else {
-            this.router.navigateByUrl('/posts/all');
-        }
+        // if (this.auth.isLoggedIn()) {
+        //     this.router.navigateByUrl('/auth/signin');
+        // } else {
+        //     this.router.navigateByUrl('/posts/all');
+        // }
     }
 
     sendForgotRequest() {

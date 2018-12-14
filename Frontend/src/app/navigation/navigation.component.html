@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light" *ngIf="username">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" id="navbarButton" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,12 +10,12 @@
             <img src="{{ global.URL_S3_VISUALS + 'Kutatku-Full-Logo.png'}}" class="logo">
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <app-search *ngIf="username"></app-search>
+            <app-search></app-search>
             <ul class="navbar-nav ml-auto">
                 <li *ngIf="username" class="mr-4">
                     <ul class="list-inline nav-link py-0" app-inbox [flagObject]="flagObject"></ul>
                 </li>
-                <li *ngIf="username">
+                <li>
                     <ul class="list-inline nav-link py-0">
                         <!-- <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/posts/all']">
@@ -29,13 +29,13 @@
                                 <div class="item-text">{{ lang.text.navigation.classifieds }}</div>
                             </a>
                         </li>
-                        <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
+                        <li class="list-inline-item list-inline-item-action" *ngIf="username" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/admin']">
                                 <i class="fal fa-2x text-muted fa-question-circle"></i>
                                 <div class="item-text">{{ lang.text.navigation.help }}</div>
                             </a>
                         </li>
-                        <li class="list-inline-item" routerLinkActive="active">
+                        <li class="list-inline-item" routerLinkActive="active"  *ngIf="username">
                             <div class="dropdown">
                                 <a href="javascript:void(0)" class="text-white" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img class="profile-picture" src="{{ global.URL_S3_USERS + global.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'">

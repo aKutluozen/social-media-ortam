@@ -43,6 +43,32 @@ AD_ROUTER.get('/:id', function (req, res) {
         });
 });
 
+
+// Get ads
+AD_ROUTER.get('/:amount/:category', cache.route(), function (req, res) {
+    var token = jwt.decode(req.query.token);
+
+    var amount = parseInt(req.params.amount);
+    var theCategory = req.params.category.toLowerCase();
+
+    Ad.find({ category: theCategory }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
+        path: 'user',
+        model: User,
+        select: 'nickName profilePicture'
+    }]).exec(function (err, ads) {
+        if (err || !ads) {
+            return res.status(500).json({
+                message: 'problem finding ads',
+                error: err
+            });
+        }
+        return res.status(200).json({
+            message: 'ads',
+            data: ads
+        });
+    });
+});
+
 // Protect the routes
 // Each request this will execute
 AD_ROUTER.use('/', function (req, res, next) {
@@ -215,30 +241,5 @@ AD_ROUTER.delete('/:id', (req, res) => {
     });
 });
 
-
-// Get ads
-AD_ROUTER.get('/:amount/:category', cache.route(), function (req, res) {
-    var token = jwt.decode(req.query.token);
-
-    var amount = parseInt(req.params.amount);
-    var theCategory = req.params.category.toLowerCase();
-
-    Ad.find({ category: theCategory }).sort({ created: 'desc' }).skip(amount).limit(5).populate([{
-        path: 'user',
-        model: User,
-        select: 'nickName profilePicture'
-    }]).exec(function (err, ads) {
-        if (err || !ads) {
-            return res.status(500).json({
-                message: 'problem finding ads',
-                error: err
-            });
-        }
-        return res.status(200).json({
-            message: 'ads',
-            data: ads
-        });
-    });
-});
 
 module.exports = AD_ROUTER;

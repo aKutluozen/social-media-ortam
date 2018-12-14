@@ -17,7 +17,7 @@ export class AdsService {
 
     constructor(
         private http: Http,
-        private auth: AuthService,
+        public auth: AuthService,
         public global: GlobalService,
         private userService: UserService
     ) { }

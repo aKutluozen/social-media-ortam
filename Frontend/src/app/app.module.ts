@@ -49,12 +49,12 @@ const APP_ROUTES: Routes = [
 	{ pathMatch: 'full', path: '', redirectTo: '/posts/all' },
 	{ path: 'legal', component: LegalComponent },
 	{ path: 'gdpr', component: GdprComponent },
-	{ path: 'posts/all', component: PostsComponent, canActivate: [AuthGuard] },
+	{ path: 'posts/all', component: PostsComponent},
 	{ path: 'auth', component: AuthComponent, loadChildren: 'app/auth/auth.module#AuthModule' },
 	{ path: 'profile', loadChildren: 'app/user/user.module#UserModule' },
 	{ path: 'ads', loadChildren: 'app/ads/ads.module#AdsModule' },
-	{ path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
-	{ path: '**', redirectTo: '/posts/all' }
+	{ path: 'admin', component: AdminComponent },
+	//{ path: '**', redirectTo: '/posts/all' }
 ];
 
 // Note:

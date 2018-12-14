@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mx-auto mb-3">
+                        <div class="row mx-auto mb-3" *ngIf="auth.isLoggedIn()">
                             <div class="col-auto mx-auto align-self-center">
                                 <button *ngIf="!isFriend && !isInTheFollowList && !isMe" [disabled]="isRequestSent(user) || isInTheFollowList" class="btn btn-outline-primary btn-sm"
                                     (click)="follow(user._id)">
@@ -64,7 +64,7 @@
                                     <i class="fal fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close}}</button> -->
                             </div>
                         </div>
-                        <div class="row justify-content-center mb-3">
+                        <div class="row justify-content-center mb-3" *ngIf="auth.isLoggedIn()">
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body p-2">

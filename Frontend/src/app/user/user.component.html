@@ -315,10 +315,10 @@
                                             <h5 class="text-center">
                                                 <i class="fal fa-key"></i> {{ lang.text.user.newPassword }}</h5>
                                             <div class="form-group mb-0">
-                                                <input type="password" maxlength="48" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}"
+                                                <input type="password" maxlength="48"
                                                     class="form-control border mb-2" [(ngModel)]="passwordOld" #passOld="ngModel"
                                                     placeholder="{{ lang.text.user.placeHolderOldPassword }}" />
-                                                <input type="password" maxlength="48" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}"
+                                                <input type="password" maxlength="48"
                                                     class="form-control border mb-2" [(ngModel)]="passwordNew" #passNew="ngModel"
                                                     placeholder="{{ lang.text.user.placeHolderNewPassword }}" />
                                                 <div class="small alert alert-warning" *ngIf="passOld.errors || passNew.errors">

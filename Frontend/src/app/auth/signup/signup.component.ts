@@ -66,9 +66,7 @@ export class SignupComponent implements OnInit, OnDestroy {
                 [Validators.required, Validators.pattern("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$")]
             ),
             password: new FormControl(null, Validators.required),
-            password2: new FormControl(null, Validators.required),
-            // firstName: new FormControl(null),
-            // lastName: new FormControl(null)
+            password2: new FormControl(null, Validators.required)
         });
     }
 

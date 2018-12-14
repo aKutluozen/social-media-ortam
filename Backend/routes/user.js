@@ -45,20 +45,6 @@ USER_ROUTER.use('/signin', limiter);
 AWS.config.loadFromPath('./s3_config.json');
 var s3 = new AWS.S3();
 
-
-// Protect all the rest of the requests starting with "/user" if the user doesn't have a token
-USER_ROUTER.use('/user', function (req, res, next) {
-    jwt.verify(req.query.token, process.env.SECRET, function (err, decodedToken) {
-        if (err) {
-            return res.status(401).json({
-                message: 'No authentication',
-                error: err
-            });
-        }
-        next();
-    });
-});
-
 // Multer middleware
 var upload = multer({
     storage: multerS3({
@@ -74,6 +60,526 @@ var upload = multer({
         }
     })
 });
+
+
+// Add a new user
+USER_ROUTER.post('/', function (req, res, next) {
+    var user = new User({
+        nickName: req.body.nickName.toLowerCase(),
+        chatNickName: req.body.chatNickName.toLowerCase(),
+        email: req.body.email.toLowerCase(),
+        password: bcrypt.hashSync(req.body.password, 10),
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        shortMessage: req.body.shortMessage,
+        credit: 100
+    });
+
+    user.save(function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                message: 'An error occured',
+                error: err
+            });
+        }
+
+        var mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: req.body.email,
+            subject: 'Welcome! - Kutatku Activation',
+            html: `
+                <img src="https://s3.us-east-2.amazonaws.com/kutatku/visuals/Kutatku-Full-Logo.png" style="width: 200px; margin: auto; display: block;">
+                <h2>Welcome to Kutatku!</h2>
+                <p>Please click this following link to activate your Kutatku account: </p>
+                <p><a target="_blank" href="https://kutatku.com:3000/user/activate/${result._id}">Activate it</a></p>
+            `
+        };
+
+        transporter.sendMail(mailOptions, function (err, info) {
+            if (err) {
+                return res.status(400).json({
+                    message: 'problem',
+                    error: err
+                });
+            }
+            return res.status(201).json({
+                message: 'User created - Email sent!',
+                obj: result
+            });
+        });
+    });
+});
+
+// Sign in
+USER_ROUTER.post('/signin', function (req, res) {
+    User.findOne({
+        email: req.body.email
+    }, function (err, user) {
+        misc.checkUserErrors(err, res, user, null, () => {
+            if (!bcrypt.compareSync(req.body.password, user.password)) {
+                return res.status(401).json({
+                    message: 'Login failed',
+                    error: 'Invalid credentials'
+                });
+            }
+
+            if (user.activated == false) {
+                return res.status(402).json({
+                    message: 'Login failed',
+                    error: 'User has not been activated!'
+                });
+            }
+
+            // Create and send the token
+            var token = jwt.sign({
+                id: user._id
+            }, process.env.SECRET, {
+                    expiresIn: "1 day"
+                });
+
+            return res.status(200).json({
+                message: 'Successfully logged in',
+                data: {
+                    token: token,
+                    userId: user._id,
+                    name: user.nickName,
+                    chatNickName: user.chatNickName,
+                    credit: user.credit,
+                    picture: user.profilePicture
+                }
+            });
+        });
+    });
+});
+
+USER_ROUTER.get('/activate/:id', function (req, res) {
+    User.updateOne({ _id: req.params.id }, { $set: { activated: true } }, function (err, result) {
+        if (err) {
+            return res.status(400).json({
+                message: 'Problem activating a user',
+                error: err
+            });
+        }
+
+        return res.send(`
+            <script type="text/javascript">
+                location.href = "https://kutatku.com/auth/signin";
+            </script>
+        `);
+    });
+});
+
+// Get a selected user profile to view
+USER_ROUTER.get('/user/requests/:name', function (req, res, next) {
+    var token = jwt.decode(req.query.token) || { id: 0 };
+    // If no token, it should show as a private account with no posts
+
+    User.findOne({
+        nickName: req.params.name
+    }, { password: 0, credit: 0, inbox: 0, chatNickName: 0, groups: 0 },
+        function (err, user) {
+            misc.checkUserErrors(err, res, user, null, () => {
+                // Get posts now - private, belongs to user, not shared
+
+                var isFriends = false;
+                for (let auser of user.following) {
+                    if (auser.friend == token.id && auser.accepted) {
+                        isFriends = true;
+                    }
+                }
+                if (isFriends || user._id == token.id) {
+                    Post.find({ group: 'private', nickName: req.params.name }).populate([{
+                        path: 'user',
+                        model: User,
+                        select: 'nickName profilePicture'
+                    }, {
+                        path: 'shares.user',
+                        model: User,
+                        select: 'nickName profilePicture'
+                    }, {
+                        path: 'comments.user',
+                        model: User,
+                        select: 'nickName profilePicture'
+                    }]).exec(function (err, posts) {
+                        if (err) {
+                            return res.status(500).json({
+                                message: 'error getting posts of profile',
+                                error: err
+                            });
+                        }
+                        user.posts = posts;
+                        return res.status(200).json({
+                            message: 'a user profile',
+                            data: user
+                        });
+                    });
+                } else {
+                    user.posts = [];
+                    user.twitterLink = '';
+                    user.youtubeLink = '';
+                    user.linkedinLink = '';
+                    user.googleplusLink = '';
+                    user.snapchatLink = '';
+                    user.instagramLink = '';
+                    user.bio = '';
+                    user.jobStatus = '';
+                    user.education = '';
+
+                    return res.status(200).json({
+                        message: 'private',
+                        data: user
+                    });
+                }
+            });
+        });
+});
+
+// Get a user profile
+USER_ROUTER.get('/user', function (req, res, next) {
+    var token = jwt.decode(req.query.token) || { id: 0 };
+    User.findById(token.id)
+        .populate('following.friend', ['profilePicture'])
+        .exec(function (err, user) {
+            misc.checkUserErrors(err, res, user, token, () => {
+                return res.status(200).json({
+                    message: 'user profile',
+                    data: user
+                });
+            });
+        });
+});
+
+// Search all users by name
+USER_ROUTER.get('/user/all/:name', cache.route(), function (req, res, next) {
+    User.find({
+        $or: [
+            {
+                nickName: {
+                    $regex: req.params.name.toLowerCase(), $options: 'i'
+                }
+            },
+            {
+                firstName: {
+                    $regex: req.params.name.toLowerCase(), $options: 'i'
+                }
+            },
+            {
+                lastName: {
+                    $regex: req.params.name.toLowerCase(), $options: 'i'
+                }
+            }
+        ]
+    }, {
+            _id: 1,
+            profilePicture: 1,
+            nickName: 1,
+            bio: 1,
+            shortMessage: 1,
+            firstName: 1,
+            lastName: 1,
+            nickName: 1,
+            education: 1,
+            coverImage: 1,
+            jobStatus: 1,
+            following: 1
+        },
+        function (err, users) {
+            misc.checkUserErrors(err, res, users, null, () => {
+                return res.status(200).json({
+                    message: 'users',
+                    data: users
+                });
+            });
+        });
+});
+
+// Get the requests of a user
+USER_ROUTER.get('/user/requests/all/:offset', function (req, res) {
+    var token = jwt.decode(req.query.token),
+        offset = parseInt(req.params.offset);
+
+    User.findById(token.id)
+        .populate('following.friend', ['profilePicture'])
+        .exec(function (err, data) {
+            misc.checkUserErrors(err, res, data, token, () => {
+                // sort skip etc here
+                var result = data.following.reverse().slice(offset, offset + 5);
+                return res.status(200).json({
+                    message: 'requests',
+                    data: result
+                });
+            });
+        });
+});
+
+
+// Gets all the user groups for a given user
+USER_ROUTER.get('/user/groups/', cache.route(), function (req, res) {
+    var token = jwt.decode(req.query.token);
+
+    // Find this user first
+    User.findById(token.id, {
+        groups: 1
+    }, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
+            return res.status(200).json({
+                message: 'groups',
+                data: user.groups
+            });
+        });
+    });
+});
+
+USER_ROUTER.get('/user/notifications/:offset', function (req, res) {
+    var token = jwt.decode(req.query.token),
+        offset = parseInt(req.params.offset);
+
+    User.findById(token.id)
+        .populate([{
+            path: 'inbox.user',
+            model: User,
+            select: 'nickName profilePicture'
+        }, {
+            path: 'inbox.post',
+            model: Post,
+            select: 'content subject'
+        }])
+        .exec(function (err, user) {
+            misc.checkUserErrors(err, res, user, token, () => {
+                // Do the skip and limit here
+                var result = user.inbox.reverse().slice(offset, offset + 5);
+
+                return res.status(200).json({
+                    message: 'notifications',
+                    data: result
+                });
+            });
+        });
+});
+
+// Checks any notifications and gets the numbers also
+USER_ROUTER.get('/user/inbox', function (req, res) {
+    var token = jwt.decode(req.query.token);
+
+    // Check for unaccepted friend requests first
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
+            var flagObject = {
+                newRequest: false,
+                newNotification: false,
+                newMessage: false
+            }
+
+            var requests = 0;
+
+            // Check for waiting friend request
+            if (user.following.length > 0) {
+                for (let i = 0; i < user.following.length; i++) {
+                    // There is a new, waiting request!
+                    if (user.following[i].accepted === false) {
+                        flagObject.newRequest = true;
+                        requests++;
+                    }
+                }
+            }
+
+            // Also delete from interactions
+            for (let i = 0; i < user.interaction.length; i++) {
+                let interactionDate = new Date(user.interaction[i]), todayDate = new Date();
+                let difference = (todayDate.getTime() - interactionDate.getTime()) / (1000 * 60 * 60 * 24.0)
+                if (difference > 7) {
+                    user.interaction.splice(i, 1);
+                    i--;
+                }
+            }
+
+            // Check to see if anything the user shared has comment, like etc. on it. <- Notification
+            if (user.inbox.length > 0) {
+                flagObject.newNotification = true;
+            }
+
+            var dd = new Date(user.bannedChat.banDate);
+
+            // Let the user back in if the time is up
+            if (dd.getTime() + (1000 * 60 * 60 * 24 * user.bannedChat.days) < Date.now()) {
+                user.bannedChat.isBanned = false;
+                user.bannedChat.days = 0;
+                user.bannedChat.banDate = 0;
+
+                user.save(function (err, result) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'problem saving user ban',
+                            error: err
+                        });
+                    }
+                });
+            }
+
+            // Find all the related messages
+            Message.find({
+                $or: [{
+                    initiator: token.id
+                }, {
+                    initiated: token.id
+                }]
+            }, {
+                    initiator: 1,
+                    initiated: 1,
+                    initiatorRead: 1,
+                    initiatedRead: 1
+                }, function (err, messages) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'An error occured find messages of users read',
+                            error: err
+                        });
+                    }
+
+                    // Check if there are messages
+                    if (messages.length > 0) {
+                        for (let i = 0; i < messages.length; i++) {
+                            // Decide if you are initiator or initiated
+                            if (token.id === messages[i].initiator.toString()) {
+                                if (messages[i].initiatorRead === false) {
+                                    flagObject.newMessage = true;
+                                }
+                            } else if (token.id === messages[i].initiated.toString()) {
+                                if (messages[i].initiatedRead === false) {
+                                    flagObject.newMessage = true;
+                                }
+                            }
+                        }
+                    }
+
+                    return res.status(200).json({
+                        message: 'What is new in inbox',
+                        data: {
+                            userSituation: user.bannedChat,
+                            flagObject: flagObject,
+                            numbers: {
+                                requests: requests,
+                                notifications: user.inbox.length,
+                                messages: messages.length,
+                                credit: user.credit
+                            }
+                        }
+                    });
+                });
+        });
+    })
+});
+
+
+// Check if a friend is accepted
+USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
+    var token = jwt.decode(req.query.token);
+    User.findById(token.id, function (err, user) {
+        misc.checkUserErrors(err, res, user, token, () => {
+
+            let flag = false;
+            for (let friend of user.following) {
+                if (friend.nickName === req.params.nickName) {
+                    flag = friend.accepted;
+                    break;
+                }
+            }
+
+            return res.status(200).json({
+                message: 'flag',
+                data: flag
+            });
+        });
+    });
+});
+
+// Get new users
+USER_ROUTER.get('/user/new', function (req, res) {
+    User.aggregate(
+        [
+            { $sort: { created: -1 } },
+            { $limit: 10 },
+            {
+                $project: {
+                    nickName: 1,
+                    profilePicture: 1,
+                    firstName: 1,
+                    lastName: 1
+                }
+            }], function (err, users) {
+                if (err || !users) {
+                    return res.status(400).json({
+                        message: 'Error finding new users',
+                        error: ''
+                    });
+                }
+                return res.status(200).json({
+                    message: 'users',
+                    data: users
+                });
+            });
+});
+
+USER_ROUTER.get('/user/complaints', cache.route(), (req, res) => {
+    var token = jwt.decode(req.query.token);
+
+    User.findById(token.id, (err, user) => {
+        misc.checkUserErrors(err, res, user, token, () => {
+            return res.status(200).json({
+                message: 'complaints',
+                data: user.complaintInbox
+            });
+        });
+    });
+});
+
+// Protect all the rest of the requests starting with "/user" if the user doesn't have a token
+USER_ROUTER.use('/user', function (req, res, next) {
+    jwt.verify(req.query.token, process.env.SECRET, function (err, decodedToken) {
+        if (err) {
+            return res.status(401).json({
+                message: 'No authentication',
+                error: err
+            });
+        }
+        next();
+    });
+});
+
+USER_ROUTER.post('/user/credit/:nickName/:isAsking/:credit', function (req, res) {
+    var token = jwt.decode(req.query.token);
+
+    var requestString = 'received';
+    if (req.params.isAsking == 'true') {
+        requestString = 'credit_asking';
+    } else {
+        // Decrease the credit!
+        var amount = parseInt(req.params.credit);
+        User.updateOne({ _id: token.id }, { $inc: { credit: -amount } }, function (err, result) {
+            if (err) {
+                return res.status(400).json({
+                    message: 'Problem sending credit',
+                    error: err
+                });
+            }
+        });
+
+        // Give the other person already
+        User.updateOne({ nickName: req.params.nickName }, { $inc: { credit: amount } }, function (err, result) {
+            if (err) {
+                return res.status(400).json({
+                    message: 'Problem sending credit',
+                    error: err
+                });
+            }
+        });
+    }
+
+    // Notify the other user
+    misc.notifyUser(res, User, token.id, null, req.params.nickName, requestString, req.params.credit);
+});
+
 
 // Update profile picture
 USER_ROUTER.post('/user/profilePicture', upload.any(), function (req, res) {
@@ -236,89 +742,6 @@ USER_ROUTER.delete('/user/profile/:nickName/:password', function (req, res) {
     });
 });
 
-// Check if a friend is accepted
-USER_ROUTER.get('/user/friend/:nickName', function (req, res) {
-    var token = jwt.decode(req.query.token);
-    User.findById(token.id, function (err, user) {
-        misc.checkUserErrors(err, res, user, token, () => {
-
-            let flag = false;
-            for (let friend of user.following) {
-                if (friend.nickName === req.params.nickName) {
-                    flag = friend.accepted;
-                    break;
-                }
-            }
-
-            return res.status(200).json({
-                message: 'flag',
-                data: flag
-            });
-        });
-    });
-});
-
-// Get new users
-USER_ROUTER.get('/user/new', cache.route(), function (req, res) {
-    var token = jwt.decode(req.query.token);
-    User.aggregate(
-        [
-            { $sort: { created: -1 } },
-            { $limit: 10 },
-            {
-                $project: {
-                    nickName: 1,
-                    profilePicture: 1,
-                    firstName: 1,
-                    lastName: 1
-                }
-            }], function (err, users) {
-                if (err || !users) {
-                    return res.status(400).json({
-                        message: 'Error finding new users',
-                        error: ''
-                    });
-                }
-                return res.status(200).json({
-                    message: 'users',
-                    data: users
-                });
-            });
-});
-
-USER_ROUTER.post('/user/credit/:nickName/:isAsking/:credit', function (req, res) {
-    var token = jwt.decode(req.query.token);
-
-    var requestString = 'received';
-    if (req.params.isAsking == 'true') {
-        requestString = 'credit_asking';
-    } else {
-        // Decrease the credit!
-        var amount = parseInt(req.params.credit);
-        User.updateOne({ _id: token.id }, { $inc: { credit: -amount } }, function (err, result) {
-            if (err) {
-                return res.status(400).json({
-                    message: 'Problem sending credit',
-                    error: err
-                });
-            }
-        });
-
-        // Give the other person already
-        User.updateOne({ nickName: req.params.nickName }, { $inc: { credit: amount } }, function (err, result) {
-            if (err) {
-                return res.status(400).json({
-                    message: 'Problem sending credit',
-                    error: err
-                });
-            }
-        });
-    }
-
-    // Notify the other user
-    misc.notifyUser(res, User, token.id, null, req.params.nickName, requestString, req.params.credit);
-});
-
 // isAdding expects true or false
 USER_ROUTER.patch('/user/credit/:nickName/:isAdding/:credit', function (req, res) {
     // var token = jwt.decode(req.query.token);
@@ -401,19 +824,6 @@ USER_ROUTER.post('/user/complaint', function (req, res) {
                 // !! Put this to a different inbox
                 misc.notifyUsers(User, jwt.decode(req.query.token).id, req.body.complaint, mods[i].nickName, 'complaint', cb);
             }
-        });
-    });
-});
-
-USER_ROUTER.get('/user/complaints', cache.route(), (req, res) => {
-    var token = jwt.decode(req.query.token);
-
-    User.findById(token.id, (err, user) => {
-        misc.checkUserErrors(err, res, user, token, () => {
-            return res.status(200).json({
-                message: 'complaints',
-                data: user.complaintInbox
-            });
         });
     });
 });
@@ -606,114 +1016,6 @@ USER_ROUTER.delete('/user/images', function (req, res) {
     });
 });
 
-// Add a new user
-USER_ROUTER.post('/', function (req, res, next) {
-    var user = new User({
-        nickName: req.body.nickName.toLowerCase(),
-        chatNickName: req.body.chatNickName.toLowerCase(),
-        email: req.body.email.toLowerCase(),
-        password: bcrypt.hashSync(req.body.password, 10),
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        shortMessage: req.body.shortMessage,
-        credit: 100
-    });
-
-    user.save(function (err, result) {
-        if (err) {
-            console.log(err);
-            return res.status(500).json({
-                message: 'An error occured',
-                error: err
-            });
-        }
-
-        var mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: req.body.email,
-            subject: 'Welcome! - Kutatku Activation',
-            html: `
-                <img src="https://s3.us-east-2.amazonaws.com/kutatku/visuals/Kutatku-Full-Logo.png" style="width: 200px; margin: auto; display: block;">
-                <h2>Welcome to Kutatku!</h2>
-                <p>Please click this following link to activate your Kutatku account: </p>
-                <p><a target="_blank" href="https://kutatku.com:3000/user/activate/${result._id}">Activate it</a></p>
-            `
-        };
-
-        transporter.sendMail(mailOptions, function (err, info) {
-            if (err) {
-                return res.status(400).json({
-                    message: 'problem',
-                    error: err
-                });
-            }
-            return res.status(201).json({
-                message: 'User created - Email sent!',
-                obj: result
-            });
-        });
-    });
-});
-
-USER_ROUTER.get('/activate/:id', function (req, res) {
-    User.updateOne({ _id: req.params.id }, { $set: { activated: true } }, function (err, result) {
-        if (err) {
-            return res.status(400).json({
-                message: 'Problem activating a user',
-                error: err
-            });
-        }
-
-        return res.send(`
-            <script type="text/javascript">
-                location.href = "https://kutatku.com/auth/signin";
-            </script>
-        `);
-    });
-});
-
-// Sign in
-USER_ROUTER.post('/signin', function (req, res) {
-    User.findOne({
-        email: req.body.email
-    }, function (err, user) {
-        misc.checkUserErrors(err, res, user, null, () => {
-            if (!bcrypt.compareSync(req.body.password, user.password)) {
-                return res.status(401).json({
-                    message: 'Login failed',
-                    error: 'Invalid credentials'
-                });
-            }
-
-            if (user.activated == false) {
-                return res.status(402).json({
-                    message: 'Login failed',
-                    error: 'User has not been activated!'
-                });
-            }
-
-            // Create and send the token
-            var token = jwt.sign({
-                id: user._id
-            }, process.env.SECRET, {
-                    expiresIn: "1 day"
-                });
-
-            return res.status(200).json({
-                message: 'Successfully logged in',
-                data: {
-                    token: token,
-                    userId: user._id,
-                    name: user.nickName,
-                    chatNickName: user.chatNickName,
-                    credit: user.credit,
-                    picture: user.profilePicture
-                }
-            });
-        });
-    });
-});
-
 // Update a user - Profile info
 USER_ROUTER.patch('/user', function (req, res, next) {
     var token = jwt.decode(req.query.token);
@@ -749,150 +1051,6 @@ USER_ROUTER.patch('/user', function (req, res, next) {
             });
         });
     });
-});
-
-// Get a user profile
-USER_ROUTER.get('/user', function (req, res, next) {
-    var token = jwt.decode(req.query.token);
-
-    User.findById(token.id)
-        .populate('following.friend', ['profilePicture'])
-        .exec(function (err, user) {
-            misc.checkUserErrors(err, res, user, token, () => {
-                return res.status(200).json({
-                    message: 'user profile',
-                    data: user
-                });
-            });
-        });
-});
-
-// Get a selected user profile to view
-USER_ROUTER.get('/user/requests/:name', function (req, res, next) {
-    var token = jwt.decode(req.query.token);
-
-    User.findOne({
-        nickName: req.params.name
-    }, { password: 0, credit: 0, inbox: 0, chatNickName: 0, groups: 0 },
-        function (err, user) {
-            misc.checkUserErrors(err, res, user, null, () => {
-                // Get posts now - private, belongs to user, not shared
-
-                var isFriends = false;
-                for (let auser of user.following) {
-                    if (auser.friend == token.id && auser.accepted) {
-                        isFriends = true;
-                    }
-                }
-
-                if (isFriends || user._id == token.id) {
-                    Post.find({ group: 'private', nickName: req.params.name }).populate([{
-                        path: 'user',
-                        model: User,
-                        select: 'nickName profilePicture'
-                    }, {
-                        path: 'shares.user',
-                        model: User,
-                        select: 'nickName profilePicture'
-                    }, {
-                        path: 'comments.user',
-                        model: User,
-                        select: 'nickName profilePicture'
-                    }]).exec(function (err, posts) {
-                        if (err) {
-                            return res.status(500).json({
-                                message: 'error getting posts of profile',
-                                error: err
-                            });
-                        }
-                        user.posts = posts;
-
-                        return res.status(200).json({
-                            message: 'a user profile',
-                            data: user
-                        });
-                    });
-                } else {
-                    user.posts = [];
-                    user.twitterLink = '';
-                    user.youtubeLink = '';
-                    user.linkedinLink = '';
-                    user.googleplusLink = '';
-                    user.snapchatLink = '';
-                    user.instagramLink = '';
-                    user.bio = '';
-                    user.jobStatus = '';
-                    user.education = '';
-                    return res.status(200).json({
-                        message: 'private',
-                        data: user
-                    });
-                }
-            });
-        });
-});
-
-// Search all users by name
-USER_ROUTER.get('/user/all/:name', cache.route(), function (req, res, next) {
-    User.find({
-        $or: [
-            {
-                nickName: {
-                    $regex: req.params.name.toLowerCase(), $options: 'i'
-                }
-            },
-            {
-                firstName: {
-                    $regex: req.params.name.toLowerCase(), $options: 'i'
-                }
-            },
-            {
-                lastName: {
-                    $regex: req.params.name.toLowerCase(), $options: 'i'
-                }
-            }
-        ]
-    }, {
-            _id: 1,
-            profilePicture: 1,
-            nickName: 1,
-            bio: 1,
-            shortMessage: 1,
-            firstName: 1,
-            lastName: 1,
-            nickName: 1,
-            education: 1,
-            coverImage: 1,
-            jobStatus: 1,
-            following: 1
-        },
-        function (err, users) {
-            misc.checkUserErrors(err, res, users, null, () => {
-                return res.status(200).json({
-                    message: 'users',
-                    data: users
-                });
-            });
-        });
-});
-
-// Get the requests of a user
-USER_ROUTER.get('/user/requests/all/:offset', function (req, res) {
-    var token = jwt.decode(req.query.token),
-        offset = parseInt(req.params.offset);
-
-    User.findById(token.id)
-        .populate('following.friend', ['profilePicture'])
-        .exec(function (err, data) {
-            misc.checkUserErrors(err, res, data, token, () => {
-                // sort skip etc here
-                var result = data.following.reverse().slice(offset, offset + 5);
-                return res.status(200).json({
-                    message: 'requests',
-                    data: result
-                });
-            });
-        });
 });
 
 // Adds a user to a group
@@ -1002,23 +1160,6 @@ USER_ROUTER.post('/user/groups/:name', function (req, res) {
                     message: 'Group modified!',
                     data: result
                 });
-            });
-        });
-    });
-});
-
-// Gets all the user groups for a given user
-USER_ROUTER.get('/user/groups/', cache.route(), function (req, res) {
-    var token = jwt.decode(req.query.token);
-
-    // Find this user first
-    User.findById(token.id, {
-        groups: 1
-    }, function (err, user) {
-        misc.checkUserErrors(err, res, user, token, () => {
-            return res.status(200).json({
-                message: 'groups',
-                data: user.groups
             });
         });
     });
@@ -1313,146 +1454,6 @@ USER_ROUTER.delete('/user/notifications/:id/:type/:user', function (req, res) {
             });
         })
     });
-});
-
-USER_ROUTER.get('/user/notifications/:offset', function (req, res) {
-    var token = jwt.decode(req.query.token),
-        offset = parseInt(req.params.offset);
-
-    User.findById(token.id)
-        .populate([{
-            path: 'inbox.user',
-            model: User,
-            select: 'nickName profilePicture'
-        }, {
-            path: 'inbox.post',
-            model: Post,
-            select: 'content subject'
-        }])
-        .exec(function (err, user) {
-            misc.checkUserErrors(err, res, user, token, () => {
-                // Do the skip and limit here
-                var result = user.inbox.reverse().slice(offset, offset + 5);
-
-                return res.status(200).json({
-                    message: 'notifications',
-                    data: result
-                });
-            });
-        });
-});
-
-// Checks any notifications and gets the numbers also
-USER_ROUTER.get('/user/inbox', function (req, res) {
-    var token = jwt.decode(req.query.token);
-
-    // Check for unaccepted friend requests first
-    User.findById(token.id, function (err, user) {
-        misc.checkUserErrors(err, res, user, token, () => {
-            var flagObject = {
-                newRequest: false,
-                newNotification: false,
-                newMessage: false
-            }
-
-            var requests = 0;
-
-            // Check for waiting friend request
-            if (user.following.length > 0) {
-                for (let i = 0; i < user.following.length; i++) {
-                    // There is a new, waiting request!
-                    if (user.following[i].accepted === false) {
-                        flagObject.newRequest = true;
-                        requests++;
-                    }
-                }
-            }
-
-            // Also delete from interactions
-            for (let i = 0; i < user.interaction.length; i++) {
-                let interactionDate = new Date(user.interaction[i]), todayDate = new Date();
-                let difference = (todayDate.getTime() - interactionDate.getTime()) / (1000 * 60 * 60 * 24.0)
-                if (difference > 7) {
-                    user.interaction.splice(i, 1);
-                    i--;
-                }
-            }
-
-            // Check to see if anything the user shared has comment, like etc. on it. <- Notification
-            if (user.inbox.length > 0) {
-                flagObject.newNotification = true;
-            }
-
-            var dd = new Date(user.bannedChat.banDate);
-
-            // Let the user back in if the time is up
-            if (dd.getTime() + (1000 * 60 * 60 * 24 * user.bannedChat.days) < Date.now()) {
-                user.bannedChat.isBanned = false;
-                user.bannedChat.days = 0;
-                user.bannedChat.banDate = 0;
-
-                user.save(function (err, result) {
-                    if (err) {
-                        return res.status(500).json({
-                            message: 'problem saving user ban',
-                            error: err
-                        });
-                    }
-                });
-            }
-
-            // Find all the related messages
-            Message.find({
-                $or: [{
-                    initiator: token.id
-                }, {
-                    initiated: token.id
-                }]
-            }, {
-                    initiator: 1,
-                    initiated: 1,
-                    initiatorRead: 1,
-                    initiatedRead: 1
-                }, function (err, messages) {
-                    if (err) {
-                        return res.status(500).json({
-                            message: 'An error occured find messages of users read',
-                            error: err
-                        });
-                    }
-
-                    // Check if there are messages
-                    if (messages.length > 0) {
-                        for (let i = 0; i < messages.length; i++) {
-                            // Decide if you are initiator or initiated
-                            if (token.id === messages[i].initiator.toString()) {
-                                if (messages[i].initiatorRead === false) {
-                                    flagObject.newMessage = true;
-                                }
-                            } else if (token.id === messages[i].initiated.toString()) {
-                                if (messages[i].initiatedRead === false) {
-                                    flagObject.newMessage = true;
-                                }
-                            }
-                        }
-                    }
-
-                    return res.status(200).json({
-                        message: 'What is new in inbox',
-                        data: {
-                            userSituation: user.bannedChat,
-                            flagObject: flagObject,
-                            numbers: {
-                                requests: requests,
-                                notifications: user.inbox.length,
-                                messages: messages.length,
-                                credit: user.credit
-                            }
-                        }
-                    });
-                });
-        });
-    })
 });
 
 USER_ROUTER.post('/user/password', function (req, res) {

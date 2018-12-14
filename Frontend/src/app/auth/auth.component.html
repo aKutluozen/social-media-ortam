@@ -1,8 +1,8 @@
-<div class="row animated fadeIn">
+<!-- <div class="row animated fadeIn">
     <div class="col-md-4 col-9 mx-auto align-self-center">
         <img src="{{ global.URL_S3_VISUALS + 'Kutatku-Full-Logo.png'}}" class="img-fluid my-4">
     </div>
-</div>
+</div> -->
 <div class="row justify-content-center align-self-center mt-2 animated fadeIn" *ngIf="!isLoggedIn()">
     <div class="col-md-5 col-12">
         <div class="card">
@@ -30,18 +30,18 @@
                 </script>
                 <a href="https://ssl.comodo.com" id="comodoTL">Comodo SSL</a>
             </div>
-            <div class="col-12">
-                <div class="py-1 text-center text-muted">
-                    <span class="action-icon" (click)="switchLanguage('turkish')">Türkçe</span> -
-                    <span class="action-icon" (click)="switchLanguage('english')">English</span>
-                </div>
-            </div>
             <div class="col-12 my-0 text-muted text-center">
                 <span class="action-icon" [routerLink]="['/legal']">Terms</span> -
                 <span class="action-icon" [routerLink]="['/gdpr']">GDPR Privacy</span>
             </div>
             <div class="col-12 my-0 text-muted">
                 <p class="text-center">Copyright &copy; 2018 Kutatku </p>
+            </div>
+            <div class="col-12">
+                <div class="py-1 text-center text-muted small">
+                    <span class="action-icon" (click)="switchLanguage('turkish')">Türkçe</span> -
+                    <span class="action-icon" (click)="switchLanguage('english')">English</span>
+                </div>
             </div>
         </div>
     </div>

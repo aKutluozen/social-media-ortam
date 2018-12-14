@@ -212,20 +212,6 @@ POST_ROUTER.get('/:id', function (req, res) {
         });
 });
 
-// Protect the routes
-// Each request this will execute
-POST_ROUTER.use('/', function (req, res, next) {
-    jwt.verify(req.query.token, process.env.SECRET, function (err, decodedToken) {
-        if (err) {
-            return res.status(401).json({
-                message: 'No authentication',
-                error: err
-            });
-        }
-        next();
-    });
-});
-
 // Get all posts with a given subject
 POST_ROUTER.get('/friends/:subject/:amount', function (req, res) {
     var token = jwt.decode(req.query.token);
@@ -486,6 +472,21 @@ POST_ROUTER.get('/friends/:amount', function (req, res) {
     //         });
     //     });
     // });
+});
+
+// Protect the routes
+// Each request this will execute
+POST_ROUTER.use('/', function (req, res, next) {
+    jwt.verify(req.query.token, process.env.SECRET, function (err, decodedToken) {
+        if (err) {
+            console.log('heyo');
+            return res.status(401).json({
+                message: 'No authentication',
+                error: err
+            });
+        }
+        next();
+    });
 });
 
 // Upload a post image

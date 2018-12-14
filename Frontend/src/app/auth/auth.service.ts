@@ -9,13 +9,15 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 // Models
 import { User } from '../user/user.model';
 import { GlobalService } from 'app/globals.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
     constructor(
         private http: Http,
-        public global: GlobalService
+        public global: GlobalService,
+        private router: Router
     ) { }
 
     private headers = { headers: new Headers({ 'Content-Type': 'application/json' }) };
@@ -45,6 +47,7 @@ export class AuthService {
         this.setCookie('user', null, 0);
         // window.location.href = './';
         window.setTimeout(() => {
+            this.router.navigateByUrl('/auth/signin');
             window.location.reload(true);
         }, 1000);
         

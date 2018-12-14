@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ModalService } from 'app/modals/modal.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
 	selector: 'app-posts',
@@ -7,7 +8,8 @@ import { ModalService } from 'app/modals/modal.service';
 })
 export class PostsComponent {
 	constructor(
-		private modal: ModalService
+		private modal: ModalService,
+		public auth: AuthService
 	) { }
 
 	openPostWindow() {

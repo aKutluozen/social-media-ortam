@@ -10,10 +10,10 @@
                     <img src="{{ global.URL_S3_USERS + post.shares[post.shares.length - 1].user.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
                         class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.shares[post.shares.length - 1].user.nickName)">
                 </div>
-                <div class="col-10 pl-0" *ngIf="!post.isShared">
+                <div class="col-10 pl-0" *ngIf="!post.isShared" (click)="viewProfile(post.nickName)">
                     <small>{{ post.nickName }} - {{ post.created | date:'shortDate' }}</small>
                 </div>
-                <div class="col-10 pl-0" *ngIf="post.isShared">
+                <div class="col-10 pl-0" *ngIf="post.isShared" (click)="viewProfile(post.shares[post.shares.length - 1].user.nickName)">
                     <small>{{ post.shares[post.shares.length - 1].user.nickName }} - {{ post.shares[post.shares.length
                         - 1].date | date:'shortDate'}} </small>
                 </div>

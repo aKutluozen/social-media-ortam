@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 export class MultiLanguageService {
     public text_TR: any = {
         "general": {
+            "welcomeGuest": "Merhaba! Kutatku'nun tadını çıkarabilmek için lütfen kayıt olunuz ya da giriş yapınız!",
             "charsLeft": "karakter kaldi",
             "selectPicture": "Resim seç",
             "deletePicture": "Resim sil",
@@ -259,6 +260,7 @@ export class MultiLanguageService {
 
     public text_EN: any = {
         "general": {
+            "welcomeGuest": "Hi! Please log in or create an account to enjoy Kutatku to the fullest!",
             "save": "Save",
             "charsLeft": "characters left",
             "selectPicture": "Select a picture",

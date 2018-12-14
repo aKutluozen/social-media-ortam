@@ -52,11 +52,11 @@ export class ModalService {
         this.errorOccurred.emit(errorObj);
 
         // Logout the user if token is expired
-        if (errorResponse.error) {
-            if (errorResponse.error.name == 'TokenExpiredError' || errorResponse.error.name == 'JsonWebTokenError') {
-                this.auth.logout();
-            }
-        }
+        // if (errorResponse.error) {
+        //     if (errorResponse.error.name == 'TokenExpiredError' || errorResponse.error.name == 'JsonWebTokenError') {
+        //         this.auth.logout();
+        //     }
+        // }
         
         // if (this.auth.getCookie('token') == '' || this.auth.getCookie('token') == 'undefined') {
         //     this.auth.logout();

@@ -5,8 +5,8 @@
             <app-subjects [postListRef]="postsList"></app-subjects>
         </div>
         <div class="col-lg-6 col-md-6 col-12 mb-4 px-2 mb-3 order-lg-1 order-2">
-            <div class="card add-button-adjustment-top">
-                <div class="card-body pt-0 px-3 pb-3">
+            <div class="card " [ngClass]="{'add-button-adjustment-top': auth.isLoggedIn()}">
+                <div class="card-body px-3 pb-3" [ngClass]="{'pt-0': auth.isLoggedIn(), 'pt-3': !auth.isLoggedIn()}">
                     <app-post-list #postsList></app-post-list>
                 </div>
             </div>

@@ -15,7 +15,7 @@ import { MultiLanguageService } from "../../language.service";
 export class UserCardComponent implements OnInit, OnDestroy {
 
 	constructor(
-		private auth: AuthService,
+		public auth: AuthService,
 		private modal: ModalService,
 		private user: UserService,
 		public postService: PostService,
@@ -40,7 +40,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
 				this.global.profilePicture = this.profile.profilePicture;
 				this.global.username = this.profile.nickName;
 			},
-			error => this.modal.handleError(this.lang.text.errors.user, error)
+			error => console.error('no user')
 		);
 	}
 }

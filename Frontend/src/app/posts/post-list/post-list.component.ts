@@ -17,7 +17,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     constructor(
         public postService: PostService,
         private modal: ModalService,
-        private auth: AuthService,
+        public auth: AuthService,
         public lang: MultiLanguageService,
         public global: GlobalService
     ) { }
