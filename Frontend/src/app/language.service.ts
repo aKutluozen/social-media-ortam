@@ -432,7 +432,7 @@ export class MultiLanguageService {
             "noInfo": "There is not much information about this user",
             "info": "Information",
             "email": "Email",
-            "nickName": "Nickname for anonymous chat",
+            "nickName": "Nickname",
             "chatNickname": "Nickname for anonymous chat",
             "shortMessage": "Short message",
             "name": "Name",

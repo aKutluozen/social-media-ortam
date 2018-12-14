@@ -1,5 +1,5 @@
 <div class="card border mb-3 w-100  animated fadeIn">
-    <div class="card-header p-2" *ngIf="!inProfile">
+    <!-- <div class="card-header p-2" *ngIf="!inProfile">
         <div class="col-12 mb-0 card-title">
             <div class="row">
                 <div class="col-2 pl-0" *ngIf="!post.isShared">
@@ -7,7 +7,8 @@
                         class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.nickName)">
                 </div>
                 <div class="col-2 pl-0" *ngIf="post.isShared">
-                    <img src="{{ global.URL_S3_USERS + post.shares[post.shares.length - 1].user.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
+                    <img src="{{ global.URL_S3_USERS + post.shares[post.shares.length - 1].user.profilePicture }}"
+                        onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
                         class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.shares[post.shares.length - 1].user.nickName)">
                 </div>
                 <div class="col-10 pl-0" *ngIf="!post.isShared" (click)="viewProfile(post.nickName)">
@@ -21,7 +22,8 @@
             <div class="row border-top mt-2 pt-2" *ngIf="post.isShared">
                 <div class="pr-0 col-10 text-right" *ngIf="post.isShared">
                     <small>
-                        <i class="fal fa-share-alt-square" aria-hidden="true"></i> <i>{{ lang.text.post.whoShared}}: {{ post.nickName }}</i> </small>
+                        <i class="fal fa-share-alt-square" aria-hidden="true"></i> <i>{{ lang.text.post.whoShared}}: {{
+                            post.nickName }}</i> </small>
                 </div>
                 <div class="col-2 pr-0">
                     <img src="{{ global.URL_S3_USERS + post.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
@@ -29,21 +31,56 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="card-body row mx-auto p-0">
         <div (click)="view()" class="card-text col my-auto h-100">
             <div class="row" *ngIf="post.image && !post.linkContent">
                 <div class="col-6 px-0">
                     <img src="{{ global.URL_S3_POSTS + post?.image }}" class="w-100" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/uploadempty.png'">
                 </div>
-                <div class="col-6 align-self-center">
+                <div class="col-6">
+
+                    <div class="row justify-content-end p-2">
+
+                        <div class="col-10 align-self-center pl-0" *ngIf="!post.isShared" (click)="viewProfile(post.nickName)">
+                            <small class="float-right">{{ post.nickName }} - {{ post.created | date:'shortDate' }}</small>
+                        </div>
+                        <div class="col-10 align-self-center pl-0" *ngIf="post.isShared" (click)="viewProfile(post.shares[post.shares.length - 1].user.nickName)">
+                            <small class="float-right">{{ post.shares[post.shares.length - 1].user.nickName }} - {{
+                                post.shares[post.shares.length
+                                - 1].date | date:'shortDate'}} </small>
+                        </div>
+                        <div class="col-2 pl-0" *ngIf="!post.isShared">
+                            <img src="{{ global.URL_S3_USERS + post.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
+                                class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.nickName)">
+                        </div>
+                        <div class="col-2 pl-0" *ngIf="post.isShared">
+                            <img src="{{ global.URL_S3_USERS + post.shares[post.shares.length - 1].user.profilePicture }}"
+                                onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
+                                class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.shares[post.shares.length - 1].user.nickName)">
+                        </div>
+                    </div>
+                    <div class="row border-top mt-2 pt-2" *ngIf="post.isShared">
+                        <div class="pr-0 col-10 text-right" *ngIf="post.isShared">
+                            <small>
+                                <i class="fal fa-share-alt-square" aria-hidden="true"></i> <i>{{
+                                    lang.text.post.whoShared}}: {{ post.nickName }}</i> </small>
+                        </div>
+                        <div class="col-2 pr-0">
+                            <img src="{{ global.URL_S3_USERS + post.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
+                                class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.nickName)">
+                        </div>
+                    </div>
+
                     <p class="text-center my-auto mx-auto  breakable-word">
                         <small class="text-primary">
-                            <i>#{{ post?.subject[0].length >= 16 ? post?.subject[0].substring(0, 16) + ' ...' : post?.subject[0]
+                            <i>#{{ post?.subject[0].length >= 16 ? post?.subject[0].substring(0, 16) + ' ...' :
+                                post?.subject[0]
                                 }}
                             </i> -</small>
-                        <small class="text-muted">{{ post.content.length > 40 ? post.content.substring(0, 40) + ' ...' :
-                            post.content }}</small>
+                        <!-- <small class="text-muted">{{ post.content.length > 40 ? post.content.substring(0, 40) + ' ...' :
+                            post.content }}</small> -->
+                        {{ post.content }}
                     </p>
                 </div>
             </div>
@@ -52,10 +89,12 @@
                     <img class="w-100" src="{{ post?.linkContent.image }}" alt="Resim yok" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'">
                 </div>
                 <div class="col-6 my-3 align-self-center">
-                    <h6>{{ post?.linkContent.title.length > 40 ? post.linkContent.title.substring(0, 40) + ' ...' : post.linkContent.title
+                    <h6>{{ post?.linkContent.title.length > 40 ? post.linkContent.title.substring(0, 40) + ' ...' :
+                        post.linkContent.title
                         }}
                     </h6>
-                    <small class="text-muted">{{ post?.linkContent.description.length > 60 ? post.linkContent.description.substring(0,
+                    <small class="text-muted">{{ post?.linkContent.description.length > 60 ?
+                        post.linkContent.description.substring(0,
                         60) + ' ...' : post.linkContent.description }}</small>
                 </div>
             </div>
@@ -63,10 +102,12 @@
                 <div class="col-12">
                     <p class="text-center my-auto mx-auto breakable-word">
                         <small class="text-primary">
-                            <i>#{{ post?.subject[0]?.length >= 16 ? post?.subject[0]?.substring(0, 16) + ' ...' : post?.subject[0]
+                            <i>#{{ post?.subject[0]?.length >= 16 ? post?.subject[0]?.substring(0, 16) + ' ...' :
+                                post?.subject[0]
                                 }}
                             </i> -</small>
-                        <small class="text-muted">{{ post.content.length > 140 ? post.content.substring(0, 140) + ' ...'
+                        <small class="text-muted">{{ post.content.length > 140 ? post.content.substring(0, 140) + '
+                            ...'
                             : post.content }}</small>
                     </p>
                 </div>
@@ -81,10 +122,12 @@
                 <div class="col-12 my-3">
                     <p class="text-center my-auto mx-auto breakable-word">
                         <small class="text-primary">
-                            <i>#{{ post?.subject[0]?.length >= 16 ? post?.subject[0]?.substring(0, 16) + ' ...' : post?.subject[0]
+                            <i>#{{ post?.subject[0]?.length >= 16 ? post?.subject[0]?.substring(0, 16) + ' ...' :
+                                post?.subject[0]
                                 }}
                             </i> -</small>
-                        <small class="text-muted">{{ post.content.length > 140 ? post.content.substring(0, 140) + ' ...'
+                        <small class="text-muted">{{ post.content.length > 140 ? post.content.substring(0, 140) + '
+                            ...'
                             : post.content }}</small>
                     </p>
                 </div>

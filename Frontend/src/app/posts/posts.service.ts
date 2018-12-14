@@ -241,7 +241,7 @@ export class PostService {
     }
 
     parseLink(link) {
-        return this.http.get('http://api.linkpreview.net/?key=5a46599c7f94e72917992eb44102af9a64cdcada695c3&q=' + link)
+        return this.http.get('https://api.linkpreview.net/?key=5a46599c7f94e72917992eb44102af9a64cdcada695c3&q=' + link)
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error));
     }

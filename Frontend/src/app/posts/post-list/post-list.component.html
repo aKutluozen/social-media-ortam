@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<div class="card-columns cols2">
+<div class="">
     <div class="col-12 text-center" *ngIf="postService.posts.length == 0">{{ lang.text.user.noPosts}}</div>
     <app-post [post]="post" *ngFor="let post of postService.posts" class="animated fadeIn">
     </app-post>
