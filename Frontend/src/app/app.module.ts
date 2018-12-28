@@ -46,10 +46,9 @@ import { GdprComponent } from './gdpr/gdpr.component';
 
 // Main routes - Lazily loaded
 const APP_ROUTES: Routes = [
-	{ pathMatch: 'full', path: '', redirectTo: '/posts/all' },
+	{ path: '', pathMatch: 'full', component: PostsComponent},
 	{ path: 'legal', component: LegalComponent },
 	{ path: 'gdpr', component: GdprComponent },
-	{ path: 'posts/all', component: PostsComponent},
 	{ path: 'auth', component: AuthComponent, loadChildren: 'app/auth/auth.module#AuthModule' },
 	{ path: 'profile', loadChildren: 'app/user/user.module#UserModule' },
 	{ path: 'ads', loadChildren: 'app/ads/ads.module#AdsModule' },

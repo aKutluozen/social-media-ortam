@@ -32,6 +32,17 @@
             </div>
         </div>
     </div> -->
+    <div class="card-header p-2" *ngIf="!post.image && !post.linkContent">
+        <div class="row mx-auto justify-content-end">
+            <div class="col-auto align-self-center" (click)="viewProfile(post.nickName)">
+                <small>{{ post.nickName }} - {{ post.created | date:'shortDate' }}</small>
+            </div>
+            <div class="col-1 px-0">
+                <img src="{{ global.URL_S3_USERS + post.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
+                    class="w-75 rounded-circle" alt="profil" (click)="viewProfile(post.nickName)">
+            </div>
+        </div>
+    </div>
     <div class="card-body row mx-auto p-0">
         <div (click)="view()" class="card-text col my-auto h-100">
             <div class="row" *ngIf="post.image && !post.linkContent">
@@ -39,9 +50,7 @@
                     <img src="{{ global.URL_S3_POSTS + post?.image }}" class="w-100" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/uploadempty.png'">
                 </div>
                 <div class="col-6">
-
                     <div class="row justify-content-end p-2">
-
                         <div class="col-10 align-self-center pl-0" *ngIf="!post.isShared" (click)="viewProfile(post.nickName)">
                             <small class="float-right">{{ post.nickName }} - {{ post.created | date:'shortDate' }}</small>
                         </div>
@@ -99,6 +108,7 @@
                 </div>
             </div>
             <div class="row my-3" *ngIf="!post.image && !post.linkContent">
+                
                 <div class="col-12">
                     <p class="text-center my-auto mx-auto breakable-word">
                         <small class="text-primary">

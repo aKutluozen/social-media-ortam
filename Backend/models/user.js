@@ -10,6 +10,7 @@ var schema = new Schema({
     accountType: { type: String },
     nickName: { type: String, required: true, unique: true },
     chatNickName: { type: String, unique: true },
+    created: { type: Date, default: Date.now },
     firstName: { type: String },
     lastName: { type: String },
     shortMessage: { type: String },

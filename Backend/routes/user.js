@@ -72,6 +72,12 @@ USER_ROUTER.post('/', function (req, res, next) {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         shortMessage: req.body.shortMessage,
+        following: [{
+            nickName: 'kutbot',
+            date: Date.now(),
+            accepted: true,
+            friend: '5c07d5956714494c244938e2'
+        }],
         credit: 100
     });
 
@@ -95,6 +101,22 @@ USER_ROUTER.post('/', function (req, res, next) {
                 <p><a target="_blank" href="https://kutatku.com:3000/user/activate/${result._id}">Activate it</a></p>
             `
         };
+
+        // Update kutbot
+        User.updateOne({ _id: '5c07d5956714494c244938e2' }, {
+            $push: {
+                following: {
+                    nickName: req.body.nickName.toLowerCase(),
+                    date: Date.now(),
+                    accepted: true,
+                    friend: result._id
+                }
+            }
+        }, function (err, result) {
+            if (!err) {
+                console.log('kutbot has a new friend!', user);
+            }
+        });
 
         transporter.sendMail(mailOptions, function (err, info) {
             if (err) {

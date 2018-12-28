@@ -48,6 +48,16 @@ export class NewpeopleComponent implements OnInit, OnDestroy {
             error => this.modal.handleError(this.lang.text.errors.user, error)
         );
     }
+    
+    switchLanguage(language) {
+        if (language == 'english') {
+            this.lang.text = this.lang.text_EN;
+            localStorage.setItem('lang', 'en');
+        } else {
+            this.lang.text = this.lang.text_TR;
+            localStorage.setItem('lang', 'tr');
+        }
+    }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();

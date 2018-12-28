@@ -1,10 +1,10 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" id="navbarButton" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="px-2" [routerLink]="['/posts/all']">
+        <a class="px-2" [routerLink]="['/']">
             <!-- <b>kutatku</b>
             <small>.</small>com -->
             <img src="{{ global.URL_S3_VISUALS + 'Kutatku-Full-Logo.png'}}" class="logo">
@@ -25,13 +25,13 @@
                         </li> -->
                         <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/ads/all']">
-                                <i class="fal fa-2x text-muted fa-newspaper"></i>
+                                <i class="fal fa-2x text-light fa-newspaper"></i>
                                 <div class="item-text">{{ lang.text.navigation.classifieds }}</div>
                             </a>
                         </li>
                         <li class="list-inline-item list-inline-item-action" *ngIf="username" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/admin']">
-                                <i class="fal fa-2x text-muted fa-question-circle"></i>
+                                <i class="fal fa-2x text-light fa-question-circle"></i>
                                 <div class="item-text">{{ lang.text.navigation.help }}</div>
                             </a>
                         </li>

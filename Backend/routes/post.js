@@ -49,12 +49,12 @@ POST_ROUTER.get('/clean', (req, res) => {
 
         // Found old posts, now delete them nicely in a loop.
         async.forEachOf(posts, (value, key, callback) => {
-            Post.findOneAndRemove({ _id: value._id }, (err, post) => {
+            Post.findOneAndRemove({ _id: value._id, nickName: { $ne: 'kutbot' } }, (err, post) => {
                 if (err || !post) {
                     callback(err);
                 } else {
                     // Delete it from everybody
-                    User.find({ posts: { $in: [post._id] }, nickName: { $ne: 'kutbot' } }, { nickName: 1, posts: 1, inbox: 1 }, (err, users) => {
+                    User.find({ posts: { $in: [post._id] } }, { nickName: 1, posts: 1, inbox: 1 }, (err, users) => {
                         for (let user of users) {
                             user.posts.pull(post._id);
                             // Also delete from inbox

@@ -85,11 +85,6 @@ export class SigninComponent implements OnInit, OnDestroy {
             resetCode: new FormControl(null, Validators.required),
             newPassword: new FormControl(null, Validators.required)
         });
-        // if (this.auth.isLoggedIn()) {
-        //     this.router.navigateByUrl('/auth/signin');
-        // } else {
-        //     this.router.navigateByUrl('/posts/all');
-        // }
     }
 
     sendForgotRequest() {
