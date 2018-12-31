@@ -19,7 +19,7 @@
                             <div class="col-12 lead text-muted">
                                 <i class="fal fa-comment pr-2" aria-hidden="true"></i>{{ post?.shares[post?.shares.length - 1].comment }}
                             </div>
-                            <div class="dropdown" *ngIf="post?.shares.length > 0">
+                            <div class="col-12 text-center dropdown" *ngIf="post?.shares.length > 0">
                                 <a class="action-icon" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ lang.text.post.seeAllWhoShared}}
                                 </a>
@@ -29,7 +29,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="row pb-2 pt-0 border-bottom mb-2">
+                        <div class="row py-2 border-bottom mb-2">
                             <div class="col-2">
                                 <img onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'" src="{{ global.URL_S3_USERS + post?.profilePicture || global.URL_S3_USERS + post['user']['profilePicture'] }}"
                                     class="rounded-circle w-100" alt="profil" (click)="viewProfile(post?.nickName)">
@@ -53,7 +53,7 @@
                             <div class="row card-body">
                                 <div class="col">
                                     <h5>Paylasim Yorumu
-                                        <button class="btn btn-sm btn-default float-right" (click)="onShare()">x</button>
+                                        <button class="btn btn-sm btn-outline-primaryborder-0  float-right" (click)="onShare()">x</button>
                                     </h5>
                                 </div>
                                 <div class="col-10">
@@ -136,37 +136,33 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-4 pt-4 position-absolute fixed-bottom mx-auto" *ngIf="post?.nickName != global.username">
-                                <div class="col-12 mx-auto" *ngIf="isLoggedIn()">
-                                    <div class="btn-group justify-content-center btn-group-sm w-100" role="group">
-                                        <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn border-0 btn-sm w-25 btn-outline-primary"
-                                            (click)="getLink()">
-                                            <i class="fal fa-link"></i>
-                                        </button>
-                                        <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn border-0 btn-sm w-25 btn-outline-primary"
-                                            (click)="onShare()">
-                                            <i class="fal fa-share-alt" aria-hidden="true"></i>
-                                            <span class="badge">{{ post?.shares.length }}</span>
-                                        </button>
-                                        <button class="border-0 btn btn-sm w-25 btn-outline-primary" (click)="likeThis()">
-                                            <i class="fal fa-smile" aria-hidden="true"></i>
-                                            <span class="badge">{{ post?.likes.length }}</span>
-                                        </button>
-                                    </div>
-                                </div>
+                            <div class="row mt-4 pt-4 justify-content-around position-absolute fixed-bottom mx-auto" *ngIf="post?.nickName != global.username && isLoggedIn()">
+                                <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn border-0 btn-sm w-25 btn-outline-primary"
+                                    (click)="getLink()">
+                                    <i class="fal fa-link"></i>
+                                </button>
+                                <button [ngStyle]="{ display: post.group == 'public' ? 'block' : 'none' }" class="btn border-0 btn-sm w-25 btn-outline-primary"
+                                    (click)="onShare()">
+                                    <i class="fal fa-share-alt" aria-hidden="true"></i>
+                                    <span class="badge">{{ post?.shares.length }}</span>
+                                </button>
+                                <button class="border-0 btn btn-sm w-25 btn-outline-primary" (click)="likeThis()">
+                                    <i class="fal fa-smile" aria-hidden="true"></i>
+                                    <span class="badge">{{ post?.likes.length }}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer p-2" *ngIf="belongsToUser() || shareBelongsToUser()">
-                <button *ngIf="belongsToUser()" class="btn btn-outline-primary btn-sm" (click)="onEdit()">
+            <div class="modal-footer row justify-content-center p-2" *ngIf="belongsToUser() || shareBelongsToUser()">
+                <button *ngIf="belongsToUser()" class="btn btn-outline-primary border-0 w-25" (click)="onEdit()">
                     <i class="fal fa-edit" aria-hidden="true"></i>
                 </button>
-                <button *ngIf="belongsToUser()" class="btn btn-outline-primary btn-sm" (click)="onDelete()">
+                <button *ngIf="belongsToUser()" class="btn btn-outline-primary border-0 w-25" (click)="onDelete()">
                     <i class="fal fa-trash" aria-hidden="true"></i>
                 </button>
-                <button *ngIf="shareBelongsToUser()" class="btn btn-outline-primary btn-sm" (click)="onDeleteShare()">
+                <button *ngIf="shareBelongsToUser()" class="btn btn-outline-primary border-0 w-25" (click)="onDeleteShare()">
                     <i class="fal fa-trash" aria-hidden="true"></i>
                 </button>
             </div>

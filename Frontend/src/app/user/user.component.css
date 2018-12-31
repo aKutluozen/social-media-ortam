@@ -141,8 +141,9 @@ img {
 }
 
 
-    .add-images, .cover-image-upload-button, #info-update-control, #share-control, #image-upload-button, .image-delete-button {
-      visibility: visible;
-      opacity: 1;
-      background: rgba(255, 255, 255, 0.5);
-    }
+.add-images, .cover-image-upload-button, #info-update-control, #share-control, #image-upload-button, .image-delete-button {
+    visibility: visible;
+    opacity: 1;
+    background: white;
+    color: black;
+}

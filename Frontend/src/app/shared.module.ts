@@ -1,6 +1,9 @@
 import { SearchComponent } from './navigation/search/search.component';
+import { FooterComponent } from './footer/footer.component';
+import { UserCardComponent } from './user/user-card/user-card.component';
 import { NgModule }  from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from "@angular/router";
 import { CommonModule } from '@angular/common';
 
 // Note:
@@ -9,13 +12,18 @@ import { CommonModule } from '@angular/common';
     imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterModule
     ],
 	declarations: [
-		SearchComponent
+        SearchComponent,
+        FooterComponent,
+        UserCardComponent
 	],
 	exports: [
-        SearchComponent
+        SearchComponent,
+        FooterComponent,
+        UserCardComponent
 	]
 })
 export class SharedModule { }

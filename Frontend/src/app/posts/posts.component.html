@@ -1,7 +1,7 @@
 <div class="container animated fadeIn">
     <div class="row">
         <div class="col-lg-3 col-md-6 col-12 px-2 mb-3">
-            <app-usercard></app-usercard>
+            <app-usercard [isOwnProfile]="true"></app-usercard>
             <app-subjects [postListRef]="postsList"></app-subjects>
         </div>
         <div class="col-lg-6 col-md-6 col-12 mb-4 px-2 mb-3 order-lg-1 order-2">
@@ -13,6 +13,7 @@
         </div>
         <div class="col-lg-3 col-md-6 col-12 px-2 mb-3 order-lg-2 order-1">
             <app-newpeople></app-newpeople>
+            <app-footer></app-footer>
         </div>
     </div>
 </div>

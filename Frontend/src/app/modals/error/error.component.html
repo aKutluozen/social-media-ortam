@@ -10,11 +10,11 @@
             <div class="modal-body">
                 <p>{{ error?.message }}</p>
             </div>
-            <div class="modal-footer p-2">
-                <button *ngIf="error?.error?.message != 'banned'" type="button" class="btn btn-outline-primary btn-sm" (click)="sendErrorMessage()">
+            <div class="modal-footer row justify-content-center p-2">
+                <button *ngIf="error?.error?.message != 'banned'" type="button" class="btn btn-outline-primary w-50" (click)="sendErrorMessage()">
                     <i class="fal fa-share-square" aria-hidden="true"></i> {{ lang.text.errors.sendErrorMessage }}</button>
-                <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal">
-                    <i class="fal fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button>
+                <button type="button" class="btn btn-outline-primary w-25" data-dismiss="modal">
+                    <i class="fal fa-times-circle" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
             <div class="col-auto align-self-center px-0" (click)="viewProfile(post.nickName)">
                 <small>{{ post.nickName }} - {{ post.created | date:'shortDate' }}</small>
             </div>
-            <div class="col-1 px-0">
+            <div class="col-1 px-0 d-none d-sm-block">
                 <img src="{{ global.URL_S3_USERS + post.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
                     class="w-75 rounded-circle float-right" alt="profil" (click)="viewProfile(post.nickName)">
             </div>
@@ -25,11 +25,11 @@
                             <small class="float-right">{{ post.shares[post.shares.length - 1].user.nickName }} - {{ post.shares[post.shares.length
                                 - 1].date | date:'shortDate'}} </small>
                         </div>
-                        <div class="col-1 d-sm-none d-md-block px-0" *ngIf="!post.isShared && !inProfile">
+                        <div class="col-1 d-none d-sm-block px-0" *ngIf="!post.isShared && !inProfile">
                             <img src="{{ global.URL_S3_USERS + post.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
                                 class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.nickName)">
                         </div>
-                        <div class="col-1 d-sm-none d-md-block px-0" *ngIf="post.isShared">
+                        <div class="col-1 d-none d-sm-block px-0" *ngIf="post.isShared">
                             <img src="{{ global.URL_S3_USERS + post.shares[post.shares.length - 1].user.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
                                 class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.shares[post.shares.length - 1].user.nickName)">
                         </div>
@@ -70,11 +70,11 @@
                             <small class="float-right">{{ post.shares[post.shares.length - 1].user.nickName }} - {{ post.shares[post.shares.length
                                 - 1].date | date:'shortDate'}} </small>
                         </div>
-                        <div class="col-1 d-sm-none d-md-block px-0" *ngIf="!post.isShared && !inProfile">
+                        <div class="col-1 d-none d-sm-block px-0" *ngIf="!post.isShared && !inProfile">
                             <img src="{{ global.URL_S3_USERS + post.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
                                 class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.nickName)">
                         </div>
-                        <div class="col-1 d-sm-none d-md-block px-0" *ngIf="post.isShared">
+                        <div class="col-1 d-none d-sm-block px-0" *ngIf="post.isShared">
                             <img src="{{ global.URL_S3_USERS + post.shares[post.shares.length - 1].user.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"
                                 class="w-100 rounded-circle" alt="profil" (click)="viewProfile(post.shares[post.shares.length - 1].user.nickName)">
                         </div>

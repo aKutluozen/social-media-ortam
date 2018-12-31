@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from "@angular/router";
+import { SharedModule } from '../shared.module';
 
 // Components
 import { AdsComponent } from './ads.component';
@@ -17,6 +18,7 @@ const POST_ROUTES: Routes = [
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
+		SharedModule,
 		RouterModule.forChild(POST_ROUTES)
 	],
 	exports: [

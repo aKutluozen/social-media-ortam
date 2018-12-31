@@ -30,6 +30,7 @@ export class MessagesComponent {
 	private skipNumber: number = 5;
 	private messageSubscription: Subscription;
 	private inboxSubscription: Subscription;
+	public isRead: boolean = true;
 
 	loadAll() {
 		this.messageOffset = 0;
@@ -55,6 +56,7 @@ export class MessagesComponent {
 					}
 
 					for (let item of data.data) {
+						// This is my message
 						if (item.initiator.nickName === this.auth.getCookie("user")) {
 							item["sender"] = item.initiator.nickName;
 							item["receiver"] = item.initiated.nickName;
@@ -73,6 +75,8 @@ export class MessagesComponent {
 						item['isAnonym'] = item.isAnonym;
 						this.messages.push(item);
 					}
+
+					console.log(data.data);
 				},
 				error => this.modal.handleError(this.lang.text.errors.inbox, error)
 			);

@@ -18,15 +18,15 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer p-2" *ngIf="belongsToUser()">
-                <button class="btn btn-outline-primary btn-sm" (click)="onEdit()">
+            <div class="modal-footer row justify-content-center p-2" *ngIf="belongsToUser()">
+                <button class="btn btn-outline-primary w-25" (click)="onEdit()">
                     <i class="fal fa-edit" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-outline-primary btn-sm" (click)="onDelete()">
+                <button class="btn btn-outline-primary w-25" (click)="onDelete()">
                     <i class="fal fa-trash" aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="modal-footer p-2">
+            <div class="modal-footer row justify-content-center p-2">
                 <button class="btn border-0 btn-sm w-25 btn-outline-primary"
                     (click)="getLink()"> Link
                     <i class="fal fa-link"></i>

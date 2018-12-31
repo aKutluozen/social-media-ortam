@@ -45,7 +45,7 @@ AD_ROUTER.get('/:id', function (req, res) {
 
 
 // Get ads
-AD_ROUTER.get('/:amount/:category', cache.route(), function (req, res) {
+AD_ROUTER.get('/:amount/:category', function (req, res) {
     var token = jwt.decode(req.query.token);
 
     var amount = parseInt(req.params.amount);

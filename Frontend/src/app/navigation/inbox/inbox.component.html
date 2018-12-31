@@ -17,7 +17,9 @@
     <div class="dropdown">
         <a href="javascript:void(0)" class="text-light" (click)="loadMessages()" id="messagesMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fal fa-envelope fa-2x" aria-hidden="true"></i>
-            <span class="ml--8 badge badge-danger text-right" *ngIf="flagObject.newMessage"> {{ flagObject.numbers['messages'] }}</span>
+            <span class="ml--8 badge badge-danger text-right" *ngIf="flagObject.newMessage"> <i class="fas fa-exclamation"></i>
+                <!-- {{ flagObject.numbers['messages'] }} -->
+            </span>
             <div class="item-text">{{ lang.text.inbox.privateMessages }}</div>
         </a>
         <div #messagesComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0 animated fadeIn">

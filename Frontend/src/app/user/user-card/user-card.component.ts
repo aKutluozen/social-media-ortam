@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { User } from "../user.model";
 import { AuthService } from "app/auth/auth.service";
 import { ModalService } from 'app/modals/modal.service';
@@ -7,6 +7,7 @@ import { GlobalService } from "app/globals.service";
 import { PostService } from "app/posts/posts.service";
 import { Subscription } from 'rxjs/Subscription';
 import { MultiLanguageService } from "../../language.service";
+import { Router } from "@angular/router";
 
 @Component({
 	selector: 'app-usercard',
@@ -17,6 +18,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
 	constructor(
 		public auth: AuthService,
 		private modal: ModalService,
+		public router: Router,
 		private user: UserService,
 		public postService: PostService,
 		public global: GlobalService,
@@ -25,7 +27,8 @@ export class UserCardComponent implements OnInit, OnDestroy {
 	}
 
 	public closePassword: string;
-	public profile: User;
+	@Input() public profile: User;
+	@Input() public isOwnProfile: boolean = false;
 	private userSubscription: Subscription;
 
 	ngOnDestroy() {
@@ -39,6 +42,9 @@ export class UserCardComponent implements OnInit, OnDestroy {
 				this.profile = data.data;
 				this.global.profilePicture = this.profile.profilePicture;
 				this.global.username = this.profile.nickName;
+				if (this.isOwnProfile) {
+					this.profile.profilePicture = this.global.profilePicture;
+				}
 			},
 			error => console.error('no user')
 		);

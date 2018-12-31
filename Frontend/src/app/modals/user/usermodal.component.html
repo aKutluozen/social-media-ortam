@@ -4,47 +4,10 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times-circle"></i></button>
                 <div class="row px-1">
+                    
                     <div class="col-lg-3 col-md-6 px-2">
-                        <div class="row">
-                            <div class="col">
-                                <div class="card text-dark mb-3">
-                                    <div class="card-body h-100 pb-0 px-0">
-                                        <div class="row mx-3 h-100 mb-3">
-                                            <div class="col-3 px-0 action-icon" id="profilePicture">
-                                                <img src="{{ global.URL_S3_USERS + user?.profilePicture }}" class="img-thumbnail rounded-circle" alt="profil" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'">
-                                            </div>
-                                            <div class="col-9 pr-2">
-                                                <div class="row pt-3 pb-0">
-                                                    <div class="col-4 align-self-center text-center">
-                                                        <p><i class="fal fa-2x fa-pen-alt"></i></p>
-                                                        <p>{{ user?.posts?.length }}</p>
-                                                    </div>
-                                                    <div class="col-4 align-self-center text-center">
-                                                        <p><i class="fal fa-2x fa-certificate"></i></p>
-                                                        <p>{{ user?.interaction?.length }}</p>
-                                                    </div>
-                                                    <div class="col-4 align-self-center text-center">
-                                                        <p><i class="fal fa-2x fa-users"></i></p>
-                                                        <p>{{ user?.following?.length }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mx-auto border-top">
-                                            <div class="col-12 my-2 text-center">
-                                                <h5 class="py-0">
-                                                    <i>@{{ user?.nickName }}</i>
-                                                </h5>
-                                                <p class="text-muted mb-2 small">
-                                                    {{ user?.shortMessage }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <app-usercard [profile]="user" [isOwnProfile]="false"></app-usercard>
+                        
                         <div class="row mx-auto mb-3" *ngIf="auth.isLoggedIn()">
                             <div class="col-auto mx-auto align-self-center">
                                 <button *ngIf="!isFriend && !isInTheFollowList && !isMe" [disabled]="isRequestSent(user) || isInTheFollowList" class="btn btn-outline-primary btn-sm"
@@ -154,23 +117,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="modal-footer p-2">
-                <button *ngIf="!isFriend && !isInTheFollowList && !isMe" [disabled]="isRequestSent(user) || isInTheFollowList" class="btn btn-primary btn-sm"
-                    (click)="follow(user._id)">
-                    <i class="fal fa-eye" aria-hidden="true"></i> {{ lang.text.user.follow}}</button>
-                <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-success btn-sm" (click)="acceptRequest(user._id)">
-                    <i class="fal fa-check" aria-hidden="true"></i> {{ lang.text.user.accept}}</button>
-                <button *ngIf="!isFriend && isInTheFollowList && !isMe" class="btn btn-danger btn-sm" (click)="rejectRequest(user.nickName)">
-                    <i class="fal fa-user-times" aria-hidden="true"></i> {{ lang.text.general.cancel}}</button>
-                <button *ngIf="!justView && isFriend && !isMe" class="btn btn-danger btn-sm" (click)="unfriend(user.nickName)">
-                    <i class="fal fa-user-times" aria-hidden="true"></i> {{ lang.text.user.leave}}</button>
-                <button *ngIf="!justView && isFriend && !isMe" class="btn btn-warning btn-sm" (click)="creditAskSend(user.nickName, user.profilePicture)">
-                    <i class="fal fa-credit-card" aria-hidden="true"></i> {{ lang.text.user.askCredit}}</button>
-                <button class="btn btn-info btn-sm" *ngIf="!isMe" (click)="answerMessage(user.nickName)">
-                    <i class="fal fa-envelope" aria-hidden="true"></i> {{ lang.text.user.talk}}</button>
-                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                    <i class="fal fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close}}</button>
-            </div> -->
         </div>
     </div>
 </div>

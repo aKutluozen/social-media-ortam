@@ -56,8 +56,8 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer p-2">
-                <button class="btn btn-outline-primary btn-sm" type="submit" (click)="onSubmit()" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
+            <div class="modal-footer row justify-content-center p-2">
+                <button class="btn btn-outline-primary w-25" type="submit" (click)="onSubmit()" [disabled]="postForm.value.content == '' || (croppedImage != '' && imageToShow == '')">
                     <i class="fal fa-share-square" aria-hidden="true"></i> {{ lang.text.general.share }}</button>
                 <!-- <button type="button" class="btn btn-outline-primary btn-sm" (click)="close(false)">
                     <i class="fal fa-times-circle" aria-hidden="true"></i> {{ lang.text.general.close }}</button> -->
