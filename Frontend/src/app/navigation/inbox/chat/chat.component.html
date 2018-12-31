@@ -24,8 +24,8 @@
                 {{ lang.text.inbox.noMessageFound }}
             </div>
         </div>
-        <div *ngFor="let message of messages" class="row mx-auto message mb-1" [ngStyle]="{ 'color': message.text.color }">
-            <div class="col-12 pl-0 message">
+        <div *ngFor="let message of messages" class="row card animated fadeInLeft mx-auto message mb-1" [ngStyle]="{ 'color': message.text.color }">
+            <div class="col-12 card-body p-2 message">
                 <b>
                     <i>{{ message.text.chatNickName }}:</i>
                 </b> {{message.text.message}}

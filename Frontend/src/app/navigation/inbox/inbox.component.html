@@ -1,8 +1,8 @@
 <li class="list-inline-item list-inline-item-action btn-group">
     <div class="dropdown">
-        <a href="javascript:void(0)" class="text-light" (click)="loadNotifications()" id="notificationsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a href="javascript:void(0)" class="text-light" (click)="loadNotifications();" id="notificationsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fal fa-exclamation-circle fa-2x" aria-hidden="true"></i>
-            <span class="ml--8 badge badge-warning text-right" *ngIf="flagObject.newNotification"> {{ flagObject.numbers['notifications'] }}</span>
+            <span class="ml--8 badge badge-danger text-right" *ngIf="flagObject.newNotification"> {{ flagObject.numbers['notifications'] }}</span>
             <div class="item-text">{{ lang.text.inbox.notifications }}</div>
         </a>
         <div #notificationsComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0 animated fadeIn" aria-labelledby="notificationsMenu">
@@ -17,7 +17,7 @@
     <div class="dropdown">
         <a href="javascript:void(0)" class="text-light" (click)="loadMessages()" id="messagesMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fal fa-envelope fa-2x" aria-hidden="true"></i>
-            <span class="ml--8 badge badge-warning text-right" *ngIf="flagObject.newMessage"> {{ flagObject.numbers['messages'] }}</span>
+            <span class="ml--8 badge badge-danger text-right" *ngIf="flagObject.newMessage"> {{ flagObject.numbers['messages'] }}</span>
             <div class="item-text">{{ lang.text.inbox.privateMessages }}</div>
         </a>
         <div #messagesComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0 animated fadeIn">
@@ -32,7 +32,7 @@
     <div class="dropdown">
         <a href="javascript:void(0)" class="text-light" (click)="loadRequests()" id="requestsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fal fa-user-plus fa-2x" aria-hidden="true"></i>
-            <span class="ml--8 badge badge-warning text-right" *ngIf="flagObject.newRequest"> {{ flagObject.numbers['requests'] }}</span>
+            <span class="ml--8 badge badge-danger text-right" *ngIf="flagObject.newRequest"> {{ flagObject.numbers['requests'] }}</span>
             <div class="item-text">{{ lang.text.inbox.requests }}</div>
         </a>
         <div #requestsComponentElement class="scrollable dropdown-menu dropdown-menu-right mt-0 pt-0 animated fadeIn">

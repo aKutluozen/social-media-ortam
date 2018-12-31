@@ -35,7 +35,7 @@ POST_ROUTER.get('/clean', (req, res) => {
     Post.find({
         created: {
             // $lt: new Date(),
-            $lt: new Date(new Date().setDate(new Date().getDate() - 1
+            $lt: new Date(new Date().setDate(new Date().getDate() - 30
             ))
         },
         group: { $ne: 'private' }
@@ -114,6 +114,9 @@ POST_ROUTER.get('/subjects', function (req, res) {
             $match: {
                 group: {
                     $ne: 'private'
+                },
+                subject: {
+                    $ne: ['']
                 }
             }
         },
@@ -137,7 +140,7 @@ POST_ROUTER.get('/subjects', function (req, res) {
             $sort: { count: -1 }
         },
         {
-            $limit: 20,
+            $limit: 40,
         },
         // Done! We successfully aggregated the top 10 subject names that appeared more than 10 times each!
     ], function (err, subjects) {
@@ -569,7 +572,7 @@ POST_ROUTER.post('/', function (req, res, next) {
         // Temp subject patch - Fix this when the front end is fixed !!!
         var sbj = req.body.subject;
         if (sbj.length === 0) {
-            sbj = ['genel'];
+            sbj = [''];
         }
 
         // Create the post
@@ -793,7 +796,7 @@ POST_ROUTER.delete('/:id1/answer/:id2', (req, res) => {
 POST_ROUTER.patch('/:id', function (req, res) {
     var sbj = req.body.subject
     if (sbj.length === 0) {
-        sbj = ['genel'];
+        sbj = [''];
     }
     Post.updateOne({ _id: req.params.id }, {
         $set: {

@@ -237,7 +237,7 @@ export class PostmodalComponent implements OnInit {
                 // Parse hashtags first!
                 let hashTags = getHashTags(this.postForm.value.content);
                 if (hashTags.length === 0) {
-                    hashTags = ['genel'];
+                    hashTags = [''];
                 }
 
                 this.post.content = this.postForm.value.content;
@@ -270,7 +270,7 @@ export class PostmodalComponent implements OnInit {
                 // Parse hashtags first!
                 let hashTags = getHashTags(this.postForm.value.content);
                 if (hashTags.length === 0) {
-                    hashTags = ['genel'];
+                    hashTags = [''];
                 }
 
                 // Create

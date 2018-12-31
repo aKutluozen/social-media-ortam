@@ -3,21 +3,22 @@
         <i class="fal fa-hashtag" aria-hidden="true"></i> {{ lang.text.post.top10 }}
     </div>
     <div class="card-body p-1 mb-2">
-        <ul class="list-group text-dark">
-            <li class="list-group-item small border-0 py-1">
+        <ul class="list-inline mx-2 text-dark">
+            <li class="list-inline-item border-0 py-1">
                 <a href="javascript:void(0)" class="text-dark" (click)="postListRef.loadPosts()">
                     <b>{{ lang.text.post.allPosts }}</b>
                 </a>
-            <!-- </li>
+                <!-- </li>
             <li class="list-group-item small border-0 py-1">
                 <a href="javascript:void(0)" class="text-dark" (click)="postListRef.filterBySubject(auth.getCookie('userId'))">
                     <b>{{ lang.text.post.privatePosts }}</b>
                 </a>
             </li> -->
-            <li *ngFor="let subject of subjects" class="list-group-item small border-0 py-1 animated fadeIn">
-                <a href="javascript:void(0)" class="text-dark" (click)="postListRef.filterBySubject(subject._id)">{{ subject._id }}
-                </a>
-            </li>
+                <li *ngFor="let subject of subjects" class="list-inline-item border-0 py-1 animated fadeIn">
+                    <a href="javascript:void(0)" class="text-dark" (click)="postListRef.filterBySubject(subject._id)">{{
+                        subject._id }} <span class="small text-muted">({{ subject.count}})</span>
+                    </a>
+                </li>
         </ul>
     </div>
 </div>

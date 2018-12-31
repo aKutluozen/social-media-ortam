@@ -13,15 +13,15 @@
             <div class="modal-body">
                 <div class="scrollable p-4" data-spy="scroll" id="scrollMessages">
                     <div class="row" *ngFor="let message of messageSetup?.messages">
-                        <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 my-0">
-                            <p class="x-small text-muted text-left">{{ messageSetup.type == 'anonym-chat' ? message.asender : message.sender }} @ {{ message.date | date: 'short' }}</p>
-                            <div class="p-2 alert alert-primary mb-1">
+                        <div *ngIf="message.sender === messageSetup?.receiver" class="col-md-8 my-1 card darker-bg animated fadeInLeft">
+                            <p class="x-small text-alert text-left">{{ message.date | date: 'short' }}</p>
+                            <div class="p-0 card-body mb-1">
                                 {{ message.message }}
                             </div>
                         </div>
-                        <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 col-md-8 my-0">
-                            <p class="x-small text-muted text-right">{{ messageSetup.type == 'anonym-chat' ? message.asender : message.sender }} @ {{ message.date | date: 'short' }}</p>
-                            <div class="p-2 alert alert-secondary mb-1">
+                        <div *ngIf="message.sender !== messageSetup?.receiver" class="offset-md-4 card col-md-8 my-0 animated fadeInRight">
+                            <p class="x-small text-info text-right">{{ message.date | date: 'short' }}</p>
+                            <div class="p-0 mb-1 card-body">
                                 {{ message.message }}
                             </div>
                         </div>

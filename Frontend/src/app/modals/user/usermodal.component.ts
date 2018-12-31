@@ -63,7 +63,11 @@ export class UsermodalComponent implements OnInit {
 					}
 				}
 			}
-			this.user.posts = [];
+
+			if (!this.isMe) {
+				this.user.posts = [];
+			}
+			
 			this.isInTheFollowList = false;
 			// Check if a friend!
 

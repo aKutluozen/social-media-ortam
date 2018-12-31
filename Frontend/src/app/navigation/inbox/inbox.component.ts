@@ -32,7 +32,7 @@ export class InboxComponent implements OnInit {
 
 	@ViewChild('chatComponentElement') chatComponentElement: ElementRef;
 
-	constructor(private inbox: InboxService, private global: GlobalService, public lang: MultiLanguageService) { }
+	constructor(private inbox: InboxService, public global: GlobalService, public lang: MultiLanguageService) { }
 	// Just checks if one of the dropdowns are closed
 	ngOnInit() {
 		window.setInterval(() => {

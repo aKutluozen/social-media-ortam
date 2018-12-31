@@ -4,7 +4,7 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="px-2" [routerLink]="['/']">
+        <a class="px-2" href="/">
             <!-- <b>kutatku</b>
             <small>.</small>com -->
             <img src="{{ global.URL_S3_VISUALS + 'Kutatku-Full-Logo.png'}}" class="logo">
@@ -19,7 +19,7 @@
                     <ul class="list-inline nav-link py-0">
                         <!-- <li class="list-inline-item list-inline-item-action" routerLinkActive="active" id="homePageLink">
                             <a class="dropdown" href="#" [routerLink]="['/posts/all']">
-                                <i class="fal fa-2x text-dark fa-home"></i>
+                                <i class="fal fa-2x text-light fa-home"></i>
                                 <div class="item-text">{{ lang.text.navigation.homepage }}</div>
                             </a>
                         </li> -->
@@ -38,15 +38,16 @@
                         <li class="list-inline-item" routerLinkActive="active"  *ngIf="username">
                             <div class="dropdown">
                                 <a href="javascript:void(0)" class="text-white" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img class="profile-picture" src="{{ global.URL_S3_USERS + global.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'">
-                                    <div class="item-text">{{ lang.text.navigation.profil }}</div>
+                                    <!-- <img class="profile-picture" src="{{ global.URL_S3_USERS + global.profilePicture }}" onerror="this.src='https://s3.us-east-2.amazonaws.com/kutatku/app_images/emptyprofile.png'"> -->
+                                    <i class="fal fa-2x text-light fa-cogs"></i>
+                                    <div class="item-text">{{ lang.text.navigation.profile }}</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right pt-0" style="margin-top: -6px" aria-labelledby="profileMenu">
                                     <div class="row mx-0">
                                         <a (click)="closeDropdown(this)" class="action-icon float-right px-2 ml-auto">&times;</a>
                                     </div>
                                     <div class="list-group">
-                                        <!-- <a class="list-group-item text-dark list-group-item-action list-group-item-light">
+                                        <!-- <a class="list-group-item text-light list-group-item-action list-group-item-light">
                                             <i class="fal fa-credit-card" aria-hidden="true"></i> : {{ global.credit }}
                                         </a> -->
                                         <a [routerLink]="['/profile/me']" class="py-1 list-group-item text-muted list-group-item-action list-group-item-light " id="profileLink">

@@ -205,12 +205,20 @@ USER_ROUTER.get('/user/requests/:name', function (req, res, next) {
                 // Get posts now - private, belongs to user, not shared
 
                 var isFriends = false;
+                
+                // // Show your own profile
+                // if (token.name == req.params.name) {
+                //     isFriends = true;
+                //     console.log(token.name, req.params.name, 'it is me?');
+                // }
+
                 for (let auser of user.following) {
                     if (auser.friend == token.id && auser.accepted) {
                         isFriends = true;
                     }
                 }
                 if (isFriends || user._id == token.id) {
+                    console.log('HERE!', user._id, token.id);
                     Post.find({ group: 'private', nickName: req.params.name }).populate([{
                         path: 'user',
                         model: User,
@@ -521,7 +529,7 @@ USER_ROUTER.get('/user/new', function (req, res) {
     User.aggregate(
         [
             { $sort: { created: -1 } },
-            { $limit: 10 },
+            { $limit: 6 },
             {
                 $project: {
                     nickName: 1,

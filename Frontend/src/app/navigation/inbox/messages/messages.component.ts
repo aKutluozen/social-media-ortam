@@ -35,6 +35,7 @@ export class MessagesComponent {
 		this.messageOffset = 0;
 		this.messages = [];
 		this.load();
+		this.global.sendGoogleEvent('messages', 'messages-viewed', 'messaging');
 	}
 
 	destroyAll() {

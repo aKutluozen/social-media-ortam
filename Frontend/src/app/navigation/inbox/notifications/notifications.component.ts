@@ -46,6 +46,7 @@ export class NotificationsComponent {
         this.notificationOffset = 0;
         this.notifications = [];
         this.load();
+        this.global.sendGoogleEvent('notifications', 'notifications-viewed', 'notifications');
     }
 
     handleNotification(notification) {

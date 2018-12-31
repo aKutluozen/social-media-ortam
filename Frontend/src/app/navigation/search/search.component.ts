@@ -74,6 +74,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 						this.usersFound.push(user);
 					}
 				}
+				this.global.sendGoogleEvent('search', 'search-viewed', 'search');
 				this.searchTerm = '';
 				this.userSubscription.unsubscribe();
 			}, error => this.modal.handleError(this.lang.text.errors.findingUsers, error)

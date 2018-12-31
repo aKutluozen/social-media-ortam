@@ -260,7 +260,7 @@ textarea:enabled{
 
 .card {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05) !important;
-    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
 }
 
 .animated {
@@ -306,6 +306,10 @@ textarea:enabled{
 
 .stats-icon {
     color: #1f2b36;
+}
+
+.badge-dark {
+    background: #1f2b36 !important;
 }
 
 .social-icon a {

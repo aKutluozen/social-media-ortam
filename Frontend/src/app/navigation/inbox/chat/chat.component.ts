@@ -53,6 +53,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 						window['$']('#chatMenu').click();
 						this.messages = [];
 						this.room = roomName;
+						this.global.sendGoogleEvent('chat', 'room-selected', roomName);
 					},
 					error => {
 						this.modal.handleError('Yasak!', error);

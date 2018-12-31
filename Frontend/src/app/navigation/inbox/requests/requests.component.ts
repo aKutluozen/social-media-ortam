@@ -38,6 +38,7 @@ export class RequestsComponent {
 		this.requestOffset = 0;
 		this.requests = [];
 		this.load();
+		this.global.sendGoogleEvent('request', 'requests-viewed', 'requests');
 	}
 
 	load() {

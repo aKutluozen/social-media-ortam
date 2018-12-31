@@ -36,6 +36,15 @@ export class GlobalService {
         return txt.value;
     }
 
+    sendGoogleEvent(category, label, action) {
+        (<any>window).ga('send', 'event', {
+            eventCategory: category,
+            eventLabel: label,
+            eventAction: action,
+            eventValue: 10
+        });
+    }
+
     parseLanguageJSON(langArr, langNum) {
         let obj = {};
 
